@@ -1,12 +1,5 @@
 import { styled } from "@mui/material/styles";
-import {
-  AppBar as MuiAppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  Stack,
-  Paper,
-} from "@mui/material";
+import { AppBar as MuiAppBar, Toolbar, IconButton, Stack } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../../assets/Logo.png";
 import { drawerWidth } from "./constants";
