@@ -1,5 +1,13 @@
 import * as React from "react";
-import { Box, Button, Typography, Modal, Stack, styled } from "@mui/material";
+import {
+  Box,
+  Button,
+  Typography,
+  Modal,
+  Stack,
+  styled,
+  Divider,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Logo from "../assets/Logo.png";
 import coinbaseIcon from "../assets/coinbase.png";
@@ -65,33 +73,36 @@ export default function ConnectWallet() {
           <Stack spacing={2}>
             <Item>
               <img src={metamaskIcon} alt="logo" />
-
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Metamask
               </Typography>
             </Item>
+            <Divider />
             <Item>
               <img src={walletConnectIcon} alt="logo" />
-
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Wallet Connect
               </Typography>
             </Item>
+            <Divider />
             <Item>
               <img src={coinbaseIcon} alt="logo" />
-
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Coinbase Wallet
               </Typography>
             </Item>
+            <Divider />
             <Item>
               <img src={ledgerIcon} alt="logo" />
-
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 Ledger
               </Typography>
             </Item>
           </Stack>
+
+          <Typography id="modal-modal-title" variant="p" component="p">
+            By connecting, I accept PhoenixDAO’s Terms of service
+          </Typography>
         </Box>
       </Modal>
     </div>
