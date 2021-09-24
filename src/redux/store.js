@@ -1,21 +1,18 @@
 import { createStore, applyMiddleware } from "redux";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
-import { persistReducer, persistStore } from "redux-persist";
-import rootReducer from "./reducer/root.reducer";
-// import AsyncStorage from '@react-native-community/async-storage';
-// import logger from 'redux-logger';
+import logger from "redux-logger";
+import rootReducer from "./reducers/root.reducer";
 
-const middleware = applyMiddleware(thunk);
-
-const persistedConfig = {
+const persistConfig = {
 	key: "root",
-	storage: localStorage,
-	// blacklist: ['authReducer', 'userReducer', 'homeReducer'],
-	// blacklist: ['userReducer', 'homeReducer'],
+	storage,
 };
 
-const persistedReducer = persistReducer(persistedConfig, rootReducer);
-const store = createStore(persistedReducer, middleware);
-const persister = persistStore(store);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export { store, persister };
+const store = createStore(persistedReducer, applyMiddleware(thunk, logger));
+const persistor = persistStore(store);
+
+export { store, persistor };

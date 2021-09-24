@@ -1,22 +1,19 @@
-import {
-	IS_LOADING,
-	BANNER_SUCCESS,
-	BANNER_ERROR,
-} from "../action/user.action";
+import * as types from "../types/user.types";
 
 const INITIAL_STATE = {
 	user: null,
 	loading: false,
+	getUserLoading: false,
 	error: "",
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case IS_LOADING:
+		case types.IS_LOADING:
 			return { ...state, loading: action.payload, error: "" };
-		case BANNER_SUCCESS:
+		case types.BANNER_SUCCESS:
 			return { ...state, banners: action.payload, error: "", loading: false };
-		case BANNER_ERROR:
+		case types.BANNER_ERROR:
 			return { ...state, error: action.payload, loading: false };
 
 		default:
