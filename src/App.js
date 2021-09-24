@@ -20,16 +20,16 @@ import Router from "./routes";
 import { BrowserRouter } from "react-router-dom";
 
 const App = () => {
-	return (
-		// <BrowserRouter>
-		<Provider store={store}>
-			<PersistGate loading={null} persistor={persistor}>
-				<Web3ReactProvider getLibrary={getLibrary}>
-					<Router />
-				</Web3ReactProvider>
-			</PersistGate>
-		</Provider>
-		// </BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Web3ReactProvider getLibrary={getLibrary}>
+            <Router />
+          </Web3ReactProvider>
+        </PersistGate>
+      </Provider>
+    </BrowserRouter>
+  );
 };
 export default App;
