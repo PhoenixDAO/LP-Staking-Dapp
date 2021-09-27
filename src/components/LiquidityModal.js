@@ -5,6 +5,7 @@ import {
   Dialog,
   DialogTitle,
   TextField,
+  InputAdornment,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -27,10 +28,8 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
         id="scroll-dialog-title"
       >
         <div style={styles.divTopHeading}>
-          <Typography style={styles.heading} variant="h6">
-            Add Liquidity
-          </Typography>
-          <Typography variant="caption">
+          <Typography style={styles.heading}>Add Liquidity</Typography>
+          <Typography style={styles.headigAddLiq}>
             Add liquidity to the ETH/PHNX pool <br /> and receive LP tokens
           </Typography>
         </div>
@@ -49,7 +48,9 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
       </DialogTitle>
       <div
         style={{
-          borderTop: "1.5px solid rgba(0,0,0,0.1)",
+          // borderTop: "1.5px solid rgba(0,0,0,0.1)",
+          height: 1,
+          background: "rgba(0, 0, 0, 0.15)",
           marginLeft: 50,
           marginRight: 50,
           marginBottom: 7,
@@ -74,28 +75,32 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
               src="https://s2.coinmarketcap.com/static/img/coins/200x200/5674.png"
             />
             <div style={styles.containerImg}>
-              <Typography variant="caption">Input</Typography>
+              <Typography style={styles.txtInput}>Input</Typography>
               <Typography style={styles.txtPhnx}>PHNX ↓</Typography>
             </div>
           </div>
           <div style={styles.containerInput}>
             <div style={styles.divPhnxAmount}>
-              <Typography variant="caption">Available PHNX:</Typography>
+              <Typography style={styles.txtInput}>Available PHNX:</Typography>
               <Typography style={styles.txtAmount}>237,278 PHNX</Typography>
             </div>
             <div style={styles.wrapperInput}>
               <TextField
-                id="outlined-basic"
-                label="PHNX"
-                variant="outlined"
+                hiddenLabel
+                id="standard-adornment-weight"
                 size="small"
-                placeholder="0"
+                placeholder="0.0"
+                background="rgba(195, 183, 255, 0.17);"
                 // onChange={(event)=> setValue(event.target.value)}
                 style={styles.inputStyle}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton style={styles.iconBtn} onClick={() => 0}>
+                      MAX
+                    </IconButton>
+                  ),
+                }}
               />
-              <Button variant="contained" style={styles.btnMax}>
-                MAX
-              </Button>
             </div>
           </div>
         </div>
@@ -109,38 +114,49 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
               src="https://us.123rf.com/450wm/irrrina/irrrina2103/irrrina210300014/165752199-ethereum-vector-cryptocurrency-icon-isolated-on-white-background-.jpg?ver=6"
             />
             <div style={styles.containerImg}>
-              <Typography variant="caption">Input</Typography>
-              <Typography style={{ ...styles.txtPhnx, color: "#gray" }}>
+              <Typography style={styles.txtInput}>Input</Typography>
+              <Typography style={{ ...styles.txtPhnx, color: "#454A75" }}>
                 ETH ↓
               </Typography>
             </div>
           </div>
           <div style={styles.containerInput}>
             <div style={styles.divPhnxAmount}>
-              <Typography variant="caption">Available PHNX:</Typography>
+              <Typography style={styles.txtInput}>Available ETH:</Typography>
               <Typography style={styles.txtAmount}>237,278 PHNX</Typography>
             </div>
             <div style={styles.wrapperInput}>
               <TextField
-                id="outlined-basic"
-                label="PHNX"
-                variant="outlined"
+                hiddenLabel
+                id="standard-adornment-weight"
                 size="small"
-                placeholder="0"
+                placeholder="0.0"
+                background="rgba(195, 183, 255, 0.17);"
                 // onChange={(event)=> setValue(event.target.value)}
                 style={styles.inputStyle}
+                InputProps={{
+                  endAdornment: (
+                    <IconButton style={styles.iconBtn} onClick={() => 0}>
+                      MAX
+                    </IconButton>
+                  ),
+                }}
               />
-              <Button variant="contained" style={styles.btnMax}>
+              {/* <Button variant="contained" style={styles.btnMax}>
                 MAX
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
 
         <div style={styles.containerPoolShare}>
           <div style={styles.txtDivPhEth}>
-            <Typography variant="caption">32,456 PHNX/ETH</Typography>
-            <Typography variant="caption">0.004 ETH/PHNX</Typography>
+            <Typography style={styles.txtConvDetails}>
+              32,456 PHNX/ETH
+            </Typography>
+            <Typography style={styles.txtConvDetails}>
+              0.004 ETH/PHNX
+            </Typography>
           </div>
           <div
             style={{
@@ -149,8 +165,10 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
               alignItems: "flex-end",
             }}
           >
-            <Typography variant="caption">less than 0.01%</Typography>
-            <Typography variant="caption">pool share</Typography>
+            <Typography style={styles.txtConvDetails}>
+              less than 0.01%
+            </Typography>
+            <Typography style={styles.txtConvDetails}>pool share</Typography>
           </div>
         </div>
 
@@ -173,11 +191,18 @@ export default LiquidityModal;
 const styles = {
   heading: {
     color: "#413AE2",
-    fontWeight: "bold",
+    fontWeight: 700,
+    fontSize: 22,
   },
   dialogStyle: {
     padding: "10px 50px 20px 50px",
-    // backgroundColor:"#bbb"
+    boxShadow: "0px 10px 80px 10px rgba(0, 0, 0, 0.06)",
+    // marginBottom: 10,
+    // borderRadius: 20,
+  },
+  headigAddLiq: {
+    color: "#5F5F5F",
+    fontSize: 16,
   },
   divTopHeading: {
     display: "flex",
@@ -186,22 +211,24 @@ const styles = {
   containerTip: {
     display: "flex",
     width: "100%",
-    padding: "15px 10px 15px 15px",
+    padding: "18px 15px 18px 22px",
     background:
       "linear-gradient(90deg, rgba(56, 16, 255, 0.55) 0%, rgba(255, 0, 245, 0.55) 143.12%)",
     borderRadius: 15,
+    marginBottom: 20,
     // margin: "0px 30px 0px 30px",
   },
   txtTipParagraph: {
     // fontWeight: "bold",
-    fontSize: 12,
-    lineHeight: "150%",
+    fontSize: 13,
+    // lineHeight: 19,
     color: "#FFFFFF",
   },
   btnAddLiquidity: {
     backgroundColor: "#413AE2",
-    margin: "15px 0px 30px 0px",
-    height: 50,
+    margin: "25px 0px 30px 0px",
+    height: 55,
+    borderRadius: 12,
   },
   tokenContainer: {
     display: "flex",
@@ -210,8 +237,10 @@ const styles = {
     justifyContent: "space-between",
     width: "100%",
     padding: "15px 10px 15px 15px",
-    backgroundColor: "#eee",
-    borderRadius: 15,
+    // backgroundColor: "#eee",
+    backgroundColor: "rgba(195, 183, 255, 0.17)",
+    border: "1px solid #E2E1FF",
+    borderRadius: 20,
     marginTop: 15,
   },
   containerImg: {
@@ -228,7 +257,7 @@ const styles = {
   txtPhnx: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "blue",
+    color: "#413AE2",
   },
   containerInput: {
     display: "flex",
@@ -249,8 +278,10 @@ const styles = {
     // fontSize: 12,
     // height: 15,
     // backgroundColor: "red",
-    width: 110,
+    width: 150,
     size: 12,
+    background: "rgba(195, 183, 255, 0.17)",
+    // border: "0px solid red",
   },
   wrapperInput: {
     display: "flex",
@@ -258,25 +289,37 @@ const styles = {
     alignItems: "center",
     justifyContent: "flex-end",
   },
-  btnMax: {
-    backgroundColor: "#413AE2",
-    padding: "3px 2px 3px 2px",
-    marginLeft: 5,
-  },
   containerPoolShare: {
-    borderRadius: 10,
+    borderRadius: 16,
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    backgroundColor: "#eee",
+    // backgroundColor: "#eee",
     padding: "15px 10px 15px 15px",
     marginTop: 15,
-    border: "1px solid rgba(0,0,0,0.1)",
+    border: "1px solid #E2E1FF",
   },
   txtDivPhEth: {
     display: "flex",
     alignItems: "flex-start",
     flexDirection: "column",
+  },
+  txtConvDetails: {
+    fontSize: 16,
+    fontWeight: 500,
+    color: "#62688F",
+  },
+  txtInput: {
+    color: "#707070",
+    fontSize: 13,
+  },
+  iconBtn: {
+    // width: 50,
+    height: 25,
+    backgroundColor: "#C3B7FF",
+    borderRadius: 5,
+    color: "#413AE2",
+    fontSize: 10,
   },
 };
