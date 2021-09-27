@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Typography,
@@ -9,16 +9,31 @@ import {
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import ComponentCss from "./componentCss.css";
 
 const LiquidityModal = ({ isVisible, handleClose }) => {
-  // const [open, setOpen] = useState(true);
-  // const [scroll, setScroll] = useState("body");
+  const [eth, setEth] = useState(0);
+  const [phnx, setPhnx] = useState(0);
+
+  const _OnChangeHandler = (val, tokenName) => {
+    if (tokenName == "phnx") {
+      setPhnx(val);
+      // console.log(phnx, "phnx state");
+    } else {
+      setEth(val);
+      // console.log(eth, "eth state");
+    }
+  };
+
+  useEffect(() => {
+    console.log("setting input value");
+  }, [_OnChangeHandler]);
 
   return (
     <Dialog
       open={isVisible}
       onClose={handleClose}
-      scroll={"body"}
+      // scroll={"body"}
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
       style={styles.dialogStyle}
@@ -91,7 +106,11 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                 size="small"
                 placeholder="0.0"
                 background="rgba(195, 183, 255, 0.17);"
-                // onChange={(event)=> setValue(event.target.value)}
+                value={phnx}
+                type="number"
+                onChange={(event) =>
+                  _OnChangeHandler(event.target.value, "phnx")
+                }
                 style={styles.inputStyle}
                 InputProps={{
                   endAdornment: (
@@ -131,8 +150,12 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                 id="standard-adornment-weight"
                 size="small"
                 placeholder="0.0"
-                background="rgba(195, 183, 255, 0.17);"
-                // onChange={(event)=> setValue(event.target.value)}
+                background="rgba(195, 183, 255, 0.17)"
+                value={eth}
+                type="number"
+                onChange={(event) =>
+                  _OnChangeHandler(event.target.value, "eth")
+                }
                 style={styles.inputStyle}
                 InputProps={{
                   endAdornment: (
@@ -142,9 +165,6 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                   ),
                 }}
               />
-              {/* <Button variant="contained" style={styles.btnMax}>
-                MAX
-              </Button> */}
             </div>
           </div>
         </div>
@@ -197,8 +217,6 @@ const styles = {
   dialogStyle: {
     padding: "10px 50px 20px 50px",
     boxShadow: "0px 10px 80px 10px rgba(0, 0, 0, 0.06)",
-    // marginBottom: 10,
-    // borderRadius: 20,
   },
   headigAddLiq: {
     color: "#5F5F5F",
@@ -216,12 +234,9 @@ const styles = {
       "linear-gradient(90deg, rgba(56, 16, 255, 0.55) 0%, rgba(255, 0, 245, 0.55) 143.12%)",
     borderRadius: 15,
     marginBottom: 20,
-    // margin: "0px 30px 0px 30px",
   },
   txtTipParagraph: {
-    // fontWeight: "bold",
     fontSize: 13,
-    // lineHeight: 19,
     color: "#FFFFFF",
   },
   btnAddLiquidity: {
@@ -237,7 +252,6 @@ const styles = {
     justifyContent: "space-between",
     width: "100%",
     padding: "15px 10px 15px 15px",
-    // backgroundColor: "#eee",
     backgroundColor: "rgba(195, 183, 255, 0.17)",
     border: "1px solid #E2E1FF",
     borderRadius: 20,
@@ -247,7 +261,6 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     marginLeft: 8,
-    // backgroundColor:"yellow"
   },
   imgLogoPhnx: {
     width: 50,
@@ -275,13 +288,9 @@ const styles = {
     alignItems: "center",
   },
   inputStyle: {
-    // fontSize: 12,
-    // height: 15,
-    // backgroundColor: "red",
     width: 150,
     size: 12,
     background: "rgba(195, 183, 255, 0.17)",
-    // border: "0px solid red",
   },
   wrapperInput: {
     display: "flex",
@@ -295,7 +304,6 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    // backgroundColor: "#eee",
     padding: "15px 10px 15px 15px",
     marginTop: 15,
     border: "1px solid #E2E1FF",
@@ -315,7 +323,6 @@ const styles = {
     fontSize: 13,
   },
   iconBtn: {
-    // width: 50,
     height: 25,
     backgroundColor: "#C3B7FF",
     borderRadius: 5,
