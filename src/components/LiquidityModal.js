@@ -13,24 +13,122 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import ComponentCss from "./componentCss.css";
 import PhnxLogo from "../assets/phnxLogo.png";
+import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
+import {
+  InjectedConnector,
+  NoEthereumProviderError,
+  UserRejectedRequestError,
+} from "@web3-react/injected-connector";
+import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
+import { injected } from "../utils/web3Connectors";
+import { walletconnect } from "../utils/web3ConnectFunctions";
+import { abi as UniswapV2Router02ABI } from "../contract/abi/UniswapV2Router02ABI.json";
+import { abi as UniswapV2PairABI } from "../contract/abi/UniswapV2PairABI.json";
+import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
+import {
+  PHNX_RINKEBY_TOKEN_ADDRESS,
+  UNISWAP_CONTRACT_ADDRESS_RINEBY,
+  urlInfuraMainnet,
+  urlInfuraRinkeby,
+  tokenAddressMainnet,
+  tokenAddressRinkeby,
+} from "../contract/constants";
+import {
+  ChainId,
+  Token,
+  WETH,
+  Fetcher,
+  Route,
+  Trade,
+  TokenAmount,
+  TradeType,
+  FACTORY_ADDRESS,
+  INIT_CODE_HASH,
+  Pair,
+  CurrencyAmount,
+  Currency,
+} from "@uniswap/sdk";
+import { pack, keccak256 } from "@ethersproject/solidity";
+import { getCreate2Address } from "@ethersproject/address";
+import { ethers } from "ethers";
+import BigNumber from "bignumber.js";
+
+const customHttpProvider = new ethers.providers.JsonRpcProvider(
+  urlInfuraRinkeby
+);
+const chainId = ChainId.RINKEBY;
 
 const LiquidityModal = ({ isVisible, handleClose }) => {
-  const [eth, setEth] = useState(0);
-  const [phnx, setPhnx] = useState(0);
+  const [ethValue, setEthValue] = useState(0);
+  const [phnxValue, setPhnxValue] = useState(0);
+
+  const [ethPerPhnx, setEthPerPhnx] = useState(0);
+  const [phnxPerEth, setPhnxPerEth] = useState(0);
+
+  const [reserve0, setReserve0] = useState(0);
+  const [reserve1, setReserve1] = useState(0); //phnx
+
+  const [poolShare, setPoolShare] = useState(0);
+
+  const [allowance, setAllowance] = useState(0);
+
+  const [poolPosition, setPoolPosition] = useState({
+    lp: 0,
+    poolPerc: 0,
+    eth: 0,
+    phnx: 0,
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [num, setNum] = useState("");
+
+  const getDataMain = async () => {
+    const phnx = await Fetcher.fetchTokenData(
+      chainId,
+      tokenAddressRinkeby,
+      customHttpProvider
+    );
+    const weth = WETH[chainId];
+    const pair = await Fetcher.fetchPairData(phnx, weth, customHttpProvider);
+    const route = new Route([pair], weth);
+
+    setPhnxPerEth(route.midPrice.toSignificant(6));
+    setEthPerPhnx(route.midPrice.invert().toSignificant(6));
+
+    setReserve0(pair.reserveO);
+    setReserve1(pair.reserve1.toFixed(2));
+  };
 
   const _OnChangeHandler = (val, tokenName) => {
     if (tokenName == "phnx") {
-      setPhnx(val);
-      // console.log(phnx, "phnx state");
+      let v = parseFloat(val);
+      let total = parseFloat(phnxPerEth) * v;
+      total = total + parseFloat(reserve1);
+      setPoolShare(((parseFloat(phnxPerEth) * v) / total) * 100);
+      setEthValue(v);
+      setPhnxValue(parseFloat(phnxPerEth) * v || num);
     } else {
-      setEth(val);
-      // console.log(eth, "eth state");
+      let v = parseFloat(val);
+      let total = parseFloat(reserve1) + v;
+      setPoolShare((v / total) * 100);
+      setPhnxValue(v);
+      setEthValue(parseFloat(ethPerPhnx) * v || num);
     }
   };
 
-  useEffect(() => {
-    console.log("setting input value");
-  }, [_OnChangeHandler]);
+  const getErrorMessage = (e) => {
+    if (e instanceof UnsupportedChainIdError) {
+      return "Unsupported Network";
+    } else if (e instanceof NoEthereumProviderError) {
+      return "No Wallet Found";
+    } else if (e instanceof UserRejectedRequestError) {
+      return "Wallet Connection Rejected";
+    } else if (e.code === -32002) {
+      return "Wallet Connection Request Pending";
+    } else {
+      return "An Error Occurred";
+    }
+  };
 
   return (
     <Modal
@@ -102,7 +200,8 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                     size="small"
                     placeholder="0.0"
                     background="rgba(195, 183, 255, 0.17);"
-                    value={phnx}
+                    value={phnxValue}
+                    disabled={ethPerPhnx > 0 && phnxPerEth > 0 ? false : true}
                     type="number"
                     onChange={(event) =>
                       _OnChangeHandler(event.target.value, "phnx")
@@ -150,7 +249,8 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                     size="small"
                     placeholder="0.0"
                     background="rgba(195, 183, 255, 0.17)"
-                    value={eth}
+                    value={ethValue}
+                    disabled={ethPerPhnx > 0 && phnxPerEth > 0 ? false : true}
                     type="number"
                     onChange={(event) =>
                       _OnChangeHandler(event.target.value, "eth")
