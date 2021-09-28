@@ -2,62 +2,43 @@ import React, { useState, useEffect } from "react";
 import {
   Button,
   Typography,
-  // Dialog,
-  // DialogTitle,
   Modal,
   Box,
   TextField,
-  InputAdornment,
+  // InputAdornment,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import ComponentCss from "./componentCss.css";
 import PhnxLogo from "../assets/phnxLogo.png";
+import * as SERVICE from "../services";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import {
-  InjectedConnector,
+  // InjectedConnector,
   NoEthereumProviderError,
   UserRejectedRequestError,
 } from "@web3-react/injected-connector";
-import Web3 from "web3";
-import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import { injected } from "../utils/web3Connectors";
-import { walletconnect } from "../utils/web3ConnectFunctions";
-import { abi as UniswapV2Router02ABI } from "../contract/abi/UniswapV2Router02ABI.json";
-import { abi as UniswapV2PairABI } from "../contract/abi/UniswapV2PairABI.json";
-import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
-import {
-  PHNX_RINKEBY_TOKEN_ADDRESS,
-  UNISWAP_CONTRACT_ADDRESS_RINEBY,
-  urlInfuraMainnet,
-  urlInfuraRinkeby,
-  tokenAddressMainnet,
-  tokenAddressRinkeby,
-} from "../contract/constants";
-import {
-  ChainId,
-  Token,
-  WETH,
-  Fetcher,
-  Route,
-  Trade,
-  TokenAmount,
-  TradeType,
-  FACTORY_ADDRESS,
-  INIT_CODE_HASH,
-  Pair,
-  CurrencyAmount,
-  Currency,
-} from "@uniswap/sdk";
-import { pack, keccak256 } from "@ethersproject/solidity";
-import { getCreate2Address } from "@ethersproject/address";
-import { ethers } from "ethers";
-import BigNumber from "bignumber.js";
+// import Web3 from "web3";
+// import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
+// import { injected } from "../utils/web3Connectors";
+// import { walletconnect } from "../utils/web3ConnectFunctions";
+// import {
+//   PHNX_RINKEBY_TOKEN_ADDRESS,
+//   UNISWAP_CONTRACT_ADDRESS_RINEBY,
+//   urlInfuraMainnet,
+//   urlInfuraRinkeby,
+//   tokenAddressMainnet,
+//   tokenAddressRinkeby,
+// } from "../contract/constants";
+// import { pack, keccak256 } from "@ethersproject/solidity";
+// import { getCreate2Address } from "@ethersproject/address";
+// import { ethers } from "ethers";
+// import BigNumber from "bignumber.js";
 
-const customHttpProvider = new ethers.providers.JsonRpcProvider(
-  urlInfuraRinkeby
-);
-const chainId = ChainId.RINKEBY;
+// const customHttpProvider = new ethers.providers.JsonRpcProvider(
+//   urlInfuraRinkeby
+// );
+// const chainId = ChainId.RINKEBY;
 
 const LiquidityModal = ({ isVisible, handleClose }) => {
   const [ethValue, setEthValue] = useState(0);
@@ -85,163 +66,72 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
   const [num, setNum] = useState("");
 
   useEffect(() => {
-    getDataMain();
+    _handleGetDataMain();
   }, []);
 
   useEffect(() => {
     if (web3context.active && web3context.account) {
-      getPoolPosition();
-      checkApproval();
+      _handleGetPoolPosition();
+      _handleCheckApproval();
     }
   }, [web3context.account]);
 
-  const getDataMain = async () => {
-    const phnx = await Fetcher.fetchTokenData(
-      chainId,
-      tokenAddressRinkeby,
-      customHttpProvider
-    );
-    const weth = WETH[chainId];
-    const pair = await Fetcher.fetchPairData(phnx, weth, customHttpProvider);
-    const route = new Route([pair], weth);
+  const _handleGetDataMain = async () => {
+    try {
+      let result = await SERVICE.getDataMain();
 
-    setPhnxPerEth(route.midPrice.toSignificant(6));
-    setEthPerPhnx(route.midPrice.invert().toSignificant(6));
-
-    setReserve0(pair.reserveO);
-    setReserve1(pair.reserve1.toFixed(2));
+      setPhnxPerEth(result.route.midPrice.toSignificant(6));
+      setEthPerPhnx(result.route.midPrice.invert().toSignificant(6));
+      setReserve0(result.pair.reserveO);
+      setReserve1(result.pair.reserve1.toFixed(2));
+    } catch (e) {
+      console.log("Error _handleGetDataMain", e);
+    }
   };
 
-  const checkApproval = async () => {
-    const web3 = new Web3(web3context?.library?.currentProvider);
-    const contract = new web3.eth.Contract(
-      PhoenixDaoABI,
-      PHNX_RINKEBY_TOKEN_ADDRESS
-    );
-    let allowance1 = await contract.methods
-      .allowance(web3context.account, UNISWAP_CONTRACT_ADDRESS_RINEBY)
-      .call();
-    console.log("allowance", allowance1);
-    setAllowance(allowance1);
+  const _handleCheckApproval = async () => {
+    try {
+      await SERVICE.checkApproval(web3context, setAllowance);
+    } catch (e) {
+      console.log("_handleCheckApproval", e);
+    }
   };
 
-  const getPoolPosition = async () => {
-    const web3 = new Web3(web3context?.library?.currentProvider);
-    const uniswapV2PairContract = new web3.eth.Contract(
-      UniswapV2PairABI,
-      "0xff8ae8805552c813d75ad6ff456dbc417bd12be6"
-    );
-    const balanceOf = await uniswapV2PairContract.methods
-      .balanceOf(web3context.account)
-      .call();
-    const getReserves = await uniswapV2PairContract.methods
-      .getReserves()
-      .call();
-    const totalSupply = await uniswapV2PairContract.methods
-      .totalSupply()
-      .call();
-
-    let _balance = new BigNumber(balanceOf);
-    let _totalSupply = new BigNumber(totalSupply);
-    const _reserve0 = new BigNumber(getReserves._reserve0);
-    const _reserve1 = new BigNumber(getReserves._reserve1);
-    const _ratio = _reserve0.dividedBy(_reserve1);
-
-    let _poolPercentage = _balance.dividedBy(_totalSupply).multipliedBy(100);
-
-    let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot();
-    let _token1 = _balance.pow(2).dividedBy(_token0);
-
-    const conv = new BigNumber("1e+18");
-
-    _balance = _balance.dividedBy(conv);
-    _token0 = _token0.dividedBy(conv);
-    _token1 = _token1.dividedBy(conv);
-
-    setPoolPosition({
-      lp: _balance.toFixed(2),
-      poolPerc: _poolPercentage.toFormat(6),
-      eth: _token1.toFormat(6),
-      phnx: _token0.toFormat(6),
-    });
+  const _handleGetPoolPosition = async () => {
+    try {
+      setLoading(true);
+      await SERVICE.getPoolPosition(web3context, setPoolPosition);
+    } catch (e) {
+      console.log("Error at_handleGetPoolPosition", e);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const giveApproval = async () => {
-    const web3 = new Web3(web3context?.library?.currentProvider);
-
-    const contract = new web3.eth.Contract(
-      PhoenixDaoABI,
-      PHNX_RINKEBY_TOKEN_ADDRESS
-    );
-
-    contract.methods
-      .approve(UNISWAP_CONTRACT_ADDRESS_RINEBY, web3.utils.toWei("10000000000"))
-      .send({ from: web3context.account })
-      .on("transactionHash", (hash) => {
-        // hash of tx
-        console.log("tx hash", hash);
-      })
-      .on("confirmation", function (confirmationNumber, receipt) {
-        if (confirmationNumber === 2) {
-          // tx confirmed
-          checkApproval();
-        }
-      })
-      .on("error", function (err) {});
+  const _handleGiveApproval = async () => {
+    try {
+      await SERVICE.giveApproval(web3context);
+    } catch (e) {
+      console.log("Error _handleGiveApproval", e);
+    }
   };
 
-  const supply = async () => {
-    setLoading(true);
-    const web3 = new Web3(web3context?.library?.currentProvider);
-    const uniswapContract = new web3.eth.Contract(
-      UniswapV2Router02ABI,
-      UNISWAP_CONTRACT_ADDRESS_RINEBY
-    );
-    console.log(uniswapContract.methods);
-    let deadline = Date.now();
-    deadline += 5 * 60;
-
-    let phnxMin = phnxValue - phnxValue * 0.1;
-    let ethMin = ethValue - ethValue * 0.1;
-
-    await uniswapContract.methods
-      .addLiquidityETH(
-        PHNX_RINKEBY_TOKEN_ADDRESS, // address token,
-        web3.utils.toWei(phnxValue.toString()), // uint amountTokenDesired,
-        web3.utils.toWei(phnxMin.toString()), //uint amountTokenMin,
-        web3.utils.toWei(ethMin.toString()), // uint amountETHMin
-        web3context.account, //address to,
-        deadline //deadline
-      )
-      .send({
-        from: web3context.account,
-        value: web3.utils.toWei(ethValue.toString()),
-        gas: 190809,
-      })
-      .on("transactionHash", (hash) => {
-        // hash of tx
-        console.log("hash", hash);
-      })
-      .on("confirmation", function (confirmationNumber, receipt) {
-        if (confirmationNumber === 2) {
-          console.log("confirmationNumber", confirmationNumber);
-          setLoading(false);
-          setPhnxValue("");
-          setEthValue("");
-          setPoolShare(0);
-          if (web3context.active && web3context.account) {
-            getPoolPosition();
-          }
-        }
-      })
-      .on("error", function (err) {
-        console.log("error", err);
-        setLoading(false);
-      });
+  const _handleSupply = async () => {
+    try {
+      setLoading(true);
+      await SERVICE.supply(phnxValue, ethValue, web3context);
+    } catch (e) {
+      console.log("Error _handleSupply", e);
+    } finally {
+      setLoading(false);
+      setPhnxValue("");
+      setEthValue("");
+      setPoolShare(0);
+    }
   };
 
-  const _OnChangeHandler = (val, tokenName) => {
-    if (tokenName == "phnx") {
+  const OnChangeHandler = (val, tokenName) => {
+    if (tokenName === "phnx") {
       let v = parseFloat(val);
       let total = parseFloat(reserve1) + v;
       setPoolShare((v / total) * 100);
@@ -347,7 +237,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                     // disabled={ethPerPhnx > 0 && phnxPerEth > 0 ? false : true}
                     type="number"
                     onChange={(event) =>
-                      _OnChangeHandler(event.target.value, "phnx")
+                      OnChangeHandler(event.target.value, "phnx")
                     }
                     style={styles.inputStyle}
                     InputProps={{
@@ -396,7 +286,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                     // disabled={ethPerPhnx > 0 && phnxPerEth > 0 ? false : true}
                     type="number"
                     onChange={(event) =>
-                      _OnChangeHandler(event.target.value, "eth")
+                      OnChangeHandler(event.target.value, "eth")
                     }
                     style={styles.inputStyle}
                     InputProps={{
@@ -455,9 +345,9 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
             //     ? false
             //     : true
             // }
-            onClick={allowance == 1 ? supply : giveApproval}
+            onClick={allowance === 1 ? _handleSupply : _handleGiveApproval}
           >
-            {allowance == 1 ? "Add Liquidity" : "Approve PHNX"}
+            {allowance === 1 ? "Add Liquidity" : "Approve PHNX"}
           </Button>
         </div>
       </Box>
