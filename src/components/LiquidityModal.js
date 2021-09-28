@@ -15,16 +15,50 @@ import ComponentCss from "./componentCss.css";
 import PhnxLogo from "../assets/phnxLogo.png";
 
 const LiquidityModal = ({ isVisible, handleClose }) => {
-  const [eth, setEth] = useState(0);
-  const [phnx, setPhnx] = useState(0);
+  const [ethValue, setEthValue] = useState(0);
+  const [phnxValue, setPhnxValue] = useState(0);
+
+  const [ethPerPhnx, setEthPerPhnx] = useState(0);
+  const [phnxPerEth, setPhnxPerEth] = useState(0);
+
+  const [reserve0, setReserve0] = useState(0);
+  const [reserve1, setReserve1] = useState(0); //phnx
+
+  const [poolShare, setPoolShare] = useState(0);
+
+  const [allowance, setAllowance] = useState(0);
+
+  const [poolPosition, setPoolPosition] = useState({
+    lp: 0,
+    poolPerc: 0,
+    eth: 0,
+    phnx: 0,
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  const [num, setNum] = useState("");
 
   const _OnChangeHandler = (val, tokenName) => {
     if (tokenName == "phnx") {
-      setPhnx(val);
+      setPhnxValue(val);
       // console.log(phnx, "phnx state");
+      let v = parseFloat(val);
+      let total = parseFloat(phnxPerEth) * v;
+      total = total + parseFloat(reserve1);
+      setPoolShare(((parseFloat(phnxPerEth) * v) / total) * 100);
+      // setEthValue(v || num);
+      setEthValue(v);
+      setPhnxValue(parseFloat(phnxPerEth) * v || num);
     } else {
-      setEth(val);
+      setEthValue(val);
       // console.log(eth, "eth state");
+      let v = parseFloat(val);
+      let total = parseFloat(reserve1) + v;
+      setPoolShare((v / total) * 100);
+      // setPhnxValue(v || num);
+      setPhnxValue(v);
+      setEthValue(parseFloat(ethPerPhnx) * v || num);
     }
   };
 
@@ -102,7 +136,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                     size="small"
                     placeholder="0.0"
                     background="rgba(195, 183, 255, 0.17);"
-                    value={phnx}
+                    value={phnxValue}
                     type="number"
                     onChange={(event) =>
                       _OnChangeHandler(event.target.value, "phnx")
@@ -150,7 +184,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                     size="small"
                     placeholder="0.0"
                     background="rgba(195, 183, 255, 0.17)"
-                    value={eth}
+                    value={ethValue}
                     type="number"
                     onChange={(event) =>
                       _OnChangeHandler(event.target.value, "eth")
@@ -357,166 +391,3 @@ const styles = {
     fontSize: 10,
   },
 };
-
-{
-  /* <div
-        style={{ padding: "30px 50px 20px 50px" }}
-      >
-        <div style={styles.divTopHeading}>
-          <Typography style={styles.heading}>Add Liquidity</Typography>
-          <Typography style={styles.headigAddLiq}>
-            Add liquidity to the ETH/PHNX pool <br /> and receive LP tokens
-          </Typography>
-        </div>
-        <IconButton
-          aria-label="close"
-          onClick={handleClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      </div>
-      <div
-        style={{
-          height: 1,
-          background: "rgba(0, 0, 0, 0.15)",
-          marginLeft: 50,
-          marginRight: 50,
-          marginBottom: 7,
-        }}
-      />
-      <div style={styles.dialogStyle}>
-        <div style={styles.containerTip}>
-          <Typography style={styles.txtTipParagraph}>
-            Tip: By adding liquidity, you'll earn 0.25% of all trades on this
-            pair proportional to your share of the pool. Fees are added to the
-            pool, accrue in real time and can be claimed by withdrawing your
-            liquidity.
-          </Typography>
-        </div>
-
-        <div style={styles.tokenContainer}>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <img
-              alt="logo"
-              style={styles.imgLogoPhnx}
-              src="https://s2.coinmarketcap.com/static/img/coins/200x200/5674.png"
-            />
-            <div style={styles.containerImg}>
-              <Typography style={styles.txtInput}>Input</Typography>
-              <Typography style={styles.txtPhnx}>PHNX ↓</Typography>
-            </div>
-          </div>
-          <div style={styles.containerInput}>
-            <div style={styles.divPhnxAmount}>
-              <Typography style={styles.txtInput}>Available PHNX:</Typography>
-              <Typography style={styles.txtAmount}>237,278 PHNX</Typography>
-            </div>
-            <div style={styles.wrapperInput}>
-              <TextField
-                hiddenLabel
-                id="standard-adornment-weight"
-                size="small"
-                placeholder="0.0"
-                background="rgba(195, 183, 255, 0.17);"
-                value={phnx}
-                type="number"
-                onChange={(event) =>
-                  _OnChangeHandler(event.target.value, "phnx")
-                }
-                style={styles.inputStyle}
-                InputProps={{
-                  endAdornment: (
-                    <IconButton style={styles.iconBtn} onClick={() => 0}>
-                      MAX
-                    </IconButton>
-                  ),
-                }}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div style={styles.tokenContainer}>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <img
-              alt="logo"
-              style={styles.imgLogoPhnx}
-              src="https://us.123rf.com/450wm/irrrina/irrrina2103/irrrina210300014/165752199-ethereum-vector-cryptocurrency-icon-isolated-on-white-background-.jpg?ver=6"
-            />
-            <div style={styles.containerImg}>
-              <Typography style={styles.txtInput}>Input</Typography>
-              <Typography style={{ ...styles.txtPhnx, color: "#454A75" }}>
-                ETH ↓
-              </Typography>
-            </div>
-          </div>
-          <div style={styles.containerInput}>
-            <div style={styles.divPhnxAmount}>
-              <Typography style={styles.txtInput}>Available ETH:</Typography>
-              <Typography style={styles.txtAmount}>237,278 PHNX</Typography>
-            </div>
-            <div style={styles.wrapperInput}>
-              <TextField
-                hiddenLabel
-                id="standard-adornment-weight"
-                size="small"
-                placeholder="0.0"
-                background="rgba(195, 183, 255, 0.17)"
-                value={eth}
-                type="number"
-                onChange={(event) =>
-                  _OnChangeHandler(event.target.value, "eth")
-                }
-                style={styles.inputStyle}
-                InputProps={{
-                  endAdornment: (
-                    <IconButton style={styles.iconBtn} onClick={() => 0}>
-                      MAX
-                    </IconButton>
-                  ),
-                }}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div style={styles.containerPoolShare}>
-          <div style={styles.txtDivPhEth}>
-            <Typography style={styles.txtConvDetails}>
-              32,456 PHNX/ETH
-            </Typography>
-            <Typography style={styles.txtConvDetails}>
-              0.004 ETH/PHNX
-            </Typography>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-end",
-            }}
-          >
-            <Typography style={styles.txtConvDetails}>
-              less than 0.01%
-            </Typography>
-            <Typography style={styles.txtConvDetails}>pool share</Typography>
-          </div>
-        </div>
-
-        <Button
-          variant="contained"
-          size="large"
-          fullWidth={true}
-          style={styles.btnAddLiquidity}
-          onClick={handleClose}
-        >
-          Add Liquidity
-        </Button>
-      </div> */
-}
