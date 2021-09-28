@@ -1,0 +1,45 @@
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ::-webkit-scrollbar {
+  display: none;
+} */
+
+/* width */
+::-webkit-scrollbar {
+  width: 17px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #fff;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  margin-right: 10px;
+  /* display: none; */
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(56, 16, 255, 0.55) 0%,
+    rgba(255, 0, 245, 0.55) 143.12%
+  );
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
+  /* border-radius: 40px; */
+  border: solid 5px white;
+  /* height: 100px; */
+  /* width: 10px; */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  /* display: block; */
+  /* width: 20px; */
+}

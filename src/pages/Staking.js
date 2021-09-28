@@ -1,6 +1,16 @@
-import { Typography } from "@mui/material";
+import React from "react";
+import { Typography, Button } from "@mui/material";
+import LiquidityModal from "../components/LiquidityModal";
 
 const Staking = () => {
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setIsVisible(true);
+  };
+  const handleClose = () => {
+    setIsVisible(false);
+  };
   return (
     <div>
       <h1>Staking</h1>
@@ -18,6 +28,10 @@ const Staking = () => {
         maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin
         aliquam ultrices sagittis orci a.
       </Typography>
+      <Button onClick={handleClickOpen} variant="contained">
+        Hello
+      </Button>
+      <LiquidityModal isVisible={isVisible} handleClose={handleClose} />
     </div>
   );
 };
