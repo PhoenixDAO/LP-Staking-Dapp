@@ -13,14 +13,9 @@ import ComponentCss from "./componentCss.css";
 import PhnxLogo from "../assets/phnxLogo.png";
 import * as SERVICE from "../services";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
-import {
-  // InjectedConnector,
-  NoEthereumProviderError,
-  UserRejectedRequestError,
-} from "@web3-react/injected-connector";
-
+import { ToastMsg } from "./Toast";
 const LiquidityModal = ({ isVisible, handleClose }) => {
-  const [isMobile, setIsMObile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   // useEffect(() => {
   //   screen.width;
   // });
@@ -51,6 +46,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
 
   useEffect(() => {
     _handleGetDataMain();
+    ToastMsg("error", "First give approval!");
   }, []);
 
   useEffect(() => {
@@ -79,6 +75,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
       setAllowance(result);
     } catch (e) {
       console.log("_handleCheckApproval", e);
+      ToastMsg("error", "First give approval!");
     } finally {
       setLoading(false);
     }
@@ -89,6 +86,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
       setLoading(true);
       await SERVICE.getPoolPosition(web3context, setPoolPosition);
     } catch (e) {
+      ToastMsg("error", "Couldn't get pool position!");
       console.log("Error at_handleGetPoolPosition", e);
     } finally {
       setLoading(false);
@@ -100,6 +98,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
       setLoading(true);
       await SERVICE.giveApproval(web3context);
     } catch (e) {
+      ToastMsg("error", "Failed to give approval!");
       console.log("Error _handleGiveApproval", e);
     } finally {
       setLoading(false);
@@ -111,6 +110,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
       setLoading(true);
       await SERVICE.supply(phnxValue, ethValue, web3context);
     } catch (e) {
+      ToastMsg("error", "Couldn't add liquidity");
       console.log("Error _handleSupply", e);
     } finally {
       setLoading(false);
