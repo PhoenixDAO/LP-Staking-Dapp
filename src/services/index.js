@@ -46,7 +46,6 @@ export const getDataMain = async () => {
 };
 
 export const supply = async (phnxValue, ethValue, web3context) => {
-  // setLoading(true);
   const web3 = new Web3(web3context?.library?.currentProvider);
   const uniswapContract = new web3.eth.Contract(
     UniswapV2Router02ABI,
@@ -142,16 +141,23 @@ export const checkApproval = async (web3context, setAllowance) => {
     .allowance(web3context.account, UNISWAP_CONTRACT_ADDRESS_RINEBY)
     .call();
   console.log("allowance", allowance1);
-  setAllowance(allowance1);
+  return allowance1;
+  // setAllowance(allowance1);
 };
 
 export const giveApproval = async (web3context) => {
+  if (!web3context.account) {
+    alert("Connect your wallet");
+    return;
+  }
   const web3 = new Web3(web3context?.library?.currentProvider);
 
   const contract = new web3.eth.Contract(
     PhoenixDaoABI,
     PHNX_RINKEBY_TOKEN_ADDRESS
   );
+
+  console.log("pata", web3context.account);
 
   contract.methods
     .approve(UNISWAP_CONTRACT_ADDRESS_RINEBY, web3.utils.toWei("10000000000"))

@@ -18,29 +18,13 @@ import {
   NoEthereumProviderError,
   UserRejectedRequestError,
 } from "@web3-react/injected-connector";
-// import Web3 from "web3";
-// import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-// import { injected } from "../utils/web3Connectors";
-// import { walletconnect } from "../utils/web3ConnectFunctions";
-// import {
-//   PHNX_RINKEBY_TOKEN_ADDRESS,
-//   UNISWAP_CONTRACT_ADDRESS_RINEBY,
-//   urlInfuraMainnet,
-//   urlInfuraRinkeby,
-//   tokenAddressMainnet,
-//   tokenAddressRinkeby,
-// } from "../contract/constants";
-// import { pack, keccak256 } from "@ethersproject/solidity";
-// import { getCreate2Address } from "@ethersproject/address";
-// import { ethers } from "ethers";
-// import BigNumber from "bignumber.js";
-
-// const customHttpProvider = new ethers.providers.JsonRpcProvider(
-//   urlInfuraRinkeby
-// );
-// const chainId = ChainId.RINKEBY;
 
 const LiquidityModal = ({ isVisible, handleClose }) => {
+  const [isMobile, setIsMObile] = useState(false);
+  // useEffect(() => {
+  //   screen.width;
+  // });
+
   const [ethValue, setEthValue] = useState(0);
   const [phnxValue, setPhnxValue] = useState(0);
 
@@ -79,7 +63,6 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
   const _handleGetDataMain = async () => {
     try {
       let result = await SERVICE.getDataMain();
-
       setPhnxPerEth(result.route.midPrice.toSignificant(6));
       setEthPerPhnx(result.route.midPrice.invert().toSignificant(6));
       setReserve0(result.pair.reserveO);
@@ -91,9 +74,13 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
 
   const _handleCheckApproval = async () => {
     try {
-      await SERVICE.checkApproval(web3context, setAllowance);
+      setLoading(true);
+      let result = await SERVICE.checkApproval(web3context, setAllowance);
+      setAllowance(result);
     } catch (e) {
       console.log("_handleCheckApproval", e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -110,9 +97,12 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
 
   const _handleGiveApproval = async () => {
     try {
+      setLoading(true);
       await SERVICE.giveApproval(web3context);
     } catch (e) {
       console.log("Error _handleGiveApproval", e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -147,20 +137,6 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
     }
   };
 
-  const getErrorMessage = (e) => {
-    if (e instanceof UnsupportedChainIdError) {
-      return "Unsupported Network";
-    } else if (e instanceof NoEthereumProviderError) {
-      return "No Wallet Found";
-    } else if (e instanceof UserRejectedRequestError) {
-      return "Wallet Connection Rejected";
-    } else if (e.code === -32002) {
-      return "Wallet Connection Request Pending";
-    } else {
-      return "An Error Occurred";
-    }
-  };
-
   return (
     <Modal
       open={isVisible}
@@ -170,34 +146,34 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
     >
       <Box sx={styles.containerStyle}>
         <div
-        // style={{ padding: "20px 50px 20px 50px" }}
+        // style={{ padding: "20px" }}
         >
           <div style={styles.divTopHeading}>
             <Typography style={styles.heading}>Add Liquidity</Typography>
             <Typography style={styles.headigAddLiq}>
               Add liquidity to the ETH/PHNX pool <br /> and receive LP tokens
             </Typography>
+            <IconButton
+              aria-label="close"
+              onClick={handleClose}
+              sx={{
+                position: "absolute",
+                right: 30,
+                top: 30,
+                color: (theme) => theme.palette.grey[500],
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
           </div>
-          <IconButton
-            aria-label="close"
-            onClick={handleClose}
-            sx={{
-              position: "absolute",
-              right: 30,
-              top: 30,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
         </div>
         <div
           style={{
             height: 1,
             background: "rgba(0, 0, 0, 0.15)",
-            marginLeft: 50,
-            marginRight: 50,
-            marginBottom: 7,
+            marginLeft: 10,
+            marginRight: 10,
+            marginBottom: 9,
           }}
         />
         <div style={styles.dialogStyle}>
@@ -210,7 +186,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
             </Typography>
           </div>
 
-          <div>
+          <div style={{ position: "relative" }}>
             <div style={styles.tokenContainer}>
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <img alt="logo" style={styles.imgLogoPhnx} src={PhnxLogo} />
@@ -252,7 +228,9 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
               </div>
             </div>
 
-            <div style={styles.addDiv}></div>
+            <div style={styles.containerAddDiv}>
+              <div style={styles.addDiv}>+</div>
+            </div>
 
             <div style={styles.tokenContainer}>
               <div style={{ display: "flex", flexDirection: "row" }}>
@@ -324,31 +302,36 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
               <Typography style={styles.txtConvDetails}>pool share</Typography>
             </div>
           </div>
-
-          <Button
-            variant="contained"
-            size="large"
-            fullWidth={true}
-            style={styles.btnAddLiquidity}
-            onClick={handleClose}
-            // disabled={
-            //   allowance == 0 && web3context.active && web3context.account
-            //     ? false
-            //     : true
-            // }
-            // disabled={
-            //   web3context.active &&
-            //   web3context.account &&
-            //   ethValue &&
-            //   phnxValue &&
-            //   !loading
-            //     ? false
-            //     : true
-            // }
-            onClick={allowance === 1 ? _handleSupply : _handleGiveApproval}
-          >
-            {allowance === 1 ? "Add Liquidity" : "Approve PHNX"}
-          </Button>
+          <p>{allowance}</p>
+          {allowance == 0 ? (
+            <Button
+              variant="contained"
+              size="large"
+              fullWidth={true}
+              style={{
+                ...styles.btnAddLiquidity,
+                backgroundColor: loading ? "#eee" : "#413AE2",
+              }}
+              disabled={loading}
+              onClick={_handleGiveApproval}
+            >
+              Approve PHNX
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              size="large"
+              fullWidth={true}
+              style={{
+                ...styles.btnAddLiquidity,
+                backgroundColor: loading ? "#eee" : "#413AE2",
+              }}
+              disabled={loading}
+              onClick={_handleSupply}
+            >
+              Add Liquidity
+            </Button>
+          )}
         </div>
       </Box>
     </Modal>
@@ -360,29 +343,52 @@ export default LiquidityModal;
 const styles = {
   containerStyle: {
     position: "absolute",
-    maxHeight: "95%",
+    maxHeight: "85%",
     overflowY: "scroll",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    // width: 400,
+    width: 600,
     bgcolor: "#fff",
+    padding: 20,
     // border: "2px solid #000",
     borderRadius: 5,
     boxShadow: 0,
     p: 4,
+    ["@media (max-width: 650px)"]: {
+      width: "90%",
+      padding: 2,
+    },
   },
-  addDiv: {
+  containerAddDiv: {
     position: "absolute",
     width: 50,
     height: 50,
     borderRadius: 25,
+    left: 0,
+    right: 0,
+    top: 0,
+    marginLeft: "auto",
+    marginRight: "auto",
+    backgroundColor: "#000",
+    top: "38%",
+  },
+  addDiv: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    left: 0,
+    right: 0,
+    top: 0,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#F5F3FF",
     border: "3px solid #E2E1FF",
     alignSelf: "center",
+    fontSize: 40,
+    color: "#413AE2",
+    fontWeight: "200",
   },
   heading: {
     color: "#413AE2",
@@ -390,10 +396,13 @@ const styles = {
     fontSize: 22,
   },
   dialogStyle: {
-    padding: "10px 50px 20px 50px",
+    padding: "10px",
     // boxShadow: "0px 10px 80px 10px rgba(0, 0, 0, 0.06)",
   },
   headigAddLiq: {
+    ["@media (max-width: 650px)"]: {
+      fontSize: 18,
+    },
     color: "#5F5F5F",
     fontSize: 16,
   },
@@ -409,10 +418,17 @@ const styles = {
       "linear-gradient(90deg, rgba(56, 16, 255, 0.55) 0%, rgba(255, 0, 245, 0.55) 143.12%)",
     borderRadius: 15,
     marginBottom: 20,
+    // ["@media (max-width: 650px)"]: {
+    //   padding: "2px 2px 2px 2px",
+    //   backgroundColor: "red",
+    // },
   },
   txtTipParagraph: {
     fontSize: 13,
     color: "#FFFFFF",
+    ["@media (max-width: 650px)"]: {
+      fontSize: 11,
+    },
   },
   btnAddLiquidity: {
     backgroundColor: "#413AE2",
@@ -431,6 +447,10 @@ const styles = {
     border: "1px solid #E2E1FF",
     borderRadius: 20,
     marginTop: 15,
+    // height: 95,
+    ["@media (max-width: 650px)"]: {
+      flexDirection: "column",
+    },
   },
   containerImg: {
     display: "flex",

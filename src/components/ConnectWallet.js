@@ -77,27 +77,25 @@ export default function ConnectWallet() {
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    if (!!account && !!library) {
-      let stale = false;
-
-      library
-        .getBalance(account)
-        .then((balance) => {
-          if (!stale) {
-            setBalance(balance);
-          }
-        })
-        .catch(() => {
-          if (!stale) {
-            setBalance(null);
-          }
-        });
-
-      return () => {
-        stale = true;
-        setBalance(undefined);
-      };
-    }
+    // if (!!account && !!library) {
+    //   let stale = false;
+    //   library
+    //     .getBalance(account)
+    //     .then((balance) => {
+    //       if (!stale) {
+    //         setBalance(balance);
+    //       }
+    //     })
+    //     .catch(() => {
+    //       if (!stale) {
+    //         setBalance(null);
+    //       }
+    //     });
+    //   return () => {
+    //     stale = true;
+    //     setBalance(undefined);
+    //   };
+    // }
   }, [account, library, chainId]);
 
   const activateWallet = useCallback(
