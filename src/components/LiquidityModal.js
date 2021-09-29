@@ -46,7 +46,6 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
 
   useEffect(() => {
     _handleGetDataMain();
-    ToastMsg("error", "First give approval!");
   }, []);
 
   useEffect(() => {
@@ -97,6 +96,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
     try {
       setLoading(true);
       await SERVICE.giveApproval(web3context);
+      // ToastMsg("success", "Approved successfully!");
     } catch (e) {
       ToastMsg("error", "Failed to give approval!");
       console.log("Error _handleGiveApproval", e);

@@ -1,6 +1,7 @@
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
+import { ToastMsg } from "../components/Toast";
 import { abi as UniswapV2Router02ABI } from "../contract/abi/UniswapV2Router02ABI.json";
 import { abi as UniswapV2PairABI } from "../contract/abi/UniswapV2PairABI.json";
 import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
@@ -159,7 +160,7 @@ export const giveApproval = async (web3context) => {
 
   console.log("pata", web3context.account);
 
-  contract.methods
+  await contract.methods
     .approve(UNISWAP_CONTRACT_ADDRESS_RINEBY, web3.utils.toWei("10000000000"))
     .send({ from: web3context.account })
     .on("transactionHash", (hash) => {
@@ -170,6 +171,7 @@ export const giveApproval = async (web3context) => {
       if (confirmationNumber === 2) {
         // tx confirmed
         checkApproval();
+        ToastMsg("success", "Approved successfully!");
       }
     })
     .on("error", function (err) {});

@@ -76,4 +76,14 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .colored-toast .swal2-html-container {
   color: white;
+  z-index: 30000000000 !important;
+}
+
+#dialog-style {
+  z-index: 3000000000;
+  background-color: yellow;
+}
+
+.swal2-container {
+  z-index: 3000000000000 !important;
 }
