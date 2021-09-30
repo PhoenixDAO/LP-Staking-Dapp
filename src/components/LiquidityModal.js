@@ -145,26 +145,15 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
       aria-describedby="modal-modal-description"
     >
       <Box sx={styles.containerStyle}>
-        <div
-        // style={{ padding: "20px" }}
-        >
+        <div style={{ paddingLeft: 10 }}>
           <div style={styles.divTopHeading}>
-            <Typography style={styles.heading}>Add Liquidity</Typography>
-            <Typography style={styles.headigAddLiq}>
+            <p className="heading-modal">Add Liquidity</p>
+            <p className="subheading-modal">
               Add liquidity to the ETH/PHNX pool <br /> and receive LP tokens
-            </Typography>
-            <IconButton
-              aria-label="close"
-              onClick={handleClose}
-              sx={{
-                position: "absolute",
-                right: 30,
-                top: 30,
-                color: (theme) => theme.palette.grey[500],
-              }}
-            >
+            </p>
+            <button onClick={handleClose} className="icon-btn">
               <CloseIcon />
-            </IconButton>
+            </button>
           </div>
         </div>
         <div
@@ -176,7 +165,10 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
             marginBottom: 9,
           }}
         />
-        <div style={styles.dialogStyle}>
+        <div
+          className="dialog-style"
+          // style={styles.dialogStyle}
+        >
           <div style={styles.containerTip}>
             <Typography style={styles.txtTipParagraph}>
               Tip: By adding liquidity, you'll earn 0.25% of all trades on this
@@ -187,7 +179,10 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
           </div>
 
           <div style={{ position: "relative" }}>
-            <div style={styles.tokenContainer}>
+            <div
+              className="token-container"
+              // style={styles.tokenContainer}
+            >
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <img alt="logo" style={styles.imgLogoPhnx} src={PhnxLogo} />
                 <div style={styles.containerImg}>
@@ -202,7 +197,10 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                   </Typography>
                   <Typography style={styles.txtAmount}>237,278 PHNX</Typography>
                 </div>
-                <div style={styles.wrapperInput}>
+                <div
+                  className="wrapper-input"
+                  // style={styles.wrapperInput}
+                >
                   <TextField
                     hiddenLabel
                     id="standard-adornment-weight"
@@ -229,10 +227,18 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
             </div>
 
             <div style={styles.containerAddDiv}>
-              <div style={styles.addDiv}>+</div>
+              <div
+                className="add-div"
+                // style={styles.addDiv}
+              >
+                +
+              </div>
             </div>
 
-            <div style={styles.tokenContainer}>
+            <div
+              className="token-container"
+              // style={styles.tokenContainer}
+            >
               <div style={{ display: "flex", flexDirection: "row" }}>
                 <img
                   alt="logo"
@@ -253,7 +259,10 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                   </Typography>
                   <Typography style={styles.txtAmount}>237,278 PHNX</Typography>
                 </div>
-                <div style={styles.wrapperInput}>
+                <div
+                  className="wrapper-input"
+                  // style={styles.wrapperInput}
+                >
                   <TextField
                     hiddenLabel
                     id="standard-adornment-weight"
@@ -280,29 +289,23 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
             </div>
           </div>
 
-          <div style={styles.containerPoolShare}>
+          <div className="container-pool-share">
             <div style={styles.txtDivPhEth}>
               <Typography style={styles.txtConvDetails}>
-                {phnxPerEth} PHNX/ETH
+                <b>{phnxPerEth ? phnxPerEth : "_ _"}</b> PHNX/ETH
               </Typography>
               <Typography style={styles.txtConvDetails}>
-                {ethPerPhnx} ETH/PHNX
+                <b>{ethPerPhnx ? ethPerPhnx : "_ _"}</b> ETH/PHNX
               </Typography>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-end",
-              }}
-            >
+            <div className="pool-share">
               <Typography style={styles.txtConvDetails}>
-                less than {poolShare}%
+                less than <b>{poolShare ? poolShare.toFixed(2) : "0"}%</b>
               </Typography>
               <Typography style={styles.txtConvDetails}>pool share</Typography>
             </div>
           </div>
-          <p>{allowance}</p>
+          {/* <p>{allowance}</p> */}
           {allowance == 0 ? (
             <Button
               variant="contained"
@@ -370,42 +373,16 @@ const styles = {
     top: 0,
     marginLeft: "auto",
     marginRight: "auto",
-    backgroundColor: "#000",
-    top: "38%",
-  },
-  addDiv: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    left: 0,
-    right: 0,
-    top: 0,
+    backgroundColor: "transparent",
     display: "flex",
-    alignItems: "center",
+    alignItem: "center",
     justifyContent: "center",
-    backgroundColor: "#F5F3FF",
-    border: "3px solid #E2E1FF",
-    alignSelf: "center",
-    fontSize: 40,
-    color: "#413AE2",
-    fontWeight: "200",
+    top: "43%",
   },
-  heading: {
-    color: "#413AE2",
-    fontWeight: 700,
-    fontSize: 22,
-  },
-  dialogStyle: {
-    padding: "10px",
-    // boxShadow: "0px 10px 80px 10px rgba(0, 0, 0, 0.06)",
-  },
-  headigAddLiq: {
-    ["@media (max-width: 650px)"]: {
-      fontSize: 18,
-    },
-    color: "#5F5F5F",
-    fontSize: 16,
-  },
+  // dialogStyle: {
+  //   padding: "10px 10px 0px 10px",
+  // boxShadow: "0px 10px 80px 10px rgba(0, 0, 0, 0.06)",
+  // },
   divTopHeading: {
     display: "flex",
     flexDirection: "column",
@@ -418,15 +395,11 @@ const styles = {
       "linear-gradient(90deg, rgba(56, 16, 255, 0.55) 0%, rgba(255, 0, 245, 0.55) 143.12%)",
     borderRadius: 15,
     marginBottom: 20,
-    // ["@media (max-width: 650px)"]: {
-    //   padding: "2px 2px 2px 2px",
-    //   backgroundColor: "red",
-    // },
   },
   txtTipParagraph: {
     fontSize: 13,
     color: "#FFFFFF",
-    ["@media (max-width: 650px)"]: {
+    ["@media (maxWidth: 650px)"]: {
       fontSize: 11,
     },
   },
@@ -448,7 +421,7 @@ const styles = {
     borderRadius: 20,
     marginTop: 15,
     // height: 95,
-    ["@media (max-width: 650px)"]: {
+    ["@media (maxWidth: 650px)"]: {
       flexDirection: "column",
     },
   },
@@ -483,9 +456,10 @@ const styles = {
     alignItems: "center",
   },
   inputStyle: {
-    width: 150,
+    // width: 150,
     size: 12,
     background: "rgba(195, 183, 255, 0.17)",
+    // borderWidth: 0,
   },
   wrapperInput: {
     display: "flex",
@@ -493,16 +467,16 @@ const styles = {
     alignItems: "center",
     justifyContent: "flex-end",
   },
-  containerPoolShare: {
-    borderRadius: 16,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    padding: "15px 10px 15px 15px",
-    marginTop: 15,
-    border: "1px solid #E2E1FF",
-  },
+  // containerPoolShare: {
+  //   borderRadius: 16,
+  //   display: "flex",
+  //   alignItems: "center",
+  //   justifyContent: "space-between",
+  //   width: "100%",
+  //   padding: "15px 10px 15px 15px",
+  //   marginTop: 15,
+  //   border: "1px solid #E2E1FF",
+  // },
   txtDivPhEth: {
     display: "flex",
     alignItems: "flex-start",

@@ -1,5 +1,7 @@
+import React, { useEffect } from "react";
 import { Typography } from "@mui/material";
 import { useWeb3React } from "@web3-react/core";
+// import { ToastMsg } from "../components/Toast";
 
 const Pool = () => {
   const { account } = useWeb3React();
