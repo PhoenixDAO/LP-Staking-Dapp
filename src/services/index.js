@@ -132,8 +132,21 @@ export const getPoolPosition = async (web3context, setPoolPosition) => {
   });
 };
 
-export const checkApproval = async (web3context, setAllowance) => {
+export const checkApproval = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
+  // Get Eth Balance
+  let WeiEthBalance = await web3.eth.getBalance(
+    "0x6F1FDA06D2e61fD3C05f3bcBa40646F3Bf668baC"
+  );
+  let EthBalance = web3.utils.fromWei(WeiEthBalance, "ether");
+  console.log("EthBalance", EthBalance);
+  // Get Phnx balance
+  let WeiPhnxBalance = await web3.phnx.getBalance(
+    "0x6F1FDA06D2e61fD3C05f3bcBa40646F3Bf668baC"
+  );
+  let PhnxBalance = web3.utils.fromWei(WeiPhnxBalance, "phnx");
+  console.log("PhnxBalance", PhnxBalance);
+
   const contract = new web3.eth.Contract(
     PhoenixDaoABI,
     PHNX_RINKEBY_TOKEN_ADDRESS
@@ -143,7 +156,6 @@ export const checkApproval = async (web3context, setAllowance) => {
     .call();
   console.log("allowance", allowance1);
   return allowance1;
-  // setAllowance(allowance1);
 };
 
 export const giveApproval = async (web3context) => {

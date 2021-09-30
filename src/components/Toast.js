@@ -10,6 +10,7 @@ const Toast = Swal.mixin({
   showConfirmButton: false,
   timer: 4000,
   timerProgressBar: true,
+  // showCancelButton: true,
 });
 
 export const ToastMsg = async (type, title) => {
