@@ -1,9 +1,13 @@
 import { Typography } from "@mui/material";
+import { useWeb3React } from "@web3-react/core";
 
 const Pool = () => {
+  const { account } = useWeb3React();
+
+  console.log("account in pool", account);
   return (
     <div>
-      <h1>Pool</h1>
+      <h1>Pool {account} </h1>
       <Typography paragraph>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus
