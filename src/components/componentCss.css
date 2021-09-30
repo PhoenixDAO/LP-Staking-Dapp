@@ -118,11 +118,11 @@ div.token-container {
 
 div.wrapper-input {
   display: "flex";
-  width: 150;
+  width: 160px;
 }
 div.add-div {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 25px;
   left: 0;
   right: 0;
@@ -133,7 +133,7 @@ div.add-div {
   background-color: #f5f3ff;
   border: 3px solid #e2e1ff;
   align-self: center;
-  font-size: 40px;
+  font-size: 30px;
   color: #413ae2;
   font-weight: "200";
 }

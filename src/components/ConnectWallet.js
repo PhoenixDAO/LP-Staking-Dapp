@@ -34,6 +34,8 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 const style = {
   position: "absolute",
+  maxHeight: "90%",
+  overflowY: "scroll",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -46,6 +48,10 @@ const style = {
   flexDirection: "column",
   // alignItems: "center",
   borderRadius: 2,
+  ["@media (max-width: 650px)"]: {
+    width: "90%",
+    padding: 2,
+  },
 };
 
 const Item = styled("button")(({ theme }) => ({
@@ -175,7 +181,7 @@ export default function ConnectWallet() {
       >
         <Box sx={style}>
           <IconButton
-            sx={{ ml: "auto" }}
+            sx={{ ml: "auto", marginBottom: -5 }}
             aria-label="close-connect-wallet-modal"
             onClick={handleClose}
           >

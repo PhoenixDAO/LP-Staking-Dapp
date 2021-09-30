@@ -214,12 +214,14 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                       OnChangeHandler(event.target.value, "phnx")
                     }
                     style={styles.inputStyle}
+                    variant="standard"
                     InputProps={{
                       endAdornment: (
                         <IconButton style={styles.iconBtn} onClick={() => 0}>
                           MAX
                         </IconButton>
                       ),
+                      disableUnderline: true,
                     }}
                   />
                 </div>
@@ -276,12 +278,14 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
                       OnChangeHandler(event.target.value, "eth")
                     }
                     style={styles.inputStyle}
+                    variant="standard"
                     InputProps={{
                       endAdornment: (
                         <IconButton style={styles.iconBtn} onClick={() => 0}>
                           MAX
                         </IconButton>
                       ),
+                      disableUnderline: true,
                     }}
                   />
                 </div>
@@ -346,7 +350,7 @@ export default LiquidityModal;
 const styles = {
   containerStyle: {
     position: "absolute",
-    maxHeight: "85%",
+    maxHeight: "90%",
     overflowY: "scroll",
     top: "50%",
     left: "50%",
@@ -377,7 +381,7 @@ const styles = {
     display: "flex",
     alignItem: "center",
     justifyContent: "center",
-    top: "43%",
+    top: "41%",
   },
   // dialogStyle: {
   //   padding: "10px 10px 0px 10px",
@@ -399,9 +403,6 @@ const styles = {
   txtTipParagraph: {
     fontSize: 13,
     color: "#FFFFFF",
-    ["@media (maxWidth: 650px)"]: {
-      fontSize: 11,
-    },
   },
   btnAddLiquidity: {
     backgroundColor: "#413AE2",
@@ -421,9 +422,6 @@ const styles = {
     borderRadius: 20,
     marginTop: 15,
     // height: 95,
-    ["@media (maxWidth: 650px)"]: {
-      flexDirection: "column",
-    },
   },
   containerImg: {
     display: "flex",
@@ -459,7 +457,9 @@ const styles = {
     // width: 150,
     size: 12,
     background: "rgba(195, 183, 255, 0.17)",
-    // borderWidth: 0,
+    border: "none",
+    padding: "7px 8px 5px 8px",
+    borderRadius: 8,
   },
   wrapperInput: {
     display: "flex",
@@ -467,16 +467,6 @@ const styles = {
     alignItems: "center",
     justifyContent: "flex-end",
   },
-  // containerPoolShare: {
-  //   borderRadius: 16,
-  //   display: "flex",
-  //   alignItems: "center",
-  //   justifyContent: "space-between",
-  //   width: "100%",
-  //   padding: "15px 10px 15px 15px",
-  //   marginTop: 15,
-  //   border: "1px solid #E2E1FF",
-  // },
   txtDivPhEth: {
     display: "flex",
     alignItems: "flex-start",
@@ -496,6 +486,6 @@ const styles = {
     backgroundColor: "#C3B7FF",
     borderRadius: 5,
     color: "#413AE2",
-    fontSize: 10,
+    fontSize: 9,
   },
 };

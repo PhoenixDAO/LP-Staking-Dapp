@@ -141,11 +141,11 @@ export const checkApproval = async (web3context) => {
   let EthBalance = web3.utils.fromWei(WeiEthBalance, "ether");
   console.log("EthBalance", EthBalance);
   // Get Phnx balance
-  let WeiPhnxBalance = await web3.phnx.getBalance(
-    "0x6F1FDA06D2e61fD3C05f3bcBa40646F3Bf668baC"
-  );
-  let PhnxBalance = web3.utils.fromWei(WeiPhnxBalance, "phnx");
-  console.log("PhnxBalance", PhnxBalance);
+  // let WeiPhnxBalance = await web3.phnx.getBalance(
+  //   "0x6F1FDA06D2e61fD3C05f3bcBa40646F3Bf668baC"
+  // );
+  // let PhnxBalance = web3.utils.fromWei(WeiPhnxBalance, "phnx");
+  // console.log("PhnxBalance", PhnxBalance);
 
   const contract = new web3.eth.Contract(
     PhoenixDaoABI,
