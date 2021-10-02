@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography, Button } from "@mui/material";
-import LiquidityModal from "../components/LiquidityModal";
+import LiquidityModal from "../../components/LiquidityModal";
 
 const Staking = () => {
   const [isVisible, setIsVisible] = React.useState(false);

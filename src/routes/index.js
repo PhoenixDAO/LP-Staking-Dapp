@@ -4,8 +4,8 @@ import { Navigate, useRoutes } from "react-router-dom";
 import DashboardLayout from "../layouts/dashboard";
 
 //pages
-import Pool from "../pages/Pool";
-import Staking from "../pages/Staking";
+import Pool from "../pages/pool/Pool";
+import Staking from "../pages/staking/Staking";
 import NotFound from "../pages/Page404";
 
 // ----------------------------------------------------------------------
