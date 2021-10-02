@@ -1,0 +1,169 @@
+div.container-div {
+  padding: 50px 100px 0px 100px;
+  width: 100%;
+  height: 100%;
+
+  /* display: flex;
+  flex-direction: column; */
+}
+
+div.gradient-div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(
+    90deg,
+    rgba(65, 58, 226, 0.3) 0%,
+    rgba(255, 0, 245, 0) 132.13%
+  );
+  border: 1px solid rgba(65, 58, 226, 0.51);
+  box-sizing: border-box;
+  backdrop-filter: blur(2px);
+  /* -webkit-filter: ; */
+  z-index: 30000 !important;
+  border-radius: 13px;
+}
+p.connect-wallet-txt {
+  font-size: 20px;
+  text-align: left;
+  margin: 34px 0px 40px 36px;
+}
+img.img-hands {
+  position: absolute;
+  right: 20px;
+  width: 21%;
+  height: auto;
+}
+
+div.container-div2 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 30px;
+  position: relative;
+}
+div.connect-wallet-div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+p.phnx-heading {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+p.phnx-subheading {
+  font-size: 16px;
+  color: #565656;
+}
+img.img-landing-logo {
+  position: absolute;
+  right: 0;
+  margin-top: 10px;
+  z-index: -100;
+  width: 30%;
+  height: auto;
+}
+.css-ewjxdp {
+  z-index: -7000;
+  position: fixed;
+  padding: 30px 90px !important;
+  width: 100%;
+  overflow-y: scroll;
+  /* background-color: transparent !important; */
+}
+@media (max-width: 380px) {
+  .css-1k29mp9 {
+    margin-left: -25px !important;
+  }
+  .css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
+    font-size: 8px !important;
+    margin-right: -8px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  div.container-div {
+    padding: 15px 20px 0px 20px;
+  }
+  div.gradient-div {
+    flex-direction: column;
+  }
+  p.connect-wallet-txt {
+    font-size: 25px;
+    text-align: left;
+    margin: 20px 10px 10px 10px;
+  }
+  .css-1k29mp9 > img {
+    width: 100px !important;
+  }
+  img.img-hands {
+    position: relative;
+    right: 0px;
+    /* width: 40% !important; */
+  }
+  img.img-landing-logo {
+    position: relative;
+    right: 0px;
+    z-index: -100;
+    /* width: 35% !important; */
+    height: auto;
+  }
+  p.phnx-heading {
+    font-size: 20px !important;
+  }
+  .css-1k29mp9 {
+    padding-top: 15px !important;
+    margin-bottom: 0 !important;
+  }
+  .css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
+    /* width: 120px !important; */
+    font-size: 12px !important;
+    margin-top: -5px !important;
+    margin-bottom: 5px !important;
+  }
+  .css-83xjzn-MuiStack-root {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    /* justify-content: center !important; */
+  }
+}
+
+@media (max-width: 1280px) {
+  /* img.img-landing-logo {
+    width: 24%;
+  }
+  img.img-hands {
+    width: 24%;
+  } */
+}
+
+@media (max-width: 1170px) {
+  /* img.img-landing-logo {
+    width: 26%;
+  }
+  img.img-hands {
+    width: 26%;
+  } */
+}
+
+@media (max-width: 1060px) {
+  /* img.img-landing-logo {
+    width: 26%;
+  }
+  img.img-hands {
+    width: 26%;
+  } */
+  p.phnx-subheading {
+    font-size: 13px;
+  }
+  p.phnx-heading {
+    font-size: 22px;
+  }
+  p.connect-wallet-txt {
+    font-size: 15px;
+  }
+}
