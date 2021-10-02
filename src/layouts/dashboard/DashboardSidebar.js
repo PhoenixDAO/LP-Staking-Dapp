@@ -78,7 +78,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
       </DrawerHeader>
       <Divider />
       <List>
-        {["pool", "staking"].map((text, index) => (
+        {["pool", "staking", "switchTabs"].map((text, index) => (
           <ListItem button key={text} component={Link} to={`/${text}`}>
             <ListItemIcon>
               {index % 2 === 0 ? <HomeIcon /> : <LocalFloristIcon />}
