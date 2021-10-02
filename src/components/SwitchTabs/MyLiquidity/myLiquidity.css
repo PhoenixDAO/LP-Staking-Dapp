@@ -99,3 +99,24 @@
     background-color: #fff;
     color: #413AE2;
 }
+
+@media only screen and (max-width: 700px){
+
+    .my-liquidity-div{
+
+        width: 100%;
+        padding: 20px;
+        margin-top: 20px;
+
+    }
+
+    .css-ewjxdp{
+        /* padding: 0 !important; */
+        padding-top: 30px !important;
+        padding-left: 65px !important;
+        padding-right: 7px !important;
+
+    }
+
+
+}

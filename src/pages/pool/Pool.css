@@ -69,7 +69,8 @@ img.img-landing-logo {
 .css-ewjxdp {
   z-index: -7000;
   position: fixed;
-  padding: 30px 90px !important;
+  padding-left: 90px ;
+  padding: 30px 90px ;
   width: 100%;
   overflow-y: scroll;
   /* background-color: transparent !important; */

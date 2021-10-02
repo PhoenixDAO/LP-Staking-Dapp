@@ -30,7 +30,7 @@ function SwitchTabs() {
 
             {
                 currentTab==='addLiquidity' ?
-                    <AddLiquidity/>
+                    <MyLiquidity/>
                 :
                     <MyLiquidity/>
 

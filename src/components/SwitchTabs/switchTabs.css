@@ -19,3 +19,11 @@
     font-size: 15px;
     font-weight: 700;
 }
+
+@media only screen and (max-width: 700px){
+
+    .switch-tabs-div{
+        width: 100%;
+    }
+
+}
