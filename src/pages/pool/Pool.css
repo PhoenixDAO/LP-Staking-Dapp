@@ -21,9 +21,8 @@ div.gradient-div {
   box-sizing: border-box;
   backdrop-filter: blur(2px);
   /* -webkit-filter: ; */
-
+  z-index: 30000 !important;
   border-radius: 13px;
-  z-index: 100;
 }
 p.connect-wallet-txt {
   font-size: 20px;
@@ -63,12 +62,16 @@ img.img-landing-logo {
   position: absolute;
   right: 0;
   margin-top: 10px;
-  z-index: 00;
+  z-index: -100;
   width: 30%;
   height: auto;
 }
 .css-ewjxdp {
-  /* z-index: -7000; */
+  z-index: -7000;
+  position: fixed;
+  padding: 30px 90px !important;
+  width: 100%;
+  overflow-y: scroll;
   /* background-color: transparent !important; */
 }
 @media (max-width: 380px) {
