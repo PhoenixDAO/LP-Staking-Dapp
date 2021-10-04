@@ -32,6 +32,7 @@ import metamaskIcon from "../assets/metamask.png";
 import walletConnectIcon from "../assets/walletConnect.png";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { ToastMsg } from "./Toast";
 
 const style = {
   position: "absolute",
@@ -65,8 +66,8 @@ const Item = styled("button")(({ theme }) => ({
   backgroundColor: "transparent",
   border: "none",
   "&: hover": {
-    border: "1px solid #413AE2",
-    // backgroundColor: "#D3D3D3",
+    // border: "1px solid #413AE2",
+    backgroundColor: "#D3D3D3",
     borderRadius: 4,
   },
 }));
@@ -127,10 +128,12 @@ export default function ConnectWallet() {
         .then(() => {
           // onSuccess();
           handleClose();
+          ToastMsg("success", "You are connected to mainnet");
         })
         .catch((e) => {
           const err = getErrorMessage(e);
-          alert(err);
+          // alert(err);
+          ToastMsg("error", err);
           // showSnackbarF({ message: err, severity: "error" });
           console.error("ERROR activateWallet -> ", err);
           //   setLoadingF({ walletConnection: false });
@@ -148,6 +151,8 @@ export default function ConnectWallet() {
     if (connector instanceof WalletLinkConnector) {
       await connector.close();
     }
+
+    ToastMsg("warning", "Wallet disconnected");
 
     // onSuccess();
   };
@@ -180,11 +185,10 @@ export default function ConnectWallet() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} className='modal-scroll'>
-            
-            <button onClick={handleClose} className="icon-btn">
-              <CloseIcon />
-            </button>
+        <Box sx={style} className="modal-scroll">
+          <button onClick={handleClose} className="icon-btn">
+            <CloseIcon />
+          </button>
 
           <Stack sx={{ mt: 5, alignItems: "center" }}>
             <img src={Logo} alt="logo" width="192px" height="54px" />
@@ -336,7 +340,8 @@ export default function ConnectWallet() {
             align="center"
             sx={{ mt: 4 }}
           >
-            By connecting, I accept PhoenixDAO’s <Link to='/terms'> Terms of service </Link> 
+            By connecting, I accept PhoenixDAO’s{" "}
+            <Link to="/terms"> Terms of service </Link>
           </Typography>
         </Box>
       </Modal>
