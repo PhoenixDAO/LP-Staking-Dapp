@@ -5,6 +5,8 @@ import {
 } from "@mui/material";
 import LiquidityComponent from "../components/AddLiquidityComponent";
 
+import ComponentCss from "./componentCss.css";
+
 const LiquidityModal = ({ isVisible, handleClose }) => {
   const [isMobile, setIsMobile] = useState(false);
   return (
