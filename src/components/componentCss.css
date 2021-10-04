@@ -225,6 +225,6 @@ div.dialog-style {
 }
 
 
-.makeStyles-hideScroll-7::-webkit-scrollbar{
-    display: fl !important;
-}
+/* .makeStyles-hideScroll-7::-webkit-scrollbar{
+    display: contents !important;
+} */
