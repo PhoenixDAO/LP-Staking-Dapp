@@ -1,24 +1,27 @@
-// import * as types from "../types/contract.types";
+import * as types from "../types/contract.types";
 
-// const INITIAL_STATE = {
-//   user: null,
-//   loading: false,
-//   getUserLoading: false,
-//   error: "",
-// };
+const INITIAL_STATE = {
+  loading_PoolPosition: null,
+  poolPosition: null,
+  error: "",
+};
 
-// const userReducer = (state = INITIAL_STATE, action) => {
-//   switch (action.type) {
-//     case types.IS_LOADING:
-//       return { ...state, loading: action.payload, error: "" };
-//     case types.BANNER_SUCCESS:
-//       return { ...state, banners: action.payload, error: "", loading: false };
-//     case types.BANNER_ERROR:
-//       return { ...state, error: action.payload, loading: false };
+const contractReducer = (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+    case types.GET_POOL_POSITION_LOADING:
+      return { ...state, loading_PoolPosition: action.payload, error: "" };
+    case types.GET_POOL_POSITION_SUCCESS:
+      return {
+        ...state,
+        poolPosition: action.payload,
+        error: "",
+        loading: false,
+      };
+    case types.GET_POOL_POSITION_ERROR:
+      return { ...state, error: action.payload, loading: false };
+    default:
+      return state;
+  }
+};
 
-//     default:
-//       return state;
-//   }
-// };
-
-// export default userReducer;
+export default contractReducer;

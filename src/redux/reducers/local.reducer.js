@@ -1,36 +1,28 @@
-import * as types from "../types/contract.types";
+import * as types from "../types/local.types";
 
 const INITIAL_STATE = {
   loading_MainData: false,
-  loading_PoolPosition,
   mainData: null,
-  poolPosition: null,
   error: "",
 };
 
-const userReducer = (state = INITIAL_STATE, action) => {
+const localReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case types.GET_MAIN_DATA_LOADING:
       return { ...state, loading_MainData: action.payload, error: "" };
     case types.GET_MAIN_DATA_SUCCESS:
-      return { ...state, mainData: action.payload, error: "", loading: false };
-    case types.GET_MAIN_DATA_ERROR:
-      return { ...state, error: action.payload, loading: false };
-
-    case types.GET_POOL_POSITION_LOADING:
-      return { ...state, loading_PoolPosition: action.payload, error: "" };
-    case types.GET_MAIN_DATA_SUCCESS:
       return {
         ...state,
-        poolPosition: action.payload,
+        mainData: action.payload,
         error: "",
-        loading: false,
+        loading_MainData: false,
       };
     case types.GET_MAIN_DATA_ERROR:
-      return { ...state, error: action.payload, loading: false };
+      return { ...state, error: action.payload, loading_MainData: false };
+
     default:
       return state;
   }
 };
 
-export default userReducer;
+export default localReducer;

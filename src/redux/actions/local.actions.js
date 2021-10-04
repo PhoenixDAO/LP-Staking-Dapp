@@ -11,41 +11,19 @@ import {
 export const GetMainDataAction = () => {
   return async (dispatch) => {
     dispatch({
-      type: GET_MAIN_DATA_LOADING,
+      type: types.GET_MAIN_DATA_LOADING,
       // payload: response?.data,
     });
     try {
       let response = await getDataMain();
       console.log("GetMainDataAction response", response);
       dispatch({
-        type: GET_MAIN_DATA_SUCCESS,
+        type: types.GET_MAIN_DATA_SUCCESS,
         payload: response,
       });
     } catch (e) {
       dispatch({
-        type: GET_MAIN_DATA_ERROR,
-        payload: e?.response?.data?.message || e.message,
-      });
-    }
-  };
-};
-
-const GetPoolPositionAction = () => {
-  return async (dispatch) => {
-    dispatch({
-      type: GET_POOL_POSITION_LOADING,
-      // payload: response?.data,
-    });
-    try {
-      let response = await getPoolPosition();
-      console.log("GetPoolPositionAction response", response);
-      dispatch({
-        type: GET_POOL_POSITION_SUCCESS,
-        payload: response,
-      });
-    } catch (e) {
-      dispatch({
-        type: GET_POOL_POSITION_ERROR,
+        type: types.GET_MAIN_DATA_ERROR,
         payload: e?.response?.data?.message || e.message,
       });
     }

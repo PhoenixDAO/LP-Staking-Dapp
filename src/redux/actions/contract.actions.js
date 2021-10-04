@@ -1,4 +1,31 @@
-import * as types from "../types/user.types";
+import * as types from "../types/contract.types";
+import {
+  getPoolPosition,
+  checkApproval,
+  giveApproval,
+} from "../../services/pool.services";
+
+const GetPoolPositionAction = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: GET_POOL_POSITION_LOADING,
+      // payload: response?.data,
+    });
+    try {
+      let response = await getPoolPosition();
+      console.log("GetPoolPositionAction response", response);
+      dispatch({
+        type: GET_POOL_POSITION_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: GET_POOL_POSITION_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
 
 // export const loginUserAction = (email, password, navigation) => {
 // 	console.log("loginUserAction is calling");
