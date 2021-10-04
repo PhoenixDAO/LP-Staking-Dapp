@@ -22,7 +22,7 @@ function SwitchTabs() {
     }
 
     return (
-        <div >
+        <div style={{paddingBottom:'50px'}}>
             <div className="switch-tabs-div">
                 <div onClick={()=>ChangeTab('addLiquidity')} className="switch-tabs-btns" style={{background: currentTab==='addLiquidity' ? '#413AE2' : '#fff' , color: currentTab==='addLiquidity' ? '#fff' : '#73727D' }}>Add Liquidity</div>
                 <div onClick={()=>ChangeTab('myLiquidity')} className="switch-tabs-btns" style={{background: currentTab==='myLiquidity' ? '#413AE2' : '#fff' , color: currentTab==='myLiquidity' ? '#fff' : '#73727D'}}>My Liquidity</div>
@@ -30,7 +30,7 @@ function SwitchTabs() {
 
             {
                 currentTab==='addLiquidity' ?
-                    <MyLiquidity/>
+                    <MyLiquidity/> 
                 :
                     <MyLiquidity/>
 

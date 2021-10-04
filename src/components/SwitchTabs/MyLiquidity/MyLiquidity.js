@@ -68,7 +68,7 @@ function MyLiquidity() {
             </div>
             
             
-            <button className='remove-btn'>Remove</button>
+            <button className='remove-btn' onClick={()=>{}}>Remove</button>
 
             <button className='add-liquidity-btn'>Add Liquidity</button>
 

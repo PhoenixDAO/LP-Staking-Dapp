@@ -144,7 +144,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={styles.containerStyle}>
+      <Box sx={styles.containerStyle} className='modal-scroll'>
         <div style={{ paddingLeft: 10 }}>
           <div style={styles.divTopHeading}>
             <p className="heading-modal">Add Liquidity</p>
@@ -351,7 +351,7 @@ const styles = {
   containerStyle: {
     position: "absolute",
     maxHeight: "90%",
-    overflowY: "scroll",
+    overflowY: "auto",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
@@ -394,11 +394,11 @@ const styles = {
   containerTip: {
     display: "flex",
     width: "100%",
-    padding: "18px 15px 18px 22px",
+    padding: "9px 17px",
     background:
       "linear-gradient(90deg, rgba(56, 16, 255, 0.55) 0%, rgba(255, 0, 245, 0.55) 143.12%)",
     borderRadius: 15,
-    marginBottom: 20,
+    marginBottom: 10,
   },
   txtTipParagraph: {
     fontSize: 13,
