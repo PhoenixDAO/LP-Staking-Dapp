@@ -257,3 +257,70 @@ div.liq-modal-res > div{
     margin-top: 390px;
   }
 }
+
+@media(max-width: 480px){
+  div.liq-modal-res > div{
+    margin-top: 420px;
+  }
+}
+
+@media(max-width: 330px){
+  div.liq-modal-res > div{
+    margin-top: 460px;
+  }
+}
+
+.css-bshv44-MuiButtonBase-root-MuiListItem-root{
+  border-left: solid 5px #fff !important;
+  /* background-color: none !important; */
+  /* background: linear-gradient(-270.37deg, rgba(65, 58, 226, 0.3) -144.64%, rgba(65, 58, 226, 0) 99.7%); */
+
+}
+
+.css-bshv44-MuiButtonBase-root-MuiListItem-root:hover{
+  border-left: solid 5px #413AE2 !important;
+  /* background-color: none !important; */
+  background: linear-gradient(-270.37deg, rgba(65, 58, 226, 0.3) -144.64%, rgba(65, 58, 226, 0) 99.7%);
+
+}
+
+.css-bshv44-MuiButtonBase-root-MuiListItem-root :hover{
+  filter: brightness(0) saturate(100%) invert(16%) sepia(100%) saturate(3774%) hue-rotate(244deg) brightness(91%) contrast(93%);
+}
+
+/* .css-i4bv87-MuiSvgIcon-root:hover{
+  filter: brightness(0) saturate(100%) invert(16%) sepia(100%) saturate(3774%) hue-rotate(244deg) brightness(91%) contrast(93%);} */
+
+
+
+  .current-tab{
+    filter: brightness(0) saturate(100%) invert(16%) sepia(100%) saturate(3774%) hue-rotate(244deg) brightness(91%) contrast(93%);
+    border-left: solid 5px #413AE2 !important;
+    background: linear-gradient(-270.37deg, rgba(65, 58, 226, 0.3) -144.64%, rgba(65, 58, 226, 0) 99.7%);
+
+  }
+
+
+  .connect-wallet-btn{
+    font-size: medium;
+    padding: 9px 11px;
+    background-color: #fff;
+    color: #413AE2;
+    border: solid 1px #413ae2;
+    border-radius: 5px;
+    
+  }
+
+  .connect-wallet-btn-img{
+    margin-right: 5px;
+    height: 15px;
+    width: 15px;
+    border-radius: 15px;
+    background-color: #e2e1ff;
+
+  }
+
+  .connect-wallet-btn:hover{
+    background-color: #413ae2;
+    color: #fff;
+  }

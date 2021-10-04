@@ -22,12 +22,12 @@ export default function Router() {
         { path: "pool", element: <Pool /> },
         { path: "staking", element: <Staking /> },
         { path: "switchTabs", element: <SwitchTabs /> },
+        { path: "/terms", element: <Terms /> },
         { path: "404", element: <NotFound /> },
         { path: "/", element: <Navigate to="/" /> },
         { path: "*", element: <Navigate to="/404" /> },
       ],
     },
-    { path: "/terms", element: <Terms /> },
     { path: "*", element: <Navigate to="/404" replace /> },
   ]);
 }

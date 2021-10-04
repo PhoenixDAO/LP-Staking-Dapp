@@ -32,7 +32,10 @@ import metamaskIcon from "../assets/metamask.png";
 import walletConnectIcon from "../assets/walletConnect.png";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import EthLogo from '../assets/ETH.png'
+import PhnxLogo from '../assets/phnxLogo.png'
 import { ToastMsg } from "./Toast";
+
 
 const style = {
   position: "absolute",
@@ -176,9 +179,34 @@ export default function ConnectWallet() {
       <span>
         {balance === null ? "Error" : balance ? `Ξ${formatEther(balance)}` : ""}
       </span>
-      <Button onClick={handleOpen} variant="outlined">
-        {active && account ? conciseAddress(account) : "  Connect Wallet"}
-      </Button>
+      <button className='connect-wallet-btn'>
+        
+        {active && account ? 
+         
+        
+          <div style={{display:'flex',alignItem:'center',justifyContent:'center'}}>
+            <img src={EthLogo} className='connect-wallet-btn-img'></img>
+            {'19.32'}
+            &nbsp;
+            |
+            &nbsp;
+            <img src={PhnxLogo} className='connect-wallet-btn-img'></img>
+            {'32.19'}
+            
+            </div> 
+          
+          : "--"  
+        
+        }
+
+      </button> &nbsp;
+      <button onClick={handleOpen} className='connect-wallet-btn'>
+        
+        {active && account ? 
+        <div style={{display:'flex',alignItem:'center',justifyContent:'center'}}> <img src={EthLogo} className='connect-wallet-btn-img'></img> {conciseAddress(account)} </div> 
+        : "  Connect Wallet"}
+
+      </button>
       <Modal
         open={open}
         onClose={handleClose}

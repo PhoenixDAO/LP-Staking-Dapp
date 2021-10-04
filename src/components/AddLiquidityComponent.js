@@ -324,7 +324,7 @@ const LiquidityModal = ({ isVisible, handleClose , closeBtn}) => {
         ) : (
           <Button
             variant="contained"
-            size="large"
+            size="small"
             fullWidth={true}
             style={{
               ...styles.btnAddLiquidity,
@@ -403,7 +403,7 @@ const styles = {
   btnAddLiquidity: {
     backgroundColor: "#413AE2",
     margin: "25px 0px 30px 0px",
-    height: 55,
+    height: 45,
     borderRadius: 12,
   },
   tokenContainer: {
