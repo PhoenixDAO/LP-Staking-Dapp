@@ -30,9 +30,13 @@ function SwitchTabs() {
 
             {
                 currentTab==='addLiquidity' ?
-                    <MyLiquidity></MyLiquidity>
+               
+                <div className='liq-modal-res'><LiquidityModal closeBtn={false}/></div>
+
                 :
-                    <LiquidityModal/>
+                    
+                    <MyLiquidity></MyLiquidity>
+                    
             }
 
         </div>
