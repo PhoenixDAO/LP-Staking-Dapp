@@ -4,6 +4,8 @@ const INITIAL_STATE = {
   loading_PoolPosition: null,
   poolPosition: null,
   error: "",
+  allowance1: null,
+  loading_CheckApproval: false,
 };
 
 const contractReducer = (state = INITIAL_STATE, action) => {
@@ -15,9 +17,21 @@ const contractReducer = (state = INITIAL_STATE, action) => {
         ...state,
         poolPosition: action.payload,
         error: "",
-        loading: false,
+        loading_PoolPosition: false,
       };
     case types.GET_POOL_POSITION_ERROR:
+      return { ...state, error: action.payload, loading: false };
+
+    case types.CHECK_APPROVAL_LOADING:
+      return { ...state, loading_CheckApproval: action.payload, error: "" };
+    case types.CHECK_APPROVAL_SUCCESS:
+      return {
+        ...state,
+        allowance1: action.payload,
+        error: "",
+        loading_CheckApproval: false,
+      };
+    case types.CHECK_APPROVAL_ERROR:
       return { ...state, error: action.payload, loading: false };
     default:
       return state;

@@ -8,19 +8,41 @@ import {
 const GetPoolPositionAction = () => {
   return async (dispatch) => {
     dispatch({
-      type: GET_POOL_POSITION_LOADING,
+      type: types.GET_POOL_POSITION_LOADING,
       // payload: response?.data,
     });
     try {
       let response = await getPoolPosition();
       console.log("GetPoolPositionAction response", response);
       dispatch({
-        type: GET_POOL_POSITION_SUCCESS,
+        type: types.GET_POOL_POSITION_SUCCESS,
         payload: response,
       });
     } catch (e) {
       dispatch({
-        type: GET_POOL_POSITION_ERROR,
+        type: types.GET_POOL_POSITION_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
+
+const CheckApprovalAction = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: types.CHECK_APPROVAL_LOADING,
+      // payload: response?.data,
+    });
+    try {
+      let response = await checkApproval();
+      console.log("CheckApprovalAction response", response);
+      dispatch({
+        type: types.CHECK_APPROVAL_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: types.CHECK_APPROVAL_ERROR,
         payload: e?.response?.data?.message || e.message,
       });
     }
