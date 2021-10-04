@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Box,
   Button,
@@ -35,7 +36,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 const style = {
   position: "absolute",
   maxHeight: "90%",
-  overflowY: "scroll",
+  overflowY: "auto",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -47,7 +48,7 @@ const style = {
   display: "flex",
   flexDirection: "column",
   // alignItems: "center",
-  borderRadius: 2,
+  borderRadius: 5,
   ["@media (max-width: 650px)"]: {
     width: "90%",
     padding: 2,
@@ -179,14 +180,11 @@ export default function ConnectWallet() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <IconButton
-            sx={{ ml: "auto", marginBottom: -5 }}
-            aria-label="close-connect-wallet-modal"
-            onClick={handleClose}
-          >
-            <CloseIcon fontSize="large" />
-          </IconButton>
+        <Box sx={style} className='modal-scroll'>
+            
+            <button onClick={handleClose} className="icon-btn">
+              <CloseIcon />
+            </button>
 
           <Stack sx={{ mt: 5, alignItems: "center" }}>
             <img src={Logo} alt="logo" width="192px" height="54px" />
@@ -338,7 +336,7 @@ export default function ConnectWallet() {
             align="center"
             sx={{ mt: 4 }}
           >
-            By connecting, I accept PhoenixDAO’s Terms of service
+            By connecting, I accept PhoenixDAO’s <Link to='/terms'> Terms of service </Link> 
           </Typography>
         </Box>
       </Modal>

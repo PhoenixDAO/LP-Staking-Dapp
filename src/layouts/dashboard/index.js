@@ -32,9 +32,10 @@ export default function DashboardLayout() {
       <DashboardNavbar open={open} handleDrawerOpen={handleDrawerOpen} />
       <DashboardSidebar open={open} handleDrawerClose={handleDrawerClose} />
       <Box
-        component="main"
-        sx={{ flexGrow: 1, p: 3, background: "#E5E5E5", height: "100vh" }}
-      >
+        // component="main"
+        // sx={{ flexGrow: 1, p: 3, background: "#E5E5E5", height: "100vh" }}
+        className='main-div'
+      >      
         <DrawerHeader />
         <Outlet />
       </Box>

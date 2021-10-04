@@ -4,9 +4,11 @@ import { Navigate, useRoutes } from "react-router-dom";
 import DashboardLayout from "../layouts/dashboard";
 
 //pages
+import SwitchTabs from "../components/SwitchTabs/SwitchTabs";
 import Pool from "../pages/pool/Pool";
 import Staking from "../pages/staking/Staking";
 import NotFound from "../pages/Page404";
+import Terms from "../components/Terms";
 
 // ----------------------------------------------------------------------
 
@@ -19,11 +21,13 @@ export default function Router() {
         { element: <Navigate to="/pool" replace /> },
         { path: "pool", element: <Pool /> },
         { path: "staking", element: <Staking /> },
+        { path: "switchTabs", element: <SwitchTabs /> },
         { path: "404", element: <NotFound /> },
         { path: "/", element: <Navigate to="/" /> },
         { path: "*", element: <Navigate to="/404" /> },
       ],
     },
+    { path: "/terms", element: <Terms /> },
     { path: "*", element: <Navigate to="/404" replace /> },
   ]);
 }
