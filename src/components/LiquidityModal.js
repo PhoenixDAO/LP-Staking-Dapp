@@ -16,7 +16,7 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <LiquidityComponent isVisible={isVisible} handleClose={handleClose} />
+      <LiquidityComponent isVisible={isVisible} handleClose={handleClose} closeBtn={true} />
     </Modal>
   );
 };

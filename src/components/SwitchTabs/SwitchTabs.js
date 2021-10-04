@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 
 import './switchTabs.css';
-import AddLiquidity from './AddLiquidity/AddLiquidity';
+import LiquidityModal from '../AddLiquidityComponent'
 import MyLiquidity from './MyLiquidity/MyLiquidity';
 
 
@@ -30,10 +30,13 @@ function SwitchTabs() {
 
             {
                 currentTab==='addLiquidity' ?
-                    <MyLiquidity/> 
-                :
-                    <MyLiquidity/>
+               
+                <div className='liq-modal-res'><LiquidityModal closeBtn={false}/></div>
 
+                :
+                    
+                    <MyLiquidity></MyLiquidity>
+                    
             }
 
         </div>

@@ -14,7 +14,7 @@ import PhnxLogo from "../assets/phnxLogo.png";
 import * as SERVICE from "../services";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { ToastMsg } from "./Toast";
-const LiquidityModal = ({ isVisible, handleClose }) => {
+const LiquidityModal = ({ isVisible, handleClose , closeBtn}) => {
   const [isMobile, setIsMobile] = useState(false);
   // useEffect(() => {
   //   screen.width;
@@ -138,16 +138,23 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
   };
 
   return (
-    <Box sx={styles.containerStyle}>
+    <Box sx={styles.containerStyle} className='modal-scroll'>
       <div style={{ paddingLeft: 10 }}>
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>
           <p className="subheading-modal">
             Add liquidity to the ETH/PHNX pool <br /> and receive LP tokens
           </p>
-          <button onClick={handleClose} className="icon-btn">
-            <CloseIcon />
-          </button>
+
+          {
+            closeBtn ?
+              <button onClick={handleClose} className="icon-btn">
+                <CloseIcon />
+              </button>
+              :
+              null
+          }
+          
         </div>
       </div>
       <div
@@ -383,11 +390,11 @@ const styles = {
   containerTip: {
     display: "flex",
     width: "100%",
-    padding: "18px 15px 18px 22px",
+    padding: "9px 15px",
     background:
       "linear-gradient(90deg, rgba(56, 16, 255, 0.55) 0%, rgba(255, 0, 245, 0.55) 143.12%)",
     borderRadius: 15,
-    marginBottom: 20,
+    // marginBottom: 20,
   },
   txtTipParagraph: {
     fontSize: 13,

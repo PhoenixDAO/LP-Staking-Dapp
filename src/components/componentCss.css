@@ -159,6 +159,10 @@ div.dialog-style {
   margin-top: 15px;
 }
 
+.css-196kcza{
+  overflow-y: auto !important;
+}
+
 .css-5apcje {
   padding: 50px !important;
 }
@@ -171,6 +175,9 @@ div.dialog-style {
   margin-top: 10px  !important;
 }
 
+.css-ahj2mt-MuiTypography-root{
+  margin-bottom: 0px !important;
+}
 
 @media (max-width: 650px) {
   .heading-modal {
@@ -225,6 +232,28 @@ div.dialog-style {
 }
 
 
-.makeStyles-hideScroll-7::-webkit-scrollbar{
-    display: fl !important;
+/* .makeStyles-hideScroll-7::-webkit-scrollbar{
+    display: contents !important;
+} */
+
+div.liq-modal-res{
+  
+  /* background-color: #3fc3ee; */
+  /* padding-bottom: 30px !important; */
+  top: 0 !important;
+  
+}
+
+div.liq-modal-res > div{
+  position: relative !important;
+  display: block !important;
+  margin-top: 330px;
+  margin-bottom: -200px;
+  
+}
+
+@media(max-width: 630px){
+  div.liq-modal-res > div{
+    margin-top: 390px;
+  }
 }
