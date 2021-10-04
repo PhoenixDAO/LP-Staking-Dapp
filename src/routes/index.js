@@ -8,6 +8,7 @@ import SwitchTabs from "../components/SwitchTabs/SwitchTabs";
 import Pool from "../pages/pool/Pool";
 import Staking from "../pages/staking/Staking";
 import NotFound from "../pages/Page404";
+import Terms from "../components/Terms";
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +27,7 @@ export default function Router() {
         { path: "*", element: <Navigate to="/404" /> },
       ],
     },
+    { path: "/terms", element: <Terms /> },
     { path: "*", element: <Navigate to="/404" replace /> },
   ]);
 }
