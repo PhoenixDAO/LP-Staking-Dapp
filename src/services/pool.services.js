@@ -130,6 +130,21 @@ export const getPoolPosition = async (web3context, setPoolPosition) => {
   };
 };
 
+export const Web3Init = async (web3context) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  return web3;
+};
+
+export const GetPhnxBalace = async (web3, currentAccountAddress) => {
+  let WeiPhnxBalance = await web3.phnx.getBalance(
+    // "0x6F1FDA06D2e61fD3C05f3bcBa40646F3Bf668baC"
+    currentAccountAddress
+  );
+  let PhnxBalance = web3.utils.fromWei(WeiPhnxBalance, "phnx");
+  console.log("PhnxBalance", PhnxBalance);
+  return PhnxBalance;
+};
+
 export const checkApproval = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   // Get Eth Balance
