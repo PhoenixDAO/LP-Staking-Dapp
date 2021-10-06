@@ -19,8 +19,8 @@ body > #root > div {
 
 
 .css-1u2mxbp{
-  min-height: 0 !important;
-  height: 68px;
+
+  height: 63px;
   
 }
 
@@ -29,7 +29,7 @@ body > #root > div {
 @media only screen and (max-width: 650px){
 
   .css-1u2mxbp{
-    height: 56px;
+    height: 45px ;
     
   }
 

@@ -14,6 +14,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import HomeIcon from "@mui/icons-material/Home";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import { drawerWidth } from "./constants";
+import {useState,useEffect} from 'react';
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -62,8 +63,24 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
+
 const DashboardSidebar = ({ open, handleDrawerClose }) => {
   const theme = useTheme();
+
+  const[currentTab,setCurrentTab]=useState(0);
+  let cT;
+
+  useEffect(() => {
+    cT= window.location.href.split('/')[3];
+    if(cT==='pool'){
+      setCurrentTab(0);
+    }else if(cT==='staking'){
+      setCurrentTab(1);
+    }else if(cT==='switchTabs'){
+      setCurrentTab(2);
+    }
+  })
+  
 
   return (
     <Drawer variant="permanent" open={open}>
@@ -79,8 +96,8 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
       <Divider />
       <List>
         {["pool", "staking", "switchTabs"].map((text, index) => (
-          <ListItem button key={text} component={Link} to={`/${text}`}>
-            <ListItemIcon>
+          <ListItem button key={text} component={Link} to={`/${text}`} className={index==currentTab ? 'current-tab' : null}>
+            <ListItemIcon >
               {index % 2 === 0 ? <HomeIcon /> : <LocalFloristIcon />}
             </ListItemIcon>
             <ListItemText primary={text} />

@@ -32,6 +32,10 @@ import metamaskIcon from "../assets/metamask.png";
 import walletConnectIcon from "../assets/walletConnect.png";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import EthLogo from '../assets/ETH.png'
+import PhnxLogo from '../assets/phnxLogo.png'
+import { ToastMsg } from "./Toast";
+
 
 const style = {
   position: "absolute",
@@ -65,8 +69,8 @@ const Item = styled("button")(({ theme }) => ({
   backgroundColor: "transparent",
   border: "none",
   "&: hover": {
-    border: "1px solid #413AE2",
-    // backgroundColor: "#D3D3D3",
+    // border: "1px solid #413AE2",
+    backgroundColor: "#D3D3D3",
     borderRadius: 4,
   },
 }));
@@ -127,10 +131,12 @@ export default function ConnectWallet() {
         .then(() => {
           // onSuccess();
           handleClose();
+          ToastMsg("success", "You are connected to mainnet");
         })
         .catch((e) => {
           const err = getErrorMessage(e);
-          alert(err);
+          // alert(err);
+          ToastMsg("error", err);
           // showSnackbarF({ message: err, severity: "error" });
           console.error("ERROR activateWallet -> ", err);
           //   setLoadingF({ walletConnection: false });
@@ -148,6 +154,8 @@ export default function ConnectWallet() {
     if (connector instanceof WalletLinkConnector) {
       await connector.close();
     }
+
+    ToastMsg("warning", "Wallet disconnected");
 
     // onSuccess();
   };
@@ -171,20 +179,44 @@ export default function ConnectWallet() {
       <span>
         {balance === null ? "Error" : balance ? `Ξ${formatEther(balance)}` : ""}
       </span>
-      <Button onClick={handleOpen} variant="outlined">
-        {active && account ? conciseAddress(account) : "  Connect Wallet"}
-      </Button>
+      <button className='connect-wallet-btn'>
+        
+        {active && account ? 
+         
+        
+          <div style={{display:'flex',alignItem:'center',justifyContent:'center'}}>
+            <img src={EthLogo} className='connect-wallet-btn-img'></img>
+            {'19.32'}
+            &nbsp;
+            |
+            &nbsp;
+            <img src={PhnxLogo} className='connect-wallet-btn-img'></img>
+            {'32.19'}
+            
+            </div> 
+          
+          : "--"  
+        
+        }
+
+      </button> &nbsp;
+      <button onClick={handleOpen} className='connect-wallet-btn'>
+        
+        {active && account ? 
+        <div style={{display:'flex',alignItem:'center',justifyContent:'center'}}> <img src={EthLogo} className='connect-wallet-btn-img'></img> {conciseAddress(account)} </div> 
+        : "  Connect Wallet"}
+
+      </button>
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} className='modal-scroll'>
-            
-            <button onClick={handleClose} className="icon-btn">
-              <CloseIcon />
-            </button>
+        <Box sx={style} className="modal-scroll">
+          <button onClick={handleClose} className="icon-btn">
+            <CloseIcon />
+          </button>
 
           <Stack sx={{ mt: 5, alignItems: "center" }}>
             <img src={Logo} alt="logo" width="192px" height="54px" />
@@ -336,7 +368,8 @@ export default function ConnectWallet() {
             align="center"
             sx={{ mt: 4 }}
           >
-            By connecting, I accept PhoenixDAO’s <Link to='/terms'> Terms of service </Link> 
+            By connecting, I accept PhoenixDAO’s{" "}
+            <Link to="/terms"> Terms of service </Link>
           </Typography>
         </Box>
       </Modal>
