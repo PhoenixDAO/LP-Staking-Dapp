@@ -9,6 +9,7 @@ import Pool from "../pages/pool/Pool";
 import Staking from "../pages/staking/Staking";
 import NotFound from "../pages/Page404";
 import Terms from "../components/Terms";
+import Farm from "../components/Farm/Farm";
 
 // ----------------------------------------------------------------------
 
@@ -20,8 +21,9 @@ export default function Router() {
       children: [
         { element: <Navigate to="/pool" replace /> },
         { path: "pool", element: <Pool /> },
-        { path: "staking", element: <Staking /> },
-        { path: "switchTabs", element: <SwitchTabs /> },
+        // { path: "staking", element: <Staking /> },
+        { path: "staking", element: <SwitchTabs /> },
+        { path: "farm", element: <Farm /> },
         { path: "/terms", element: <Terms /> },
         { path: "404", element: <NotFound /> },
         { path: "/", element: <Navigate to="/" /> },
