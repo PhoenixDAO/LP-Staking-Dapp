@@ -12,6 +12,10 @@ import {
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import HomeIcon from "@mui/icons-material/Home";
+import HomeLogo from "../../assets/home.png";
+import DropLogo from "../../assets/drop.png";
+import FarmLogo from "../../assets/Farm.png";
+
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import { drawerWidth } from "./constants";
 import {useState,useEffect} from 'react';
@@ -96,9 +100,9 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
       <Divider />
       <List>
         {["pool", "staking", "switchTabs"].map((text, index) => (
-          <ListItem button key={text} component={Link} to={`/${text}`} className={index==currentTab ? 'current-tab' : null}>
+          <ListItem button key={text} component={Link} to={`/${text}`} className={index===currentTab ? 'current-tab' : null}>
             <ListItemIcon >
-              {index % 2 === 0 ? <HomeIcon /> : <LocalFloristIcon />}
+              <img src={index === 0 ? HomeLogo : index === 1 ? DropLogo : FarmLogo } style={{height:'18px',marginLeft:'5px'}}></img>
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>

@@ -29,14 +29,11 @@ function SwitchTabs() {
             </div>
 
             {
-                currentTab==='addLiquidity' ?
-               
-                <div className='liq-modal-res'><LiquidityModal closeBtn={false}/></div>
-
+                currentTab==='addLiquidity' 
+                ?
+                <div className='liq-modal-res'><div><LiquidityModal closeBtn={false}/></div></div> 
                 :
-                    
-                    <MyLiquidity></MyLiquidity>
-                    
+                <MyLiquidity/>
             }
 
         </div>
