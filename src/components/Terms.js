@@ -46,10 +46,10 @@ const useStyles = makeStyles((theme) => ({
 		"&::-webkit-scrollbar": {
 			// display: "none",
 		},
-		overflow: "scroll",
+		overflowY: "scroll",
 		padding: "20px",
 		background: "#fff",
-		marginTop: "15px",
+		
 	},
 	leftColumn:{
 		"@media (min-width: 950px)":{
@@ -114,7 +114,7 @@ const Terms = (props) => {
 				<Grid
 					item
 					className={`${classes.hideScroll} ${classes.hideScroll1}`}
-					style={{ height: "99vh" }}
+					style={{ height: '100vh' }}
 					lg={8}
 					md={8}
 					sm={12}

@@ -36,6 +36,17 @@ import EthLogo from '../assets/ETH.png'
 import PhnxLogo from '../assets/phnxLogo.png'
 import { ToastMsg } from "./Toast";
 
+import Web3 from "web3";
+import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
+import {
+  PHNX_RINKEBY_TOKEN_ADDRESS,
+  UNISWAP_CONTRACT_ADDRESS_RINEBY,
+  //   urlInfuraMainnet,
+  urlInfuraRinkeby,
+  //   tokenAddressMainnet,
+  tokenAddressRinkeby,
+} from "../contract/constants";
+
 
 const style = {
   position: "absolute",
@@ -83,6 +94,8 @@ export default function ConnectWallet() {
 
   const [open, setOpen] = useState(false);
   const [balance, setBalance] = useState(0);
+  const [EthBalance,setEthBalance] = useState(0.00);
+  const [PhnxBalance,setPhnxBalance] = useState(0.00);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -174,32 +187,74 @@ export default function ConnectWallet() {
     }
   };
 
+  useEffect(()=>{
+
+    if(web3context){
+
+      const web3 = new Web3(web3context?.library?.currentProvider);
+
+      if(account){
+        web3.eth.getBalance(
+          account
+        ).then((ether)=>{
+          let bal = parseFloat(web3.utils.fromWei(ether, "ether"));
+          setEthBalance(bal.toFixed(2));
+        });
+      }
+
+      if(account){   
+
+        const contract = new web3.eth.Contract(
+          PhoenixDaoABI,
+          PHNX_RINKEBY_TOKEN_ADDRESS
+        );
+
+        contract.methods.balanceOf(account).call().then((phnx)=>{
+          let bal = parseFloat(web3.utils.fromWei(phnx, "ether"));
+          // console.log('balance phnx :'+bal)
+          setPhnxBalance(bal.toFixed(2));
+        });
+
+      }
+
+    }
+    
+  },[web3context,account])
+
   return (
     <div>
-      <span>
+      
+      {/* <span>
         {balance === null ? "Error" : balance ? `Ξ${formatEther(balance)}` : ""}
-      </span>
-      <button className='connect-wallet-btn'>
+      </span> */}
         
-        {active && account ? 
-         
-        
+      {
+      
+        active && account ? 
+
+        <button className='connect-wallet-btn balance-btn'>
+
+      
           <div style={{display:'flex',alignItem:'center',justifyContent:'center'}}>
+          
             <img src={EthLogo} className='connect-wallet-btn-img'></img>
-            {'19.32'}
+            {EthBalance}
             &nbsp;
             |
             &nbsp;
             <img src={PhnxLogo} className='connect-wallet-btn-img'></img>
-            {'32.19'}
+            {PhnxBalance}
             
-            </div> 
-          
-          : "--"  
-        
-        }
+          </div> 
 
-      </button> &nbsp;
+        </button>
+        
+        : null 
+      
+      }
+
+      &nbsp;&nbsp;
+
       <button onClick={handleOpen} className='connect-wallet-btn'>
         
         {active && account ? 
@@ -207,6 +262,7 @@ export default function ConnectWallet() {
         : "  Connect Wallet"}
 
       </button>
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -369,7 +425,7 @@ export default function ConnectWallet() {
             sx={{ mt: 4 }}
           >
             By connecting, I accept PhoenixDAO’s{" "}
-            <Link to="/terms"> Terms of service </Link>
+            <Link to="/terms" onClick={handleClose}> Terms of service </Link>
           </Typography>
         </Box>
       </Modal>
