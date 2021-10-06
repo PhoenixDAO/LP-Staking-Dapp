@@ -135,11 +135,26 @@ export const Web3Init = async (web3context) => {
   return web3;
 };
 
-export const GetEthBalace = async (web3) => {
-  let WeiEthBalance = await web3.eth.getBalance(web3.account);
+export const getEthBalace = async (web3, web3context) => {
+  let WeiEthBalance = await web3.eth.getBalance(web3context.account);
   let EthBalance = parseFloat(web3.utils.fromWei(WeiEthBalance, "phnx"));
-  // console.log("PhnxBalance", PhnxBalance);
+  console.log("EthBalance ==>", EthBalance);
   return EthBalance;
+};
+
+export const getPhnxBalace = async (web3, web3context) => {
+  const contract = new web3.eth.Contract(
+    PhoenixDaoABI,
+    PHNX_RINKEBY_TOKEN_ADDRESS
+  );
+  contract.methods
+    .balanceOf(web3context.account)
+    .call()
+    .then((phnx) => {
+      let PhnxBalance = parseFloat(web3.utils.fromWei(phnx, "ether"));
+      console.log("balance phnx :" + PhnxBalance);
+      return PhnxBalance;
+    });
 };
 
 export const checkApproval = async (web3context) => {
@@ -196,5 +211,7 @@ export const giveApproval = async (web3context) => {
         ToastMsg("success", "Approved successfully!");
       }
     })
-    .on("error", function (err) {});
+    .on("error", function (err) {
+      console.error(err);
+    });
 };

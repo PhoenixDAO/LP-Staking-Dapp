@@ -3,9 +3,10 @@ import {
   getPoolPosition,
   checkApproval,
   giveApproval,
+  getPhnxBalace,
 } from "../../services/pool.services";
 
-const GetPoolPositionAction = () => {
+export const GetPoolPositionAction = () => {
   return async (dispatch) => {
     dispatch({
       type: types.GET_POOL_POSITION_LOADING,
@@ -27,7 +28,7 @@ const GetPoolPositionAction = () => {
   };
 };
 
-const CheckApprovalAction = () => {
+export const CheckApprovalAction = () => {
   return async (dispatch) => {
     dispatch({
       type: types.CHECK_APPROVAL_LOADING,
@@ -43,6 +44,24 @@ const CheckApprovalAction = () => {
     } catch (e) {
       dispatch({
         type: types.CHECK_APPROVAL_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
+
+export const GetPhnxBalanceAction = (web3, web3context) => {
+  return async (dispatch) => {
+    try {
+      let response = await getPhnxBalace(web3, web3context);
+      console.log("GetPhnxBalaceAction response", response);
+      dispatch({
+        type: types.PHNX_BALANCE_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: types.PHNX_BALANCE_ERROR,
         payload: e?.response?.data?.message || e.message,
       });
     }

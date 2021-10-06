@@ -6,10 +6,16 @@ const INITIAL_STATE = {
   error: "",
   allowance1: null,
   loading_CheckApproval: false,
+  balancePhnx: 0,
 };
 
 const contractReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case types.PHNX_BALANCE_SUCCESS:
+      return { ...state, balancePhnx: action.payload, error: "" };
+    case types.PHNX_BALANCE_ERROR:
+      return { ...state, error: action.payload };
+
     case types.GET_POOL_POSITION_LOADING:
       return { ...state, loading_PoolPosition: action.payload, error: "" };
     case types.GET_POOL_POSITION_SUCCESS:

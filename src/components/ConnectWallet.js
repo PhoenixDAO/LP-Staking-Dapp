@@ -21,8 +21,9 @@ import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Web3InitAction,
-  GetEthBalaceAction,
+  GetEthBalanceAction,
 } from "../redux/actions/local.actions";
+import { GetPhnxBalanceAction } from "../redux/actions/contract.actions";
 
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
@@ -164,7 +165,8 @@ export default function ConnectWallet() {
           // onSuccess();
           handleClose();
           dispatch(Web3InitAction(web3context));
-          dispatch(GetEthBalaceAction(web3));
+          dispatch(GetEthBalanceAction(web3, web3context));
+          dispatch(GetPhnxBalanceAction(web3, web3context));
           ToastMsg("success", "You are connected to mainnet");
         })
         .catch((e) => {

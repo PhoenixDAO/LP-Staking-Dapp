@@ -6,7 +6,7 @@ import {
   giveApproval,
   supply,
   Web3Init,
-  GetEthBalace,
+  getEthBalace,
 } from "../../services/pool.services";
 // import {} from '../../services/stake.services'
 
@@ -50,10 +50,10 @@ export const Web3InitAction = (web3context) => {
   };
 };
 
-export const GetEthBalaceAction = (web3) => {
+export const GetEthBalanceAction = (web3, web3context) => {
   return async (dispatch) => {
     try {
-      let response = await GetEthBalace(web3);
+      let response = await getEthBalace(web3, web3context);
       console.log("GetEthBalaceAction response", response);
       dispatch({
         type: types.ETH_BALANCE_SUCCESS,
