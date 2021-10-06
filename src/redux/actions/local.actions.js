@@ -6,6 +6,7 @@ import {
   giveApproval,
   supply,
   Web3Init,
+  GetEthBalace,
 } from "../../services/pool.services";
 // import {} from '../../services/stake.services'
 
@@ -43,6 +44,24 @@ export const Web3InitAction = (web3context) => {
     } catch (e) {
       dispatch({
         type: types.WEB3_INIT_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
+
+export const GetEthBalaceAction = (web3) => {
+  return async (dispatch) => {
+    try {
+      let response = await GetEthBalace(web3);
+      console.log("GetEthBalaceAction response", response);
+      dispatch({
+        type: types.ETH_BALANCE_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: types.ETH_BALANCE_ERROR,
         payload: e?.response?.data?.message || e.message,
       });
     }

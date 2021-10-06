@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   mainData: null,
   error: "",
   web3: null,
+  balanceEth: 0,
 };
 
 const localReducer = (state = INITIAL_STATE, action) => {
@@ -25,6 +26,11 @@ const localReducer = (state = INITIAL_STATE, action) => {
       };
     case types.GET_MAIN_DATA_ERROR:
       return { ...state, error: action.payload, loading_MainData: false };
+
+    case types.ETH_BALANCE_SUCCESS:
+      return { ...state, balanceEth: action.payload, error: "" };
+    case types.ETH_BALANCE_ERROR:
+      return { ...state, error: action.payload };
 
     default:
       return state;

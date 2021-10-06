@@ -135,14 +135,11 @@ export const Web3Init = async (web3context) => {
   return web3;
 };
 
-export const GetPhnxBalace = async (web3, currentAccountAddress) => {
-  let WeiPhnxBalance = await web3.phnx.getBalance(
-    // "0x6F1FDA06D2e61fD3C05f3bcBa40646F3Bf668baC"
-    currentAccountAddress
-  );
-  let PhnxBalance = web3.utils.fromWei(WeiPhnxBalance, "phnx");
-  console.log("PhnxBalance", PhnxBalance);
-  return PhnxBalance;
+export const GetEthBalace = async (web3) => {
+  let WeiEthBalance = await web3.eth.getBalance(web3.account);
+  let EthBalance = parseFloat(web3.utils.fromWei(WeiEthBalance, "phnx"));
+  // console.log("PhnxBalance", PhnxBalance);
+  return EthBalance;
 };
 
 export const checkApproval = async (web3context) => {

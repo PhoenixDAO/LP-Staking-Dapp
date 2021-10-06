@@ -18,6 +18,11 @@ import {
 } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  Web3InitAction,
+  GetEthBalaceAction,
+} from "../redux/actions/local.actions";
 
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
@@ -32,8 +37,8 @@ import metamaskIcon from "../assets/metamask.png";
 import walletConnectIcon from "../assets/walletConnect.png";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import EthLogo from '../assets/ETH.png'
-import PhnxLogo from '../assets/phnxLogo.png'
+import EthLogo from "../assets/ETH.png";
+import PhnxLogo from "../assets/phnxLogo.png";
 import { ToastMsg } from "./Toast";
 
 import Web3 from "web3";
@@ -46,7 +51,6 @@ import {
   //   tokenAddressMainnet,
   tokenAddressRinkeby,
 } from "../contract/constants";
-
 
 const style = {
   position: "absolute",
@@ -87,15 +91,30 @@ const Item = styled("button")(({ theme }) => ({
 }));
 
 export default function ConnectWallet() {
+  const dispatch = useDispatch();
   const web3context = useWeb3React();
+  const web3 = useSelector((state) => state.localReducer.web3);
+  const balanceEth = useSelector((state) => state.localReducer.balanceEth);
+
+  useEffect(async () => {
+    if (!web3context.account) {
+      ToastMsg("warning", "Please connect your wallet first!");
+      dispatch(Web3InitAction(web3context));
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("Web3 const", web3);
+    console.log("balanceEth", balanceEth);
+  }, [web3, balanceEth]);
 
   const { account, active, connector, deactivate, library, chainId } =
     web3context;
 
   const [open, setOpen] = useState(false);
   const [balance, setBalance] = useState(0);
-  const [EthBalance,setEthBalance] = useState(0.00);
-  const [PhnxBalance,setPhnxBalance] = useState(0.00);
+  const [EthBalance, setEthBalance] = useState(0.0);
+  const [PhnxBalance, setPhnxBalance] = useState(0.0);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -144,15 +163,14 @@ export default function ConnectWallet() {
         .then(() => {
           // onSuccess();
           handleClose();
+          dispatch(Web3InitAction(web3context));
+          dispatch(GetEthBalaceAction(web3));
           ToastMsg("success", "You are connected to mainnet");
         })
         .catch((e) => {
           const err = getErrorMessage(e);
-          // alert(err);
           ToastMsg("error", err);
-          // showSnackbarF({ message: err, severity: "error" });
           console.error("ERROR activateWallet -> ", err);
-          //   setLoadingF({ walletConnection: false });
         });
     },
     [web3context]
@@ -187,82 +205,75 @@ export default function ConnectWallet() {
     }
   };
 
-  useEffect(()=>{
-
-    if(web3context){
-
+  useEffect(() => {
+    if (web3context) {
       const web3 = new Web3(web3context?.library?.currentProvider);
 
-      if(account){
-        web3.eth.getBalance(
-          account
-        ).then((ether)=>{
+      if (account) {
+        web3.eth.getBalance(account).then((ether) => {
           let bal = parseFloat(web3.utils.fromWei(ether, "ether"));
           setEthBalance(bal.toFixed(2));
         });
       }
 
-      if(account){   
-
+      if (account) {
         const contract = new web3.eth.Contract(
           PhoenixDaoABI,
           PHNX_RINKEBY_TOKEN_ADDRESS
         );
 
-        contract.methods.balanceOf(account).call().then((phnx)=>{
-          let bal = parseFloat(web3.utils.fromWei(phnx, "ether"));
-          // console.log('balance phnx :'+bal)
-          setPhnxBalance(bal.toFixed(2));
-        });
-
+        contract.methods
+          .balanceOf(account)
+          .call()
+          .then((phnx) => {
+            let bal = parseFloat(web3.utils.fromWei(phnx, "ether"));
+            // console.log('balance phnx :'+bal)
+            setPhnxBalance(bal.toFixed(2));
+          });
       }
-
     }
-    
-  },[web3context,account])
+  }, [web3context, account]);
 
   return (
     <div>
-      
       {/* <span>
         {balance === null ? "Error" : balance ? `Ξ${formatEther(balance)}` : ""}
       </span> */}
-        
-      {
-      
-        active && account ? 
-
-        <button className='connect-wallet-btn balance-btn'>
-
-      
-          <div style={{display:'flex',alignItem:'center',justifyContent:'center'}}>
-          
-            <img src={EthLogo} className='connect-wallet-btn-img'></img>
+      {active && account ? (
+        <button className="connect-wallet-btn balance-btn">
+          <div
+            style={{
+              display: "flex",
+              alignItem: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img src={EthLogo} className="connect-wallet-btn-img"></img>
             {EthBalance}
-            &nbsp;
-            |
-            &nbsp;
-            <img src={PhnxLogo} className='connect-wallet-btn-img'></img>
+            &nbsp; | &nbsp;
+            <img src={PhnxLogo} className="connect-wallet-btn-img"></img>
             {PhnxBalance}
-            
-          </div> 
-
+          </div>
         </button>
-        
-        : null 
-      
-      }
-
+      ) : null}
       &nbsp;&nbsp;
-
-      <button onClick={handleOpen} className='connect-wallet-btn'>
-        
-        {active && account ? 
-        <div style={{display:'flex',alignItem:'center',justifyContent:'center'}}> <img src={EthLogo} className='connect-wallet-btn-img'></img> {conciseAddress(account)} </div> 
-        : "  Connect Wallet"}
-
+      <button onClick={handleOpen} className="connect-wallet-btn">
+        {active && account ? (
+          <div
+            style={{
+              display: "flex",
+              alignItem: "center",
+              justifyContent: "center",
+            }}
+          >
+            {" "}
+            <img src={EthLogo} className="connect-wallet-btn-img"></img>{" "}
+            {conciseAddress(web3context.account)}{" "}
+          </div>
+        ) : (
+          "  Connect Wallet"
+        )}
       </button>
-
       <Modal
         open={open}
         onClose={handleClose}
@@ -425,7 +436,10 @@ export default function ConnectWallet() {
             sx={{ mt: 4 }}
           >
             By connecting, I accept PhoenixDAO’s{" "}
-            <Link to="/terms" onClick={handleClose}> Terms of service </Link>
+            <Link to="/terms" onClick={handleClose}>
+              {" "}
+              Terms of service{" "}
+            </Link>
           </Typography>
         </Box>
       </Modal>
