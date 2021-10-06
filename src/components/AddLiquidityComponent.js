@@ -11,10 +11,10 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import ComponentCss from "./componentCss.css";
 import PhnxLogo from "../assets/phnxLogo.png";
-import * as SERVICE from "../services";
+import * as SERVICE from "../services/pool.services";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { ToastMsg } from "./Toast";
-const LiquidityModal = ({ isVisible, handleClose , closeBtn}) => {
+const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [isMobile, setIsMobile] = useState(false);
   // useEffect(() => {
   //   screen.width;
@@ -63,7 +63,7 @@ const LiquidityModal = ({ isVisible, handleClose , closeBtn}) => {
       setReserve0(result.pair.reserveO);
       setReserve1(result.pair.reserve1.toFixed(2));
     } catch (e) {
-      console.log("Error _handleGetDataMain", e);
+      console.error("Error _handleGetDataMain", e);
     }
   };
 
@@ -73,7 +73,7 @@ const LiquidityModal = ({ isVisible, handleClose , closeBtn}) => {
       let result = await SERVICE.checkApproval(web3context, setAllowance);
       setAllowance(result);
     } catch (e) {
-      console.log("_handleCheckApproval", e);
+      console.error("_handleCheckApproval", e);
       ToastMsg("error", "First give approval!");
     } finally {
       setLoading(false);
@@ -86,7 +86,7 @@ const LiquidityModal = ({ isVisible, handleClose , closeBtn}) => {
       await SERVICE.getPoolPosition(web3context, setPoolPosition);
     } catch (e) {
       ToastMsg("error", "Couldn't get pool position!");
-      console.log("Error at_handleGetPoolPosition", e);
+      console.error("Error at_handleGetPoolPosition", e);
     } finally {
       setLoading(false);
     }
@@ -99,7 +99,7 @@ const LiquidityModal = ({ isVisible, handleClose , closeBtn}) => {
       // ToastMsg("success", "Approved successfully!");
     } catch (e) {
       ToastMsg("error", "Failed to give approval!");
-      console.log("Error _handleGiveApproval", e);
+      console.error("Error _handleGiveApproval", e);
     } finally {
       setLoading(false);
     }
@@ -111,7 +111,7 @@ const LiquidityModal = ({ isVisible, handleClose , closeBtn}) => {
       await SERVICE.supply(phnxValue, ethValue, web3context);
     } catch (e) {
       ToastMsg("error", "Couldn't add liquidity");
-      console.log("Error _handleSupply", e);
+      console.error("Error _handleSupply", e);
     } finally {
       setLoading(false);
       setPhnxValue("");
@@ -138,7 +138,7 @@ const LiquidityModal = ({ isVisible, handleClose , closeBtn}) => {
   };
 
   return (
-    <Box sx={styles.containerStyle} className='modal-scroll'>
+    <Box sx={styles.containerStyle} className="modal-scroll">
       <div style={{ paddingLeft: 10 }}>
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>
@@ -146,15 +146,11 @@ const LiquidityModal = ({ isVisible, handleClose , closeBtn}) => {
             Add liquidity to the ETH/PHNX pool <br /> and receive LP tokens
           </p>
 
-          {
-            closeBtn ?
-              <button onClick={handleClose} className="icon-btn">
-                <CloseIcon />
-              </button>
-              :
-              null
-          }
-          
+          {closeBtn ? (
+            <button onClick={handleClose} className="icon-btn">
+              <CloseIcon />
+            </button>
+          ) : null}
         </div>
       </div>
       <div

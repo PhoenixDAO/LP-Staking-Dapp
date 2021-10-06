@@ -1,4 +1,34 @@
-import * as types from "../types/user.types";
+import * as types from "../types/local.types";
+import {
+  getDataMain,
+  getPoolPosition,
+  checkApproval,
+  giveApproval,
+  supply,
+} from "../../services/pool.services";
+// import {} from '../../services/stake.services'
+
+export const GetMainDataAction = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: types.GET_MAIN_DATA_LOADING,
+      // payload: response?.data,
+    });
+    try {
+      let response = await getDataMain();
+      console.log("GetMainDataAction response", response);
+      dispatch({
+        type: types.GET_MAIN_DATA_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: types.GET_MAIN_DATA_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
 
 // export const loginUserAction = (email, password, navigation) => {
 // 	console.log("loginUserAction is calling");

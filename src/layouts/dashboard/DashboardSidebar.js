@@ -80,7 +80,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
       setCurrentTab(0);
     }else if(cT==='staking'){
       setCurrentTab(1);
-    }else if(cT==='switchTabs'){
+    }else if(cT==='farm'){
       setCurrentTab(2);
     }
   })
@@ -99,7 +99,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
       </DrawerHeader>
       <Divider />
       <List>
-        {["pool", "staking", "switchTabs"].map((text, index) => (
+        {["pool", "staking", "farm"].map((text, index) => (
           <ListItem button key={text} component={Link} to={`/${text}`} className={index===currentTab ? 'current-tab' : null}>
             <ListItemIcon >
               <img src={index === 0 ? HomeLogo : index === 1 ? DropLogo : FarmLogo } style={{height:'18px',marginLeft:'5px'}}></img>

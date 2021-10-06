@@ -19,14 +19,6 @@ import {
   WETH,
   Fetcher,
   Route,
-  //   Trade,
-  //   TokenAmount,
-  //   TradeType,
-  //   FACTORY_ADDRESS,
-  //   INIT_CODE_HASH,
-  //   Pair,
-  //   CurrencyAmount,
-  //   Currency,
 } from "@uniswap/sdk";
 
 const chainId = ChainId.RINKEBY;
@@ -124,12 +116,18 @@ export const getPoolPosition = async (web3context, setPoolPosition) => {
   _token0 = _token0.dividedBy(conv);
   _token1 = _token1.dividedBy(conv);
 
-  setPoolPosition({
+  // setPoolPosition({
+  //   lp: _balance.toFixed(2),
+  //   poolPerc: _poolPercentage.toFormat(6),
+  //   eth: _token1.toFormat(6),
+  //   phnx: _token0.toFormat(6),
+  // });
+  return {
     lp: _balance.toFixed(2),
     poolPerc: _poolPercentage.toFormat(6),
     eth: _token1.toFormat(6),
     phnx: _token0.toFormat(6),
-  });
+  };
 };
 
 export const checkApproval = async (web3context) => {
