@@ -9,7 +9,7 @@ import UnStakingModal from './modals/UnstakeModal';
 
 function Farm() {
 
-    const[stakeNull,checkStateNull] = useState(false);
+    const[stakeNull,checkStateNull] = useState(true);
     const [isStackVisible, setStackVisible] = useState(false);
     const [isUnStackVisible, setUnStackVisible] = useState(false);
 

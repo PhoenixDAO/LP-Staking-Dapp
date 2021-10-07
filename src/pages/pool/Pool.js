@@ -6,11 +6,12 @@ import handsImg from "../../assets/handPic.svg";
 import landingImg from "../../assets/landingScreenLogo.svg";
 import { Button } from "@mui/material";
 import Notify from "../../components/Notify";
+import ConnectWallet from "../../components/ConnectWallet";
 
 // import { ToastMsg } from "../components/Toast";
 
 const Pool = () => {
-  const { account } = useWeb3React();
+  const { account, active } = useWeb3React();
 
   console.log("account in pool", account);
   return (
@@ -32,19 +33,24 @@ const Pool = () => {
               Stake ETH/PHNX LP Tokens and earn <br />
               rewards in PHNX
             </p>
-            <Button
-              variant="contained"
-              size="large"
-              // fullWidth={true}
-              style={{
-                ...styles.btnCollectWallet,
-                // backgroundColor: loading ? "#eee" : "#413AE2",
-              }}
-              // disabled={loading}
-              // onClick={_handleSupply}
-            >
-              Connect Wallet
-            </Button>
+
+            {account && active ? (
+              <Button
+                variant="contained"
+                size="large"
+                // fullWidth={true}
+                style={{
+                  ...styles.btnCollectWallet,
+                  // backgroundColor: loading ? "#eee" : "#413AE2",
+                }}
+                // disabled={loading}
+                // onClick={_handleSupply}
+              >
+                Get PHNX/ETH LP Token
+              </Button>
+            ) : (
+              <ConnectWallet />
+            )}
           </div>
 
           <img className="img-landing-logo" src={landingImg} />
