@@ -133,12 +133,23 @@ export const phnxContractInit = (web3context) => {
   return contract;
 };
 
-// export const Web3Init = async (web3context) => {
-//   // console.log("Web3Init ==>>> web3context", web3context);
-//   const web3 = new Web3(web3context?.library?.currentProvider);
-//   // console.log("Web3Init ==>>> web3", web3);
-//   return web3;
-// };
+export const uniswapV2RouterInit = async (web3context) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  const contract = new web3.eth.Contract(
+    UniswapV2Router02ABI,
+    UNISWAP_CONTRACT_ADDRESS_RINEBY
+  );
+  return contract;
+};
+
+export const uniswapV2PairInit = (web3context) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  const contract = new web3.eth.Contract(
+    UniswapV2PairABI,
+    "0xff8ae8805552c813d75ad6ff456dbc417bd12be6"
+  );
+  return contract;
+};
 
 export const getEthBalance = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
