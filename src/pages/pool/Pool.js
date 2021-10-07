@@ -5,6 +5,8 @@ import PoolCss from "./Pool.css";
 import handsImg from "../../assets/handPic.svg";
 import landingImg from "../../assets/landingScreenLogo.svg";
 import { Button } from "@mui/material";
+import Notify from "../../components/Notify";
+
 // import { ToastMsg } from "../components/Toast";
 
 const Pool = () => {
@@ -13,6 +15,7 @@ const Pool = () => {
   console.log("account in pool", account);
   return (
     <div>
+      {/* <Notify text={'Transection Successful'} ></Notify> */}
       {/* <h1>Pool {account} </h1> */}
       <div className="container-div">
         <div className="gradient-div">

@@ -1,7 +1,7 @@
 import React from 'react';
 import "../FarmStake/farmStake.css";
-import PhnxLogo from '../../../assets/phnxLogo.png';
-import EthLogo from '../../../assets/ETH.png';
+import PhnxLogo from '../../../assets/PhnxLogo1.png';
+import EthLogo from '../../../assets/ETH1.png';
 import DropDownLogo from '../../../assets/dropdown.png';
 import DropUpLogo from '../../../assets/dropup.png';
 
