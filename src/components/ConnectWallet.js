@@ -9,6 +9,8 @@ import {
   styled,
   Divider,
   IconButton,
+  MenuItem,
+  Menu,
 } from "@mui/material";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import {
@@ -85,7 +87,7 @@ const Item = styled("button")(({ theme }) => ({
   },
 }));
 
-export default function ConnectWallet({landingScreenBtn}) {
+export default function ConnectWallet({ landingScreenBtn }) {
   const web3context = useWeb3React();
 
   const { account, active, connector, deactivate, library, chainId } =
@@ -95,8 +97,20 @@ export default function ConnectWallet({landingScreenBtn}) {
   const [balance, setBalance] = useState(0);
   const [EthBalance, setEthBalance] = useState(0.0);
   const [PhnxBalance, setPhnxBalance] = useState(0.0);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleOpen = () => setOpen(true);
+  const open2 = Boolean(anchorEl);
+  const handleClick2 = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose2 = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
@@ -232,16 +246,33 @@ export default function ConnectWallet({landingScreenBtn}) {
               justifyContent: "center",
             }}
           >
-            <img src={EthLogo} className="connect-wallet-btn-img"></img>
+            <img
+              src={EthLogo}
+              alt="EthLogo"
+              className="connect-wallet-btn-img"
+            ></img>
             {EthBalance}
             &nbsp; | &nbsp;
-            <img src={PhnxLogo} className="connect-wallet-btn-img"></img>
+            <img
+              src={PhnxLogo}
+              alt="PhnxLogo"
+              className="connect-wallet-btn-img"
+            ></img>
             {PhnxBalance}
           </div>
         </button>
       ) : null}
       &nbsp;&nbsp;
-      <button onClick={handleOpen} className={landingScreenBtn===true ? "connect-wallet-btn connect-wallet-btn-reverse" : "connect-wallet-btn"}>
+      <button
+        onClick={(e) => {
+          !active && !account ? handleOpen() : handleClick2(e);
+        }}
+        className={
+          landingScreenBtn === true
+            ? "connect-wallet-btn connect-wallet-btn-reverse"
+            : "connect-wallet-btn"
+        }
+      >
         {active && account ? (
           <div
             style={{
@@ -251,7 +282,11 @@ export default function ConnectWallet({landingScreenBtn}) {
             }}
           >
             {" "}
-            <img src={EthLogo} className="connect-wallet-btn-img"></img>{" "}
+            <img
+              src={EthLogo}
+              alt="EthLogo"
+              className="connect-wallet-btn-img"
+            ></img>{" "}
             {conciseAddress(account)}{" "}
           </div>
         ) : (
@@ -427,6 +462,49 @@ export default function ConnectWallet({landingScreenBtn}) {
           </Typography>
         </Box>
       </Modal>
+      <Menu
+        anchorEl={anchorEl}
+        open={open2}
+        onClose={handleClose2}
+        onClick={handleClose2}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            mt: 1.5,
+            "& .MuiAvatar-root": {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              // right: 60,
+              width: 13,
+              height: 13,
+              left: 0,
+              right: 0,
+              marginLeft: "auto",
+              marginRight: "auto",
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
+              zIndex: 0,
+              // border: "2px solid red",
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      >
+        <MenuItem>Wallet</MenuItem>
+        <MenuItem>Transactions</MenuItem>
+        <MenuItem>Disconnect</MenuItem>
+      </Menu>
     </div>
   );
 }
