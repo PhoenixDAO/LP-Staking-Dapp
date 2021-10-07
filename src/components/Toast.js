@@ -14,7 +14,7 @@ const Toast = Swal.mixin({
 });
 
 export const ToastMsg = async (type, title) => {
-  console.log("fireeeee");
+  // console.log("fireeeee");
   return await Toast.fire({
     icon: type,
     title: title,

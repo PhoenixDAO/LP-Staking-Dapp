@@ -1,24 +1,38 @@
 import React, { useEffect } from "react";
-import { Typography } from "@mui/material";
 import { useWeb3React } from "@web3-react/core";
 import PoolCss from "./Pool.css";
 import handsImg from "../../assets/handPic.svg";
 import landingImg from "../../assets/landingScreenLogo.svg";
 import { Button } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+// import { Web3InitAction } from "../../redux/actions/local.actions";
+import { ToastMsg } from "../../components/Toast";
 import Notify from "../../components/Notify";
 import ConnectWallet from "../../components/ConnectWallet";
 import { Link } from "react-router-dom";
 
-// import { ToastMsg } from "../components/Toast";
-
 const Pool = () => {
-  const { account, active } = useWeb3React();
+  // const { account,active } = useWeb3React();
+  // const dispatch = useDispatch();
+  const web3 = useSelector((state) => state.localReducer.web3State);
+  const balanceEth = useSelector((state) => state.localReducer.balanceEth);
+  // const web3context = useWeb3React();
 
-  console.log("account in pool", account);
+
+  // useEffect(async () => {
+  //   if (!web3context.account) {
+  //     ToastMsg("warning", "Please connect your wallet first!");
+  //     dispatch(Web3InitAction(web3context));
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   console.log("Web3 const", web3);
+  // }, [web3]);
+
+  // console.log("account in pool", account);
   return (
     <div>
-      {/* <Notify text={'Transection Successful'} ></Notify> */}
-      {/* <h1>Pool {account} </h1> */}
       <div className="container-div">
         <div className="gradient-div">
           <p className="connect-wallet-txt">
@@ -27,6 +41,7 @@ const Pool = () => {
           </p>
           <img src={handsImg} className="img-hands" />
         </div>
+        <p>{balanceEth}</p>
         <div className="container-div2">
           <div className="connect-wallet-div">
             <p className="phnx-heading">PhoenixDAO LP Staking</p>
