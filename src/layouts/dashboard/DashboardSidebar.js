@@ -14,7 +14,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import HomeIcon from "@mui/icons-material/Home";
 import HomeLogo from "../../assets/home.png";
 import DropLogo from "../../assets/drop.png";
-import FarmLogo from "../../assets/Farm.png";
+import FarmLogo from "../../assets/farm.png";
 
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import { drawerWidth } from "./constants";

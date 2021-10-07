@@ -60,3 +60,17 @@
     background-color: #413AE2;
     color: #fff;
 }
+
+@media only screen and (max-width: 700px){
+
+    .stakingModal{
+        
+        width: 90%;
+
+    }
+
+    .stakingModalInput{
+        width: 50%;
+    }
+
+}

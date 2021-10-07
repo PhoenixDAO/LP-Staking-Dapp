@@ -1,8 +1,21 @@
+
+@font-face {
+  font-family: "Aeonik";
+  src: url("./custom-font/Aeonik-Regular.otf");
+}
+@font-face {
+  font-family: "AeonikBold";
+  src: url("./custom-font/Aeonik-Bold.otf");
+}
+
+
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    sans-serif; */
+  font-family: 'Aeonik' !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #E5E5E5 !important;
@@ -119,4 +132,12 @@ body > #root > div {
   background-color: rgba(128, 128, 128, 0.1) !important;
   border: none !important;
 
+}
+
+.css-h4y409-MuiList-root{
+  margin-top: 60px !important;
+}
+
+.css-bshv44-MuiButtonBase-root-MuiListItem-root{
+  height: 50px !important;
 }
