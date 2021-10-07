@@ -19,8 +19,8 @@ export default function Router() {
       path: "/",
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/pool" replace /> },
-        { path: "pool", element: <Pool /> },
+        { element: <Navigate to="/home" replace /> },
+        { path: "home", element: <Pool /> },
         // { path: "staking", element: <Staking /> },
         { path: "staking", element: <SwitchTabs /> },
         { path: "farm", element: <Farm /> },
