@@ -85,7 +85,7 @@ const Item = styled("button")(({ theme }) => ({
   },
 }));
 
-export default function ConnectWallet() {
+export default function ConnectWallet({landingScreenBtn}) {
   const web3context = useWeb3React();
 
   const { account, active, connector, deactivate, library, chainId } =
@@ -241,7 +241,7 @@ export default function ConnectWallet() {
         </button>
       ) : null}
       &nbsp;&nbsp;
-      <button onClick={handleOpen} className="connect-wallet-btn">
+      <button onClick={handleOpen} className={landingScreenBtn===true ? "connect-wallet-btn connect-wallet-btn-reverse" : "connect-wallet-btn"}>
         {active && account ? (
           <div
             style={{
