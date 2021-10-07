@@ -7,13 +7,17 @@ import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 // import { Web3InitAction } from "../../redux/actions/local.actions";
 import { ToastMsg } from "../../components/Toast";
+import Notify from "../../components/Notify";
+import ConnectWallet from "../../components/ConnectWallet";
+import { Link } from "react-router-dom";
 
 const Pool = () => {
-  // const { account } = useWeb3React();
+  // const { account,active } = useWeb3React();
   // const dispatch = useDispatch();
   const web3 = useSelector((state) => state.localReducer.web3State);
   const balanceEth = useSelector((state) => state.localReducer.balanceEth);
   // const web3context = useWeb3React();
+
 
   // useEffect(async () => {
   //   if (!web3context.account) {
@@ -45,19 +49,26 @@ const Pool = () => {
               Stake ETH/PHNX LP Tokens and earn <br />
               rewards in PHNX
             </p>
-            <Button
-              variant="contained"
-              size="large"
-              // fullWidth={true}
-              style={{
-                ...styles.btnCollectWallet,
-                // backgroundColor: loading ? "#eee" : "#413AE2",
-              }}
-              // disabled={loading}
-              // onClick={_handleSupply}
-            >
-              Connect Wallet
-            </Button>
+
+            {account && active ? (
+              <Link to='/liquidity' style={{textDecoration:'none'}}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  // fullWidth={true}
+                  style={{
+                    ...styles.btnCollectWallet,
+                    // backgroundColor: loading ? "#eee" : "#413AE2",
+                  }}
+                  // disabled={loading}
+                  // onClick={_handleSupply}
+                >
+                  Get PHNX/ETH LP Token
+                </Button>
+              </Link>
+            ) : (
+              <ConnectWallet landingScreenBtn={true}/>
+            )}
           </div>
 
           <img className="img-landing-logo" src={landingImg} />

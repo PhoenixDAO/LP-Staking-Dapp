@@ -262,7 +262,7 @@ div.liq-modal-res{
 
   width: 600px;
   position:relative;
-  height: 655px;
+  height: 710px;
   padding: 0 !important;
   margin-left: auto;
   margin-right: auto;
@@ -359,6 +359,11 @@ div.liq-modal-res > div > .css-196kcza{
     
   }
 
+  .connect-wallet-btn-reverse{
+    background-color: #413AE2;
+    color: #fff;
+  }
+
   .connect-wallet-btn-img{
     margin-right: 5px;
     height: 15px;
@@ -371,4 +376,9 @@ div.liq-modal-res > div > .css-196kcza{
   .connect-wallet-btn:hover{
     background-color: #413ae2;
     color: #fff;
+  }
+
+  .connect-wallet-btn-reverse:hover{
+    background-color: #fff;
+    color: #413ae2;
   }

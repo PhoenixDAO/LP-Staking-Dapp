@@ -94,7 +94,8 @@ const Item = styled("button")(({ theme }) => ({
   },
 }));
 
-export default function ConnectWallet() {
+
+export default function ConnectWallet({landingScreenBtn}) {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   // const web3 = useSelector((state) => state.localReducer.web3State);
@@ -218,7 +219,10 @@ export default function ConnectWallet() {
       if (account) {
         web3.eth.getBalance(account).then((ether) => {
           let bal = parseFloat(web3.utils.fromWei(ether, "ether"));
-          setEthBalance(bal.toFixed(2));
+          let res = (
+            Math.floor(bal * Math.pow(10, 2)) / Math.pow(10, 2)
+          ).toFixed(2);
+          setEthBalance(res);
         });
       }
 
@@ -263,7 +267,7 @@ export default function ConnectWallet() {
         </button>
       ) : null}
       &nbsp;&nbsp;
-      <button onClick={handleOpen} className="connect-wallet-btn">
+      <button onClick={handleOpen} className={landingScreenBtn===true ? "connect-wallet-btn connect-wallet-btn-reverse" : "connect-wallet-btn"}>
         {active && account ? (
           <div
             style={{

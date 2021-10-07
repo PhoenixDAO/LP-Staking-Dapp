@@ -14,11 +14,11 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import HomeIcon from "@mui/icons-material/Home";
 import HomeLogo from "../../assets/home.png";
 import DropLogo from "../../assets/drop.png";
-import FarmLogo from "../../assets/Farm.png";
+import FarmLogo from "../../assets/farm.png";
 
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import { drawerWidth } from "./constants";
-import {useState,useEffect} from 'react';
+import { useState, useEffect } from "react";
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -67,24 +67,26 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-
 const DashboardSidebar = ({ open, handleDrawerClose }) => {
   const theme = useTheme();
 
-  const[currentTab,setCurrentTab]=useState(0);
+  const [currentTab, setCurrentTab] = useState(0);
   let cT;
 
   useEffect(() => {
-    cT= window.location.href.split('/')[3];
-    if(cT==='pool'){
+    cT = window.location.href.split("/")[3];
+    if (cT === "home") {
       setCurrentTab(0);
-    }else if(cT==='staking'){
+    } else if (cT === "liquidity") {
       setCurrentTab(1);
-    }else if(cT==='switchTabs'){
+    } else if (cT === "farm") {
       setCurrentTab(2);
     }
-  })
-  
+  });
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
 
   return (
     <Drawer variant="permanent" open={open}>
@@ -99,12 +101,22 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
       </DrawerHeader>
       <Divider />
       <List>
-        {["pool", "staking", "switchTabs"].map((text, index) => (
-          <ListItem button key={text} component={Link} to={`/${text}`} className={index===currentTab ? 'current-tab' : null}>
-            <ListItemIcon >
-              <img src={index === 0 ? HomeLogo : index === 1 ? DropLogo : FarmLogo } style={{height:'18px',marginLeft:'5px'}}></img>
+        {["home", "liquidity", "farm"].map((text, index) => (
+          <ListItem
+            button
+            key={text}
+            component={Link}
+            to={`/${text}`}
+            className={index === currentTab ? "current-tab" : null}
+          >
+            <ListItemIcon>
+              <img
+                src={index === 0 ? HomeLogo : index === 1 ? DropLogo : FarmLogo}
+                style={{ height: "18px", marginLeft: "5px" }}
+                alt="icon"
+              ></img>
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={capitalizeFirstLetter(text)} />
           </ListItem>
         ))}
       </List>
