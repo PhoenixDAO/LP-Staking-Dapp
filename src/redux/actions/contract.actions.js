@@ -3,8 +3,28 @@ import {
   getPoolPosition,
   checkApproval,
   giveApproval,
-  getPhnxBalace,
+  getPhnxBalance,
+  phnxContractInit,
 } from "../../services/pool.services";
+
+export const PhnxContractInitAction = (web3context) => {
+  return async (dispatch) => {
+    try {
+      let response = await phnxContractInit(web3context);
+      console.log("PhnxContractInitAction response", response);
+      dispatch({
+        type: types.PHNX_INIT_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      console.log("err in action", e);
+      dispatch({
+        type: types.PHNX_INIT_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
 
 export const GetPoolPositionAction = () => {
   return async (dispatch) => {
@@ -50,10 +70,11 @@ export const CheckApprovalAction = () => {
   };
 };
 
-export const GetPhnxBalanceAction = (web3, web3context) => {
+export const GetPhnxBalanceAction = (web3context, contractPhnx) => {
+  console.log("contractPhnx GetPhnxBalanceAction", contractPhnx);
   return async (dispatch) => {
     try {
-      let response = await getPhnxBalace(web3, web3context);
+      let response = await getPhnxBalance(web3context, contractPhnx);
       console.log("GetPhnxBalaceAction response", response);
       dispatch({
         type: types.PHNX_BALANCE_SUCCESS,

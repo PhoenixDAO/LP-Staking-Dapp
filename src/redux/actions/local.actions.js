@@ -4,9 +4,9 @@ import {
   getPoolPosition,
   checkApproval,
   giveApproval,
-  supply,
-  Web3Init,
-  getEthBalace,
+  // Web3Init,
+  phnxContractInit,
+  getEthBalance,
 } from "../../services/pool.services";
 // import {} from '../../services/stake.services'
 
@@ -32,28 +32,36 @@ export const GetMainDataAction = () => {
   };
 };
 
-export const Web3InitAction = (web3context) => {
-  return async (dispatch) => {
-    try {
-      let response = await Web3Init(web3context);
-      console.log("Web3InitAction response", response);
-      dispatch({
-        type: types.WEB3_INIT_SUCCESS,
-        payload: response,
-      });
-    } catch (e) {
-      dispatch({
-        type: types.WEB3_INIT_ERROR,
-        payload: e?.response?.data?.message || e.message,
-      });
-    }
-  };
-};
+// export const Web3InitAction = (web3context) => {
+//   return async (dispatch) => {
+//     try {
+//       let response = await Web3Init(web3context);
+//       console.log("Web3InitAction response", response);
+//       dispatch({
+//         type: types.WEB3_INIT_SUCCESS,
+//         payload: response,
+//       });
+//     } catch (e) {
+//       console.log("err in action", e);
+//       dispatch({
+//         type: types.WEB3_INIT_ERROR,
+//         payload: e?.response?.data?.message || e.message,
+//       });
+//     }
+//   };
+// };
 
-export const GetEthBalanceAction = (web3, web3context) => {
+export const GetEthBalanceAction = (web3context) => {
+  // console.log(
+  //   "Parameters of GetEthBalanceAction",
+  //   web3,
+  //   "web3",
+  //   web3context,
+  //   "web3context"
+  // );
   return async (dispatch) => {
     try {
-      let response = await getEthBalace(web3, web3context);
+      let response = await getEthBalance(web3context);
       console.log("GetEthBalaceAction response", response);
       dispatch({
         type: types.ETH_BALANCE_SUCCESS,

@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   allowance1: null,
   loading_CheckApproval: false,
   balancePhnx: 0,
+  contractPhnx: null,
 };
 
 const contractReducer = (state = INITIAL_STATE, action) => {
@@ -39,6 +40,12 @@ const contractReducer = (state = INITIAL_STATE, action) => {
       };
     case types.CHECK_APPROVAL_ERROR:
       return { ...state, error: action.payload, loading: false };
+
+    case types.PHNX_INIT_SUCCESS:
+      return { ...state, contractPhnx: action.payload, error: "" };
+    case types.PHNX_INIT_ERROR:
+      return { ...state, error: action.payload };
+
     default:
       return state;
   }

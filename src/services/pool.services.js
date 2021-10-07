@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 import { ToastMsg } from "../components/Toast";
 import { abi as UniswapV2Router02ABI } from "../contract/abi/UniswapV2Router02ABI.json";
 import { abi as UniswapV2PairABI } from "../contract/abi/UniswapV2PairABI.json";
@@ -116,12 +116,6 @@ export const getPoolPosition = async (web3context, setPoolPosition) => {
   _token0 = _token0.dividedBy(conv);
   _token1 = _token1.dividedBy(conv);
 
-  // setPoolPosition({
-  //   lp: _balance.toFixed(2),
-  //   poolPerc: _poolPercentage.toFormat(6),
-  //   eth: _token1.toFormat(6),
-  //   phnx: _token0.toFormat(6),
-  // });
   return {
     lp: _balance.toFixed(2),
     poolPerc: _poolPercentage.toFormat(6),
@@ -130,24 +124,35 @@ export const getPoolPosition = async (web3context, setPoolPosition) => {
   };
 };
 
-export const Web3Init = async (web3context) => {
+export const phnxContractInit = (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
-  return web3;
-};
-
-export const getEthBalace = async (web3, web3context) => {
-  let WeiEthBalance = await web3.eth.getBalance(web3context.account);
-  let EthBalance = parseFloat(web3.utils.fromWei(WeiEthBalance, "phnx"));
-  console.log("EthBalance ==>", EthBalance);
-  return EthBalance;
-};
-
-export const getPhnxBalace = async (web3, web3context) => {
   const contract = new web3.eth.Contract(
     PhoenixDaoABI,
     PHNX_RINKEBY_TOKEN_ADDRESS
   );
-  contract.methods
+  return contract;
+};
+
+// export const Web3Init = async (web3context) => {
+//   // console.log("Web3Init ==>>> web3context", web3context);
+//   const web3 = new Web3(web3context?.library?.currentProvider);
+//   // console.log("Web3Init ==>>> web3", web3);
+//   return web3;
+// };
+
+export const getEthBalance = async (web3context) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  console.log(web3context, " getEthBalace Web3Context");
+  let WeiEthBalance = await web3.eth.getBalance(web3context.account);
+  let EthBalance = parseFloat(web3.utils.fromWei(WeiEthBalance, "ether"));
+  console.log("EthBalance ==>", EthBalance);
+  return EthBalance;
+};
+
+export const getPhnxBalance = async (web3context, contractPhnx) => {
+  console.log("contractPhnx getPhnxBalance", contractPhnx);
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  contractPhnx.methods
     .balanceOf(web3context.account)
     .call()
     .then((phnx) => {
@@ -159,18 +164,6 @@ export const getPhnxBalace = async (web3, web3context) => {
 
 export const checkApproval = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
-  // Get Eth Balance
-  let WeiEthBalance = await web3.eth.getBalance(
-    "0x6F1FDA06D2e61fD3C05f3bcBa40646F3Bf668baC"
-  );
-  let EthBalance = web3.utils.fromWei(WeiEthBalance, "ether");
-  console.log("EthBalance", EthBalance);
-  // Get Phnx balance
-  // let WeiPhnxBalance = await web3.phnx.getBalance(
-  //   "0x6F1FDA06D2e61fD3C05f3bcBa40646F3Bf668baC"
-  // );
-  // let PhnxBalance = web3.utils.fromWei(WeiPhnxBalance, "phnx");
-  // console.log("PhnxBalance", PhnxBalance);
 
   const contract = new web3.eth.Contract(
     PhoenixDaoABI,

@@ -11,7 +11,7 @@ import { ToastMsg } from "../../components/Toast";
 const Pool = () => {
   // const { account } = useWeb3React();
   // const dispatch = useDispatch();
-  const web3 = useSelector((state) => state.localReducer.web3);
+  const web3 = useSelector((state) => state.localReducer.web3State);
   const balanceEth = useSelector((state) => state.localReducer.balanceEth);
   // const web3context = useWeb3React();
 
