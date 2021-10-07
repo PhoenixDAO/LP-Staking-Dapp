@@ -14,6 +14,11 @@ import PhnxLogo from "../assets/phnxLogo.png";
 import * as SERVICE from "../services/pool.services";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { ToastMsg } from "./Toast";
+import Web3 from "web3";
+import {abi} from '../contract/abi/PhoenixDaoABI.json'
+
+
+
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [isMobile, setIsMobile] = useState(false);
   // useEffect(() => {
@@ -22,6 +27,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const [ethValue, setEthValue] = useState(0);
   const [phnxValue, setPhnxValue] = useState(0);
+
+  
+  const [EthBalance, setEthBalance] = useState(0.0);
+  const [PhnxBalance, setPhnxBalance] = useState(0.0);
 
   const [ethPerPhnx, setEthPerPhnx] = useState(0);
   const [phnxPerEth, setPhnxPerEth] = useState(0);
@@ -137,6 +146,44 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     }
   };
 
+  
+
+  const { account, active, connector, deactivate, library, chainId } =
+    web3context;
+
+  useEffect(() => {
+    if (web3context) {
+      const web3 = new Web3(web3context?.library?.currentProvider);
+
+      if (account) {
+        web3.eth.getBalance(account).then((ether) => {
+          let bal = parseFloat(web3.utils.fromWei(ether, "ether"));
+          let res = (
+            Math.floor(bal * Math.pow(10, 2)) / Math.pow(10, 2)
+          ).toFixed(2);
+          setEthBalance(res);
+        });
+      }
+
+      if (account) {
+        const contract = new web3.eth.Contract(
+          abi,
+          '0xfe1b6abc39e46cec54d275efb4b29b33be176c2a'
+        );
+
+        contract.methods
+          .balanceOf(account)
+          .call()
+          .then((phnx) => {
+            let bal = parseFloat(web3.utils.fromWei(phnx, "ether"));
+            // console.log('balance phnx :'+bal)
+            setPhnxBalance(bal.toFixed(2));
+          });
+      }
+    }
+  }, [web3context, account]);
+
+
   return (
     <Box sx={styles.containerStyle} className="modal-scroll">
       <div style={{ paddingLeft: 10 }}>
@@ -190,7 +237,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             <div style={styles.containerInput}>
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available PHNX:</Typography>
-                <Typography style={styles.txtAmount}>237,278 PHNX</Typography>
+                <Typography style={styles.txtAmount}>{PhnxBalance} PHNX</Typography>
               </div>
               <div
                 className="wrapper-input"
@@ -205,14 +252,18 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   value={phnxValue}
                   // disabled={ethPerPhnx > 0 && phnxPerEth > 0 ? false : true}
                   type="number"
-                  onChange={(event) =>
+                  onChange={(event) =>{
+                    // if(parseFloat(event.target.value) > parseFloat(PhnxBalance)){
+                    //   return;
+                    // }
                     OnChangeHandler(event.target.value, "phnx")
+                  }
                   }
                   style={styles.inputStyle}
                   variant="standard"
                   InputProps={{
                     endAdornment: (
-                      <IconButton style={styles.iconBtn} onClick={() => 0}>
+                      <IconButton style={styles.iconBtn} onClick={() => {OnChangeHandler(PhnxBalance, "phnx")}}>
                         MAX
                       </IconButton>
                     ),
@@ -252,7 +303,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             <div style={styles.containerInput}>
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available ETH:</Typography>
-                <Typography style={styles.txtAmount}>237,278 PHNX</Typography>
+                <Typography style={styles.txtAmount}>{EthBalance} PHNX</Typography>
               </div>
               <div
                 className="wrapper-input"
@@ -267,14 +318,18 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   value={ethValue}
                   // disabled={ethPerPhnx > 0 && phnxPerEth > 0 ? false : true}
                   type="number"
-                  onChange={(event) =>
+                  onChange={(event) =>{
+                    // if(parseFloat(event.target.value) > parseFloat(EthBalance)){
+                    //   return;
+                    // }
                     OnChangeHandler(event.target.value, "eth")
+                   }
                   }
                   style={styles.inputStyle}
                   variant="standard"
                   InputProps={{
                     endAdornment: (
-                      <IconButton style={styles.iconBtn} onClick={() => 0}>
+                      <IconButton style={styles.iconBtn} onClick={() => {OnChangeHandler(EthBalance, "eth")}}>
                         MAX
                       </IconButton>
                     ),
@@ -312,7 +367,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               ...styles.btnAddLiquidity,
               backgroundColor: loading ? "#eee" : "#413AE2",
             }}
-            disabled={loading}
+            disabled={loading }
             onClick={_handleGiveApproval}
           >
             Approve PHNX
@@ -324,9 +379,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             fullWidth={true}
             style={{
               ...styles.btnAddLiquidity,
-              backgroundColor: loading ? "#eee" : "#413AE2",
+              backgroundColor: loading || phnxValue>PhnxBalance || ethValue>EthBalance || phnxValue===0 ? "#eee" : "#413AE2",
             }}
-            disabled={loading}
+            disabled={loading || phnxValue>PhnxBalance || ethValue>EthBalance || phnxValue===0 }
             onClick={_handleSupply}
           >
             Add Liquidity
