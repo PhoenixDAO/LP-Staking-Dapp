@@ -7,6 +7,7 @@ import landingImg from "../../assets/landingScreenLogo.svg";
 import { Button } from "@mui/material";
 import Notify from "../../components/Notify";
 import ConnectWallet from "../../components/ConnectWallet";
+import { Link } from "react-router-dom";
 
 // import { ToastMsg } from "../components/Toast";
 
@@ -35,21 +36,23 @@ const Pool = () => {
             </p>
 
             {account && active ? (
-              <Button
-                variant="contained"
-                size="large"
-                // fullWidth={true}
-                style={{
-                  ...styles.btnCollectWallet,
-                  // backgroundColor: loading ? "#eee" : "#413AE2",
-                }}
-                // disabled={loading}
-                // onClick={_handleSupply}
-              >
-                Get PHNX/ETH LP Token
-              </Button>
+              <Link to='/liquidity' style={{textDecoration:'none'}}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  // fullWidth={true}
+                  style={{
+                    ...styles.btnCollectWallet,
+                    // backgroundColor: loading ? "#eee" : "#413AE2",
+                  }}
+                  // disabled={loading}
+                  // onClick={_handleSupply}
+                >
+                  Get PHNX/ETH LP Token
+                </Button>
+              </Link>
             ) : (
-              <ConnectWallet />
+              <ConnectWallet landingScreenBtn={true}/>
             )}
           </div>
 

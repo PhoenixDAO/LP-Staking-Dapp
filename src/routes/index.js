@@ -22,7 +22,7 @@ export default function Router() {
         { element: <Navigate to="/home" replace /> },
         { path: "home", element: <Pool /> },
         // { path: "staking", element: <Staking /> },
-        { path: "staking", element: <SwitchTabs /> },
+        { path: "liquidity", element: <SwitchTabs /> },
         { path: "farm", element: <Farm /> },
         { path: "/terms", element: <Terms /> },
         { path: "404", element: <NotFound /> },
