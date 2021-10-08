@@ -45,6 +45,9 @@ import metamaskIcon from "../assets/metamask.png";
 import walletConnectIcon from "../assets/walletConnect.png";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import LogoutIcon from "@mui/icons-material/Logout";
 import EthLogo from "../assets/ETH.png";
 import PhnxLogo from "../assets/phnxLogo.png";
 import { ToastMsg } from "./Toast";
@@ -59,6 +62,7 @@ import {
   //   tokenAddressMainnet,
   tokenAddressRinkeby,
 } from "../contract/constants";
+import WalletSettings from "./WalletSettings";
 
 const style = {
   position: "absolute",
@@ -315,10 +319,9 @@ export default function ConnectWallet({ landingScreenBtn }) {
               className="connect-wallet-btn-img"
             ></img>{" "}
             {conciseAddress(account)}{" "}
-
           </div>
         ) : (
-          "  Connect Wallet"
+          "Connect Wallet"
         )}
       </button>
       <Modal
@@ -331,11 +334,9 @@ export default function ConnectWallet({ landingScreenBtn }) {
           <button onClick={handleClose} className="icon-btn">
             <CloseIcon />
           </button>
-
           <Stack sx={{ mt: 5, alignItems: "center" }}>
             <img src={Logo} alt="logo" width="192px" height="54px" />
           </Stack>
-
           <Typography
             id="modal-modal-title"
             variant="h6"
@@ -346,13 +347,12 @@ export default function ConnectWallet({ landingScreenBtn }) {
           >
             Connect to your wallet
           </Typography>
-
           <Stack spacing={2} sx={{ mt: 5 }}>
             <Item
               onClick={() =>
-                !active && !(connector instanceof InjectedConnector)
-                  ? activateWallet(injected)
-                  : deactivateWallet()
+                !active &&
+                !(connector instanceof InjectedConnector) &&
+                activateWallet(injected)
               }
             >
               <img src={metamaskIcon} alt="logo" />
@@ -362,31 +362,20 @@ export default function ConnectWallet({ landingScreenBtn }) {
                 component="h2"
                 sx={{ ml: 3 }}
               >
-                {active && connector instanceof InjectedConnector
-                  ? "Disconnect Metamask"
-                  : "Metamask"}
+                Metamask
               </Typography>
-
-              {active && connector instanceof InjectedConnector ? (
-                <CheckCircleOutlineIcon
-                  sx={{ ml: "auto" }}
-                  fontSize="large"
-                  color="primary"
-                />
-              ) : (
-                <ArrowRightAltIcon
-                  sx={{ ml: "auto" }}
-                  fontSize="large"
-                  color="primary"
-                />
-              )}
+              <ArrowRightAltIcon
+                sx={{ ml: "auto" }}
+                fontSize="large"
+                color="primary"
+              />
             </Item>
             <Divider />
             <Item
               onClick={() => {
-                !active && !(connector instanceof WalletConnectConnector)
-                  ? activateWallet(walletconnect)
-                  : deactivateWallet();
+                !active &&
+                  !(connector instanceof WalletConnectConnector) &&
+                  activateWallet(walletconnect);
               }}
             >
               <img src={walletConnectIcon} alt="logo" />
@@ -396,57 +385,36 @@ export default function ConnectWallet({ landingScreenBtn }) {
                 component="h2"
                 sx={{ ml: 3 }}
               >
-                {active && connector instanceof WalletConnectConnector
-                  ? "Disconnect  Wallet Connect"
-                  : " Wallet Connect"}
+                Wallet Connect
               </Typography>
-              {active && connector instanceof WalletConnectConnector ? (
-                <CheckCircleOutlineIcon
-                  sx={{ ml: "auto" }}
-                  fontSize="large"
-                  color="primary"
-                />
-              ) : (
-                <ArrowRightAltIcon
-                  sx={{ ml: "auto" }}
-                  fontSize="large"
-                  color="primary"
-                />
-              )}
+              <ArrowRightAltIcon
+                sx={{ ml: "auto" }}
+                fontSize="large"
+                color="primary"
+              />
             </Item>
             <Divider />
             <Item
               onClick={() => {
-                !active && !(connector instanceof WalletLinkConnector)
-                  ? activateWallet(walletlink)
-                  : deactivateWallet();
+                !active &&
+                  !(connector instanceof WalletLinkConnector) &&
+                  activateWallet(walletlink);
               }}
             >
               <img src={coinbaseIcon} alt="logo" />
-
               <Typography
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
                 sx={{ ml: 3 }}
               >
-                {active && connector instanceof WalletLinkConnector
-                  ? "Disconnect  Coinbase Wallet"
-                  : "Coinbase Wallet"}
+                Coinbase Wallet
               </Typography>
-              {active && connector instanceof WalletLinkConnector ? (
-                <CheckCircleOutlineIcon
-                  sx={{ ml: "auto" }}
-                  fontSize="large"
-                  color="primary"
-                />
-              ) : (
-                <ArrowRightAltIcon
-                  sx={{ ml: "auto" }}
-                  fontSize="large"
-                  color="primary"
-                />
-              )}
+              <ArrowRightAltIcon
+                sx={{ ml: "auto" }}
+                fontSize="large"
+                color="primary"
+              />
             </Item>
             <Divider />
             <Item>
@@ -490,49 +458,12 @@ export default function ConnectWallet({ landingScreenBtn }) {
           </Typography>
         </Box>
       </Modal>
-      <Menu
+      <WalletSettings
         anchorEl={anchorEl}
-        open={open2}
-        onClose={handleClose2}
-        onClick={handleClose2}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            mt: 1.5,
-            "& .MuiAvatar-root": {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
-            },
-            "&:before": {
-              content: '""',
-              display: "block",
-              position: "absolute",
-              top: 0,
-              // right: 60,
-              width: 13,
-              height: 13,
-              left: 0,
-              right: 0,
-              marginLeft: "auto",
-              marginRight: "auto",
-              bgcolor: "background.paper",
-              transform: "translateY(-50%) rotate(45deg)",
-              zIndex: 0,
-              // border: "2px solid red",
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: "right", vertical: "top" }}
-        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-      >
-        <MenuItem>Wallet</MenuItem>
-        <MenuItem>Transactions</MenuItem>
-        <MenuItem>Disconnect</MenuItem>
-      </Menu>
+        open2={open2}
+        handleClose2={handleClose2}
+        deactivateWallet={deactivateWallet}
+      />
     </div>
   );
 }
