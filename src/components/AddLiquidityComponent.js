@@ -63,20 +63,34 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   }, []);
 
   useEffect(() => {
-    if (web3context.active && web3context.account) {
+    if (
+      web3context.active &&
+      web3context.account &&
+      contractUniswapPair &&
+      contractPhnx
+    ) {
       _handleGetPoolPosition();
       _handleCheckApproval();
     }
   }, [web3context.account]);
 
+  // useEffect(() => {
+  //   setPhnxPerEth(mainData?.route?.midPrice?.toSignificant(6));
+  //   setEthPerPhnx(mainData?.route?.midPrice?.invert().toSignificant(6));
+  //   setReserve0(mainData?.pair?.reserveO);
+  //   setReserve1(mainData?.pair?.reserve1?.toFixed(2));
+  // }, [mainData]);
+
   const _handleGetDataMain = async () => {
     try {
       dispatch(GetMainDataAction());
       setTimeout(() => {
-        setPhnxPerEth(mainData?.route.midPrice.toSignificant(6));
-        setEthPerPhnx(mainData?.route.midPrice.invert().toSignificant(6));
-        setReserve0(mainData?.pair.reserveO);
-        setReserve1(mainData?.pair.reserve1.toFixed(2));
+        if (mainData !== null) {
+          setPhnxPerEth(mainData?.route?.midPrice?.toSignificant(6));
+          setEthPerPhnx(mainData?.route?.midPrice?.invert().toSignificant(6));
+          setReserve0(mainData?.pair?.reserveO);
+          setReserve1(mainData?.pair?.reserve1?.toFixed(2));
+        }
       }, 300);
     } catch (e) {
       console.error("Error _handleGetDataMain", e);
