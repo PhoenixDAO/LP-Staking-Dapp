@@ -44,7 +44,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   });
   const web3context = useWeb3React();
   const dispatch = useDispatch();
-  const mainData = useSelector((state) => state.localReducer.mainData);
+  // const mainData = useSelector((state) => state.localReducer.mainData);
   const contractUniswapPair = useSelector(
     (state) => state.contractReducer.contractUniswapPair
   );

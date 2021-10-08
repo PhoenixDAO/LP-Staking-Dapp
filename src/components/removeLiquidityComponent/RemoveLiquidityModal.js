@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Modal } from "@mui/material";
 import RemoveLiquidityComponent from "./index";
 
-const RemoveLiquidityModAL = () => {
+const RemoveLiquidityModaL = () => {
   const [isVsible, setIsVisible] = useState(false);
 
   const handleOpen = () => {
@@ -29,4 +29,4 @@ const RemoveLiquidityModAL = () => {
   );
 };
 
-export default Farm;
+export default RemoveLiquidityModaL;

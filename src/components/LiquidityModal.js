@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from "react";
-import {
-  Modal,
-  // InputAdornment,
-} from "@mui/material";
+import React, { useState } from "react";
+import { Modal } from "@mui/material";
 import AddLiquidityComp from "../components/addLiquidityComponent";
 import RemoveLiquidityComp from "./removeLiquidityComponent";
 
 import ComponentCss from "./componentCss.css";
 
-const LiquidityModal = ({ isVisible, handleClose }) => {
-  const [isMobile, setIsMobile] = useState(false);
+const LiquidityModal = ({ isVisible, handleClose, componentName }) => {
   return (
     <Modal
       open={isVisible}
@@ -17,11 +13,19 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <AddLiquidityComp
-        isVisible={isVisible}
-        handleClose={handleClose}
-        closeBtn={true}
-      />
+      {componentName === "addLiquidity" ? (
+        <AddLiquidityComp
+          isVisible={isVisible}
+          handleClose={handleClose}
+          closeBtn={true}
+        />
+      ) : componentName === "removeLiquidity" ? (
+        <RemoveLiquidityComp
+          isVisible={isVisible}
+          handleClose={handleClose}
+          closeBtn={true}
+        />
+      ) : null}
     </Modal>
   );
 };

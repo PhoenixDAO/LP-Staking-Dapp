@@ -31,7 +31,11 @@ const Staking = () => {
       <Button onClick={handleClickOpen} variant="contained">
         Hello
       </Button>
-      <LiquidityModal isVisible={isVisible} handleClose={handleClose} />
+      <LiquidityModal
+        componentName="addLiquidity"
+        isVisible={isVisible}
+        handleClose={handleClose}
+      />
     </div>
   );
 };
