@@ -3,7 +3,7 @@ import {
   Modal,
   // InputAdornment,
 } from "@mui/material";
-import AddLiquidityComp from "../components/AddLiquidityComponent";
+import AddLiquidityComp from "../components/addLiquidityComponent";
 import RemoveLiquidityComp from "./removeLiquidityComponent";
 
 import ComponentCss from "./componentCss.css";

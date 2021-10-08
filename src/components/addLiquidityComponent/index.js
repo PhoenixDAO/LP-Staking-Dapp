@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import ComponentCss from "./componentCss.css";
-import PhnxLogo from "../assets/phnxLogo.png";
+import ComponentCss from "../componentCss.css";
+import PhnxLogo from "../../assets/phnxLogo.png";
 import * as SERVICE from "../../services/pool.services";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { ToastMsg } from "../Toast";
