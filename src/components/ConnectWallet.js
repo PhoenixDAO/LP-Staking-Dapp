@@ -20,6 +20,17 @@ import {
 } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  // Web3InitAction,
+  GetEthBalanceAction,
+} from "../redux/actions/local.actions";
+import {
+  GetPhnxBalanceAction,
+  PhnxContractInitAction,
+  UniswapContractPairInitAction,
+  UniswapContractRouterInitAction,
+} from "../redux/actions/contract.actions";
 
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
@@ -88,7 +99,30 @@ const Item = styled("button")(({ theme }) => ({
 }));
 
 export default function ConnectWallet({ landingScreenBtn }) {
+  const dispatch = useDispatch();
   const web3context = useWeb3React();
+  // const web3 = useSelector((state) => state.localReducer.web3State);
+  const balanceEth = useSelector((state) => state.localReducer.balanceEth);
+  const contractPhnx = useSelector(
+    (state) => state.contractReducer.contractPhnx
+  );
+
+  useEffect(() => {
+    if (web3context.account && web3context.active) {
+      dispatch(PhnxContractInitAction(web3context));
+      dispatch(UniswapContractPairInitAction(web3context));
+      dispatch(UniswapContractRouterInitAction(web3context));
+    }
+  }, [web3context]);
+  useEffect(() => {
+    dispatch(GetEthBalanceAction(web3context));
+    dispatch(GetPhnxBalanceAction(web3context, contractPhnx));
+  }, [contractPhnx]);
+
+  // useEffect(() => {
+  //   console.log("Web3 const connectWallet", web3);
+  //   console.log("balanceEth", balanceEth);
+  // }, [web3, balanceEth]);
 
   const { account, active, connector, deactivate, library, chainId } =
     web3context;
@@ -136,16 +170,15 @@ export default function ConnectWallet({ landingScreenBtn }) {
   }, [account, library, chainId]);
 
   const activateWallet = useCallback(
-    (connector, onClose = () => {}) => {
+    async (connector, onClose = () => {}) => {
       if (
         connector instanceof WalletConnectConnector &&
         connector.walletConnectProvider?.wc?.uri
       ) {
         connector.walletConnectProvider = undefined;
       }
-
-      web3context
-        .activate(
+      try {
+        let result = await web3context.activate(
           connector
             ? connector
             : new InjectedConnector({
@@ -153,20 +186,14 @@ export default function ConnectWallet({ landingScreenBtn }) {
               }),
           undefined,
           true
-        )
-        .then(() => {
-          // onSuccess();
-          handleClose();
-          ToastMsg("success", "You are connected to mainnet");
-        })
-        .catch((e) => {
-          const err = getErrorMessage(e);
-          // alert(err);
-          ToastMsg("error", err);
-          // showSnackbarF({ message: err, severity: "error" });
-          console.error("ERROR activateWallet -> ", err);
-          //   setLoadingF({ walletConnection: false });
-        });
+        );
+        handleClose();
+        ToastMsg("success", "You are connected to mainnet");
+      } catch (e) {
+        const err = getErrorMessage(e);
+        ToastMsg("error", err);
+        console.error("ERROR activateWallet -> ", err);
+      }
     },
     [web3context]
   );
@@ -288,6 +315,7 @@ export default function ConnectWallet({ landingScreenBtn }) {
               className="connect-wallet-btn-img"
             ></img>{" "}
             {conciseAddress(account)}{" "}
+
           </div>
         ) : (
           "  Connect Wallet"

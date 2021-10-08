@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 import { ToastMsg } from "../components/Toast";
 import { abi as UniswapV2Router02ABI } from "../contract/abi/UniswapV2Router02ABI.json";
 import { abi as UniswapV2PairABI } from "../contract/abi/UniswapV2PairABI.json";
@@ -38,20 +38,25 @@ export const getDataMain = async () => {
   return { weth, pair, route };
 };
 
-export const supply = async (phnxValue, ethValue, web3context) => {
+export const supply = async (
+  phnxValue,
+  ethValue,
+  web3context,
+  contractUniswapRouter
+) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
-  const uniswapContract = new web3.eth.Contract(
-    UniswapV2Router02ABI,
-    UNISWAP_CONTRACT_ADDRESS_RINEBY
-  );
-  console.log(uniswapContract.methods);
+  // const uniswapContract = new web3.eth.Contract(
+  //   UniswapV2Router02ABI,
+  //   UNISWAP_CONTRACT_ADDRESS_RINEBY
+  // );
+  // console.log(uniswapContract.methods);
   let deadline = Date.now();
   deadline += 5 * 60;
 
   let phnxMin = phnxValue - phnxValue * 0.1;
   let ethMin = ethValue - ethValue * 0.1;
 
-  await uniswapContract.methods
+  await contractUniswapRouter.methods
     .addLiquidityETH(
       PHNX_RINKEBY_TOKEN_ADDRESS, // address token,
       web3.utils.toWei(phnxValue.toString()), // uint amountTokenDesired,
@@ -87,17 +92,21 @@ export const supply = async (phnxValue, ethValue, web3context) => {
     });
 };
 
-export const getPoolPosition = async (web3context, setPoolPosition) => {
+export const getPoolPosition = async (
+  web3context,
+  setPoolPosition,
+  contractUniswapPair
+) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
-  const uniswapV2PairContract = new web3.eth.Contract(
-    UniswapV2PairABI,
-    "0xff8ae8805552c813d75ad6ff456dbc417bd12be6"
-  );
-  const balanceOf = await uniswapV2PairContract.methods
+  // const uniswapV2PairContract = new web3.eth.Contract(
+  //   UniswapV2PairABI,
+  //   "0xff8ae8805552c813d75ad6ff456dbc417bd12be6"
+  // );
+  const balanceOf = await contractUniswapPair.methods
     .balanceOf(web3context.account)
     .call();
-  const getReserves = await uniswapV2PairContract.methods.getReserves().call();
-  const totalSupply = await uniswapV2PairContract.methods.totalSupply().call();
+  const getReserves = await contractUniswapPair.methods.getReserves().call();
+  const totalSupply = await contractUniswapPair.methods.totalSupply().call();
 
   let _balance = new BigNumber(balanceOf);
   let _totalSupply = new BigNumber(totalSupply);
@@ -116,12 +125,6 @@ export const getPoolPosition = async (web3context, setPoolPosition) => {
   _token0 = _token0.dividedBy(conv);
   _token1 = _token1.dividedBy(conv);
 
-  // setPoolPosition({
-  //   lp: _balance.toFixed(2),
-  //   poolPerc: _poolPercentage.toFormat(6),
-  //   eth: _token1.toFormat(6),
-  //   phnx: _token0.toFormat(6),
-  // });
   return {
     lp: _balance.toFixed(2),
     poolPerc: _poolPercentage.toFormat(6),
@@ -130,20 +133,57 @@ export const getPoolPosition = async (web3context, setPoolPosition) => {
   };
 };
 
+export const phnxContractInit = (web3context) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  const contract = new web3.eth.Contract(
+    PhoenixDaoABI,
+    PHNX_RINKEBY_TOKEN_ADDRESS
+  );
+  return contract;
+};
+
+export const uniswapV2RouterInit = async (web3context) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  const contract = new web3.eth.Contract(
+    UniswapV2Router02ABI,
+    UNISWAP_CONTRACT_ADDRESS_RINEBY
+  );
+  return contract;
+};
+
+export const uniswapV2PairInit = (web3context) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  const contract = new web3.eth.Contract(
+    UniswapV2PairABI,
+    "0xff8ae8805552c813d75ad6ff456dbc417bd12be6"
+  );
+  return contract;
+};
+
+export const getEthBalance = async (web3context) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  console.log(web3context, " getEthBalace Web3Context");
+  let WeiEthBalance = await web3.eth.getBalance(web3context.account);
+  let EthBalance = parseFloat(web3.utils.fromWei(WeiEthBalance, "ether"));
+  console.log("EthBalance ==>", EthBalance);
+  return EthBalance;
+};
+
+export const getPhnxBalance = async (web3context, contractPhnx) => {
+  console.log("contractPhnx getPhnxBalance", contractPhnx);
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  contractPhnx.methods
+    .balanceOf(web3context.account)
+    .call()
+    .then((phnx) => {
+      let PhnxBalance = parseFloat(web3.utils.fromWei(phnx, "ether"));
+      console.log("balance phnx :" + PhnxBalance);
+      return PhnxBalance;
+    });
+};
+
 export const checkApproval = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
-  // Get Eth Balance
-  let WeiEthBalance = await web3.eth.getBalance(
-    "0x6F1FDA06D2e61fD3C05f3bcBa40646F3Bf668baC"
-  );
-  let EthBalance = web3.utils.fromWei(WeiEthBalance, "ether");
-  console.log("EthBalance", EthBalance);
-  // Get Phnx balance
-  // let WeiPhnxBalance = await web3.phnx.getBalance(
-  //   "0x6F1FDA06D2e61fD3C05f3bcBa40646F3Bf668baC"
-  // );
-  // let PhnxBalance = web3.utils.fromWei(WeiPhnxBalance, "phnx");
-  // console.log("PhnxBalance", PhnxBalance);
 
   const contract = new web3.eth.Contract(
     PhoenixDaoABI,
@@ -184,5 +224,7 @@ export const giveApproval = async (web3context) => {
         ToastMsg("success", "Approved successfully!");
       }
     })
-    .on("error", function (err) {});
+    .on("error", function (err) {
+      console.error(err);
+    });
 };

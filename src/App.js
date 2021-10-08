@@ -7,18 +7,10 @@ import { store, persistor } from "./redux/store";
 import Router from "./routes";
 import { BrowserRouter } from "react-router-dom";
 
-import { useWeb3React } from "@web3-react/core";
-import { ToastMsg } from "./components/Toast";
+// import { ToastMsg } from "./components/Toast";
 
 
 const App = () => {
-  const { account } = useWeb3React();
-
-  useEffect(() => {
-    if (!account) {
-      ToastMsg("warning", "Please connect your wallet first!");
-    }
-  }, []);
   return (
     <BrowserRouter>
       <Provider store={store}>

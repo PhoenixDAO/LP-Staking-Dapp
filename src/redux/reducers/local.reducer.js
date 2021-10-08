@@ -4,10 +4,17 @@ const INITIAL_STATE = {
   loading_MainData: false,
   mainData: null,
   error: "",
+  // web3State: null,
+  balanceEth: 0,
 };
 
 const localReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    // case types.WEB3_INIT_SUCCESS:
+    //   return { ...state, web3State: action.payload, error: "" };
+    // case types.WEB3_INIT_ERROR:
+    //   return { ...state, error: action.payload };
+
     case types.GET_MAIN_DATA_LOADING:
       return { ...state, loading_MainData: action.payload, error: "" };
     case types.GET_MAIN_DATA_SUCCESS:
@@ -19,6 +26,11 @@ const localReducer = (state = INITIAL_STATE, action) => {
       };
     case types.GET_MAIN_DATA_ERROR:
       return { ...state, error: action.payload, loading_MainData: false };
+
+    case types.ETH_BALANCE_SUCCESS:
+      return { ...state, balanceEth: action.payload, error: "" };
+    case types.ETH_BALANCE_ERROR:
+      return { ...state, error: action.payload };
 
     default:
       return state;

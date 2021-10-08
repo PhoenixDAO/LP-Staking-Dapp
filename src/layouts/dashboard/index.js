@@ -6,6 +6,10 @@ import { Box, CssBaseline } from "@mui/material";
 import DashboardNavbar from "./DashboardNavbar";
 import DashboardSidebar from "./DashboardSidebar";
 
+import { Web3InitAction } from "../../redux/actions/local.actions";
+import { useSelector, useDispatch } from "react-redux";
+import { useWeb3React } from "@web3-react/core";
+
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -16,12 +20,23 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 export default function DashboardLayout() {
-  const [open, setOpen] = React.useState(false);
+  // const web3context = useWeb3React();
+  // const web3 = useSelector((state) => state.localReducer.web3State);
+  // const dispatch = useDispatch();
+  // React.useEffect(() => {
+  //   if (web3context.active && web3context.account) {
+  //     console.log("web3contrext,", web3context);
+  //     dispatch(Web3InitAction(web3context));
+  //   }
+  // }, [web3context]);
+  // React.useEffect(() => {
+  //   console.log("web3 ==>", web3);
+  // }, [web3context]);
 
+  const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -34,8 +49,8 @@ export default function DashboardLayout() {
       <Box
         // component="main"
         // sx={{ flexGrow: 1, p: 3, background: "#E5E5E5", height: "100vh" }}
-        className='main-div'
-      >      
+        className="main-div"
+      >
         <DrawerHeader />
         <Outlet />
       </Box>

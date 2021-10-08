@@ -3,9 +3,68 @@ import {
   getPoolPosition,
   checkApproval,
   giveApproval,
+  getPhnxBalance,
+  phnxContractInit,
+  uniswapV2PairInit,
+  uniswapV2RouterInit,
 } from "../../services/pool.services";
 
-const GetPoolPositionAction = () => {
+export const PhnxContractInitAction = (web3context) => {
+  return async (dispatch) => {
+    try {
+      let response = await phnxContractInit(web3context);
+      console.log("PhnxContractInitAction response", response);
+      dispatch({
+        type: types.PHNX_INIT_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      console.log("err in action", e);
+      dispatch({
+        type: types.PHNX_INIT_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
+// Hi
+export const UniswapContractPairInitAction = (web3context) => {
+  return async (dispatch) => {
+    try {
+      let response = await uniswapV2PairInit(web3context);
+      console.log("UniswapContractPairInitAction response", response);
+      dispatch({
+        type: types.UNISWAP_PAIR_INIT_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: types.UNISWAP_PAIR_INIT_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
+
+export const UniswapContractRouterInitAction = (web3context) => {
+  return async (dispatch) => {
+    try {
+      let response = await uniswapV2RouterInit(web3context);
+      console.log("UniswapContractRouterInitAction response", response);
+      dispatch({
+        type: types.UNISWAP_ROUTER_INIT_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: types.UNISWAP_ROUTER_INIT_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
+
+export const GetPoolPositionAction = () => {
   return async (dispatch) => {
     dispatch({
       type: types.GET_POOL_POSITION_LOADING,
@@ -27,7 +86,7 @@ const GetPoolPositionAction = () => {
   };
 };
 
-const CheckApprovalAction = () => {
+export const CheckApprovalAction = () => {
   return async (dispatch) => {
     dispatch({
       type: types.CHECK_APPROVAL_LOADING,
@@ -49,53 +108,21 @@ const CheckApprovalAction = () => {
   };
 };
 
-// export const loginUserAction = (email, password, navigation) => {
-// 	console.log("loginUserAction is calling");
-// 	return async (dispatch) => {
-// 		dispatch({
-// 			type: LOGIN_USER_LOADING,
-// 			payload: true,
-// 		});
-// 		try {
-// 			let response = await loginUser(email, password);
-// 			console.log(response.data, "login response");
-// 			dispatch({
-// 				type: LOGIN_USER_SUCCESS,
-// 				payload: response.data,
-// 			});
-// 			// alert('Login user success')
-// 			SetLocalItem("token", response?.data?.token);
-// 			SetLocalItem("uid", response?.data?.user?._id);
-// 			navigation.navigate("AppNavigator");
-// 		} catch (e) {
-// 			dispatch({
-// 				type: LOGIN_USER_ERROR,
-// 				payload: e?.response?.data?.message || e.message,
-// 			});
-// 		}
-// 	};
-// };
-
-// export const getLoggedInUserAction = (userId) => {
-// 	return async (dispatch) => {
-// 		dispatch({
-// 			type: GET_USER_LOADING,
-// 			payload: true,
-// 		});
-// 		try {
-// 			let token = await GetLocalItem("token");
-// 			let response = await getLoggedInUser(token, userId);
-// 			console.log(response.data, "Response of getLoggedInUser()");
-// 			dispatch({
-// 				type: GET_LOGGEDIN_USER_SUCESS,
-// 				payload: response?.data,
-// 			});
-// 		} catch (e) {
-// 			console.log(e, "Error in getLoggedInUser api request");
-// 			dispatch({
-// 				type: GET_LOGGEDIN_USER_ERROR,
-// 				payload: e?.response?.data?.message || e.message,
-// 			});
-// 		}
-// 	};
-// };
+export const GetPhnxBalanceAction = (web3context, contractPhnx) => {
+  console.log("contractPhnx GetPhnxBalanceAction", contractPhnx);
+  return async (dispatch) => {
+    try {
+      let response = await getPhnxBalance(web3context, contractPhnx);
+      console.log("GetPhnxBalaceAction response", response);
+      dispatch({
+        type: types.PHNX_BALANCE_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: types.PHNX_BALANCE_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};

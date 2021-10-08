@@ -29,6 +29,10 @@ jobs:
         run: npm install && npm run build
         env:
           CI: false
+          
+#       - name: Custom command
+#         run: npm install --save-dev redux-devtools-extension
+        
       - name: Deploy to S3
         uses: reggionick/s3-deploy@v3
         with:
