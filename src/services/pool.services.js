@@ -45,11 +45,7 @@ export const supply = async (
   contractUniswapRouter
 ) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
-  // const uniswapContract = new web3.eth.Contract(
-  //   UniswapV2Router02ABI,
-  //   UNISWAP_CONTRACT_ADDRESS_RINEBY
-  // );
-  // console.log(uniswapContract.methods);
+
   let deadline = Date.now();
   deadline += 5 * 60;
 
@@ -97,11 +93,6 @@ export const getPoolPosition = async (
   setPoolPosition,
   contractUniswapPair
 ) => {
-  const web3 = new Web3(web3context?.library?.currentProvider);
-  // const uniswapV2PairContract = new web3.eth.Contract(
-  //   UniswapV2PairABI,
-  //   "0xff8ae8805552c813d75ad6ff456dbc417bd12be6"
-  // );
   const balanceOf = await contractUniswapPair.methods
     .balanceOf(web3context.account)
     .call();
@@ -182,35 +173,22 @@ export const getPhnxBalance = async (web3context, contractPhnx) => {
     });
 };
 
-export const checkApproval = async (web3context) => {
-  const web3 = new Web3(web3context?.library?.currentProvider);
-
-  const contract = new web3.eth.Contract(
-    PhoenixDaoABI,
-    PHNX_RINKEBY_TOKEN_ADDRESS
-  );
-  let allowance1 = await contract.methods
+export const checkApproval = async (web3context, contractPhnx) => {
+  let allowance1 = await contractPhnx.methods
     .allowance(web3context.account, UNISWAP_CONTRACT_ADDRESS_RINEBY)
     .call();
   console.log("allowance", allowance1);
   return allowance1;
 };
 
-export const giveApproval = async (web3context) => {
+export const giveApproval = async (web3context, contractPhnx) => {
   if (!web3context.account) {
     alert("Connect your wallet");
     return;
   }
   const web3 = new Web3(web3context?.library?.currentProvider);
 
-  const contract = new web3.eth.Contract(
-    PhoenixDaoABI,
-    PHNX_RINKEBY_TOKEN_ADDRESS
-  );
-
-  console.log("pata", web3context.account);
-
-  await contract.methods
+  await contractPhnx.methods
     .approve(UNISWAP_CONTRACT_ADDRESS_RINEBY, web3.utils.toWei("10000000000"))
     .send({ from: web3context.account })
     .on("transactionHash", (hash) => {
@@ -220,7 +198,7 @@ export const giveApproval = async (web3context) => {
     .on("confirmation", function (confirmationNumber, receipt) {
       if (confirmationNumber === 2) {
         // tx confirmed
-        checkApproval();
+        checkApproval(web3context, contractPhnx);
         ToastMsg("success", "Approved successfully!");
       }
     })
