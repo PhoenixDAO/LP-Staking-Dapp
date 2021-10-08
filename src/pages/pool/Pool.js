@@ -12,25 +12,10 @@ import ConnectWallet from "../../components/ConnectWallet";
 import { Link } from "react-router-dom";
 
 const Pool = () => {
-  // const { account,active } = useWeb3React();
+  const { account, active } = useWeb3React();
   // const dispatch = useDispatch();
-  const web3 = useSelector((state) => state.localReducer.web3State);
   const balanceEth = useSelector((state) => state.localReducer.balanceEth);
-  // const web3context = useWeb3React();
 
-
-  // useEffect(async () => {
-  //   if (!web3context.account) {
-  //     ToastMsg("warning", "Please connect your wallet first!");
-  //     dispatch(Web3InitAction(web3context));
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log("Web3 const", web3);
-  // }, [web3]);
-
-  // console.log("account in pool", account);
   return (
     <div>
       <div className="container-div">
@@ -41,7 +26,7 @@ const Pool = () => {
           </p>
           <img src={handsImg} className="img-hands" />
         </div>
-        <p>{balanceEth}</p>
+        {/* <p>{balanceEth}</p> */}
         <div className="container-div2">
           <div className="connect-wallet-div">
             <p className="phnx-heading">PhoenixDAO LP Staking</p>
@@ -51,7 +36,7 @@ const Pool = () => {
             </p>
 
             {account && active ? (
-              <Link to='/liquidity' style={{textDecoration:'none'}}>
+              <Link to="/liquidity" style={{ textDecoration: "none" }}>
                 <Button
                   variant="contained"
                   size="large"
@@ -67,7 +52,7 @@ const Pool = () => {
                 </Button>
               </Link>
             ) : (
-              <ConnectWallet landingScreenBtn={true}/>
+              <ConnectWallet landingScreenBtn={true} />
             )}
           </div>
 

@@ -38,20 +38,25 @@ export const getDataMain = async () => {
   return { weth, pair, route };
 };
 
-export const supply = async (phnxValue, ethValue, web3context) => {
+export const supply = async (
+  phnxValue,
+  ethValue,
+  web3context,
+  contractUniswapRouter
+) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
-  const uniswapContract = new web3.eth.Contract(
-    UniswapV2Router02ABI,
-    UNISWAP_CONTRACT_ADDRESS_RINEBY
-  );
-  console.log(uniswapContract.methods);
+  // const uniswapContract = new web3.eth.Contract(
+  //   UniswapV2Router02ABI,
+  //   UNISWAP_CONTRACT_ADDRESS_RINEBY
+  // );
+  // console.log(uniswapContract.methods);
   let deadline = Date.now();
   deadline += 5 * 60;
 
   let phnxMin = phnxValue - phnxValue * 0.1;
   let ethMin = ethValue - ethValue * 0.1;
 
-  await uniswapContract.methods
+  await contractUniswapRouter.methods
     .addLiquidityETH(
       PHNX_RINKEBY_TOKEN_ADDRESS, // address token,
       web3.utils.toWei(phnxValue.toString()), // uint amountTokenDesired,
@@ -87,17 +92,21 @@ export const supply = async (phnxValue, ethValue, web3context) => {
     });
 };
 
-export const getPoolPosition = async (web3context, setPoolPosition) => {
+export const getPoolPosition = async (
+  web3context,
+  setPoolPosition,
+  contractUniswapPair
+) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
-  const uniswapV2PairContract = new web3.eth.Contract(
-    UniswapV2PairABI,
-    "0xff8ae8805552c813d75ad6ff456dbc417bd12be6"
-  );
-  const balanceOf = await uniswapV2PairContract.methods
+  // const uniswapV2PairContract = new web3.eth.Contract(
+  //   UniswapV2PairABI,
+  //   "0xff8ae8805552c813d75ad6ff456dbc417bd12be6"
+  // );
+  const balanceOf = await contractUniswapPair.methods
     .balanceOf(web3context.account)
     .call();
-  const getReserves = await uniswapV2PairContract.methods.getReserves().call();
-  const totalSupply = await uniswapV2PairContract.methods.totalSupply().call();
+  const getReserves = await contractUniswapPair.methods.getReserves().call();
+  const totalSupply = await contractUniswapPair.methods.totalSupply().call();
 
   let _balance = new BigNumber(balanceOf);
   let _totalSupply = new BigNumber(totalSupply);
@@ -133,12 +142,23 @@ export const phnxContractInit = (web3context) => {
   return contract;
 };
 
-// export const Web3Init = async (web3context) => {
-//   // console.log("Web3Init ==>>> web3context", web3context);
-//   const web3 = new Web3(web3context?.library?.currentProvider);
-//   // console.log("Web3Init ==>>> web3", web3);
-//   return web3;
-// };
+export const uniswapV2RouterInit = async (web3context) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  const contract = new web3.eth.Contract(
+    UniswapV2Router02ABI,
+    UNISWAP_CONTRACT_ADDRESS_RINEBY
+  );
+  return contract;
+};
+
+export const uniswapV2PairInit = (web3context) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  const contract = new web3.eth.Contract(
+    UniswapV2PairABI,
+    "0xff8ae8805552c813d75ad6ff456dbc417bd12be6"
+  );
+  return contract;
+};
 
 export const getEthBalance = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);

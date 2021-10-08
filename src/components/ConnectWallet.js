@@ -26,6 +26,8 @@ import {
 import {
   GetPhnxBalanceAction,
   PhnxContractInitAction,
+  UniswapContractPairInitAction,
+  UniswapContractRouterInitAction,
 } from "../redux/actions/contract.actions";
 
 import { injected } from "../utils/web3Connectors";
@@ -94,8 +96,7 @@ const Item = styled("button")(({ theme }) => ({
   },
 }));
 
-
-export default function ConnectWallet({landingScreenBtn}) {
+export default function ConnectWallet({ landingScreenBtn }) {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   // const web3 = useSelector((state) => state.localReducer.web3State);
@@ -107,13 +108,13 @@ export default function ConnectWallet({landingScreenBtn}) {
   useEffect(() => {
     if (web3context.account && web3context.active) {
       dispatch(PhnxContractInitAction(web3context));
+      dispatch(UniswapContractPairInitAction(web3context));
+      dispatch(UniswapContractRouterInitAction(web3context));
     }
   }, [web3context]);
   useEffect(() => {
-    // setTimeout(() => {
     dispatch(GetEthBalanceAction(web3context));
     dispatch(GetPhnxBalanceAction(web3context, contractPhnx));
-    // }, 1000);
   }, [contractPhnx]);
 
   // useEffect(() => {
@@ -267,7 +268,14 @@ export default function ConnectWallet({landingScreenBtn}) {
         </button>
       ) : null}
       &nbsp;&nbsp;
-      <button onClick={handleOpen} className={landingScreenBtn===true ? "connect-wallet-btn connect-wallet-btn-reverse" : "connect-wallet-btn"}>
+      <button
+        onClick={handleOpen}
+        className={
+          landingScreenBtn === true
+            ? "connect-wallet-btn connect-wallet-btn-reverse"
+            : "connect-wallet-btn"
+        }
+      >
         {active && account ? (
           <div
             style={{
