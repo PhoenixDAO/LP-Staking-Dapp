@@ -9,7 +9,7 @@ import {useState} from 'react';
 
 function FarmStake({stakeModalOpen}) {
 
-    const[showMore,setShowMore]=useState(false);
+    const[showMore,setShowMore]=useState(false);    
 
 
     return (

@@ -50,8 +50,8 @@ function FarmHarvest({stakeModalOpen,UnstakeModalOpen}) {
             </div>
 
             <div style={{display:'flex',alignItems:'center'}}>
-                <button className='farm-btn-stake-outline' onClick={()=>UnstakeModalOpen()}> - Remove Liquidity</button>
-                <button className='farm-btn-stake-outline' style={{marginLeft:'auto'}} onClick={()=>stakeModalOpen()}> + Add Liquidity</button>
+                <button className='farm-btn-stake-outline' onClick={()=>UnstakeModalOpen()}> UnStake</button>
+                <button className='farm-btn-stake-outline' style={{marginLeft:'auto'}} onClick={()=>stakeModalOpen()}> Stake</button>
             </div>
 
             <button className='farm-btn-stake' style={{marginTop:'20px'}}>Harvest</button>
