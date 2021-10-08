@@ -3,7 +3,8 @@ import {
   Modal,
   // InputAdornment,
 } from "@mui/material";
-import LiquidityComponent from "../components/AddLiquidityComponent";
+import AddLiquidityComp from "../components/AddLiquidityComponent";
+import RemoveLiquidityComp from "./removeLiquidityComponent";
 
 import ComponentCss from "./componentCss.css";
 
@@ -16,7 +17,11 @@ const LiquidityModal = ({ isVisible, handleClose }) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <LiquidityComponent isVisible={isVisible} handleClose={handleClose} closeBtn={true} />
+      <AddLiquidityComp
+        isVisible={isVisible}
+        handleClose={handleClose}
+        closeBtn={true}
+      />
     </Modal>
   );
 };

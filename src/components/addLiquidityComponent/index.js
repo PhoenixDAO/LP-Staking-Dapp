@@ -11,12 +11,12 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import ComponentCss from "./componentCss.css";
 import PhnxLogo from "../assets/phnxLogo.png";
-import * as SERVICE from "../services/pool.services";
+import * as SERVICE from "../../services/pool.services";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
-import { ToastMsg } from "./Toast";
+import { ToastMsg } from "../Toast";
 import Web3 from "web3";
-import { abi } from "../contract/abi/PhoenixDaoABI.json";
-import { GetMainDataAction } from "../redux/actions/local.actions";
+import { abi } from "../../contract/abi/PhoenixDaoABI.json";
+import { GetMainDataAction } from "../../redux/actions/local.actions";
 import { useSelector, useDispatch } from "react-redux";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
@@ -84,14 +84,14 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const _handleGetDataMain = async () => {
     try {
       dispatch(GetMainDataAction());
-      setTimeout(() => {
-        if (mainData !== null) {
-          setPhnxPerEth(mainData?.route?.midPrice?.toSignificant(6));
-          setEthPerPhnx(mainData?.route?.midPrice?.invert().toSignificant(6));
-          setReserve0(mainData?.pair?.reserveO);
-          setReserve1(mainData?.pair?.reserve1?.toFixed(2));
-        }
-      }, 300);
+      // setTimeout(() => {
+      //   if (mainData !== null) {
+      //     setPhnxPerEth(mainData?.route?.midPrice?.toSignificant(6));
+      //     setEthPerPhnx(mainData?.route?.midPrice?.invert().toSignificant(6));
+      //     setReserve0(mainData?.pair?.reserveO);
+      //     setReserve1(mainData?.pair?.reserve1?.toFixed(2));
+      //   }
+      // }, 300);
     } catch (e) {
       console.error("Error _handleGetDataMain", e);
     }
