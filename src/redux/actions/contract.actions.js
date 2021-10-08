@@ -64,14 +64,21 @@ export const UniswapContractRouterInitAction = (web3context) => {
   };
 };
 
-export const GetPoolPositionAction = () => {
+export const GetPoolPositionAction = (
+  web3context,
+  setPoolPosition,
+  contractUniswapPair
+  ) => {
   return async (dispatch) => {
     dispatch({
-      type: types.GET_POOL_POSITION_LOADING,
-      // payload: response?.data,
+      type: types.GET_POOL_POSITION_LOADING
     });
     try {
-      let response = await getPoolPosition();
+      let response = await getPoolPosition(
+        web3context,
+        setPoolPosition,
+        contractUniswapPair
+        );
       console.log("GetPoolPositionAction response", response);
       dispatch({
         type: types.GET_POOL_POSITION_SUCCESS,
