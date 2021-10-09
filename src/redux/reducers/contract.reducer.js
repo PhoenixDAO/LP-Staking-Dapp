@@ -7,7 +7,8 @@ const INITIAL_STATE = {
   allowance1: null,
   loading_CheckApproval: false,
   balancePhnx: 0,
-  contractPhnx: null,
+  contractPhnxDao: null,
+  contractPhnxStake: null,
   contractUniswapPair: null,
   contractUniswapRouter: null,
 };
@@ -43,9 +44,14 @@ const contractReducer = (state = INITIAL_STATE, action) => {
     case types.CHECK_APPROVAL_ERROR:
       return { ...state, error: action.payload, loading: false };
 
-    case types.PHNX_INIT_SUCCESS:
-      return { ...state, contractPhnx: action.payload, error: "" };
-    case types.PHNX_INIT_ERROR:
+    case types.PHNX_DAO_INIT_SUCCESS:
+      return { ...state, contractPhnxDao: action.payload, error: "" };
+    case types.PHNX_DAO_INIT_ERROR:
+      return { ...state, error: action.payload };
+
+    case types.PHNX_STAKE_INIT_SUCCESS:
+      return { ...state, contractPhnxStake: action.payload, error: "" };
+    case types.PHNX_STAKE_INIT_ERROR:
       return { ...state, error: action.payload };
 
     case types.UNISWAP_PAIR_INIT_SUCCESS:

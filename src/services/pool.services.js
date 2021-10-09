@@ -5,6 +5,7 @@ import { ToastMsg } from "../components/Toast";
 import { abi as UniswapV2Router02ABI } from "../contract/abi/UniswapV2Router02ABI.json";
 import { abi as UniswapV2PairABI } from "../contract/abi/UniswapV2PairABI.json";
 import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
+import { abi as PhoenixStakeABI } from "../contract/abi/PHXStakeABI.json";
 import {
   PHNX_RINKEBY_TOKEN_ADDRESS,
   UNISWAP_CONTRACT_ADDRESS_RINEBY,
@@ -124,10 +125,19 @@ export const getPoolPosition = async (
   };
 };
 
-export const phnxContractInit = (web3context) => {
+export const phnxDaoContractInit = (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   const contract = new web3.eth.Contract(
     PhoenixDaoABI,
+    PHNX_RINKEBY_TOKEN_ADDRESS
+  );
+  return contract;
+};
+
+export const phnxStakeContractInit = (web3context) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+  const contract = new web3.eth.Contract(
+    PhoenixStakeABI,
     PHNX_RINKEBY_TOKEN_ADDRESS
   );
   return contract;

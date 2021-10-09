@@ -4,30 +4,50 @@ import {
   checkApproval,
   giveApproval,
   getPhnxBalance,
-  phnxContractInit,
+  phnxDaoContractInit,
+  phnxStakeContractInit,
   uniswapV2PairInit,
   uniswapV2RouterInit,
 } from "../../services/pool.services";
 
-export const PhnxContractInitAction = (web3context) => {
+export const PhnxDaoContractInitAction = (web3context) => {
   return async (dispatch) => {
     try {
-      let response = await phnxContractInit(web3context);
-      console.log("PhnxContractInitAction response", response);
+      let response = await phnxDaoContractInit(web3context);
+      console.log("PhnxDaoContractInitAction response", response);
       dispatch({
-        type: types.PHNX_INIT_SUCCESS,
+        type: types.PHNX_DAO_INIT_SUCCESS,
         payload: response,
       });
     } catch (e) {
       console.log("err in action", e);
       dispatch({
-        type: types.PHNX_INIT_ERROR,
+        type: types.PHNX_DAO_INIT_ERROR,
         payload: e?.response?.data?.message || e.message,
       });
     }
   };
 };
-// Hi
+
+export const PhnxStakeContractInitAction = (web3context) => {
+  return async (dispatch) => {
+    try {
+      let response = await phnxStakeContractInit(web3context);
+      console.log("PhnxStakeContractInitAction response", response);
+      dispatch({
+        type: types.PHNX_STAKE_INIT_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      console.log("err in action", e);
+      dispatch({
+        type: types.PHNX_STAKE_INIT_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
+
 export const UniswapContractPairInitAction = (web3context) => {
   return async (dispatch) => {
     try {
@@ -68,17 +88,17 @@ export const GetPoolPositionAction = (
   web3context,
   setPoolPosition,
   contractUniswapPair
-  ) => {
+) => {
   return async (dispatch) => {
     dispatch({
-      type: types.GET_POOL_POSITION_LOADING
+      type: types.GET_POOL_POSITION_LOADING,
     });
     try {
       let response = await getPoolPosition(
         web3context,
         setPoolPosition,
         contractUniswapPair
-        );
+      );
       console.log("GetPoolPositionAction response", response);
       dispatch({
         type: types.GET_POOL_POSITION_SUCCESS,

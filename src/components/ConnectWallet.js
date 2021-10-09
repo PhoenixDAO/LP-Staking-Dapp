@@ -27,7 +27,8 @@ import {
 } from "../redux/actions/local.actions";
 import {
   GetPhnxBalanceAction,
-  PhnxContractInitAction,
+  PhnxDaoContractInitAction,
+  PhnxStakeContractInitAction,
   UniswapContractPairInitAction,
   UniswapContractRouterInitAction,
 } from "../redux/actions/contract.actions";
@@ -63,6 +64,10 @@ import {
   tokenAddressRinkeby,
 } from "../contract/constants";
 import WalletSettings from "./walletSettings";
+import {
+  phnxDaoContractInit,
+  phnxStakeContractInit,
+} from "../services/pool.services";
 
 const style = {
   position: "absolute",
@@ -113,7 +118,8 @@ export default function ConnectWallet({ landingScreenBtn }) {
 
   useEffect(() => {
     if (web3context.account && web3context.active) {
-      dispatch(PhnxContractInitAction(web3context));
+      dispatch(phnxDaoContractInit(web3context));
+      dispatch(phnxStakeContractInit(web3context));
       dispatch(UniswapContractPairInitAction(web3context));
       dispatch(UniswapContractRouterInitAction(web3context));
     }
