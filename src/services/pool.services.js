@@ -131,6 +131,7 @@ export const phnxDaoContractInit = (web3context) => {
     PhoenixDaoABI,
     PHNX_RINKEBY_TOKEN_ADDRESS
   );
+  console.log("phnxDaoContractInit service", contract);
   return contract;
 };
 
@@ -140,6 +141,7 @@ export const phnxStakeContractInit = (web3context) => {
     PhoenixStakeABI,
     PHNX_RINKEBY_TOKEN_ADDRESS
   );
+  console.log("phnxStakeContractInit service", contract);
   return contract;
 };
 
@@ -170,10 +172,10 @@ export const getEthBalance = async (web3context) => {
   return EthBalance;
 };
 
-export const getPhnxBalance = async (web3context, contractPhnx) => {
-  console.log("contractPhnx getPhnxBalance", contractPhnx);
+export const getPhnxBalance = async (web3context, contractPhnxDao) => {
+  console.log("contractPhnx getPhnxBalance", contractPhnxDao);
   const web3 = new Web3(web3context?.library?.currentProvider);
-  contractPhnx.methods
+  contractPhnxDao.methods
     .balanceOf(web3context.account)
     .call()
     .then((phnx) => {
@@ -183,22 +185,22 @@ export const getPhnxBalance = async (web3context, contractPhnx) => {
     });
 };
 
-export const checkApproval = async (web3context, contractPhnx) => {
-  let allowance1 = await contractPhnx.methods
+export const checkApproval = async (web3context, contractPhnxDao) => {
+  let allowance1 = await contractPhnxDao.methods
     .allowance(web3context.account, UNISWAP_CONTRACT_ADDRESS_RINEBY)
     .call();
   console.log("allowance", allowance1);
   return allowance1;
 };
 
-export const giveApproval = async (web3context, contractPhnx) => {
+export const giveApproval = async (web3context, contractPhnxDao) => {
   if (!web3context.account) {
     alert("Connect your wallet");
     return;
   }
   const web3 = new Web3(web3context?.library?.currentProvider);
 
-  await contractPhnx.methods
+  await contractPhnxDao.methods
     .approve(UNISWAP_CONTRACT_ADDRESS_RINEBY, web3.utils.toWei("10000000000"))
     .send({ from: web3context.account })
     .on("transactionHash", (hash) => {
@@ -208,7 +210,7 @@ export const giveApproval = async (web3context, contractPhnx) => {
     .on("confirmation", function (confirmationNumber, receipt) {
       if (confirmationNumber === 2) {
         // tx confirmed
-        checkApproval(web3context, contractPhnx);
+        checkApproval(web3context, contractPhnxDao);
         ToastMsg("success", "Approved successfully!");
       }
     })
