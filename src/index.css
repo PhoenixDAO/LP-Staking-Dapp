@@ -1,4 +1,3 @@
-
 @font-face {
   font-family: "Aeonik";
   src: url("./custom-font/Aeonik-Regular.otf");
@@ -8,21 +7,19 @@
   src: url("./custom-font/Aeonik-Bold.otf");
 }
 
-
-
 body {
   margin: 0;
   /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif; */
-  font-family: 'Aeonik' !important;
+  font-family: "Aeonik" !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #E5E5E5 !important;
+  background-color: #e5e5e5 !important;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -30,29 +27,19 @@ body > #root > div {
   height: 100vh;
 }
 
-
-.css-1u2mxbp{
-
+.css-1u2mxbp {
   height: 63px;
-  
 }
 
-
-
-@media only screen and (max-width: 650px){
-
-  .css-1u2mxbp{
-    height: 45px ;
-    
+@media only screen and (max-width: 650px) {
+  .css-1u2mxbp {
+    height: 45px;
   }
-
 }
 
 @media (max-width: 600px) {
-
-
   .css-1k29mp9 {
-    margin:0 !important;
+    margin: 0 !important;
   }
 
   .css-83xjzn-MuiStack-root {
@@ -61,44 +48,37 @@ body > #root > div {
     align-items: center !important;
     margin: 0;
   }
-
 }
 
-
-@media (max-width: 500px){
+@media (max-width: 500px) {
   .css-1k29mp9 > img {
     width: 100px !important;
     margin-left: -30px;
   }
-  .css-1rwt2y5-MuiButtonBase-root-MuiButton-root{
+  .css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
     font-size: 11px !important;
     padding: 5px !important;
   }
 }
 
-.css-tzssek-MuiSvgIcon-root{
+.css-tzssek-MuiSvgIcon-root {
   margin-top: -20px !important;
   background-color: none !important;
 }
 
-.css-tzssek-MuiSvgIcon-root:hover{
-    background-color: none !important;
+.css-tzssek-MuiSvgIcon-root:hover {
+  background-color: none !important;
 }
 
 .css-1duvn0l > img {
-  
   width: 25px;
-
 }
 
 .css-1duvn0l > h2 {
-  
   font-size: medium;
-
 }
 
-
-.css-a4i7ew-MuiTypography-root{
+.css-a4i7ew-MuiTypography-root {
   font-size: 17px !important;
   font-weight: bold !important;
   margin-bottom: 20px !important;
@@ -109,35 +89,33 @@ body > #root > div {
   width: 10px !important;
 }
 
-.css-1jeep95-MuiTypography-root{
+.css-1jeep95-MuiTypography-root {
   font-size: small;
   margin-top: 40px !important;
   margin-bottom: 20px !important;
 }
 
-.css-1duvn0l{
+.css-1duvn0l {
   padding: 7px !important;
   margin-top: 5px !important;
 }
-.css-9mgopn-MuiDivider-root{
+.css-9mgopn-MuiDivider-root {
   margin-top: 5px !important;
 }
 
-.css-usdyv8-MuiStack-root{
+.css-usdyv8-MuiStack-root {
   margin: 4px !important;
 }
 
-.css-1duvn0l:hover{
-
+.css-1duvn0l:hover {
   background-color: rgba(128, 128, 128, 0.1) !important;
   border: none !important;
-
 }
 
-.css-h4y409-MuiList-root{
+.css-h4y409-MuiList-root {
   margin-top: 60px !important;
 }
 
-.css-bshv44-MuiButtonBase-root-MuiListItem-root{
+.css-bshv44-MuiButtonBase-root-MuiListItem-root {
   height: 50px !important;
 }

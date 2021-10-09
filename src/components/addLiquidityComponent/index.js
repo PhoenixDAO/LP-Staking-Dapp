@@ -37,7 +37,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const [allowance, setAllowance] = useState(0);
 
-  
   const web3context = useWeb3React();
   const dispatch = useDispatch();
   const mainData = useSelector((state) => state.localReducer.mainData);
@@ -47,10 +46,11 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const contractUniswapRouter = useSelector(
     (state) => state.contractReducer.contractUniswapRouter
   );
+
   const contractPhnx = useSelector(
     (state) => state.contractReducer.contractPhnxDao
   );
- const poolPositionState = useSelector(
+  const poolPositionState = useSelector(
     (state) => state.contractReducer.poolPosition
   )
 

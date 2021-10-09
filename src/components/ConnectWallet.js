@@ -111,9 +111,9 @@ export default function ConnectWallet({ landingScreenBtn }) {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   // const web3 = useSelector((state) => state.localReducer.web3State);
-  const balanceEth = useSelector((state) => state.localReducer.balanceEth);
-  const contractPhnx = useSelector(
-    (state) => state.contractReducer.contractPhnx
+  // const balanceEth = useSelector((state) => state.localReducer.balanceEth);
+  const contractPhnxDao = useSelector(
+    (state) => state.contractReducer.contractPhnxDao
   );
 
   useEffect(() => {
@@ -128,9 +128,9 @@ export default function ConnectWallet({ landingScreenBtn }) {
 
   useEffect(() => {
     dispatch(GetEthBalanceAction(web3context));
-    dispatch(GetPhnxBalanceAction(web3context, contractPhnx));
-   
-  }, [contractPhnx]);
+//     dispatch(GetPhnxBalanceAction(web3context, contractPhnx));
+    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+  }, [contractPhnxDao]);
 
   // useEffect(() => {
   //   console.log("Web3 const connectWallet", web3);
