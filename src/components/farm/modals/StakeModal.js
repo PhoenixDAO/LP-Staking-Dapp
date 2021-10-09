@@ -108,7 +108,6 @@ function StakeModal({ Close }) {
   return (
     <div className="stakingModal">
       <img className="stakingModalLogo" src={Logo} alt="Logo"></img>
-
       <div className="stakingModalHeading">Stake LP Token</div>
 
       <div style={{ display: "flex", alignItem: "center" }}>

@@ -99,7 +99,6 @@ function UnStakeModal({ Close }) {
       .on("confirmation", function (confirmationNumber, receipt) {
         if (confirmationNumber === 2) {
           // tx confirmed
-          // checkApproval(web3context, contractPhnx);
           alert("success", "Approved successfully!");
         }
       })

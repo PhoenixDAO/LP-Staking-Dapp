@@ -17,7 +17,7 @@ import { ToastMsg } from "../Toast";
 import Web3 from "web3";
 import { abi } from "../../contract/abi/PhoenixDaoABI.json";
 import { GetMainDataAction } from "../../redux/actions/local.actions";
-import {GetPoolPositionAction} from '../../redux/actions/contract.actions'
+import { GetPoolPositionAction } from "../../redux/actions/contract.actions";
 import { useSelector, useDispatch } from "react-redux";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
@@ -37,7 +37,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const [allowance, setAllowance] = useState(0);
 
-  
   const web3context = useWeb3React();
   const dispatch = useDispatch();
   // const mainData = useSelector((state) => state.localReducer.mainData);
@@ -47,14 +46,12 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const contractUniswapRouter = useSelector(
     (state) => state.contractReducer.contractUniswapRouter
   );
-  const contractPhnx = useSelector(
-    (state) => state.contractReducer.contractPhnx
+  const contractPhnxDao = useSelector(
+    (state) => state.contractReducer.contractPhnxDao
   );
- const poolPositionState = useSelector(
+  const poolPositionState = useSelector(
     (state) => state.contractReducer.poolPosition
-  )
-
-  
+  );
 
   const [loading, setLoading] = useState(false);
   const [num, setNum] = useState("");
@@ -62,16 +59,14 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   useEffect(() => {
     _handleGetDataMain();
     _handleGetPoolPosition();
-
-
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (
       web3context.active &&
       web3context.account &&
       contractUniswapPair &&
-      contractPhnx
+      contractPhnxDao
     ) {
       // _handleGetPoolPosition();
       _handleCheckApproval();
@@ -80,9 +75,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const _handleGetDataMain = async () => {
     try {
-      dispatch(GetMainDataAction(()=>{
-        
-      }));
+      dispatch(GetMainDataAction(() => {}));
       // setTimeout(() => {
       //   if (mainData !== null) {
       //     setPhnxPerEth(mainData?.route?.midPrice?.toSignificant(6));
@@ -111,7 +104,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       let result = await SERVICE.checkApproval(
         web3context,
         setAllowance,
-        contractPhnx
+        contractPhnxDao
       );
       setAllowance(result);
     } catch (e) {
@@ -126,11 +119,13 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     try {
       setLoading(true);
       // await SERVICE.getPoolPosition(
-        dispatch(GetPoolPositionAction(
+      dispatch(
+        GetPoolPositionAction(
           web3context,
           // setPoolPosition,
           contractUniswapPair
-        ))
+        )
+      );
       // );
     } catch (e) {
       ToastMsg("error", "Couldn't get pool position!");
@@ -143,7 +138,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const _handleGiveApproval = async () => {
     try {
       setLoading(true);
-      await SERVICE.giveApproval(web3context, contractPhnx);
+      await SERVICE.giveApproval(web3context, contractPhnxDao);
       // ToastMsg("success", "Approved successfully!");
     } catch (e) {
       ToastMsg("error", "Failed to give approval!");

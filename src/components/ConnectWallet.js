@@ -111,23 +111,23 @@ export default function ConnectWallet({ landingScreenBtn }) {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   // const web3 = useSelector((state) => state.localReducer.web3State);
-  const balanceEth = useSelector((state) => state.localReducer.balanceEth);
-  const contractPhnx = useSelector(
-    (state) => state.contractReducer.contractPhnx
+  // const balanceEth = useSelector((state) => state.localReducer.balanceEth);
+  const contractPhnxDao = useSelector(
+    (state) => state.contractReducer.contractPhnxDao
   );
 
   useEffect(() => {
     if (web3context.account && web3context.active) {
-      // dispatch(phnxDaoContractInit(web3context));
-      // dispatch(phnxStakeContractInit(web3context));
-      // dispatch(UniswapContractPairInitAction(web3context));
-      // dispatch(UniswapContractRouterInitAction(web3context));
+      dispatch(PhnxDaoContractInitAction(web3context));
+      dispatch(PhnxStakeContractInitAction(web3context));
+      dispatch(UniswapContractPairInitAction(web3context));
+      dispatch(UniswapContractRouterInitAction(web3context));
     }
   }, [web3context]);
   useEffect(() => {
     dispatch(GetEthBalanceAction(web3context));
-    dispatch(GetPhnxBalanceAction(web3context, contractPhnx));
-  }, [contractPhnx]);
+    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+  }, [contractPhnxDao]);
 
   // useEffect(() => {
   //   console.log("Web3 const connectWallet", web3);
