@@ -91,7 +91,7 @@ function UnStakeModal({ Close }) {
 
     Contract.methods
       .withdraw(web3.utils.toWei(lpValue.toString()))
-      .send({ from: web3context.account, gas: 190809 })
+      .send({ from: web3context.account })
       .on("transactionHash", (hash) => {
         // hash of tx
         console.log("tx hash", hash);
@@ -99,7 +99,6 @@ function UnStakeModal({ Close }) {
       .on("confirmation", function (confirmationNumber, receipt) {
         if (confirmationNumber === 2) {
           // tx confirmed
-          // checkApproval(web3context, contractPhnxDao);
           alert("success", "Approved successfully!");
         }
       })

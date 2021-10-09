@@ -86,8 +86,6 @@ function StakeModal({ Close }) {
       PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
     );
 
-    console.log(lpValue);
-
     Contract.methods
       .deposit(web3.utils.toWei(lpValue.toString()))
       .send({ from: web3context.account })
@@ -98,8 +96,8 @@ function StakeModal({ Close }) {
       .on("confirmation", function (confirmationNumber, receipt) {
         if (confirmationNumber === 2) {
           // tx confirmed
-          // checkApproval(web3context, contractPhnxDao);
-          alert("success", "Approved successfully!");
+          // checkApproval(web3context, contractPhnx);
+          alert("success", "tx successfull!");
         }
       })
       .on("error", function (err) {
@@ -109,8 +107,7 @@ function StakeModal({ Close }) {
 
   return (
     <div className="stakingModal">
-      <img className="stakingModalLogo" src={Logo}></img>
-
+      <img className="stakingModalLogo" src={Logo} alt="Logo"></img>
       <div className="stakingModalHeading">Stake LP Token</div>
 
       <div style={{ display: "flex", alignItem: "center" }}>

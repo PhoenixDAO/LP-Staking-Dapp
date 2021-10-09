@@ -60,6 +60,7 @@ function Farm() {
             PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
           )
           .call();
+        console.log("al", al);
         setAllowance(al);
       };
 
