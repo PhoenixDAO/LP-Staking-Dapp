@@ -41,7 +41,7 @@ function Farm() {
       PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
     );
 
-    console.log(contract.methods);
+    console.log("contract.methods", contract.methods);
   }, []);
 
   return (
