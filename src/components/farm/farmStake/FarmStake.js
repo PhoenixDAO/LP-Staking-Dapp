@@ -4,10 +4,9 @@ import PhnxLogo from "../../../assets/PhnxLogo1.png";
 import EthLogo from "../../../assets/ETH1.png";
 import DropDownLogo from "../../../assets/dropdown.png";
 import DropUpLogo from "../../../assets/dropup.png";
-
 import { useState } from "react";
 
-function FarmStake({ stakeModalOpen, allowance, giveApproval }) {
+function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
   const [showMore, setShowMore] = useState(false);
 
   return (
@@ -51,7 +50,9 @@ function FarmStake({ stakeModalOpen, allowance, giveApproval }) {
         <div className="farm-details-txt">
           <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
         </div>
-        <div className="farm-details-txt-right">0.000</div>
+        <div className="farm-details-txt-right">
+          {userInfo.amount && userInfo.amount}
+        </div>
       </div>
 
       {allowance != 0 ? (

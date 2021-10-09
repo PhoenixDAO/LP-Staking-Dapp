@@ -20,6 +20,8 @@ function Farm() {
   const [isStackVisible, setStackVisible] = useState(false);
   const [isUnStackVisible, setUnStackVisible] = useState(false);
   const [allowance, setAllowance] = useState(0);
+  const [userInfo, setUserInfo] = useState({ amount: 0, rewardDebt: 0 });
+  const [pendingPHX, setPendingPHX] = useState({ 0: 0, 1: 0 });
 
   const web3context = useWeb3React();
 
@@ -64,7 +66,25 @@ function Farm() {
         setAllowance(al);
       };
 
+      const getUserInfo = async () => {
+        const info = await phnxStakecontract.methods
+          .userInfo(web3context?.account)
+          .call();
+        console.log("info", info);
+        setUserInfo(info);
+      };
+
+      const getPendingPHX = async () => {
+        const pending = await phnxStakecontract.methods
+          .pendingPHX(web3context?.account)
+          .call();
+        console.log("pending", pending);
+        setPendingPHX(pending);
+      };
+
       checkApproval();
+      getUserInfo();
+      getPendingPHX();
     }
   }, [
     web3context?.library?.currentProvider,
@@ -101,20 +121,50 @@ function Farm() {
       });
   };
 
+  const harvestPHNX = async () => {
+    const web3 = new Web3(web3context?.library?.currentProvider);
+    const Contract = new web3.eth.Contract(
+      PhnxStakeAbi,
+      PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
+    );
+
+    Contract.methods
+      .deposit(web3.utils.toWei("0"))
+      .send({ from: web3context.account })
+      .on("transactionHash", (hash) => {
+        // hash of tx
+        console.log("tx hash", hash);
+      })
+      .on("confirmation", function (confirmationNumber, receipt) {
+        if (confirmationNumber === 2) {
+          // tx confirmed
+          // checkApproval(web3context, contractPhnx);
+          alert("success", "tx successfull!");
+        }
+      })
+      .on("error", function (err) {
+        console.error(err);
+      });
+  };
+
   return (
     <div>
       <div className="farm-div">
-        {stakeNull ? (
+        {userInfo.amount == 0 ? (
           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
             giveApproval={giveApproval}
-          ></FarmStake>
+            userInfo={userInfo}
+          />
         ) : (
           <FarmHarvest
             stakeModalOpen={handleStackOpen}
             UnstakeModalOpen={handleUnStackOpen}
-          ></FarmHarvest>
+            userInfo={userInfo}
+            pendingPHX={pendingPHX}
+            harvestPHNX={harvestPHNX}
+          />
         )}
       </div>
       <br></br>

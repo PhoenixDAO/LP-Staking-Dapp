@@ -99,6 +99,7 @@ function UnStakeModal({ Close }) {
       .on("confirmation", function (confirmationNumber, receipt) {
         if (confirmationNumber === 2) {
           // tx confirmed
+          // checkApproval(web3context, contractPhnx);
           alert("success", "Approved successfully!");
         }
       })
@@ -109,7 +110,7 @@ function UnStakeModal({ Close }) {
 
   return (
     <div className="stakingModal">
-      <img className="stakingModalLogo" src={Logo}></img>
+      <img className="stakingModalLogo" src={Logo} alt='Logo'></img>
 
       <div className="stakingModalHeading">UnStake LP Token</div>
 
