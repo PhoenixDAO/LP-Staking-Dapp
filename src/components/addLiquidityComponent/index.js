@@ -16,8 +16,8 @@ import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { ToastMsg } from "../Toast";
 import Web3 from "web3";
 import { abi } from "../../contract/abi/PhoenixDaoABI.json";
-import { GetMainDataAction } from "../../redux/actions/local.actions";
-import { GetPoolPositionAction } from "../../redux/actions/contract.actions";
+// import { GetMainDataAction } from "../../redux/actions/local.actions";
+// import {GetPoolPositionAction} from '../../redux/actions/contract.actions'
 import { useSelector, useDispatch } from "react-redux";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
@@ -39,73 +39,61 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const web3context = useWeb3React();
   const dispatch = useDispatch();
-  // const mainData = useSelector((state) => state.localReducer.mainData);
+  const mainData = useSelector((state) => state.localReducer.mainData);
   const contractUniswapPair = useSelector(
     (state) => state.contractReducer.contractUniswapPair
   );
   const contractUniswapRouter = useSelector(
     (state) => state.contractReducer.contractUniswapRouter
   );
-  const contractPhnxDao = useSelector(
+
+  const contractPhnx = useSelector(
     (state) => state.contractReducer.contractPhnxDao
   );
   const poolPositionState = useSelector(
     (state) => state.contractReducer.poolPosition
-  );
+  )
+
 
   const [loading, setLoading] = useState(false);
   const [num, setNum] = useState("");
 
   useEffect(() => {
     _handleGetDataMain();
-    _handleGetPoolPosition();
   }, []);
 
   useEffect(() => {
     if (
       web3context.active &&
-      web3context.account &&
-      contractUniswapPair &&
-      contractPhnxDao
+      web3context.account
     ) {
       // _handleGetPoolPosition();
       _handleCheckApproval();
     }
-  }, [web3context.account]);
+  }, [web3context.active,web3context.account,contractPhnx]);
+
+  useEffect(() => {
+   console.log(contractPhnx,'contractPhnx')
+  }, [contractPhnx])
 
   const _handleGetDataMain = async () => {
     try {
-      dispatch(GetMainDataAction(() => {}));
-      // setTimeout(() => {
-      //   if (mainData !== null) {
-      //     setPhnxPerEth(mainData?.route?.midPrice?.toSignificant(6));
-      //     setEthPerPhnx(mainData?.route?.midPrice?.invert().toSignificant(6));
-      //     setReserve0(mainData?.pair?.reserveO);
-      //     setReserve1(mainData?.pair?.reserve1?.toFixed(2));
-      //   }
-      // }, 300);
+      let result = await SERVICE.getDataMain();
+      setPhnxPerEth(result.route.midPrice.toSignificant(6));
+      setEthPerPhnx(result.route.midPrice.invert().toSignificant(6));
+      setReserve0(result.pair.reserveO);
+      setReserve1(result.pair.reserve1.toFixed(2));
     } catch (e) {
       console.error("Error _handleGetDataMain", e);
     }
   };
 
-  // useEffect(()=>{
-  //   if (mainData !== null) {
-  //     setPhnxPerEth(mainData?.route?.midPrice?.toSignificant(6));
-  //     setEthPerPhnx(mainData?.route?.midPrice?.invert().toSignificant(6));
-  //     setReserve0(mainData?.pair?.reserveO);
-  //     setReserve1(mainData?.pair?.reserve1?.toFixed(2));
-  //   }
-  // },[_handleGetDataMain])
-
   const _handleCheckApproval = async () => {
+    console.log('contract123 ',contractPhnx)
     try {
       setLoading(true);
-      let result = await SERVICE.checkApproval(
-        web3context,
-        setAllowance,
-        contractPhnxDao
-      );
+      let result = await SERVICE.checkApproval(web3context, contractPhnx);
+      console.log('allowance',allowance)
       setAllowance(result);
     } catch (e) {
       console.error("_handleCheckApproval", e);
@@ -115,30 +103,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     }
   };
 
-  const _handleGetPoolPosition = async () => {
-    try {
-      setLoading(true);
-      // await SERVICE.getPoolPosition(
-      dispatch(
-        GetPoolPositionAction(
-          web3context,
-          // setPoolPosition,
-          contractUniswapPair
-        )
-      );
-      // );
-    } catch (e) {
-      ToastMsg("error", "Couldn't get pool position!");
-      console.error("Error at_handleGetPoolPosition", e);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const _handleGiveApproval = async () => {
     try {
       setLoading(true);
-      await SERVICE.giveApproval(web3context, contractPhnxDao);
+      await SERVICE.giveApproval(web3context,contractPhnx);
       // ToastMsg("success", "Approved successfully!");
     } catch (e) {
       ToastMsg("error", "Failed to give approval!");
@@ -151,12 +119,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const _handleSupply = async () => {
     try {
       setLoading(true);
-      await SERVICE.supply(
-        phnxValue,
-        ethValue,
-        web3context,
-        contractUniswapRouter
-      );
+      await SERVICE.supply(phnxValue, ethValue, web3context, contractUniswapRouter);
     } catch (e) {
       ToastMsg("error", "Couldn't add liquidity");
       console.error("Error _handleSupply", e);
@@ -273,9 +236,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             <div style={styles.containerInput}>
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available PHNX:</Typography>
-                <Typography style={styles.txtAmount}>
-                  {PhnxBalance} PHNX
-                </Typography>
+                <Typography style={styles.txtAmount}>{PhnxBalance} PHNX</Typography>
               </div>
               <div
                 className="wrapper-input"
@@ -290,22 +251,18 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   value={phnxValue}
                   // disabled={ethPerPhnx > 0 && phnxPerEth > 0 ? false : true}
                   type="number"
-                  onChange={(event) => {
+                  onChange={(event) =>{
                     // if(parseFloat(event.target.value) > parseFloat(PhnxBalance)){
                     //   return;
                     // }
-                    OnChangeHandler(event.target.value, "phnx");
-                  }}
+                    OnChangeHandler(event.target.value, "phnx")
+                  }
+                  }
                   style={styles.inputStyle}
                   variant="standard"
                   InputProps={{
                     endAdornment: (
-                      <IconButton
-                        style={styles.iconBtn}
-                        onClick={() => {
-                          OnChangeHandler(PhnxBalance, "phnx");
-                        }}
-                      >
+                      <IconButton style={styles.iconBtn} onClick={() => {OnChangeHandler(PhnxBalance, "phnx")}}>
                         MAX
                       </IconButton>
                     ),
@@ -345,9 +302,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             <div style={styles.containerInput}>
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available ETH:</Typography>
-                <Typography style={styles.txtAmount}>
-                  {EthBalance} PHNX
-                </Typography>
+                <Typography style={styles.txtAmount}>{EthBalance} PHNX</Typography>
               </div>
               <div
                 className="wrapper-input"
@@ -362,22 +317,18 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   value={ethValue}
                   // disabled={ethPerPhnx > 0 && phnxPerEth > 0 ? false : true}
                   type="number"
-                  onChange={(event) => {
+                  onChange={(event) =>{
                     // if(parseFloat(event.target.value) > parseFloat(EthBalance)){
                     //   return;
                     // }
-                    OnChangeHandler(event.target.value, "eth");
-                  }}
+                    OnChangeHandler(event.target.value, "eth")
+                   }
+                  }
                   style={styles.inputStyle}
                   variant="standard"
                   InputProps={{
                     endAdornment: (
-                      <IconButton
-                        style={styles.iconBtn}
-                        onClick={() => {
-                          OnChangeHandler(EthBalance, "eth");
-                        }}
-                      >
+                      <IconButton style={styles.iconBtn} onClick={() => {OnChangeHandler(EthBalance, "eth")}}>
                         MAX
                       </IconButton>
                     ),
@@ -415,7 +366,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               ...styles.btnAddLiquidity,
               backgroundColor: loading ? "#eee" : "#413AE2",
             }}
-            disabled={loading}
+            disabled={loading }
             onClick={_handleGiveApproval}
           >
             Approve PHNX
@@ -427,23 +378,17 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             fullWidth={true}
             style={{
               ...styles.btnAddLiquidity,
-              backgroundColor:
-                loading ||
-                phnxValue > PhnxBalance ||
-                ethValue > EthBalance ||
-                phnxValue === 0
-                  ? "#eee"
-                  : "#413AE2",
+              backgroundColor: loading || phnxValue>PhnxBalance || ethValue>EthBalance || phnxValue===0 ? "#eee" : "#413AE2",
             }}
-            disabled={
-              loading ||
-              phnxValue > PhnxBalance ||
-              ethValue > EthBalance ||
-              phnxValue === 0
-            }
+            disabled={loading || phnxValue>PhnxBalance || ethValue>EthBalance || phnxValue===0 }
             onClick={_handleSupply}
           >
-            Add Liquidity
+            {phnxValue>PhnxBalance || ethValue>EthBalance
+            ?
+            "Insufficient Balance"
+            :
+            "Add Liquidity"
+            }
           </Button>
         )}
       </div>

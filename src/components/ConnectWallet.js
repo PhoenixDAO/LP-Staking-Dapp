@@ -118,14 +118,17 @@ export default function ConnectWallet({ landingScreenBtn }) {
 
   useEffect(() => {
     if (web3context.account && web3context.active) {
-      dispatch(PhnxDaoContractInitAction(web3context));
-      dispatch(PhnxStakeContractInitAction(web3context));
-      dispatch(UniswapContractPairInitAction(web3context));
-      dispatch(UniswapContractRouterInitAction(web3context));
+      // dispatch(phnxDaoContractInit(web3context));
+      // dispatch(phnxStakeContractInit(web3context));
+      dispatch(PhnxDaoContractInitAction(web3context))
+      // dispatch(UniswapContractPairInitAction(web3context));
+      // dispatch(UniswapContractRouterInitAction(web3context));
     }
   }, [web3context]);
+
   useEffect(() => {
     dispatch(GetEthBalanceAction(web3context));
+//     dispatch(GetPhnxBalanceAction(web3context, contractPhnx));
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   }, [contractPhnxDao]);
 
