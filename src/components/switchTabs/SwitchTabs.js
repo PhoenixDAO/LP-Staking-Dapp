@@ -1,9 +1,9 @@
 import React from "react";
 import { useState } from "react";
 
-import "./switchTabs.css";
+import "./SwitchTabs.css";
 import LiquidityModal from "../addLiquidityComponent";
-import MyLiquidity from "./MyLiquidity/MyLiquidity";
+import MyLiquidity from "./myLiquidity/MyLiquidity";
 
 function SwitchTabs() {
   const [currentTab, setCurrentTab] = useState("addLiquidity");
