@@ -11,6 +11,7 @@ import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY } from "../../../contract/cons
 import { abi } from "../../../contract/abi/UniswapV2PairABI.json";
 import BigNumber from "bignumber.js";
 import { Modal } from "@mui/material";
+import RemoveLiquidityModal from "../../removeLiquidityComponent/RemoveLiquidityModal";
 
 
 function MyLiquidity({ ChangeTab }) {
@@ -162,9 +163,7 @@ function MyLiquidity({ ChangeTab }) {
             aria-describedby="modal-modal-description"
           >
            
-           <div>
-              asdasdasd
-           </div>
+           <RemoveLiquidityModal></RemoveLiquidityModal>
 
           </Modal>
           
