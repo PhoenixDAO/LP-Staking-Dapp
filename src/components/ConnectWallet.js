@@ -62,7 +62,7 @@ import {
   //   tokenAddressMainnet,
   tokenAddressRinkeby,
 } from "../contract/constants";
-import WalletSettings from "./WalletSettings";
+import WalletSettings from "./walletSettings";
 
 const style = {
   position: "absolute",

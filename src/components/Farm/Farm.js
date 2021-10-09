@@ -1,7 +1,7 @@
 import React from "react";
 import "./farm.css";
-import FarmStake from "./FarmStake/FarmStake";
-import FarmHarvest from "./FarmHarvest/FarmHarvest";
+import FarmStake from "./farmStake/FarmStake";
+import FarmHarvest from "./farmHarvest/FarmHarvest";
 import { useState, useEffect } from "react";
 import { Modal } from "@mui/material";
 import StakingModal from "./modals/StakeModal";
