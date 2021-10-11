@@ -378,9 +378,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             fullWidth={true}
             style={{
               ...styles.btnAddLiquidity,
-              backgroundColor: loading || phnxValue>PhnxBalance || ethValue>EthBalance || phnxValue===0 ? "#eee" : "#413AE2",
+              backgroundColor: loading || phnxValue>PhnxBalance || ethValue>EthBalance || phnxValue===0 || ethValue===0 || phnxValue=='' || ethValue=='' ? "#eee" : "#413AE2",
             }}
-            disabled={loading || phnxValue>PhnxBalance || ethValue>EthBalance || phnxValue===0 }
+            disabled={loading || phnxValue>PhnxBalance || ethValue>EthBalance || phnxValue===0 || ethValue===0 || phnxValue=='' || ethValue==''}
             onClick={_handleSupply}
           >
             {phnxValue>PhnxBalance || ethValue>EthBalance

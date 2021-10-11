@@ -1,12 +1,39 @@
-import React , {useState} from "react";
+import React , {useState,useEffect} from "react";
 import './removeLiquidity.css';
 import Logo from'../../assets/Logo.png';
 import PhnxLogo from "../../assets/PhnxLogo1.png";
 import EthLogo from "../../assets/ETH1.png";
+import { useSelector, useDispatch } from "react-redux";
+import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
+import Web3 from "web3";
+
 
 
 const RemoveLiquidityModaL = () => {
+  
   const [selectedPercentage,setSelectedPercentage] = useState(0);
+  const [allowance,setAllowance] = useState(0);
+  const contract = useSelector((state) => state.contractReducer.contractUniswapPair);
+  const web3context = useWeb3React();
+
+  const checkApproval = async () => {
+
+    console.log(contract);
+
+    const web3 = new Web3(web3context?.library?.currentProvider);
+    
+    let allowance1 = await contract.methods
+      .allowance(web3context.account, "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D")
+      .call();
+    console.log("allowance", allowance1);
+    setAllowance(allowance1);
+
+  };
+
+  useEffect(() => {
+   checkApproval(); 
+  })
+
 
   return (
     <div className='rm-liq-div'>
@@ -52,6 +79,41 @@ const RemoveLiquidityModaL = () => {
           <div className='rm-liq-phnx-eth-con'>1 ETH = 0.3456665 PHNX</div>
 
       </div>
+
+      <button className='rm-liq-btn'>
+        Approve PHNX
+      </button>
+
+      <div className="rm-liq-divider"></div>
+
+      <div className='rm-liq-u-will-rec'>LP TOKENS IN YOUR WALLET</div>
+
+      <div className="rm-liq-phnx-eth-lp-div">
+          <img src={PhnxLogo}></img>
+          <img src={EthLogo}></img>
+          <div className="rm-liq-phnx-eth-lp-sub">PHNX/ETH LP</div>
+          <div className="rm-liq-phnx-eth-lp-sub-no">0.54321</div>
+      </div>
+
+      <div className="rm-liq-phnx-eth-lp-div">
+        <div className="rm-liq-phnx-eth-lp-sub">Pooled PHNX</div>
+        <img src={EthLogo} style={{marginLeft:'auto'}}></img>
+        <div className="rm-liq-phnx-eth-lp-sub-no" style={{marginLeft:'4px'}}>0.231</div>
+      </div>
+
+      <div className="rm-liq-phnx-eth-lp-div">
+        <div className="rm-liq-phnx-eth-lp-sub">Pooled ETH</div>
+        <img src={PhnxLogo} style={{marginLeft:'auto'}}></img>
+        <div className="rm-liq-phnx-eth-lp-sub-no" style={{marginLeft:'4px'}}>0.2653232</div>
+      </div>
+
+      <div className="rm-liq-phnx-eth-lp-div" style={{marginTop:'7px'}}>
+        <div className="rm-liq-phnx-eth-lp-sub">Pooled Share</div>
+        <div className="rm-liq-phnx-eth-lp-sub-no" >0.01%</div>
+      </div>
+
+      <br></br>
+
 
     </div>
   )
