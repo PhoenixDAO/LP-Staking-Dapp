@@ -49,4 +49,3 @@ export const GetEthBalanceAction = (web3context) => {
     }
   };
 };
-

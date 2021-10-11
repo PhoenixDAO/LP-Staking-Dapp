@@ -16,8 +16,7 @@ import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { ToastMsg } from "../Toast";
 import Web3 from "web3";
 import { abi } from "../../contract/abi/PhoenixDaoABI.json";
-// import { GetMainDataAction } from "../../redux/actions/local.actions";
-// import {GetPoolPositionAction} from '../../redux/actions/contract.actions'
+import { GetPoolPositionAction } from "../../redux/actions/contract.actions";
 import { useSelector, useDispatch } from "react-redux";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
@@ -39,7 +38,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const web3context = useWeb3React();
   const dispatch = useDispatch();
-  const mainData = useSelector((state) => state.localReducer.mainData);
+  // const mainData = useSelector((state) => state.localReducer.mainData);
   const contractUniswapPair = useSelector(
     (state) => state.contractReducer.contractUniswapPair
   );
@@ -63,14 +62,23 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   useEffect(() => {
     if (web3context.active && web3context.account) {
-      // _handleGetPoolPosition();
+      _handleGetPoolPosition();
       _handleCheckApproval();
     }
-  }, [web3context.active, web3context.account, contractPhnxDao]);
+  }, [
+    web3context.active,
+    web3context.account,
+    // contractPhnxDao,
+    contractUniswapPair,
+  ]);
 
   // useEffect(() => {
   //   console.log(contractPhnxDao, "contractPhnxDao");
   // }, [contractPhnxDao]);
+
+  useEffect(() => {
+    console.log("poolPositionState", poolPositionState);
+  }, [poolPositionState]);
 
   const _handleGetDataMain = async () => {
     try {
@@ -84,8 +92,11 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     }
   };
 
+  const _handleGetPoolPosition = async () => {
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  };
   const _handleCheckApproval = async () => {
-    console.log("contract123 ", contractPhnxDao);
+    // console.log("contract123 ", contractPhnxDao);
     try {
       setLoading(true);
       let result = await SERVICE.checkApproval(web3context, contractPhnxDao);

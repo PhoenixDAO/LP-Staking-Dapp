@@ -90,11 +90,7 @@ export const supply = async (
     });
 };
 
-export const getPoolPosition = async (
-  web3context,
-  setPoolPosition,
-  contractUniswapPair
-) => {
+export const getPoolPosition = async (web3context, contractUniswapPair) => {
   const balanceOf = await contractUniswapPair.methods
     .balanceOf(web3context.account)
     .call();
