@@ -10,6 +10,9 @@ import { ToastMsg } from "../../components/Toast";
 import Notify from "../../components/Notify";
 import ConnectWallet from "../../components/ConnectWallet";
 import { Link } from "react-router-dom";
+import ConnectModal from "../../components/connectModal/ConnectModal";
+import TransactionSubmitted from "../../components/connectModal/TransactionSubmitted";
+import TransactionProgress from "../../components/connectModal/TransactionProgress";
 
 const Pool = () => {
   const { account, active } = useWeb3React();
@@ -18,6 +21,9 @@ const Pool = () => {
 
   return (
     <div>
+          <ConnectModal/>
+          <TransactionSubmitted/>
+          <TransactionProgress/>
       <div className="container-div">
         <div className="gradient-div">
           <p className="connect-wallet-txt">
