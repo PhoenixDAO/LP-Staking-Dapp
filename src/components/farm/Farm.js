@@ -14,11 +14,15 @@ import {
   getUserInfo,
   getPendingPHX,
 } from "../../services/stake.services";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 function Farm() {
-  const contractPhnxStake = useSelector((state) => state.contractPhnxStake);
-  const contractUniswapPair = useSelector((state) => state.contractUniswapPair);
+  const contractPhnxStake = useSelector(
+    (state) => state.contractReducer.contractPhnxStake
+  );
+  const contractUniswapPair = useSelector(
+    (state) => state.contractReducer.contractUniswapPair
+  );
 
   const [stakeNull, checkStateNull] = useState(false);
   const [isStackVisible, setStackVisible] = useState(false);
@@ -46,41 +50,12 @@ function Farm() {
   };
 
   useEffect(() => {
-    if (web3context?.account && web3context?.active) {
-      // const web3 = new Web3(web3context?.library?.currentProvider);
-      // const phnxStakecontract = new web3.eth.Contract(
-      //   PhnxStakeAbi,
-      //   PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
-      // );
-      // const pairContract = new web3.eth.Contract(
-      //   UniswapV2PairABI,
-      //   UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY
-      // );
-      //check lp approval
-      // const checkApproval = async () => {
-      //   const al = await pairContract.methods
-      //     .allowance(
-      //       web3context?.account,
-      //       PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
-      //     )
-      //     .call();
-      //   console.log("al", al);
-      //   setAllowance(al);
-      // };
-      // const getUserInfo = async () => {
-      //   const info = await phnxStakecontract.methods
-      //     .userInfo(web3context?.account)
-      //     .call();
-      //   console.log("info", info);
-      //   setUserInfo(info);
-      // };
-      // const getPendingPHX = async () => {
-      //   const pending = await phnxStakecontract.methods
-      //     .pendingPHX(web3context?.account)
-      //     .call();
-      //   console.log("pending", pending);
-      //   setPendingPHX(pending);
-      // };
+    if (
+      web3context?.account &&
+      web3context?.active &&
+      contractUniswapPair &&
+      contractPhnxStake
+    ) {
       checkApproval(contractUniswapPair, web3context, setAllowance);
       getUserInfo(contractPhnxStake, web3context, setUserInfo);
       getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
@@ -89,40 +64,16 @@ function Farm() {
     web3context?.library?.currentProvider,
     web3context?.account,
     web3context?.active,
+    contractUniswapPair,
   ]);
 
   //give approval for lp tokens
-  const _giveApproval = async (contractPhnxStake, web3context) => {
+  const _giveApproval = async () => {
     try {
       await giveApprovalFarming(web3context, contractUniswapPair);
     } catch (e) {
       console.error(e);
     }
-    // const web3 = new Web3(web3context?.library?.currentProvider);
-    // const pairContract = new web3.eth.Contract(
-    //   UniswapV2PairABI,
-    //   UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY
-    // );
-
-    // await pairContract.methods
-    //   .approve(
-    //     PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY,
-    //     "1000000000000000000000000000000000000000000000000000000000000000000000000000"
-    //   )
-    //   .send({ from: web3context?.account })
-    //   .on("transactionHash", (hash) => {
-    //     // hash of tx
-    //     console.log("transactionHash", hash);
-    //   })
-    //   .on("confirmation", function (confirmationNumber, receipt) {
-    //     if (confirmationNumber === 2) {
-    //       // tx confirmed
-    //       console.log("confirmationNumber", confirmationNumber);
-    //     }
-    //   })
-    //   .on("error", function (err) {
-    //     console.log("err", err);
-    //   });
   };
 
   const _harvestPHNX = async () => {
@@ -131,29 +82,6 @@ function Farm() {
     } catch (e) {
       console.error(e);
     }
-    // const web3 = new Web3(web3context?.library?.currentProvider);
-    // const Contract = new web3.eth.Contract(
-    //   PhnxStakeAbi,
-    //   PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
-    // );
-
-    // Contract.methods
-    //   .deposit(web3.utils.toWei("0"))
-    //   .send({ from: web3context.account })
-    //   .on("transactionHash", (hash) => {
-    //     // hash of tx
-    //     console.log("tx hash", hash);
-    //   })
-    //   .on("confirmation", function (confirmationNumber, receipt) {
-    //     if (confirmationNumber === 2) {
-    //       // tx confirmed
-    //       // checkApproval(web3context, contractPhnx);
-    //       alert("success", "tx successfull!");
-    //     }
-    //   })
-    //   .on("error", function (err) {
-    //     console.error(err);
-    //   });
   };
 
   return (

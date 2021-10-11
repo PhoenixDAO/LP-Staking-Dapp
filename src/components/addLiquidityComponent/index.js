@@ -47,13 +47,12 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     (state) => state.contractReducer.contractUniswapRouter
   );
 
-  const contractPhnx = useSelector(
+  const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
   );
   const poolPositionState = useSelector(
     (state) => state.contractReducer.poolPosition
-  )
-
+  );
 
   const [loading, setLoading] = useState(false);
   const [num, setNum] = useState("");
@@ -63,18 +62,15 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   }, []);
 
   useEffect(() => {
-    if (
-      web3context.active &&
-      web3context.account
-    ) {
+    if (web3context.active && web3context.account) {
       // _handleGetPoolPosition();
       _handleCheckApproval();
     }
-  }, [web3context.active,web3context.account,contractPhnx]);
+  }, [web3context.active, web3context.account, contractPhnxDao]);
 
-  useEffect(() => {
-   console.log(contractPhnx,'contractPhnx')
-  }, [contractPhnx])
+  // useEffect(() => {
+  //   console.log(contractPhnxDao, "contractPhnxDao");
+  // }, [contractPhnxDao]);
 
   const _handleGetDataMain = async () => {
     try {
@@ -89,11 +85,11 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   };
 
   const _handleCheckApproval = async () => {
-    console.log('contract123 ',contractPhnx)
+    console.log("contract123 ", contractPhnxDao);
     try {
       setLoading(true);
-      let result = await SERVICE.checkApproval(web3context, contractPhnx);
-      console.log('allowance',allowance)
+      let result = await SERVICE.checkApproval(web3context, contractPhnxDao);
+      console.log("allowance", allowance);
       setAllowance(result);
     } catch (e) {
       console.error("_handleCheckApproval", e);
@@ -106,7 +102,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const _handleGiveApproval = async () => {
     try {
       setLoading(true);
-      await SERVICE.giveApproval(web3context,contractPhnx);
+      await SERVICE.giveApproval(web3context, contractPhnxDao);
       // ToastMsg("success", "Approved successfully!");
     } catch (e) {
       ToastMsg("error", "Failed to give approval!");
@@ -119,7 +115,12 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const _handleSupply = async () => {
     try {
       setLoading(true);
-      await SERVICE.supply(phnxValue, ethValue, web3context, contractUniswapRouter);
+      await SERVICE.supply(
+        phnxValue,
+        ethValue,
+        web3context,
+        contractUniswapRouter
+      );
     } catch (e) {
       ToastMsg("error", "Couldn't add liquidity");
       console.error("Error _handleSupply", e);
@@ -236,7 +237,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             <div style={styles.containerInput}>
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available PHNX:</Typography>
-                <Typography style={styles.txtAmount}>{PhnxBalance} PHNX</Typography>
+                <Typography style={styles.txtAmount}>
+                  {PhnxBalance} PHNX
+                </Typography>
               </div>
               <div
                 className="wrapper-input"
@@ -251,18 +254,22 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   value={phnxValue}
                   // disabled={ethPerPhnx > 0 && phnxPerEth > 0 ? false : true}
                   type="number"
-                  onChange={(event) =>{
+                  onChange={(event) => {
                     // if(parseFloat(event.target.value) > parseFloat(PhnxBalance)){
                     //   return;
                     // }
-                    OnChangeHandler(event.target.value, "phnx")
-                  }
-                  }
+                    OnChangeHandler(event.target.value, "phnx");
+                  }}
                   style={styles.inputStyle}
                   variant="standard"
                   InputProps={{
                     endAdornment: (
-                      <IconButton style={styles.iconBtn} onClick={() => {OnChangeHandler(PhnxBalance, "phnx")}}>
+                      <IconButton
+                        style={styles.iconBtn}
+                        onClick={() => {
+                          OnChangeHandler(PhnxBalance, "phnx");
+                        }}
+                      >
                         MAX
                       </IconButton>
                     ),
@@ -302,7 +309,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             <div style={styles.containerInput}>
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available ETH:</Typography>
-                <Typography style={styles.txtAmount}>{EthBalance} PHNX</Typography>
+                <Typography style={styles.txtAmount}>
+                  {EthBalance} PHNX
+                </Typography>
               </div>
               <div
                 className="wrapper-input"
@@ -317,18 +326,22 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   value={ethValue}
                   // disabled={ethPerPhnx > 0 && phnxPerEth > 0 ? false : true}
                   type="number"
-                  onChange={(event) =>{
+                  onChange={(event) => {
                     // if(parseFloat(event.target.value) > parseFloat(EthBalance)){
                     //   return;
                     // }
-                    OnChangeHandler(event.target.value, "eth")
-                   }
-                  }
+                    OnChangeHandler(event.target.value, "eth");
+                  }}
                   style={styles.inputStyle}
                   variant="standard"
                   InputProps={{
                     endAdornment: (
-                      <IconButton style={styles.iconBtn} onClick={() => {OnChangeHandler(EthBalance, "eth")}}>
+                      <IconButton
+                        style={styles.iconBtn}
+                        onClick={() => {
+                          OnChangeHandler(EthBalance, "eth");
+                        }}
+                      >
                         MAX
                       </IconButton>
                     ),
@@ -366,7 +379,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               ...styles.btnAddLiquidity,
               backgroundColor: loading ? "#eee" : "#413AE2",
             }}
-            disabled={loading }
+            disabled={loading}
             onClick={_handleGiveApproval}
           >
             Approve PHNX
@@ -378,17 +391,31 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             fullWidth={true}
             style={{
               ...styles.btnAddLiquidity,
-              backgroundColor: loading || phnxValue>PhnxBalance || ethValue>EthBalance || phnxValue===0 || ethValue===0 || phnxValue=='' || ethValue=='' ? "#eee" : "#413AE2",
+              backgroundColor:
+                loading ||
+                phnxValue > PhnxBalance ||
+                ethValue > EthBalance ||
+                phnxValue === 0 ||
+                ethValue === 0 ||
+                phnxValue == "" ||
+                ethValue == ""
+                  ? "#eee"
+                  : "#413AE2",
             }}
-            disabled={loading || phnxValue>PhnxBalance || ethValue>EthBalance || phnxValue===0 || ethValue===0 || phnxValue=='' || ethValue==''}
+            disabled={
+              loading ||
+              phnxValue > PhnxBalance ||
+              ethValue > EthBalance ||
+              phnxValue === 0 ||
+              ethValue === 0 ||
+              phnxValue == "" ||
+              ethValue == ""
+            }
             onClick={_handleSupply}
           >
-            {phnxValue>PhnxBalance || ethValue>EthBalance
-            ?
-            "Insufficient Balance"
-            :
-            "Add Liquidity"
-            }
+            {phnxValue > PhnxBalance || ethValue > EthBalance
+              ? "Insufficient Balance"
+              : "Add Liquidity"}
           </Button>
         )}
       </div>

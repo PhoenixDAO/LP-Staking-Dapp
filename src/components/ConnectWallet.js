@@ -8,9 +8,6 @@ import {
   Stack,
   styled,
   Divider,
-  IconButton,
-  MenuItem,
-  Menu,
 } from "@mui/material";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import {
@@ -110,17 +107,14 @@ const Item = styled("button")(({ theme }) => ({
 export default function ConnectWallet({ landingScreenBtn }) {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
-  // const web3 = useSelector((state) => state.localReducer.web3State);
-  // const balanceEth = useSelector((state) => state.localReducer.balanceEth);
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
   );
 
   useEffect(() => {
     if (web3context.account && web3context.active) {
-      // dispatch(phnxDaoContractInit(web3context));
-      // dispatch(phnxStakeContractInit(web3context));
       dispatch(PhnxDaoContractInitAction(web3context));
+      dispatch(PhnxStakeContractInitAction(web3context));
       dispatch(UniswapContractPairInitAction(web3context));
       dispatch(UniswapContractRouterInitAction(web3context));
     }
@@ -128,14 +122,8 @@ export default function ConnectWallet({ landingScreenBtn }) {
 
   useEffect(() => {
     dispatch(GetEthBalanceAction(web3context));
-//     dispatch(GetPhnxBalanceAction(web3context, contractPhnx));
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   }, [contractPhnxDao]);
-
-  // useEffect(() => {
-  //   console.log("Web3 const connectWallet", web3);
-  //   console.log("balanceEth", balanceEth);
-  // }, [web3, balanceEth]);
 
   const { account, active, connector, deactivate, library, chainId } =
     web3context;
