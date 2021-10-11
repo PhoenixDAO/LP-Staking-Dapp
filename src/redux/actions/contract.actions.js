@@ -84,21 +84,10 @@ export const UniswapContractRouterInitAction = (web3context) => {
   };
 };
 
-export const GetPoolPositionAction = (
-  web3context,
-  setPoolPosition,
-  contractUniswapPair
-) => {
+export const GetPoolPositionAction = (web3context, contractUniswapPair) => {
   return async (dispatch) => {
-    dispatch({
-      type: types.GET_POOL_POSITION_LOADING,
-    });
     try {
-      let response = await getPoolPosition(
-        web3context,
-        setPoolPosition,
-        contractUniswapPair
-      );
+      let response = await getPoolPosition(web3context, contractUniswapPair);
       console.log("GetPoolPositionAction response", response);
       dispatch({
         type: types.GET_POOL_POSITION_SUCCESS,
