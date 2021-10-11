@@ -21,6 +21,7 @@ import {
   Fetcher,
   Route,
 } from "@uniswap/sdk";
+import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../contract/constant";
 
 const chainId = ChainId.RINKEBY;
 const customHttpProvider = new ethers.providers.JsonRpcProvider(
@@ -139,7 +140,7 @@ export const phnxStakeContractInit = (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   const contract = new web3.eth.Contract(
     PhoenixStakeABI,
-    PHNX_RINKEBY_TOKEN_ADDRESS
+    PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
   );
   console.log("phnxStakeContractInit service", contract);
   return contract;
