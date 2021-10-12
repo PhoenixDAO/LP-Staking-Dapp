@@ -137,9 +137,18 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
 
         <div style={{position:'absolute',bottom:'100px',display:'flex',justifyContent:'space-around',alignItem:'center',width:'100%',padding:'0px 30px'}}>
 
-          <img src={TelegramLogo} style={{height:'25px'}}></img>
-          <img src={TwitterLogo}  style={{height:'25px'}}></img>
-          <img src={GithubLogo}   style={{height:'25px'}}></img>  
+          <a href="https://t.me/PHNXDAO" target='_blank'>
+            <img src={TelegramLogo} style={{height:'22px'}}></img>
+          </a>
+
+          <a href="https://twitter.com/phnxdao" target='_blank'>
+          <img src={TwitterLogo}  style={{height:'22px'}}></img>
+          </a>
+
+          <a href="https://github.com/XORD-one/phoenixdao-lp-staking-dapp" target='_blank'>
+          <img src={GithubLogo}   style={{height:'22px'}}></img>
+          </a>
+  
   
         </div>
 
