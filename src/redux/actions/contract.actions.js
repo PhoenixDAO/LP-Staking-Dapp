@@ -125,7 +125,6 @@ export const CheckApprovalAction = () => {
 };
 
 export const GetPhnxBalanceAction = (web3context, contractPhnxDao) => {
-  console.log("contractPhnx GetPhnxBalanceAction", contractPhnxDao);
   return async (dispatch) => {
     try {
       let response = await getPhnxBalance(web3context, contractPhnxDao);

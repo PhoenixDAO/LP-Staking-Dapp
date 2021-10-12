@@ -13,69 +13,71 @@ import ComponentCss from "../componentCss.css";
 import PhnxLogo from "../../assets/phnxLogo.png";
 import EthLogo from "../../assets/ETH1.png";
 import * as SERVICE from "../../services/pool.services";
-import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
+import { useWeb3React } from "@web3-react/core";
 import { ToastMsg } from "../Toast";
-import Web3 from "web3";
-import { abi } from "../../contract/abi/PhoenixDaoABI.json";
-import { GetPoolPositionAction } from "../../redux/actions/contract.actions";
+// import Web3 from "web3";
+// import { abi } from "../../contract/abi/PhoenixDaoABI.json";
+import {
+  GetPoolPositionAction,
+  GetPhnxBalanceAction,
+} from "../../redux/actions/contract.actions";
+import {
+  GetEthBalanceAction,
+  GetMainDataAction,
+} from "../../redux/actions/local.actions";
 import { useSelector, useDispatch } from "react-redux";
 import ConnectWallet from "../ConnectWallet";
-import ConnectModal from '../connectModal/ConnectModal';
+import ConnectModal from "../connectModal/ConnectModal";
 import TransactionProgress from "../connectModal/TransactionProgress";
 import TransactionSubmitted from "../connectModal/TransactionSubmitted";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
-  const [ethValue, setEthValue] = useState('');
-  const [phnxValue, setPhnxValue] = useState('');
-
-  const [EthBalance, setEthBalance] = useState(0.0);
-  const [PhnxBalance, setPhnxBalance] = useState(0.0);
-
-  const [ethPerPhnx, setEthPerPhnx] = useState(0);
-  const [phnxPerEth, setPhnxPerEth] = useState(0);
-
-  const [reserve0, setReserve0] = useState(0);
-  const [reserve1, setReserve1] = useState(0); //phnx
+  const [ethValue, setEthValue] = useState("");
+  const [phnxValue, setPhnxValue] = useState("");
 
   const [poolShare, setPoolShare] = useState(0);
 
   const [allowance, setAllowance] = useState(0);
 
-  const [transactionConfirmModal,settransactionConfirmModal]=useState(false);
-  const [transactionProcessModal,settransactionProcessModal]=useState(false);
-  const [transactionSubmittedModal,settransactionSubmittedModal]=useState(false);
-
-  useEffect(() => {
-  console.log(transactionConfirmModal)
-  }, [transactionConfirmModal])
-
-
-  const web3context = useWeb3React();
   const dispatch = useDispatch();
-  // const mainData = useSelector((state) => state.localReducer.mainData);
+  const web3context = useWeb3React();
+  const phnxPerEth = useSelector((state) => state.localReducer.phnxPerEth);
+  const ethPerPhnx = useSelector((state) => state.localReducer.ethPerPhnx);
+  const reserve0 = useSelector((state) => state.localReducer.reserve0);
+  const reserve1 = useSelector((state) => state.localReducer.reserve1);
+  const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);
+  const balanceEth = useSelector((state) => state.localReducer.balanceEth);
+  const poolPosition = useSelector(
+    (state) => state.contractReducer.poolPosition
+  );
   const contractUniswapPair = useSelector(
     (state) => state.contractReducer.contractUniswapPair
   );
   const contractUniswapRouter = useSelector(
     (state) => state.contractReducer.contractUniswapRouter
   );
-
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
-  );
-  const poolPositionState = useSelector(
-    (state) => state.contractReducer.poolPosition
   );
 
   const [loading, setLoading] = useState(false);
   const [num, setNum] = useState("");
 
-  const[ConnectWalletModalStatus,setConnectWalletModalStatus] = useState(false);
-
+  const [ConnectWalletModalStatus, setConnectWalletModalStatus] =
+    useState(false);
+  const [transactionConfirmModal, settransactionConfirmModal] = useState(false);
+  const [transactionProcessModal, settransactionProcessModal] = useState(false);
+  const [transactionSubmittedModal, settransactionSubmittedModal] =
+    useState(false);
 
   useEffect(() => {
     _handleGetDataMain();
   }, []);
+
+  // useEffect(() => {
+  //   dispatch(GetEthBalanceAction(web3context));
+  //   dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+  // }, [poolPosition]);
 
   useEffect(() => {
     if (web3context.active && web3context.account) {
@@ -90,49 +92,34 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   ]);
 
   useEffect(() => {
-    console.log("poolPositionState", poolPositionState);
-  }, [poolPositionState]);
+    if (web3context) {
+      GetBalances();
+    }
+  }, [contractPhnxDao]);
 
   const _handleGetDataMain = async () => {
-    try {
-      let result = await SERVICE.getDataMain();
-      setPhnxPerEth(result.route.midPrice.toSignificant(6));
-      setEthPerPhnx(result.route.midPrice.invert().toSignificant(6));
-      setReserve0(result.pair.reserveO);
-      setReserve1(result.pair.reserve1.toFixed(2));
-    } catch (e) {
-      console.error("Error _handleGetDataMain", e);
-    }
+    dispatch(GetMainDataAction());
   };
 
   const _handleGetPoolPosition = async () => {
     dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
   };
+
   const _handleCheckApproval = async () => {
-    // console.log("contract123 ", contractPhnxDao);
     try {
-      setLoading(true);
       let result = await SERVICE.checkApproval(web3context, contractPhnxDao);
-      console.log("allowance", allowance);
       setAllowance(result);
     } catch (e) {
       console.error("_handleCheckApproval", e);
-      // ToastMsg("error", "First give approval!");
-    } finally {
-      setLoading(false);
     }
   };
 
   const _handleGiveApproval = async () => {
     try {
-      setLoading(true);
       await SERVICE.giveApproval(web3context, contractPhnxDao);
-      // ToastMsg("success", "Approved successfully!");
     } catch (e) {
       ToastMsg("error", "Failed to give approval!");
       console.error("Error _handleGiveApproval", e);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -150,6 +137,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         settransactionSubmittedModal,
         _handleGetPoolPosition
       );
+      dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+      await GetBalances();
     } catch (e) {
       ToastMsg("error", "Couldn't add liquidity");
       console.error("Error _handleSupply", e);
@@ -163,63 +152,44 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const OnChangeHandler = (val, tokenName) => {
     if (tokenName === "phnx") {
-      let v = parseFloat(val);
-      let total = parseFloat(reserve1) + v;
-      setPoolShare((v / total) * 100);
-      setPhnxValue(v);
-      setEthValue(parseFloat(ethPerPhnx) * v || num);
+      if (Number(val) <= balancePhnx) {
+        let v = parseFloat(val);
+        let total = parseFloat(reserve1) + v;
+        setPoolShare((v / total) * 100);
+        setPhnxValue(v);
+        setEthValue(parseFloat(ethPerPhnx) * v || num);
+      }
+    } else if (tokenName === "eth") {
+      if (Number(val) <= balanceEth) {
+        let v = parseFloat(val);
+        let total = parseFloat(phnxPerEth) * v;
+        total = total + parseFloat(reserve1);
+        setPoolShare(((parseFloat(phnxPerEth) * v) / total) * 100);
+        setEthValue(v);
+        setPhnxValue(parseFloat(phnxPerEth) * v || num);
+      }
     } else {
-      let v = parseFloat(val);
-      let total = parseFloat(phnxPerEth) * v;
-      total = total + parseFloat(reserve1);
-      setPoolShare(((parseFloat(phnxPerEth) * v) / total) * 100);
-      setEthValue(v);
-      setPhnxValue(parseFloat(phnxPerEth) * v || num);
+      return;
     }
   };
 
   const { account, active, connector, deactivate, library, chainId } =
     web3context;
 
-  useEffect(() => {
-    if (web3context) {
-      const web3 = new Web3(web3context?.library?.currentProvider);
-
-      if (account) {
-        web3.eth.getBalance(account).then((ether) => {
-          let bal = parseFloat(web3.utils.fromWei(ether, "ether"));
-          let res = (
-            Math.floor(bal * Math.pow(10, 2)) / Math.pow(10, 2)
-          ).toFixed(2);
-          setEthBalance(res);
-        });
-      }
-
-      if (account) {
-        const contract = new web3.eth.Contract(
-          abi,
-          "0xfe1b6abc39e46cec54d275efb4b29b33be176c2a"
-        );
-
-        contract.methods
-          .balanceOf(account)
-          .call()
-          .then((phnx) => {
-            let bal = parseFloat(web3.utils.fromWei(phnx, "ether"));
-            // console.log('balance phnx :'+bal)
-            setPhnxBalance(bal.toFixed(2));
-          });
-      }
+  const GetBalances = async () => {
+    if (contractPhnxDao) {
+      dispatch(GetEthBalanceAction(web3context));
+      dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
     }
-  }, [web3context, account]);
+  };
 
-  const setTxModalOpen=()=>{
+  const setTxModalOpen = () => {
     settransactionConfirmModal(true);
-  }
+  };
 
-  const setTxModalClose=()=>{
+  const setTxModalClose = () => {
     settransactionConfirmModal(false);
-  }
+  };
 
   return (
     <Box sx={styles.containerStyle} className="modal-scroll">
@@ -246,9 +216,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           marginBottom: 9,
         }}
       />
-      <div
-        className="dialog-style"
-      >
+      <div className="dialog-style">
         <div style={styles.containerTip}>
           <Typography style={styles.txtTipParagraph}>
             Tip: By adding liquidity, you'll earn 0.25% of all trades on this
@@ -274,7 +242,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available PHNX:</Typography>
                 <Typography style={styles.txtAmount}>
-                  {PhnxBalance} PHNX
+                  {balancePhnx} PHNX
                 </Typography>
               </div>
               <div
@@ -303,7 +271,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                       <IconButton
                         style={styles.iconBtn}
                         onClick={() => {
-                          OnChangeHandler(PhnxBalance, "phnx");
+                          OnChangeHandler(balancePhnx, "phnx");
                         }}
                       >
                         MAX
@@ -330,11 +298,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             // style={styles.tokenContainer}
           >
             <div style={{ display: "flex", flexDirection: "row" }}>
-              <img
-                alt="logo"
-                style={styles.imgLogoPhnx}
-                src={EthLogo}
-              />
+              <img alt="logo" style={styles.imgLogoPhnx} src={EthLogo} />
               <div style={styles.containerImg}>
                 <Typography style={styles.txtInput}>Input</Typography>
                 <Typography style={{ ...styles.txtPhnx, color: "#454A75" }}>
@@ -346,7 +310,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available ETH:</Typography>
                 <Typography style={styles.txtAmount}>
-                  {EthBalance} ETH
+                  {balanceEth} ETH
                 </Typography>
               </div>
               <div
@@ -375,7 +339,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                       <IconButton
                         style={styles.iconBtn}
                         onClick={() => {
-                          OnChangeHandler(EthBalance, "eth");
+                          OnChangeHandler(balanceEth, "eth");
                         }}
                       >
                         MAX
@@ -406,89 +370,92 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
         </div>
         {/* <p>{allowance}</p> */}
-        { 
-        
-          web3context.active==false ?
-         
-            <Button
-                variant="contained"
-                size="small"
-                fullWidth={true}
-                style={{
-                  ...styles.btnAddLiquidity,
-                  
-                }}
-                
-                onClick={()=>setConnectWalletModalStatus(!ConnectWalletModalStatus)}
-              >
-                {"Connect Wallet"}
-            </Button>
-
-          : allowance != 0 ? (
-        
-            <Button
-              variant="contained"
-              size="small"
-              fullWidth={true}
-              style={{
-                ...styles.btnAddLiquidity,
-                backgroundColor:
-                  loading ||
-                  phnxValue > PhnxBalance ||
-                  ethValue > EthBalance ||
-                  phnxValue === 0 ||
-                  ethValue === 0 ||
-                  phnxValue == "" ||
-                  ethValue == ""
-                    ? "#eee"
-                    : "#413AE2",
-              }}
-              disabled={
+        {web3context.active == false ? (
+          <Button
+            variant="contained"
+            size="small"
+            fullWidth={true}
+            style={{
+              ...styles.btnAddLiquidity,
+            }}
+            onClick={() =>
+              setConnectWalletModalStatus(!ConnectWalletModalStatus)
+            }
+          >
+            {"Connect Wallet"}
+          </Button>
+        ) : allowance != 0 ? (
+          <Button
+            variant="contained"
+            size="small"
+            fullWidth={true}
+            style={{
+              ...styles.btnAddLiquidity,
+              backgroundColor:
                 loading ||
-                phnxValue > PhnxBalance ||
-                ethValue > EthBalance ||
+                phnxValue > balancePhnx ||
+                ethValue > balanceEth ||
                 phnxValue === 0 ||
                 ethValue === 0 ||
                 phnxValue == "" ||
                 ethValue == ""
-              }
-              onClick={
-              setTxModalOpen
-              }
-            >
-              { phnxValue === '' || ethValue ==='' || phnxValue == 0 || ethValue == 0 ?
-                'Enter an amount' :
-                phnxValue > PhnxBalance || ethValue > EthBalance
-                ? "Insufficient Balance"
-                : "Add Liquidity"}
-            </Button>
-
-          ) : (
-       
-            <Button
+                  ? "#eee"
+                  : "#413AE2",
+            }}
+            disabled={
+              loading ||
+              phnxValue > balancePhnx ||
+              ethValue > balanceEth ||
+              phnxValue === 0 ||
+              ethValue === 0 ||
+              phnxValue == "" ||
+              ethValue == ""
+            }
+            onClick={setTxModalOpen}
+          >
+            {phnxValue === "" ||
+            ethValue === "" ||
+            phnxValue == 0 ||
+            ethValue == 0
+              ? "Enter an amount"
+              : phnxValue > balancePhnx || ethValue > balanceEth
+              ? "Insufficient Balance"
+              : "Add Liquidity"}
+          </Button>
+        ) : (
+          <Button
             variant="contained"
             size="large"
             fullWidth={true}
             style={{
               ...styles.btnAddLiquidity,
               backgroundColor: loading ? "#eee" : "#413AE2",
-              textTransform: 'capitalize',
+              textTransform: "capitalize",
             }}
             disabled={loading}
             onClick={_handleGiveApproval}
           >
             Approve PHNX
-            </Button>
-       
-       )}
+          </Button>
+        )}
       </div>
 
-      <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus}></ConnectWallet>
+      <ConnectWallet
+        justModal={true}
+        openModal={ConnectWalletModalStatus}
+      ></ConnectWallet>
 
-      <ConnectModal transactionConfirmModal={transactionConfirmModal} setTxModalClose={setTxModalClose} _handleSupply={_handleSupply} ></ConnectModal>
-      <TransactionProgress transactionProcessModal={transactionProcessModal}> </TransactionProgress>
-      <TransactionSubmitted transactionSubmittedModal={transactionSubmittedModal}></TransactionSubmitted>
-
+      <ConnectModal
+        transactionConfirmModal={transactionConfirmModal}
+        setTxModalClose={setTxModalClose}
+        _handleSupply={_handleSupply}
+      ></ConnectModal>
+      <TransactionProgress transactionProcessModal={transactionProcessModal}>
+        {" "}
+      </TransactionProgress>
+      <TransactionSubmitted
+        transactionSubmittedModal={transactionSubmittedModal}
+      ></TransactionSubmitted>
     </Box>
   );
 };
@@ -530,7 +497,7 @@ const styles = {
     alignItem: "center",
     justifyContent: "center",
     top: "50%",
-    transform: 'translateY(-50%)',
+    transform: "translateY(-50%)",
   },
   // dialogStyle: {
   //   padding: "10px 10px 0px 10px",
@@ -609,7 +576,7 @@ const styles = {
     border: "none",
     padding: "7px 8px 5px 8px",
     borderRadius: 8,
-    fontWeight: '800 !important',
+    fontWeight: "800 !important",
   },
   wrapperInput: {
     display: "flex",

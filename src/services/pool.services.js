@@ -173,22 +173,23 @@ export const uniswapV2PairInit = (web3context) => {
 
 export const getEthBalance = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
-  console.log(web3context, " getEthBalace Web3Context");
   let WeiEthBalance = await web3.eth.getBalance(web3context.account);
-  let EthBalance = parseFloat(web3.utils.fromWei(WeiEthBalance, "ether"));
-  console.log("EthBalance ==>", EthBalance);
+  let EthBalance = parseFloat(
+    web3.utils.fromWei(WeiEthBalance, "ether")
+  ).toFixed(2);
   return EthBalance;
 };
 
 export const getPhnxBalance = async (web3context, contractPhnxDao) => {
-  console.log("contractPhnx getPhnxBalance", contractPhnxDao);
   const web3 = new Web3(web3context?.library?.currentProvider);
-  contractPhnxDao.methods
+  await contractPhnxDao.methods
     .balanceOf(web3context.account)
     .call()
     .then((phnx) => {
-      let PhnxBalance = parseFloat(web3.utils.fromWei(phnx, "ether"));
-      console.log("balance phnx :" + PhnxBalance);
+      let PhnxBalance = parseFloat(web3.utils.fromWei(phnx, "ether")).toFixed(
+        2
+      );
+      // console.log("Service getPhnxBalance ==>>", PhnxBalance);
       return PhnxBalance;
     });
 };
