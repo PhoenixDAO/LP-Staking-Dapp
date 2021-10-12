@@ -78,11 +78,10 @@ export const supply = async (
     })
     .on("confirmation", function (confirmationNumber, receipt) {
       if (confirmationNumber === 1) {
-
         settransactionProcessModal(false);
         settransactionSubmittedModal(true);
         _handleGetPoolPosition();
-        
+
         console.log("confirmationNumber", confirmationNumber);
         //   setLoading(false);
         //   setPhnxValue("");
@@ -95,7 +94,7 @@ export const supply = async (
     })
     .on("error", function (err) {
       settransactionProcessModal(false);
-    
+
       console.log("error", err);
       // setLoading(false);
     });
@@ -173,24 +172,24 @@ export const uniswapV2PairInit = (web3context) => {
 
 export const getEthBalance = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
-  console.log(web3context, " getEthBalace Web3Context");
   let WeiEthBalance = await web3.eth.getBalance(web3context.account);
-  let EthBalance = parseFloat(web3.utils.fromWei(WeiEthBalance, "ether"));
-  console.log("EthBalance ==>", EthBalance);
+  let EthBalance = parseFloat(
+    web3.utils.fromWei(WeiEthBalance, "ether")
+  ).toFixed(2);
   return EthBalance;
 };
 
 export const getPhnxBalance = async (web3context, contractPhnxDao) => {
-  console.log("contractPhnx getPhnxBalance", contractPhnxDao);
-  const web3 = new Web3(web3context?.library?.currentProvider);
-  contractPhnxDao.methods
-    .balanceOf(web3context.account)
-    .call()
-    .then((phnx) => {
-      let PhnxBalance = parseFloat(web3.utils.fromWei(phnx, "ether"));
-      console.log("balance phnx :" + PhnxBalance);
-      return PhnxBalance;
-    });
+  if (web3context && contractPhnxDao) {
+    let PhnxBalance = await contractPhnxDao.methods
+      .balanceOf(web3context?.account)
+      .call();
+
+    console.log("Service getPhnxBalance ==>>", PhnxBalance);
+    return Number(Web3.utils.fromWei(PhnxBalance)).toFixed(2);
+  } else {
+    throw "Invalid arguments for getPhnxBalance";
+  }
 };
 
 export const checkApproval = async (web3context, contractPhnxDao) => {

@@ -6,10 +6,6 @@ import EthLogo from "../../../assets/ETH1.png";
 import SettingsLogo from "../../../assets/settings.png";
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
-import Web3 from "web3";
-import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY } from "../../../contract/constant";
-import { abi } from "../../../contract/abi/UniswapV2PairABI.json";
-import BigNumber from "bignumber.js";
 import { Modal } from "@mui/material";
 import RemoveLiquidityModal from "../../removeLiquidityComponent/RemoveLiquidityModal";
 import ConnectWallet from "../../ConnectWallet";
@@ -17,14 +13,19 @@ import {
   Button,
   // InputAdornment,
 } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { GetPoolPositionAction } from "../../../redux/actions/contract.actions";
 
 function MyLiquidity({ ChangeTab }) {
-  const [poolPosition, setPoolPosition] = useState({
-    lp: 0,
-    poolPerc: 0,
-    eth: 0,
-    phnx: 0,
-  });
+  const web3context = useWeb3React();
+  const dispatch = useDispatch();
+
+  const poolPosition = useSelector(
+    (state) => state.contractReducer.poolPosition
+  );
+  const contractUniswapPair = useSelector(
+    (state) => state.contractReducer.contractUniswapPair
+  );
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -38,56 +39,11 @@ function MyLiquidity({ ChangeTab }) {
     setModalVisible(true);
   };
 
-  const web3context = useWeb3React();
   useEffect(() => {
-    if (web3context.active && web3context.account) {
-      getPoolPosition();
-      //   checkApproval();
-      //   calculateLpToken(0.95904, 99.8915);
+    if (!poolPosition) {
+      dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
     }
   }, [web3context.account]);
-
-  const getPoolPosition = async () => {
-    const web3 = new Web3(web3context?.library?.currentProvider);
-    const uniswapV2PairContract = new web3.eth.Contract(
-      abi,
-      UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY
-    );
-    const balanceOf = await uniswapV2PairContract.methods
-      .balanceOf(web3context.account)
-      .call();
-    const getReserves = await uniswapV2PairContract.methods
-      .getReserves()
-      .call();
-    const totalSupply = await uniswapV2PairContract.methods
-      .totalSupply()
-      .call();
-
-    let _balance = new BigNumber(balanceOf);
-    // console.log("_balance", _balance);
-    let _totalSupply = new BigNumber(totalSupply);
-    const _reserve0 = new BigNumber(getReserves._reserve0);
-    const _reserve1 = new BigNumber(getReserves._reserve1);
-    const _ratio = _reserve0.dividedBy(_reserve1);
-
-    let _poolPercentage = _balance.dividedBy(_totalSupply).multipliedBy(100);
-
-    let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot();
-    let _token1 = _balance.pow(2).dividedBy(_token0);
-
-    const conv = new BigNumber("1e+18");
-
-    _balance = _balance.dividedBy(conv);
-    _token0 = _token0.dividedBy(conv);
-    _token1 = _token1.dividedBy(conv);
-
-    setPoolPosition({
-      lp: _balance.toFixed(2),
-      poolPerc: _poolPercentage.toFormat(6),
-      eth: _token1.toFormat(6),
-      phnx: _token0.toFormat(6),
-    });
-  };
 
   return (
     <div className="my-liquidity-div">
@@ -174,7 +130,6 @@ function MyLiquidity({ ChangeTab }) {
 
 
         </div>
-
         :
 
         <div>
@@ -235,31 +190,16 @@ function MyLiquidity({ ChangeTab }) {
         </div>
         
       }
-
-
-        {
-          isModalVisible ? 
-          
-          <Modal
-            open={isModalVisible}
-            onClose={handleModalClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-           
-           <RemoveLiquidityModal></RemoveLiquidityModal>
-
-          </Modal>
-          
-          : null
-
-          
-        }
-
-        
-
-
-
+      {isModalVisible ? (
+        <Modal
+          open={isModalVisible}
+          onClose={handleModalClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <RemoveLiquidityModal></RemoveLiquidityModal>
+        </Modal>
+      ) : null}
     </div>
   );
 }
