@@ -2,111 +2,70 @@ import React, { useState, useEffect } from "react";
 import "./stakeModal.css";
 import Logo from "../../../assets/Logo.png";
 import { useWeb3React } from "@web3-react/core";
-import Web3 from "web3";
-import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY } from "../../../contract/constant";
-import { abi } from "../../../contract/abi/UniswapV2PairABI.json";
-import { abi as StakeABI } from "../../../contract/abi/PHXStakeABI.json";
-import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../../../contract/constant";
-import BigNumber from "bignumber.js";
 import CalculatorLogo from "../../../assets/calculator.png";
 import ShareLogo from "../../../assets/share.png";
-
-
+import { useSelector, useDispatch } from "react-redux";
+import * as STAKE_SERVICES from "../../../services/stake.services";
+import {
+  GetPhnxBalanceAction,
+  GetPoolPositionAction,
+} from "../../../redux/actions/contract.actions";
+import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
 
 function StakeModal({ Close }) {
   const [lpValue, setlpValue] = useState(0.0);
   const [maxlpValue, setmaxlpValue] = useState(0.0);
 
   const web3context = useWeb3React();
-  const [poolPosition, setPoolPosition] = useState({
-    lp: 0,
-    poolPerc: 0,
-    eth: 0,
-    phnx: 0,
-  });
+  const dispatch = useDispatch();
+  const poolPosition = useSelector(
+    (state) => state.contractReducer.poolPosition
+  );
+  const contractPhnxStake = useSelector(
+    (state) => state.contractReducer.contractPhnxStake
+  );
+  const contractPhnxDao = useSelector(
+    (state) => state.contractReducer.contractPhnxDao
+  );
+  const contractUniswapPair = useSelector(
+    (state) => state.contractReducer.contractUniswapPair
+  );
 
   const LpChange = (e) => {
-    setlpValue(parseFloat(e.target.value));
+    if (lpValue > maxlpValue) {
+      return;
+    } else {
+      setlpValue(parseFloat(e.target.value));
+    }
   };
 
   useEffect(() => {
-    if (web3context.active && web3context.account) {
-      getPoolPosition();
-    }
+    // if (!poolPosition) {
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+    // }
+    // console.log("Pool position already init!");
   }, [web3context.account]);
 
-  const getPoolPosition = async () => {
-    const web3 = new Web3(web3context?.library?.currentProvider);
-    const uniswapV2PairContract = new web3.eth.Contract(
-      abi,
-      UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY
-    );
-    const balanceOf = await uniswapV2PairContract.methods
-      .balanceOf(web3context.account)
-      .call();
-    const getReserves = await uniswapV2PairContract.methods
-      .getReserves()
-      .call();
-    const totalSupply = await uniswapV2PairContract.methods
-      .totalSupply()
-      .call();
+  useEffect(() => {
+    if (web3context.active && web3context.account && poolPosition) {
+      setmaxlpValue(poolPosition.lp);
+      console.log("poolPosition.lp", poolPosition.lp);
+    }
+  }, [web3context.account, poolPosition]);
 
-    let _balance = new BigNumber(balanceOf);
-    // console.log("_balance", _balance);
-    let _totalSupply = new BigNumber(totalSupply);
-    const _reserve0 = new BigNumber(getReserves._reserve0);
-    const _reserve1 = new BigNumber(getReserves._reserve1);
-    const _ratio = _reserve0.dividedBy(_reserve1);
-
-    let _poolPercentage = _balance.dividedBy(_totalSupply).multipliedBy(100);
-
-    let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot();
-    let _token1 = _balance.pow(2).dividedBy(_token0);
-
-    const conv = new BigNumber("1e+18");
-
-    _balance = _balance.dividedBy(conv);
-    _token0 = _token0.dividedBy(conv);
-    _token1 = _token1.dividedBy(conv);
-
-    setPoolPosition({
-      lp: _balance.toFixed(2),
-      poolPerc: _poolPercentage.toFormat(6),
-      eth: _token1.toFormat(6),
-      phnx: _token0.toFormat(6),
-    });
-
-    setmaxlpValue(_balance.toFixed(2));
-  };
-
-  const StakeLp = () => {
+  const _handleStakeLp = async () => {
     if (lpValue > maxlpValue || lpValue === 0 || isNaN(lpValue)) {
       return;
+    } else {
+      try {
+        await STAKE_SERVICES.stakeLp(web3context, contractPhnxStake, lpValue);
+        dispatch(GetEthBalanceAction(web3context));
+        dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+        dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+      } catch (e) {
+        console.error(e);
+      }
     }
-
-    const web3 = new Web3(web3context?.library?.currentProvider);
-    const Contract = new web3.eth.Contract(
-      StakeABI,
-      PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
-    );
-
-    Contract.methods
-      .deposit(web3.utils.toWei(lpValue.toString()))
-      .send({ from: web3context.account })
-      .on("transactionHash", (hash) => {
-        // hash of tx
-        console.log("tx hash", hash);
-      })
-      .on("confirmation", function (confirmationNumber, receipt) {
-        if (confirmationNumber === 2) {
-          // tx confirmed
-          // checkApproval(web3context, contractPhnx);
-          alert("success", "tx successfull!");
-        }
-      })
-      .on("error", function (err) {
-        console.error(err);
-      });
   };
 
   return (
@@ -175,7 +134,7 @@ function StakeModal({ Close }) {
                 : "#413AE2",
           }}
           onClick={() => {
-            StakeLp();
+            _handleStakeLp();
           }}
         >
           Confirm

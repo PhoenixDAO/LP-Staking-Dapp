@@ -109,3 +109,47 @@ export const getPendingPHX = async (
     throw "Invalid credentials of getPendingPHX";
   }
 };
+
+export const stakeLp = async (web3context, contractPhnxStake, lpValue) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+
+  await contractPhnxStake.methods
+    .deposit(web3.utils.toWei(lpValue.toString()))
+    .send({ from: web3context.account })
+    .on("transactionHash", (hash) => {
+      // hash of tx
+      console.log("tx hash", hash);
+    })
+    .on("confirmation", function (confirmationNumber, receipt) {
+      if (confirmationNumber === 2) {
+        // tx confirmed
+        // checkApproval(web3context, contractPhnx);
+        alert("success", "tx successfull!");
+      }
+    })
+    .on("error", function (err) {
+      throw err;
+    });
+};
+
+export const unStakeLp = async (web3context, contractPhnxStake, lpValue) => {
+  const web3 = new Web3(web3context?.library?.currentProvider);
+
+  await contractPhnxStake.methods
+    .withdraw(web3.utils.toWei(lpValue.toString()))
+    .send({ from: web3context.account })
+    .on("transactionHash", (hash) => {
+      // hash of tx
+      console.log("tx hash", hash);
+    })
+    .on("confirmation", function (confirmationNumber, receipt) {
+      if (confirmationNumber === 2) {
+        // tx confirmed
+        // checkApproval(web3context, contractPhnx);
+        alert("success", "Approved successfully!");
+      }
+    })
+    .on("error", function (err) {
+      throw err;
+    });
+};
