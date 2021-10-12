@@ -19,10 +19,11 @@ import Web3 from "web3";
 import { abi } from "../../contract/abi/PhoenixDaoABI.json";
 import { GetPoolPositionAction } from "../../redux/actions/contract.actions";
 import { useSelector, useDispatch } from "react-redux";
+import ConnectWallet from "../ConnectWallet";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
-  const [ethValue, setEthValue] = useState();
-  const [phnxValue, setPhnxValue] = useState();
+  const [ethValue, setEthValue] = useState('');
+  const [phnxValue, setPhnxValue] = useState('');
 
   const [EthBalance, setEthBalance] = useState(0.0);
   const [PhnxBalance, setPhnxBalance] = useState(0.0);
@@ -56,6 +57,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const [loading, setLoading] = useState(false);
   const [num, setNum] = useState("");
+
+  const[ConnectWalletModalStatus,setConnectWalletModalStatus] = useState(false);
+
 
   useEffect(() => {
     _handleGetDataMain();
@@ -382,8 +386,64 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
         </div>
         {/* <p>{allowance}</p> */}
-        {allowance == 0 ? (
-          <Button
+        { 
+        
+          web3context.active==false ?
+         
+            <Button
+                variant="contained"
+                size="small"
+                fullWidth={true}
+                style={{
+                  ...styles.btnAddLiquidity,
+                  
+                }}
+                
+                onClick={()=>setConnectWalletModalStatus(!ConnectWalletModalStatus)}
+              >
+                {"Connect Wallet"}
+            </Button>
+
+          : allowance != 0 ? (
+        
+            <Button
+              variant="contained"
+              size="small"
+              fullWidth={true}
+              style={{
+                ...styles.btnAddLiquidity,
+                backgroundColor:
+                  loading ||
+                  phnxValue > PhnxBalance ||
+                  ethValue > EthBalance ||
+                  phnxValue === 0 ||
+                  ethValue === 0 ||
+                  phnxValue == "" ||
+                  ethValue == ""
+                    ? "#eee"
+                    : "#413AE2",
+              }}
+              disabled={
+                loading ||
+                phnxValue > PhnxBalance ||
+                ethValue > EthBalance ||
+                phnxValue === 0 ||
+                ethValue === 0 ||
+                phnxValue == "" ||
+                ethValue == ""
+              }
+              onClick={_handleSupply}
+            >
+              { phnxValue === '' || ethValue ==='' || phnxValue == 0 || ethValue == 0 ?
+                'Enter an amount' :
+                phnxValue > PhnxBalance || ethValue > EthBalance
+                ? "Insufficient Balance"
+                : "Add Liquidity"}
+            </Button>
+
+          ) : (
+       
+            <Button
             variant="contained"
             size="large"
             fullWidth={true}
@@ -396,42 +456,13 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             onClick={_handleGiveApproval}
           >
             Approve PHNX
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            size="small"
-            fullWidth={true}
-            style={{
-              ...styles.btnAddLiquidity,
-              backgroundColor:
-                loading ||
-                phnxValue > PhnxBalance ||
-                ethValue > EthBalance ||
-                phnxValue === 0 ||
-                ethValue === 0 ||
-                phnxValue == "" ||
-                ethValue == ""
-                  ? "#eee"
-                  : "#413AE2",
-            }}
-            disabled={
-              loading ||
-              phnxValue > PhnxBalance ||
-              ethValue > EthBalance ||
-              phnxValue === 0 ||
-              ethValue === 0 ||
-              phnxValue == "" ||
-              ethValue == ""
-            }
-            onClick={_handleSupply}
-          >
-            {phnxValue > PhnxBalance || ethValue > EthBalance
-              ? "Insufficient Balance"
-              : "Add Liquidity"}
-          </Button>
-        )}
+            </Button>
+       
+       )}
       </div>
+
+      <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus}></ConnectWallet>
+
     </Box>
   );
 };
