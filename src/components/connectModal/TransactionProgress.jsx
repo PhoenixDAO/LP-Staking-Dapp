@@ -12,13 +12,15 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
-const TransactionProgress = () => {
-  const [selectedPercentage, setSelectedPercentage] = useState(0);
-  const [allowance, setAllowance] = useState(0);
+const TransactionProgress = ({transactionProcessModal}) => {
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(transactionProcessModal);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(()=>{
+    setOpen(transactionProcessModal)
+  },[transactionProcessModal]);
 
   const style = {
     position: "absolute",
@@ -35,7 +37,7 @@ const TransactionProgress = () => {
   return (
     <div>
       <div>
-        <Button onClick={handleOpen}>Transaction Progress</Button>
+        {/* <Button onClick={handleOpen}>Transaction Progress</Button> */}
         <Modal
           open={open}
           onClose={handleClose}
