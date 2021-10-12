@@ -1,12 +1,12 @@
 .farm-heading{
     color:#413AE2;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
 }
 
 .farm-sub-heading{
     margin-top: 15px;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 .farm-divider{
@@ -30,14 +30,17 @@
 
 .farm-details-div{
     display: flex;
+    align-items: center;
     margin-top: 20px;
 }
 
 .farm-details-txt{
-    font-size: 15px;
+    font-size: 17px;
 }
 
 .farm-details-txt-right{
+    display: flex;
+    align-items: center;
     margin-left: auto;
     color: #73727D;
 }
@@ -54,7 +57,7 @@
 }
 
 .get-phnx-eth-lp{
-    font-size: 13px;
+    font-size: 16px;
     text-align: center;
     margin-top: 30px;
     color: #413AE2;

@@ -8,6 +8,10 @@ import { abi } from "../../../contract/abi/UniswapV2PairABI.json";
 import { abi as StakeABI } from "../../../contract/abi/PHXStakeABI.json";
 import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../../../contract/constant";
 import BigNumber from "bignumber.js";
+import CalculatorLogo from "../../../assets/calculator.png";
+import ShareLogo from "../../../assets/share.png";
+
+
 
 function StakeModal({ Close }) {
   const [lpValue, setlpValue] = useState(0.0);
@@ -108,7 +112,7 @@ function StakeModal({ Close }) {
   return (
     <div className="stakingModal">
       <img className="stakingModalLogo" src={Logo} alt="Logo"></img>
-      <div className="stakingModalHeading">Stake LP Token</div>
+      <div className="stakingModalHeading">Stake LP Tokens</div>
 
       <div style={{ display: "flex", alignItem: "center" }}>
         <div className="stakingModal-details">STAKE</div>
@@ -131,7 +135,7 @@ function StakeModal({ Close }) {
             setlpValue(maxlpValue);
           }}
         >
-          max
+          Max
         </button>
       </div>
 
@@ -143,7 +147,7 @@ function StakeModal({ Close }) {
           className="stakingModal-details"
           style={{ marginLeft: "auto", marginTop: "0px" }}
         >
-          $0.00
+          $0.00 &nbsp;<img src={CalculatorLogo}></img>
         </div>
       </div>
 
@@ -182,7 +186,7 @@ function StakeModal({ Close }) {
         className="get-phnx-eth-lp"
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "12px" }}
       >
-        Get PHNX-ETH LP
+        Get PHNX-ETH LP <img src={ShareLogo}></img>
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import ComponentCss from "../componentCss.css";
 import PhnxLogo from "../../assets/phnxLogo.png";
+import EthLogo from "../../assets/ETH1.png";
 import * as SERVICE from "../../services/pool.services";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { ToastMsg } from "../Toast";
@@ -20,8 +21,8 @@ import { GetPoolPositionAction } from "../../redux/actions/contract.actions";
 import { useSelector, useDispatch } from "react-redux";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
-  const [ethValue, setEthValue] = useState(0);
-  const [phnxValue, setPhnxValue] = useState(0);
+  const [ethValue, setEthValue] = useState();
+  const [phnxValue, setPhnxValue] = useState();
 
   const [EthBalance, setEthBalance] = useState(0.0);
   const [PhnxBalance, setPhnxBalance] = useState(0.0);
@@ -308,7 +309,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <img
                 alt="logo"
                 style={styles.imgLogoPhnx}
-                src="https://us.123rf.com/450wm/irrrina/irrrina2103/irrrina210300014/165752199-ethereum-vector-cryptocurrency-icon-isolated-on-white-background-.jpg?ver=6"
+                src={EthLogo}
               />
               <div style={styles.containerImg}>
                 <Typography style={styles.txtInput}>Input</Typography>
@@ -321,7 +322,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available ETH:</Typography>
                 <Typography style={styles.txtAmount}>
-                  {EthBalance} PHNX
+                  {EthBalance} ETH
                 </Typography>
               </div>
               <div
@@ -389,6 +390,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             style={{
               ...styles.btnAddLiquidity,
               backgroundColor: loading ? "#eee" : "#413AE2",
+              textTransform: 'capitalize',
             }}
             disabled={loading}
             onClick={_handleGiveApproval}
@@ -470,7 +472,8 @@ const styles = {
     display: "flex",
     alignItem: "center",
     justifyContent: "center",
-    top: "41%",
+    top: "50%",
+    transform: 'translateY(-50%)',
   },
   // dialogStyle: {
   //   padding: "10px 10px 0px 10px",
@@ -549,6 +552,7 @@ const styles = {
     border: "none",
     padding: "7px 8px 5px 8px",
     borderRadius: 8,
+    fontWeight: '800 !important',
   },
   wrapperInput: {
     display: "flex",

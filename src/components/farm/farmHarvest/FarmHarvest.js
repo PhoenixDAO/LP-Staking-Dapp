@@ -4,6 +4,8 @@ import PhnxLogo from "../../../assets/PhnxLogo1.png";
 import EthLogo from "../../../assets/ETH1.png";
 import DropDownLogo from "../../../assets/dropdown.png";
 import DropUpLogo from "../../../assets/dropup.png";
+import ShareLogo from "../../../assets/share.png";
+import CalculatorLogo from "../../../assets/calculator.png";
 import Web3 from "web3";
 
 import { useState } from "react";
@@ -39,7 +41,7 @@ function FarmHarvest({
 
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
-        <div className="farm-details-txt-right">200%</div>
+        <div className="farm-details-txt-right">200% &nbsp;<img src={CalculatorLogo}></img></div>
       </div>
 
       <div className="farm-details-div">
@@ -71,7 +73,7 @@ function FarmHarvest({
           onClick={() => UnstakeModalOpen()}
         >
           {" "}
-          UnStake
+          UnStake PHNX-ETH LP
         </button>
         <button
           className="farm-btn-stake-outline"
@@ -79,7 +81,7 @@ function FarmHarvest({
           onClick={() => stakeModalOpen()}
         >
           {" "}
-          Stake
+          Stake PHNX-ETH LP
         </button>
       </div>
 
@@ -91,7 +93,7 @@ function FarmHarvest({
         Harvest
       </button>
 
-      <div className="get-phnx-eth-lp">Get PHNX-ETH LP</div>
+      <div className="get-phnx-eth-lp">Get PHNX-ETH LP <img src={ShareLogo}></img> </div>
 
       <div className="farm-divider"></div>
 

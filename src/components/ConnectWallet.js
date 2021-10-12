@@ -261,7 +261,7 @@ export default function ConnectWallet({ landingScreenBtn }) {
   }, [web3context, account]);
 
   return (
-    <div>
+    <div style={{width:'fit-content'}}>
       {/* <span>
         {balance === null ? "Error" : balance ? `Ξ${formatEther(balance)}` : ""}
       </span> */}
@@ -290,7 +290,9 @@ export default function ConnectWallet({ landingScreenBtn }) {
           </div>
         </button>
       ) : null}
-      &nbsp;&nbsp;
+
+        {landingScreenBtn ? null : <>&nbsp;&nbsp;</>}
+
       <button
         onClick={(e) => {
           !active && !account ? handleOpen() : handleClick2(e);
