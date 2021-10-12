@@ -32,7 +32,11 @@ function StakeModal({ Close }) {
   );
 
   const LpChange = (e) => {
-    setlpValue(parseFloat(e.target.value));
+    if (lpValue > maxlpValue) {
+      return;
+    } else {
+      setlpValue(parseFloat(e.target.value));
+    }
   };
 
   useEffect(() => {
