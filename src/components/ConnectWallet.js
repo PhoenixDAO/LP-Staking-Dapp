@@ -61,10 +61,6 @@ import {
   tokenAddressRinkeby,
 } from "../contract/constants";
 import WalletSettings from "./walletSettings";
-import {
-  phnxDaoContractInit,
-  phnxStakeContractInit,
-} from "../services/pool.services";
 
 const style = {
   position: "absolute",
@@ -274,7 +270,6 @@ export default function ConnectWallet({ landingScreenBtn , justModal , openModal
 
   return (
     <div style={{width:'fit-content'}}>
-      
 
       {active && account && justModal != true ? (
         <button className="connect-wallet-btn balance-btn">
