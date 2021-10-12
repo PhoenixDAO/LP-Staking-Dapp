@@ -4,6 +4,8 @@ import PhnxLogo from "../../../assets/PhnxLogo1.png";
 import EthLogo from "../../../assets/ETH1.png";
 import DropDownLogo from "../../../assets/dropdown.png";
 import DropUpLogo from "../../../assets/dropup.png";
+import ShareLogo from "../../../assets/share.png";
+import CalculatorLogo from "../../../assets/calculator.png";
 import { useState } from "react";
 
 function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
@@ -31,7 +33,7 @@ function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
 
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
-        <div className="farm-details-txt-right">200%</div>
+        <div className="farm-details-txt-right">200% &nbsp;<img src={CalculatorLogo}></img></div>
       </div>
 
       <div className="farm-details-div">
@@ -57,7 +59,7 @@ function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
 
       {allowance != 0 ? (
         <button className="farm-btn-stake" onClick={stakeModalOpen}>
-          Stake LP
+          Stake PHNX-ETH LP
         </button>
       ) : (
         <button className="farm-btn-stake" onClick={giveApproval}>
@@ -65,7 +67,7 @@ function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
         </button>
       )}
 
-      <div className="get-phnx-eth-lp">Get PHNX-ETH LP</div>
+      <div className="get-phnx-eth-lp">Get PHNX-ETH LP <img src={ShareLogo}></img></div>
 
       <div className="farm-divider"></div>
 

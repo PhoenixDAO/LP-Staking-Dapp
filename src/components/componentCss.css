@@ -102,7 +102,7 @@ div.token-container {
   background-color: rgba(195, 183, 255, 0.17);
   border: 1px solid #e2e1ff;
   border-radius: 20px;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 div.wrapper-input {
@@ -116,15 +116,18 @@ div.add-div {
   left: 0;
   right: 0;
   
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  /* display: flex; */
+  
   background-color: #f5f3ff;
   border: 3px solid #e2e1ff;
   align-self: center;
-  font-size: 30px;
+  font-size: 35px;
   color: #413ae2;
   font-weight: "200";
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  padding-bottom: 7px;
 }
 .icon-btn {
   right: 50px;
@@ -147,7 +150,8 @@ div.container-pool-share {
   justify-content: space-between;
   width: 100%;
   padding: 15px 10px 15px 15px;
-  margin-top: 10px;
+  margin-top: 15px;
+  margin-bottom: 10px;
   border: 1px solid #e2e1ff;
 }
 div.pool-share {
@@ -222,6 +226,7 @@ div.dialog-style {
     height: 40px;
     border-radius: 20px;
     font-size: 30px;
+    text-align: center;
   }
   .icon-btn {
     right: 15px;
@@ -366,8 +371,8 @@ div.liq-modal-res > div > .css-196kcza{
 
   .connect-wallet-btn-img{
     margin-right: 5px;
-    height: 15px;
-    width: 15px;
+    height: 20px;
+    width: 20px;
     border-radius: 15px;
     background-color: #e2e1ff;
 

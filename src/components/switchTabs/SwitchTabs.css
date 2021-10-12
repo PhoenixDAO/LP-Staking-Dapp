@@ -1,5 +1,5 @@
 .switch-tabs-div{
-    width: 300px;
+    width: 400px;
     background-color: #fff;
     border-radius: 9px;
     padding: 3px;
@@ -18,14 +18,19 @@
     text-align: center;
     user-select: none;
     padding: 7px;
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 700;
+    cursor: pointer;
 }
 
-@media only screen and (max-width: 700px){
+@media only screen and (max-width: 630px){
 
     .switch-tabs-div{
         width: 90%;
+    }
+
+    .switch-tabs-btns{
+        font-size: 15px;
     }
 
 }

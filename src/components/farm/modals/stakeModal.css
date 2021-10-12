@@ -23,10 +23,12 @@
 }
 
 .stakingModal-details{
-    font-size: 12px;
+    font-size: 15px;
     margin-top: 30px;
     color: #4E4E55;
     font-weight: bold;
+    display: flex;
+    justify-content: center;
 }
 
 .stakingModalInput{

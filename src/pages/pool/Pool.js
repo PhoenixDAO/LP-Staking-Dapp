@@ -69,6 +69,6 @@ const styles = {
   btnCollectWallet: {
     backgroundColor: "#413AE2",
     marginTop: 10,
-    fontSize: 12,
+    fontSize: 15,
   },
 };

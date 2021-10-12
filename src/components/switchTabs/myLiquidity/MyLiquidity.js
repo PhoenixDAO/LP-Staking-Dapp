@@ -2,7 +2,7 @@ import React from "react";
 
 import "./myLiquidity.css";
 import PhnxLogo from "../../../assets/phnxLogo.png";
-import EthLogo from "../../../assets/ETH.png";
+import EthLogo from "../../../assets/ETH1.png";
 import SettingsLogo from "../../../assets/settings.png";
 import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
@@ -101,8 +101,8 @@ function MyLiquidity({ ChangeTab }) {
 
       <div className="phnx-eth">
         <p className="phnx-eth-no">{poolPosition.lp}</p>
-        <img src={EthLogo} className="phnx-eth-logo"></img>
         <img src={PhnxLogo} className="phnx-eth-logo"></img>
+        <img src={EthLogo} className="phnx-eth-logo"></img>
       </div>
 
       <div className="phnx-eth-txt">PHNX/ETH</div>

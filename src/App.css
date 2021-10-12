@@ -132,3 +132,53 @@
 .css-bshv44-MuiButtonBase-root-MuiListItem-root {
   height: 50px !important;
 }
+
+
+button{
+  font-family: 'Aeonik' !important;
+  cursor: pointer !important;
+}
+
+input{
+  font-family: 'Aeonik' !important;
+  padding-right: 4px !important;
+}
+
+.css-9mgopn-MuiDivider-root{
+  display: none !important;
+}
+
+.css-11o2879-MuiDrawer-docked, .MuiDrawer-paper{
+ border: none !important;
+}
+
+.css-nz481w-MuiInputBase-input-MuiInput-input{
+  font-weight: bold !important;
+}
+
+.css-kg848s-MuiTypography-root{
+  font-size: 20px !important;
+}
+
+.css-hd5gve>img{
+  /* height: 30px !important; */
+  width: 35px !important;
+}
+
+.css-hd5gve{
+  margin-top: 7px !important;
+
+}
+
+.css-a4i7ew-MuiTypography-root{
+  margin-bottom: 10px !important;
+  margin-top: 20px !important;
+}
+
+.css-1jeep95-MuiTypography-root{
+  margin-bottom: 0px !important;
+}
+
+.css-196kcza{
+  max-height: 100% !important;
+}
