@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
-const TransactionSubmitted = ({transactionSubmittedModal}) => {
+const TransactionSubmitted = ({ transactionSubmittedModal }) => {
   const [selectedPercentage, setSelectedPercentage] = useState(0);
   const [allowance, setAllowance] = useState(0);
 
@@ -20,9 +20,9 @@ const TransactionSubmitted = ({transactionSubmittedModal}) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(()=>{
-    setOpen(transactionSubmittedModal)
-  },[transactionSubmittedModal]);
+  useEffect(() => {
+    setOpen(transactionSubmittedModal);
+  }, [transactionSubmittedModal]);
 
   const style = {
     position: "absolute",
@@ -34,6 +34,35 @@ const TransactionSubmitted = ({transactionSubmittedModal}) => {
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
+  };
+
+  const registerToken = async () => {
+    const tokenAddress = "0xff8ae8805552c813d75ad6ff456dbc417bd12be6";
+    const tokenSymbol = "UNI-V2";
+    const tokenDecimals = 18;
+
+    try {
+      // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+      const wasAdded = await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20", // Initially only supports ERC20, but eventually more!
+          options: {
+            address: tokenAddress, // The address that the token is at.
+            symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+            decimals: tokenDecimals, // The number of decimals in the token
+          },
+        },
+      });
+
+      if (wasAdded) {
+        console.log("Thanks for your interest!");
+      } else {
+        console.log("Your loss!");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -52,8 +81,8 @@ const TransactionSubmitted = ({transactionSubmittedModal}) => {
                 <img className="transaction-liq-Logo" src={Logo}></img>
               </div>
               <div className="closeModalIcon">
-              <span className="cursorPointer">
-                <CloseIcon onClick={handleClose} />
+                <span className="cursorPointer">
+                  <CloseIcon onClick={handleClose} />
                 </span>
               </div>
             </div>
@@ -85,7 +114,10 @@ const TransactionSubmitted = ({transactionSubmittedModal}) => {
               </div>
             </div>
 
-            <div className="transaction-liq-phnx-eth-det-div cursorPointer">
+            <div
+              className="transaction-liq-phnx-eth-det-div cursorPointer"
+              onClick={registerToken}
+            >
               <div className="displayFlex metamaskIconCenter">
                 <div>Add PHNX-LP to Metamask </div>
                 <div>
@@ -99,7 +131,10 @@ const TransactionSubmitted = ({transactionSubmittedModal}) => {
         <div className="transaction-liq-phnx-eth-con">1 ETH = 0.3456665 PHNX</div>
       </div> */}
             <div className="transactionCloseButton">
-              <button className="transaction-liq-btn cursorPointer" onClick={handleClose}>
+              <button
+                className="transaction-liq-btn cursorPointer"
+                onClick={handleClose}
+              >
                 Close
               </button>
             </div>
