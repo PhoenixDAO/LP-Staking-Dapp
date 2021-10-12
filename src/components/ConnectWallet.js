@@ -100,7 +100,7 @@ const Item = styled("button")(({ theme }) => ({
   },
 }));
 
-export default function ConnectWallet({ landingScreenBtn }) {
+export default function ConnectWallet({ landingScreenBtn , justModal , openModal }) {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   const contractPhnxDao = useSelector(
@@ -165,6 +165,18 @@ export default function ConnectWallet({ landingScreenBtn }) {
     //   };
     // }
   }, [account, library, chainId]);
+
+  useEffect(()=>{
+
+    if(justModal==true){
+      if(openModal==true){
+        handleOpen();
+      }else{
+        handleClose();
+      }
+    }
+
+  },[openModal])
 
   const activateWallet = useCallback(
     async (connector, onClose = () => {}) => {
@@ -257,11 +269,9 @@ export default function ConnectWallet({ landingScreenBtn }) {
   }, [web3context, account]);
 
   return (
-    <div style={{ width: "fit-content" }}>
-      {/* <span>
-        {balance === null ? "Error" : balance ? `Ξ${formatEther(balance)}` : ""}
-      </span> */}
-      {active && account ? (
+    <div style={{width:'fit-content'}}>
+
+      {active && account && justModal != true ? (
         <button className="connect-wallet-btn balance-btn">
           <div
             style={{
@@ -287,38 +297,43 @@ export default function ConnectWallet({ landingScreenBtn }) {
         </button>
       ) : null}
 
-      {landingScreenBtn ? null : <>&nbsp;&nbsp;</>}
-
-      <button
-        onClick={(e) => {
-          !active && !account ? handleOpen() : handleClick2(e);
-        }}
-        className={
-          landingScreenBtn === true
-            ? "connect-wallet-btn connect-wallet-btn-reverse"
-            : "connect-wallet-btn"
-        }
-      >
-        {active && account ? (
-          <div
-            style={{
-              display: "flex",
-              alignItem: "center",
-              justifyContent: "center",
-            }}
-          >
-            {" "}
-            <img
-              src={EthLogo}
-              alt="EthLogo"
-              className="connect-wallet-btn-img"
-            ></img>{" "}
-            {conciseAddress(account)}{" "}
-          </div>
-        ) : (
-          "Connect Wallet"
-        )}
-      </button>
+      {landingScreenBtn!=true ? <>&nbsp; &nbsp;</> : null}
+      
+      {
+        justModal == true ?
+        null :
+          <button
+          onClick={(e) => {
+            !active && !account ? handleOpen() : handleClick2(e);
+          }}
+          className={
+            landingScreenBtn === true
+              ? "connect-wallet-btn connect-wallet-btn-reverse"
+              : "connect-wallet-btn"
+          }
+        >
+          {active && account ? (
+            <div
+              style={{
+                display: "flex",
+                alignItem: "center",
+                justifyContent: "center",
+              }}
+            >
+              {" "}
+              <img
+                src={EthLogo}
+                alt="EthLogo"
+                className="connect-wallet-btn-img"
+              ></img>{" "}
+              {conciseAddress(account)}{" "}
+            </div>
+          ) : (
+            "Connect Wallet"
+          )}
+          </button>
+      }
+   
       <Modal
         open={open}
         onClose={handleClose}

@@ -10,13 +10,17 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
-const ConnectModal = () => {
-  const [selectedPercentage, setSelectedPercentage] = useState(0);
-  const [allowance, setAllowance] = useState(0);
+const ConnectModal = ({transactionConfirmModal,_handleSupply,setTxModalClose }) => {
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const [open, setOpen] = useState(transactionConfirmModal);
+  // const handleClose = () => {setOpen(false)};
+
+
+
+  // useEffect(()=>{
+  //   console.log('asdasdasd')
+  //   setOpen(transactionConfirmModal)
+  // },[transactionConfirmModal]);
 
   const style = {
     position: "absolute",
@@ -31,12 +35,13 @@ const ConnectModal = () => {
   };
 
   return (
+    
     <div>
       <div>
-        <Button onClick={handleOpen}>Connect Modal</Button>
+        {/* <Button onClick={handleOpen}>Connect Modal</Button> */}
         <Modal
-          open={open}
-          onClose={handleClose}
+          open={transactionConfirmModal}
+          onClose={setTxModalClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -47,7 +52,7 @@ const ConnectModal = () => {
               </div>
               <div className="closeModalIcon">
               <span className="cursorPointer">
-                <CloseIcon onClick={handleClose} />
+                <CloseIcon onClick={setTxModalClose} />
                 </span>
               </div>
             </div>
@@ -128,7 +133,11 @@ const ConnectModal = () => {
         <div className="add-liq-phnx-eth-con">1 ETH = 0.3456665 PHNX</div>
       </div> */}
 
-            <button className="add-liq-btn cursorPointer">Add Liquidity</button>
+            <button className="add-liq-btn cursorPointer" onClick={()=>{
+              _handleSupply();
+            
+              }
+              }>Add Liquidity</button>
           </div>
         </Modal>
       </div>

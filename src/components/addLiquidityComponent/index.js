@@ -26,10 +26,14 @@ import {
   GetMainDataAction,
 } from "../../redux/actions/local.actions";
 import { useSelector, useDispatch } from "react-redux";
+import ConnectWallet from "../ConnectWallet";
+import ConnectModal from "../connectModal/ConnectModal";
+import TransactionProgress from "../connectModal/TransactionProgress";
+import TransactionSubmitted from "../connectModal/TransactionSubmitted";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
-  const [ethValue, setEthValue] = useState();
-  const [phnxValue, setPhnxValue] = useState();
+  const [ethValue, setEthValue] = useState("");
+  const [phnxValue, setPhnxValue] = useState("");
 
   const [poolShare, setPoolShare] = useState(0);
 
@@ -58,6 +62,13 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const [loading, setLoading] = useState(false);
   const [num, setNum] = useState("");
+
+  const [ConnectWalletModalStatus, setConnectWalletModalStatus] =
+    useState(false);
+  const [transactionConfirmModal, settransactionConfirmModal] = useState(false);
+  const [transactionProcessModal, settransactionProcessModal] = useState(false);
+  const [transactionSubmittedModal, settransactionSubmittedModal] =
+    useState(false);
 
   useEffect(() => {
     _handleGetDataMain();
@@ -100,7 +111,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       setAllowance(result);
     } catch (e) {
       console.error("_handleCheckApproval", e);
-      ToastMsg("error", "First give approval!");
     }
   };
 
@@ -116,11 +126,16 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const _handleSupply = async () => {
     try {
       setLoading(true);
+      settransactionConfirmModal(false);
+      settransactionProcessModal(true);
       await SERVICE.supply(
         phnxValue,
         ethValue,
         web3context,
-        contractUniswapRouter
+        contractUniswapRouter,
+        settransactionProcessModal,
+        settransactionSubmittedModal,
+        _handleGetPoolPosition
       );
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
       await GetBalances();
@@ -168,6 +183,14 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     }
   };
 
+  const setTxModalOpen = () => {
+    settransactionConfirmModal(true);
+  };
+
+  const setTxModalClose = () => {
+    settransactionConfirmModal(false);
+  };
+
   return (
     <Box sx={styles.containerStyle} className="modal-scroll">
       <div style={{ paddingLeft: 10 }}>
@@ -193,10 +216,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           marginBottom: 9,
         }}
       />
-      <div
-        className="dialog-style"
-        // style={styles.dialogStyle}
-      >
+      <div className="dialog-style">
         <div style={styles.containerTip}>
           <Typography style={styles.txtTipParagraph}>
             Tip: By adding liquidity, you'll earn 0.25% of all trades on this
@@ -350,22 +370,21 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
         </div>
         {/* <p>{allowance}</p> */}
-        {allowance == 0 ? (
+        {web3context.active == false ? (
           <Button
             variant="contained"
-            size="large"
+            size="small"
             fullWidth={true}
             style={{
               ...styles.btnAddLiquidity,
-              backgroundColor: loading ? "#eee" : "#413AE2",
-              textTransform: "capitalize",
             }}
-            disabled={loading}
-            onClick={_handleGiveApproval}
+            onClick={() =>
+              setConnectWalletModalStatus(!ConnectWalletModalStatus)
+            }
           >
-            Approve PHNX
+            {"Connect Wallet"}
           </Button>
-        ) : (
+        ) : allowance != 0 ? (
           <Button
             variant="contained"
             size="small"
@@ -392,14 +411,51 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               phnxValue == "" ||
               ethValue == ""
             }
-            onClick={_handleSupply}
+            onClick={setTxModalOpen}
           >
-            {phnxValue > balancePhnx || ethValue > balanceEth
+            {phnxValue === "" ||
+            ethValue === "" ||
+            phnxValue == 0 ||
+            ethValue == 0
+              ? "Enter an amount"
+              : phnxValue > balancePhnx || ethValue > balanceEth
               ? "Insufficient Balance"
               : "Add Liquidity"}
           </Button>
+        ) : (
+          <Button
+            variant="contained"
+            size="large"
+            fullWidth={true}
+            style={{
+              ...styles.btnAddLiquidity,
+              backgroundColor: loading ? "#eee" : "#413AE2",
+              textTransform: "capitalize",
+            }}
+            disabled={loading}
+            onClick={_handleGiveApproval}
+          >
+            Approve PHNX
+          </Button>
         )}
       </div>
+
+      <ConnectWallet
+        justModal={true}
+        openModal={ConnectWalletModalStatus}
+      ></ConnectWallet>
+
+      <ConnectModal
+        transactionConfirmModal={transactionConfirmModal}
+        setTxModalClose={setTxModalClose}
+        _handleSupply={_handleSupply}
+      ></ConnectModal>
+      <TransactionProgress transactionProcessModal={transactionProcessModal}>
+        {" "}
+      </TransactionProgress>
+      <TransactionSubmitted
+        transactionSubmittedModal={transactionSubmittedModal}
+      ></TransactionSubmitted>
     </Box>
   );
 };

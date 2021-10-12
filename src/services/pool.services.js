@@ -22,6 +22,7 @@ import {
   Route,
 } from "@uniswap/sdk";
 import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../contract/constant";
+import TransactionSubmitted from "../components/connectModal/TransactionSubmitted";
 
 const chainId = ChainId.RINKEBY;
 const customHttpProvider = new ethers.providers.JsonRpcProvider(
@@ -44,7 +45,10 @@ export const supply = async (
   phnxValue,
   ethValue,
   web3context,
-  contractUniswapRouter
+  contractUniswapRouter,
+  settransactionProcessModal,
+  settransactionSubmittedModal,
+  _handleGetPoolPosition
 ) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
 
@@ -73,18 +77,25 @@ export const supply = async (
       console.log("hash", hash);
     })
     .on("confirmation", function (confirmationNumber, receipt) {
-      if (confirmationNumber === 2) {
+      if (confirmationNumber === 1) {
+
+        settransactionProcessModal(false);
+        settransactionSubmittedModal(true);
+        _handleGetPoolPosition();
+        
         console.log("confirmationNumber", confirmationNumber);
         //   setLoading(false);
         //   setPhnxValue("");
         //   setEthValue("");
         //   setPoolShare(0);
         if (web3context.active && web3context.account) {
-          getPoolPosition();
+          // getPoolPosition();
         }
       }
     })
     .on("error", function (err) {
+      settransactionProcessModal(false);
+    
       console.log("error", err);
       // setLoading(false);
     });
