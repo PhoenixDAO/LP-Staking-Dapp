@@ -73,10 +73,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     contractUniswapPair,
   ]);
 
-  // useEffect(() => {
-  //   console.log(contractPhnxDao, "contractPhnxDao");
-  // }, [contractPhnxDao]);
-
   useEffect(() => {
     console.log("poolPositionState", poolPositionState);
   }, [poolPositionState]);
