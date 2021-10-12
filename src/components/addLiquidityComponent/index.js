@@ -20,6 +20,9 @@ import { abi } from "../../contract/abi/PhoenixDaoABI.json";
 import { GetPoolPositionAction } from "../../redux/actions/contract.actions";
 import { useSelector, useDispatch } from "react-redux";
 import ConnectWallet from "../ConnectWallet";
+import ConnectModal from '../connectModal/ConnectModal';
+import TransactionProgress from "../connectModal/TransactionProgress";
+import TransactionSubmitted from "../connectModal/TransactionSubmitted";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [ethValue, setEthValue] = useState('');
@@ -37,6 +40,11 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [poolShare, setPoolShare] = useState(0);
 
   const [allowance, setAllowance] = useState(0);
+
+  const [transactionConfirmModal,settransactionConfirmModal]=useState(false);
+  const [transactionProcessModal,settransactionProcessModal]=useState(false);
+  const [transactionSubmittedModal,settransactionSubmittedModal]=useState(false);
+
 
   const web3context = useWeb3React();
   const dispatch = useDispatch();
@@ -127,11 +135,16 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const _handleSupply = async () => {
     try {
       setLoading(true);
+      settransactionConfirmModal(false);
+      settransactionProcessModal(true);
       await SERVICE.supply(
         phnxValue,
         ethValue,
         web3context,
-        contractUniswapRouter
+        contractUniswapRouter,
+        settransactionProcessModal,
+        settransactionSubmittedModal,
+        _handleGetPoolPosition
       );
     } catch (e) {
       ToastMsg("error", "Couldn't add liquidity");
@@ -428,7 +441,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                 phnxValue == "" ||
                 ethValue == ""
               }
-              onClick={_handleSupply}
+              onClick={()=>settransactionConfirmModal(true)}
             >
               { phnxValue === '' || ethValue ==='' || phnxValue == 0 || ethValue == 0 ?
                 'Enter an amount' :
@@ -458,6 +471,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       </div>
 
       <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus}></ConnectWallet>
+
+      <ConnectModal transactionConfirmModal={transactionConfirmModal} _handleSupply={_handleSupply} ></ConnectModal>
+      <TransactionProgress transactionProcessModal={transactionProcessModal}> </TransactionProgress>
+      <TransactionSubmitted transactionSubmittedModal={transactionSubmittedModal}></TransactionSubmitted>
 
     </Box>
   );
