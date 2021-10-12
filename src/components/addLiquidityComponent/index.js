@@ -74,22 +74,12 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     _handleGetDataMain();
   }, []);
 
-  // useEffect(() => {
-  //   dispatch(GetEthBalanceAction(web3context));
-  //   dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
-  // }, [poolPosition]);
-
   useEffect(() => {
     if (web3context.active && web3context.account) {
       _handleGetPoolPosition();
       _handleCheckApproval();
     }
-  }, [
-    web3context.active,
-    web3context.account,
-    // contractPhnxDao,
-    contractUniswapPair,
-  ]);
+  }, [web3context.active, web3context.account, contractUniswapPair]);
 
   useEffect(() => {
     if (web3context) {
@@ -152,22 +142,22 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const OnChangeHandler = (val, tokenName) => {
     if (tokenName === "phnx") {
-      if (Number(val) <= balancePhnx) {
-        let v = parseFloat(val);
-        let total = parseFloat(reserve1) + v;
-        setPoolShare((v / total) * 100);
-        setPhnxValue(v);
-        setEthValue(parseFloat(ethPerPhnx) * v || num);
-      }
+      // if (Number(val) <= balancePhnx) {
+      let v = parseFloat(val);
+      let total = parseFloat(reserve1) + v;
+      setPoolShare((v / total) * 100);
+      setPhnxValue(v);
+      setEthValue(parseFloat(ethPerPhnx) * v || num);
+      // }
     } else if (tokenName === "eth") {
-      if (Number(val) <= balanceEth) {
-        let v = parseFloat(val);
-        let total = parseFloat(phnxPerEth) * v;
-        total = total + parseFloat(reserve1);
-        setPoolShare(((parseFloat(phnxPerEth) * v) / total) * 100);
-        setEthValue(v);
-        setPhnxValue(parseFloat(phnxPerEth) * v || num);
-      }
+      // if (Number(val) <= balanceEth) {
+      let v = parseFloat(val);
+      let total = parseFloat(phnxPerEth) * v;
+      total = total + parseFloat(reserve1);
+      setPoolShare(((parseFloat(phnxPerEth) * v) / total) * 100);
+      setEthValue(v);
+      setPhnxValue(parseFloat(phnxPerEth) * v || num);
+      // }
     } else {
       return;
     }

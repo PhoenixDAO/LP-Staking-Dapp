@@ -78,11 +78,10 @@ export const supply = async (
     })
     .on("confirmation", function (confirmationNumber, receipt) {
       if (confirmationNumber === 1) {
-
         settransactionProcessModal(false);
         settransactionSubmittedModal(true);
         _handleGetPoolPosition();
-        
+
         console.log("confirmationNumber", confirmationNumber);
         //   setLoading(false);
         //   setPhnxValue("");
@@ -95,7 +94,7 @@ export const supply = async (
     })
     .on("error", function (err) {
       settransactionProcessModal(false);
-    
+
       console.log("error", err);
       // setLoading(false);
     });
@@ -181,17 +180,16 @@ export const getEthBalance = async (web3context) => {
 };
 
 export const getPhnxBalance = async (web3context, contractPhnxDao) => {
-  const web3 = new Web3(web3context?.library?.currentProvider);
-  await contractPhnxDao.methods
-    .balanceOf(web3context.account)
-    .call()
-    .then((phnx) => {
-      let PhnxBalance = parseFloat(web3.utils.fromWei(phnx, "ether")).toFixed(
-        2
-      );
-      // console.log("Service getPhnxBalance ==>>", PhnxBalance);
-      return PhnxBalance;
-    });
+  if (web3context && contractPhnxDao) {
+    let PhnxBalance = await contractPhnxDao.methods
+      .balanceOf(web3context?.account)
+      .call();
+
+    console.log("Service getPhnxBalance ==>>", PhnxBalance);
+    return Number(Web3.utils.fromWei(PhnxBalance)).toFixed(2);
+  } else {
+    throw "Invalid arguments for getPhnxBalance";
+  }
 };
 
 export const checkApproval = async (web3context, contractPhnxDao) => {
