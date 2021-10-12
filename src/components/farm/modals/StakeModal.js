@@ -36,10 +36,10 @@ function StakeModal({ Close }) {
   };
 
   useEffect(() => {
-    if (!poolPosition) {
-      dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
-    }
-    console.log("Pool position already init!");
+    // if (!poolPosition) {
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+    // }
+    // console.log("Pool position already init!");
   }, [web3context.account]);
 
   useEffect(() => {
@@ -57,6 +57,7 @@ function StakeModal({ Close }) {
         await STAKE_SERVICES.stakeLp(web3context, contractPhnxStake, lpValue);
         dispatch(GetEthBalanceAction(web3context));
         dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+        dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
       } catch (e) {
         console.error(e);
       }
