@@ -61,10 +61,6 @@ import {
   tokenAddressRinkeby,
 } from "../contract/constants";
 import WalletSettings from "./walletSettings";
-import {
-  phnxDaoContractInit,
-  phnxStakeContractInit,
-} from "../services/pool.services";
 
 const style = {
   position: "absolute",
@@ -261,7 +257,7 @@ export default function ConnectWallet({ landingScreenBtn }) {
   }, [web3context, account]);
 
   return (
-    <div style={{width:'fit-content'}}>
+    <div style={{ width: "fit-content" }}>
       {/* <span>
         {balance === null ? "Error" : balance ? `Ξ${formatEther(balance)}` : ""}
       </span> */}
@@ -291,7 +287,7 @@ export default function ConnectWallet({ landingScreenBtn }) {
         </button>
       ) : null}
 
-        {landingScreenBtn ? null : <>&nbsp;&nbsp;</>}
+      {landingScreenBtn ? null : <>&nbsp;&nbsp;</>}
 
       <button
         onClick={(e) => {
