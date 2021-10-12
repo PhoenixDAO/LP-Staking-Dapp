@@ -45,6 +45,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [transactionProcessModal,settransactionProcessModal]=useState(false);
   const [transactionSubmittedModal,settransactionSubmittedModal]=useState(false);
 
+  useEffect(() => {
+  console.log(transactionConfirmModal)
+  }, [transactionConfirmModal])
+
 
   const web3context = useWeb3React();
   const dispatch = useDispatch();
@@ -113,7 +117,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       setAllowance(result);
     } catch (e) {
       console.error("_handleCheckApproval", e);
-      ToastMsg("error", "First give approval!");
+      // ToastMsg("error", "First give approval!");
     } finally {
       setLoading(false);
     }
@@ -209,6 +213,14 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     }
   }, [web3context, account]);
 
+  const setTxModalOpen=()=>{
+    settransactionConfirmModal(true);
+  }
+
+  const setTxModalClose=()=>{
+    settransactionConfirmModal(false);
+  }
+
   return (
     <Box sx={styles.containerStyle} className="modal-scroll">
       <div style={{ paddingLeft: 10 }}>
@@ -236,7 +248,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       />
       <div
         className="dialog-style"
-        // style={styles.dialogStyle}
       >
         <div style={styles.containerTip}>
           <Typography style={styles.txtTipParagraph}>
@@ -441,7 +452,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                 phnxValue == "" ||
                 ethValue == ""
               }
-              onClick={()=>settransactionConfirmModal(true)}
+              onClick={
+              setTxModalOpen
+              }
             >
               { phnxValue === '' || ethValue ==='' || phnxValue == 0 || ethValue == 0 ?
                 'Enter an amount' :
@@ -472,7 +485,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
       <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus}></ConnectWallet>
 
-      <ConnectModal transactionConfirmModal={transactionConfirmModal} _handleSupply={_handleSupply} ></ConnectModal>
+      <ConnectModal transactionConfirmModal={transactionConfirmModal} setTxModalClose={setTxModalClose} _handleSupply={_handleSupply} ></ConnectModal>
       <TransactionProgress transactionProcessModal={transactionProcessModal}> </TransactionProgress>
       <TransactionSubmitted transactionSubmittedModal={transactionSubmittedModal}></TransactionSubmitted>
 
