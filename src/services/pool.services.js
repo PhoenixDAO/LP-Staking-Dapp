@@ -176,7 +176,7 @@ export const getEthBalance = async (web3context) => {
   let EthBalance = parseFloat(
     web3.utils.fromWei(WeiEthBalance, "ether")
   ).toFixed(2);
-  return EthBalance;
+  return Number(EthBalance).toFixed(2);
 };
 
 export const getPhnxBalance = async (web3context, contractPhnxDao) => {
@@ -185,7 +185,7 @@ export const getPhnxBalance = async (web3context, contractPhnxDao) => {
       .balanceOf(web3context?.account)
       .call();
 
-    console.log("Service getPhnxBalance ==>>", PhnxBalance);
+    // console.log("Service getPhnxBalance ==>>", PhnxBalance);
     return Number(Web3.utils.fromWei(PhnxBalance)).toFixed(2);
   } else {
     throw "Invalid arguments for getPhnxBalance";
