@@ -1,11 +1,4 @@
 import Web3 from "web3";
-import BigNumber from "bignumber.js";
-import { Contract, ethers } from "ethers";
-import { ToastMsg } from "../components/Toast";
-import { abi as UniswapV2Router02ABI } from "../contract/abi/UniswapV2Router02ABI.json";
-import { abi as UniswapV2PairABI } from "../contract/abi/UniswapV2PairABI.json";
-import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
-import { abi as PhoenixStakeABI } from "../contract/abi/PHXStakeABI.json";
 import {
   PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY,
   UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY,
