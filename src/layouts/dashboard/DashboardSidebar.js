@@ -15,6 +15,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import HomeLogo from "../../assets/home.png";
 import DropLogo from "../../assets/drop.png";
 import FarmLogo from "../../assets/farm.png";
+import TelegramLogo from "../../assets/telegram.png";
+import TwitterLogo from "../../assets/twitter.png";
+import GithubLogo from "../../assets/github.png";
 
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import { drawerWidth } from "./constants";
@@ -72,6 +75,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
 
   const [currentTab, setCurrentTab] = useState(0);
   let cT;
+  const [SocialIcon, setSocialIcon] = useState(false);
 
   useEffect(() => {
     cT = window.location.href.split("/")[3];
@@ -84,6 +88,10 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
     }
   });
 
+  useEffect(()=>{
+    setSocialIcon(open)
+  },[open])
+
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -91,7 +99,10 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
   return (
     <Drawer variant="permanent" open={open}>
       <DrawerHeader>
-        <IconButton onClick={handleDrawerClose}>
+        <IconButton onClick={()=>{
+          handleDrawerClose();
+          setSocialIcon(false)
+          }}>
           {theme.direction === "rtl" ? (
             <ChevronRightIcon />
           ) : (
@@ -120,6 +131,24 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
           </ListItem>
         ))}
       </List>
+
+      {
+        SocialIcon ?
+
+        <div style={{position:'absolute',bottom:'100px',display:'flex',justifyContent:'space-around',alignItem:'center',width:'100%',padding:'0px 30px'}}>
+
+          <img src={TelegramLogo} style={{height:'25px'}}></img>
+          <img src={TwitterLogo}  style={{height:'25px'}}></img>
+          <img src={GithubLogo}   style={{height:'25px'}}></img>  
+  
+        </div>
+
+        :
+
+        null
+
+      }
+      
     </Drawer>
   );
 };

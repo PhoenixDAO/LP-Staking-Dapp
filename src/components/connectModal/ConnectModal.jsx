@@ -10,14 +10,17 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
-const ConnectModal = ({transactionConfirmModal,_handleSupply }) => {
+const ConnectModal = ({transactionConfirmModal,_handleSupply,setTxModalClose }) => {
 
-  const [open, setOpen] = useState(transactionConfirmModal);
-  const handleClose = () => {setOpen(false)};
+  // const [open, setOpen] = useState(transactionConfirmModal);
+  // const handleClose = () => {setOpen(false)};
 
-  useEffect(()=>{
-    setOpen(transactionConfirmModal)
-  },[transactionConfirmModal]);
+
+
+  // useEffect(()=>{
+  //   console.log('asdasdasd')
+  //   setOpen(transactionConfirmModal)
+  // },[transactionConfirmModal]);
 
   const style = {
     position: "absolute",
@@ -37,8 +40,8 @@ const ConnectModal = ({transactionConfirmModal,_handleSupply }) => {
       <div>
         {/* <Button onClick={handleOpen}>Connect Modal</Button> */}
         <Modal
-          open={open}
-          onClose={open}
+          open={transactionConfirmModal}
+          onClose={setTxModalClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -49,7 +52,7 @@ const ConnectModal = ({transactionConfirmModal,_handleSupply }) => {
               </div>
               <div className="closeModalIcon">
               <span className="cursorPointer">
-                <CloseIcon onClick={handleClose} />
+                <CloseIcon onClick={setTxModalClose} />
                 </span>
               </div>
             </div>
@@ -132,6 +135,7 @@ const ConnectModal = ({transactionConfirmModal,_handleSupply }) => {
 
             <button className="add-liq-btn cursorPointer" onClick={()=>{
               _handleSupply();
+            
               }
               }>Add Liquidity</button>
           </div>

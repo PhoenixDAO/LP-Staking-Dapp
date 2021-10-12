@@ -182,3 +182,8 @@ input{
 .css-196kcza{
   max-height: 100% !important;
 }
+
+.css-tu9va8-MuiPaper-root-MuiAppBar-root,.css-tzpivs-MuiPaper-root-MuiAppBar-root{
+  box-shadow: none !important;
+  /* text-shadow: none !important; */
+}

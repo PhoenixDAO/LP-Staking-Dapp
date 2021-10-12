@@ -77,7 +77,7 @@ export const supply = async (
       console.log("hash", hash);
     })
     .on("confirmation", function (confirmationNumber, receipt) {
-      if (confirmationNumber === 2) {
+      if (confirmationNumber === 1) {
 
         settransactionProcessModal(false);
         settransactionSubmittedModal(true);
@@ -95,6 +95,7 @@ export const supply = async (
     })
     .on("error", function (err) {
       settransactionProcessModal(false);
+    
       console.log("error", err);
       // setLoading(false);
     });
