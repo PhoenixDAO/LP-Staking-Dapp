@@ -484,8 +484,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       </div>
 
       <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus}></ConnectWallet>
-
-      <ConnectModal transactionConfirmModal={transactionConfirmModal} setTxModalClose={setTxModalClose} _handleSupply={_handleSupply} ></ConnectModal>
+      <ConnectModal transactionConfirmModal={transactionConfirmModal} setTxModalClose={setTxModalClose} _handleSupply={_handleSupply} phnxValue={phnxValue} ethValue={ethValue} poolShare={poolShare} phnxPerEth={phnxPerEth} ethPerPhnx={ethPerPhnx}></ConnectModal>
       <TransactionProgress transactionProcessModal={transactionProcessModal}> </TransactionProgress>
       <TransactionSubmitted transactionSubmittedModal={transactionSubmittedModal}></TransactionSubmitted>
 

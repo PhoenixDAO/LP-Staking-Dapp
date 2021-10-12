@@ -12,7 +12,11 @@ import { abi } from "../../../contract/abi/UniswapV2PairABI.json";
 import BigNumber from "bignumber.js";
 import { Modal } from "@mui/material";
 import RemoveLiquidityModal from "../../removeLiquidityComponent/RemoveLiquidityModal";
-
+import ConnectWallet from "../../ConnectWallet";
+import {
+  Button,
+  // InputAdornment,
+} from "@mui/material";
 
 function MyLiquidity({ ChangeTab }) {
   const [poolPosition, setPoolPosition] = useState({
@@ -23,6 +27,8 @@ function MyLiquidity({ ChangeTab }) {
   });
 
   const [isModalVisible, setModalVisible] = useState(false);
+
+  const[ConnectWalletModalStatus,setConnectWalletModalStatus] = useState(false);
 
   const handleModalClose = () => {
     setModalVisible(false);
@@ -99,58 +105,136 @@ function MyLiquidity({ ChangeTab }) {
 
       <div className="divider"></div>
 
-      <div className="phnx-eth">
-        <p className="phnx-eth-no">{poolPosition.lp}</p>
-        <img src={PhnxLogo} className="phnx-eth-logo"></img>
-        <img src={EthLogo} className="phnx-eth-logo"></img>
-      </div>
+      {
 
-      <div className="phnx-eth-txt">PHNX/ETH</div>
+        !web3context.account ?
+                
+        <div>
+          <br></br>
 
-      <br />
+          <div className="phnx-eth">
+            <p className="phnx-eth-no" style={{width:'100%',textAlign:'center',fontWeight:'400'}}>Connect Wallet.</p>
+          </div>
 
-      <div className="pooled-item">
-        <div className="pooled-item-txt">pooled phnx</div>
+          <Button
+                variant="contained"
+                size="small"
+                fullWidth={true}
+                style={{
+                  backgroundColor: "#413AE2",
+                  margin: "25px 0px 30px 0px",
+                  height: 45,
+                  borderRadius: 12,
+                }}
+                
+                onClick={()=>setConnectWalletModalStatus(!ConnectWalletModalStatus)}
+              >
+                {"Connect Wallet"}
+            </Button>
 
-        <div style={{ display: "flex", marginLeft: "auto" }}>
-          <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
-          <div className="pooled-item-txt">{poolPosition.phnx}</div>
+            <br></br><br></br><br></br>
+
+            <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus}></ConnectWallet>
+
+
         </div>
-      </div>
 
-      <br />
+        :
 
-      <div className="pooled-item">
-        <div className="pooled-item-txt">pooled eth</div>
+        poolPosition.lp == 0 ?
 
-        <div style={{ display: "flex", marginLeft: "auto" }}>
-          <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
-          <div className="pooled-item-txt">{poolPosition.eth}</div>
+        <div>
+          <br></br>
+
+          <div className="phnx-eth">
+            <p className="phnx-eth-no" style={{width:'100%',textAlign:'center',fontWeight:'400'}}>No Liquidity Found.</p>
+          </div>
+
+          <Button
+                variant="contained"
+                size="small"
+                fullWidth={true}
+                style={{
+                  backgroundColor: "#413AE2",
+                  margin: "25px 0px 30px 0px",
+                  height: 45,
+                  borderRadius: 12,
+                }}
+                onClick={() => {
+                  ChangeTab("addLiquidity");
+                }}
+                
+              >
+                {"Add Liquidity"}
+            </Button>
+
+            <br></br><br></br><br></br>
+
+            <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus}></ConnectWallet>
+
+
         </div>
-      </div>
 
-      <br />
+        :
 
-      <div className="pooled-item">
-        <div className="pooled-item-txt">pool share</div>
+        <div>
 
-        <div style={{ display: "flex", marginLeft: "auto" }}>
-          <div className="pooled-item-txt">{poolPosition.poolPerc}%</div>
+            <div className="phnx-eth">
+                    <p className="phnx-eth-no">{poolPosition.lp}</p>
+                    <img src={PhnxLogo} className="phnx-eth-logo"></img>
+                    <img src={EthLogo} className="phnx-eth-logo"></img>
+                  </div>
+
+                  <div className="phnx-eth-txt">PHNX/ETH</div>
+
+                  <br />
+
+                  <div className="pooled-item">
+                    <div className="pooled-item-txt">pooled phnx</div>
+
+                    <div style={{ display: "flex", marginLeft: "auto" }}>
+                      <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
+                      <div className="pooled-item-txt">{poolPosition.phnx}</div>
+                    </div>
+                  </div>
+
+                  <br />
+
+                  <div className="pooled-item">
+                    <div className="pooled-item-txt">pooled eth</div>
+
+                    <div style={{ display: "flex", marginLeft: "auto" }}>
+                      <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
+                      <div className="pooled-item-txt">{poolPosition.eth}</div>
+                    </div>
+                  </div>
+
+                  <br />
+
+                  <div className="pooled-item">
+                    <div className="pooled-item-txt">pool share</div>
+
+                    <div style={{ display: "flex", marginLeft: "auto" }}>
+                      <div className="pooled-item-txt">{poolPosition.poolPerc}%</div>
+                    </div>
+                  </div>
+
+                  <button className="remove-btn" onClick={() => {handleModalOpen()}}>
+                    Remove
+                  </button>
+
+                  <button
+                    className="add-liquidity-btn"
+                    onClick={() => {
+                      ChangeTab("addLiquidity");
+                    }}
+                  >
+                    Add Liquidity
+                  </button>
+
         </div>
-      </div>
-
-      <button className="remove-btn" onClick={() => {handleModalOpen()}}>
-        Remove
-      </button>
-
-      <button
-        className="add-liquidity-btn"
-        onClick={() => {
-          ChangeTab("addLiquidity");
-        }}
-      >
-        Add Liquidity
-      </button>
+        
+      }
 
 
         {
