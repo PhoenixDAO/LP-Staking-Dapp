@@ -97,7 +97,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
   };
 
   return (
-    <Drawer variant="permanent" open={open}>
+    <Drawer variant="permanent" open={open} >
       <DrawerHeader>
         <IconButton onClick={()=>{
           handleDrawerClose();

@@ -10,6 +10,9 @@ import BigNumber from "bignumber.js";
 import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY } from "../../contract/constant";
 import { abi } from "../../contract/abi/UniswapV2PairABI.json";
 import { abi as abi2 } from "../../contract/abi/UniswapV2Router02ABI.json";
+import ConfirmModal from "../connectModal/ConfirmModal";
+import TransactionProgress from "../connectModal/TransactionProgress";
+import TransactionSubmitted from "../connectModal/TransactionSubmitted";
 
 const RemoveLiquidityModaL = () => {
   const [selectedPercentage, setSelectedPercentage] = useState(0);
@@ -20,6 +23,33 @@ const RemoveLiquidityModaL = () => {
   const contractUniswapRouter = useSelector(
     (state) => state.contractReducer.contractUniswapRouter
   );
+
+  const [perEthVal, setPerEthValue] = useState(0);
+  const [perPhnxVal, setPerPhnxValue] = useState(0);
+
+  const [phnxethburn, setphnxethburn] = useState(0);
+
+  const [transactionConfirmModal, settransactionConfirmModal] = useState(false);
+  const [transactionProcessModal, settransactionProcessModal] = useState(false);
+  const [transactionSubmittedModal, settransactionSubmittedModal] = useState(false);
+
+
+
+  
+
+  const poolPosition1 = useSelector(
+    (state) => state.contractReducer.poolPosition
+  );
+
+  const phnxpereth = useSelector(
+    (state) => state.localReducer.phnxPerEth
+  );
+
+  const ethperphnx = useSelector(
+    (state) => state.localReducer.ethPerPhnx
+  );
+
+
 
   const web3context = useWeb3React();
 
@@ -65,14 +95,21 @@ const RemoveLiquidityModaL = () => {
   };
 
   const removeLiquidity = async () => {
+
     console.log(contractUniswapRouter);
+
+    settransactionProcessModal(true);
+
     let deadline = Date.now();
     deadline += 20 * 60;
 
-    const ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
-    const phnxValue = poolPosition.phnx * (selectedPercentage / 100).toString();
+    const ethValue = poolPosition1.eth * (selectedPercentage / 100).toString();
+    const phnxValue = poolPosition1.phnx * (selectedPercentage / 100).toString();
     let phnxMin = phnxValue - phnxValue * 0.2;
     let ethMin = ethValue - ethValue * 0.2;
+
+    // setPerEthValue(ethValue);
+    // setPerPhnxValue(phnxValue);
 
     console.log(
       "eth",
@@ -105,9 +142,12 @@ const RemoveLiquidityModaL = () => {
       .on("transactionHash", (hash) => {
         // hash of tx
         console.log("hash", hash);
+        
       })
       .on("confirmation", function (confirmationNumber, receipt) {
-        if (confirmationNumber === 2) {
+        if (confirmationNumber === 1) {
+          settransactionProcessModal(false);
+          settransactionSubmittedModal(true);
           console.log("confirmationNumber", confirmationNumber);
           // setLoading(false);
           // setPhnxValue("");
@@ -121,33 +161,6 @@ const RemoveLiquidityModaL = () => {
       .on("error", function (err) {
         console.log("error", err);
       });
-  };
-
-  const calculateLpToken = async (amount0, amount1) => {
-    const web3 = new Web3(web3context?.library?.currentProvider);
-    const uniswapV2PairContract = new web3.eth.Contract(
-      contractUniswapPair,
-      "0xff8ae8805552c813d75ad6ff456dbc417bd12be6"
-    );
-
-    const getReserves = await uniswapV2PairContract.methods
-      .getReserves()
-      .call();
-    const _totalSupply = await uniswapV2PairContract.methods
-      .totalSupply()
-      .call();
-
-    const _reserve0 = getReserves._reserve0;
-    const _reserve1 = getReserves._reserve1;
-
-    amount0 = web3.utils.toWei(amount0.toString());
-    amount1 = web3.utils.toWei(amount1.toString());
-
-    const liquidity = Math.min(
-      (amount0 * _totalSupply) / _reserve0,
-      (amount1 * _totalSupply) / _reserve1
-    );
-    console.log("liquidity", liquidity);
   };
 
   useEffect(() => {
@@ -211,6 +224,63 @@ const RemoveLiquidityModaL = () => {
       setSelectedPercentage(parseInt(e.target.value));
     }
   };
+
+  const setTxModalOpen = () => {
+    settransactionConfirmModal(true);
+  };
+
+  const setTxModalClose = () => {
+    settransactionConfirmModal(false);
+  };
+
+  const uniswapV2PairContract = useSelector(
+    (state) => state.contractReducer.contractUniswapPair
+  );
+
+  const calculateLpToken = async (amount0, amount1) => {
+    console.log(amount0, amount1);
+    console.log("asdasd");
+    if (!uniswapV2PairContract || !amount0 || !amount1) {
+      return;
+    }
+    console.log("asdasd");
+    const getReserves = await uniswapV2PairContract.methods
+      .getReserves()
+      .call();
+    const _totalSupply = await uniswapV2PairContract.methods
+      .totalSupply()
+      .call();
+
+    const _reserve0 = getReserves._reserve0;
+    const _reserve1 = getReserves._reserve1;
+
+    amount0 = Web3.utils.toWei(amount0.toString());
+    amount1 = Web3.utils.toWei(amount1.toString());
+
+    const liquidity = Math.min(
+      (amount0 * _totalSupply) / _reserve0,
+      (amount1 * _totalSupply) / _reserve1
+    );
+    console.log(liquidity);
+    setphnxethburn(Web3.utils.fromWei(liquidity.toString(), "ether"));
+  };
+
+
+  useEffect(()=>{
+    if(!poolPosition1){
+      return;
+    }
+
+    const ethValue = poolPosition1.eth * (selectedPercentage / 100).toString();
+    const phnxValue = poolPosition1.phnx * (selectedPercentage / 100).toString();
+
+    setPerEthValue(ethValue);
+    setPerPhnxValue(phnxValue);
+
+    calculateLpToken(perEthVal,perPhnxVal)
+
+  },[selectedPercentage])
+
 
   return (
     <div className="rm-liq-div">
@@ -285,7 +355,7 @@ const RemoveLiquidityModaL = () => {
         <div className="rm-liq-phnx-eth-det">
           <img src={PhnxLogo} className="rm-liq-phnx-eth-img"></img>
           <div className="rm-liq-phnx-eth-name">PHNX</div>
-          <div className="rm-liq-phnx-eth-number">0.653232</div>
+          <div className="rm-liq-phnx-eth-number">{perPhnxVal}</div>
         </div>
 
         <div style={{ height: "10px" }}></div>
@@ -293,21 +363,21 @@ const RemoveLiquidityModaL = () => {
         <div className="rm-liq-phnx-eth-det">
           <img src={EthLogo} className="rm-liq-phnx-eth-img"></img>
           <div className="rm-liq-phnx-eth-name">ETH</div>
-          <div className="rm-liq-phnx-eth-number">0.231</div>
+          <div className="rm-liq-phnx-eth-number">{perEthVal}</div>
         </div>
       </div>
 
       <div className="rm-liq-phnx-eth-con-div">
-        <div className="rm-liq-phnx-eth-con">1 PHNX = 0.2335 ETH</div>
-        <div className="rm-liq-phnx-eth-con">1 ETH = 0.3456665 PHNX</div>
+        <div className="rm-liq-phnx-eth-con">1 PHNX = {ethperphnx+' '} ETH</div>
+        <div className="rm-liq-phnx-eth-con">1 ETH = {phnxpereth+' '} PHNX</div>
       </div>
 
       {allowance === 0 ? (
-        <button className="rm-liq-btn" onClick={() => giveApproval()}>
+        <button className="rm-liq-btn" onClick={() => setTxModalOpen}>
           Approve PHNX
         </button>
       ) : (
-        <button className="rm-liq-btn" onClick={() => removeLiquidity()}>
+        <button className="rm-liq-btn" onClick={() => settransactionConfirmModal(true)}>
           Remove Liquidity
         </button>
       )}
@@ -320,7 +390,7 @@ const RemoveLiquidityModaL = () => {
         <img src={PhnxLogo}></img>
         <img src={EthLogo}></img>
         <div className="rm-liq-phnx-eth-lp-sub">PHNX/ETH LP</div>
-        <div className="rm-liq-phnx-eth-lp-sub-no">0.54321</div>
+        <div className="rm-liq-phnx-eth-lp-sub-no">{poolPosition1.lp}</div>
       </div>
 
       <div className="rm-liq-phnx-eth-lp-div">
@@ -330,7 +400,7 @@ const RemoveLiquidityModaL = () => {
           className="rm-liq-phnx-eth-lp-sub-no"
           style={{ marginLeft: "4px" }}
         >
-          0.231
+          {poolPosition1.phnx}
         </div>
       </div>
 
@@ -341,16 +411,24 @@ const RemoveLiquidityModaL = () => {
           className="rm-liq-phnx-eth-lp-sub-no"
           style={{ marginLeft: "4px" }}
         >
-          0.2653232
+          {poolPosition1.eth}
         </div>
       </div>
 
       <div className="rm-liq-phnx-eth-lp-div" style={{ marginTop: "7px" }}>
         <div className="rm-liq-phnx-eth-lp-sub">Pooled Share</div>
-        <div className="rm-liq-phnx-eth-lp-sub-no">0.01%</div>
+        <div className="rm-liq-phnx-eth-lp-sub-no">{poolPosition.poolPerc}</div>
       </div>
 
       <br></br>
+
+
+      <ConfirmModal transactionConfirmModal={transactionConfirmModal} setTxModalClose={setTxModalClose} phnx={perPhnxVal} eth={perEthVal} ethPerPhnx={ethperphnx} phnxPerEth={phnxpereth} phnxethburn={phnxethburn} removeLiquidity={removeLiquidity}></ConfirmModal>
+      <TransactionProgress transactionProcessModal={transactionProcessModal}> </TransactionProgress>
+      <TransactionSubmitted transactionSubmittedModal={transactionSubmittedModal}></TransactionSubmitted>
+
+
+
     </div>
   );
 };

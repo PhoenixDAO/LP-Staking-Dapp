@@ -24,12 +24,12 @@ const Pool = () => {
 
   return (
     <div>
-          <ConnectModal/>
+          {/* <ConnectModal/>
           <TransactionSubmitted/>
           <TransactionProgress/>
           <ConfirmModal />
           <SlippingTolerance/>
-          <VersionModal/>
+          <VersionModal/> */}
       <div className="container-div">
         <div className="gradient-div">
           <p className="connect-wallet-txt">
