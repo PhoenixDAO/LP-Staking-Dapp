@@ -15,6 +15,7 @@ import {
   getPendingPHX,
 } from "../../services/stake.services";
 import { useSelector } from "react-redux";
+import axios from "axios";
 
 function Farm() {
   const contractPhnxStake = useSelector(
@@ -30,6 +31,7 @@ function Farm() {
   const [allowance, setAllowance] = useState(0);
   const [userInfo, setUserInfo] = useState({ amount: 0, rewardDebt: 0 });
   const [pendingPHX, setPendingPHX] = useState({ 0: 0, 1: 0 });
+  const [reserveUSD, setReserveUSD] = useState(0);
 
   const web3context = useWeb3React();
 
@@ -67,6 +69,32 @@ function Farm() {
     contractUniswapPair,
   ]);
 
+  useEffect(() => {
+    getTotalLiquidity();
+  }, []);
+
+  const getTotalLiquidity = async () => {
+    await axios({
+      url: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2",
+      method: "post",
+      data: {
+        query: `
+        {
+          pairs(where:{id:"0xdfe317f907ca9bf6202cddec3def756438a3b3f7"}){
+            reserveUSD
+          }
+        }
+				`,
+      },
+    })
+      .then((response) => {
+        if (response.data) {
+          setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
+        }
+      })
+      .catch((err) => console.error(err));
+  };
+
   //give approval for lp tokens
   const _giveApproval = async () => {
     try {
@@ -93,6 +121,7 @@ function Farm() {
             allowance={allowance}
             giveApproval={_giveApproval}
             userInfo={userInfo}
+            reserveUSD={reserveUSD}
           />
         ) : (
           <FarmHarvest
@@ -101,6 +130,7 @@ function Farm() {
             userInfo={userInfo}
             pendingPHX={pendingPHX}
             harvestPHNX={_harvestPHNX}
+            reserveUSD={reserveUSD}
           />
         )}
       </div>
@@ -121,7 +151,10 @@ function Farm() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <UnStakingModal Close={handleUnStackClose}></UnStakingModal>
+        <UnStakingModal
+          Close={handleUnStackClose}
+          userInfo={userInfo}
+        ></UnStakingModal>
       </Modal>
     </div>
   );

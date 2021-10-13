@@ -8,9 +8,22 @@ import ShareLogo from "../../../assets/share.png";
 import CalculatorLogo from "../../../assets/calculator.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import ConnectWallet from "../../ConnectWallet";
+import { Button } from "@mui/material";
+import { useWeb3React } from "@web3-react/core";
 
-function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
+function FarmStake({
+  stakeModalOpen,
+  allowance,
+  giveApproval,
+  userInfo,
+  reserveUSD,
+}) {
+  const web3context = useWeb3React();
+
   const [showMore, setShowMore] = useState(false);
+  const [ConnectWalletModalStatus, setConnectWalletModalStatus] =
+    useState(false);
 
   return (
     <div>
@@ -60,7 +73,17 @@ function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
         </div>
       </div>
 
-      {allowance != 0 ? (
+      {web3context.active == false ? (
+        <button
+          variant="contained"
+          size="small"
+          fullWidth={true}
+          className="farm-btn-stake"
+          onClick={() => setConnectWalletModalStatus(!ConnectWalletModalStatus)}
+        >
+          {"Connect Wallet"}
+        </button>
+      ) : allowance != 0 ? (
         <button className="farm-btn-stake" onClick={stakeModalOpen}>
           Stake PHNX-ETH LP
         </button>
@@ -70,9 +93,16 @@ function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
         </button>
       )}
 
+      <ConnectWallet
+        justModal={true}
+        openModal={ConnectWalletModalStatus}
+      ></ConnectWallet>
+
       <div className="get-phnx-eth-lp">
-        <Link to="/liquidity">Get PHNX-ETH LP</Link>
-        <img src={ShareLogo}></img>
+        <Link to="/liquidity">
+          Get PHNX-ETH LP
+          <img src={ShareLogo}></img>
+        </Link>
       </div>
 
       <div className="farm-divider"></div>
@@ -97,13 +127,18 @@ function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
 
           <div className="farm-details-div">
             <div className="farm-details-txt">Total Liquidity</div>
-            <div className="farm-details-txt-right">$540.023</div>
+            <div className="farm-details-txt-right">${reserveUSD}</div>
           </div>
 
           <div className="farm-details-div">
             <div className="farm-details-txt">
               <span style={{ color: "#413AE2" }}>
-                <Link to="/home">View Contract</Link>
+                <a
+                  target="_blank"
+                  href="https://github.com/XORD-one/phoenix-LP-staking-contract"
+                >
+                  View Contract
+                </a>
               </span>
             </div>
           </div>
@@ -111,7 +146,12 @@ function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
           <div className="farm-details-div">
             <div className="farm-details-txt">
               <span style={{ color: "#413AE2" }}>
-                <Link to="/home">See Pair Info</Link>
+                <a
+                  target="_blank"
+                  href=" https://v2.info.uniswap.org/pair/0xdfe317f907ca9bf6202cddec3def756438a3b3f7"
+                >
+                  See Pair Info
+                </a>
               </span>
             </div>
           </div>
@@ -122,3 +162,12 @@ function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
 }
 
 export default FarmStake;
+
+const styles = {
+  btnAddLiquidity: {
+    backgroundColor: "#413AE2",
+    margin: "25px 0px 30px 0px",
+    height: 45,
+    borderRadius: 12,
+  },
+};

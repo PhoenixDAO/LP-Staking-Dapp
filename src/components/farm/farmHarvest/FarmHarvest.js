@@ -16,6 +16,7 @@ function FarmHarvest({
   userInfo,
   pendingPHX,
   harvestPHNX,
+  reserveUSD,
 }) {
   const [showMore, setShowMore] = useState(false);
 
@@ -96,8 +97,10 @@ function FarmHarvest({
       </button>
 
       <div className="get-phnx-eth-lp">
-        <Link to="/liquidity">Get PHNX-ETH LP</Link>
-        <img src={ShareLogo}></img>{" "}
+        <Link to="/liquidity">
+          Get PHNX-ETH LP
+          <img src={ShareLogo}></img>
+        </Link>
       </div>
 
       <div className="farm-divider"></div>
@@ -122,13 +125,18 @@ function FarmHarvest({
 
           <div className="farm-details-div">
             <div className="farm-details-txt">Total Liquidity</div>
-            <div className="farm-details-txt-right">$540.023</div>
+            <div className="farm-details-txt-right">${reserveUSD}</div>
           </div>
 
           <div className="farm-details-div">
             <div className="farm-details-txt">
               <span style={{ color: "#413AE2" }}>
-                <Link to="/home">View Contract</Link>
+                <a
+                  target="_blank"
+                  href="https://github.com/XORD-one/phoenix-LP-staking-contract"
+                >
+                  View Contract
+                </a>
               </span>
             </div>
           </div>
@@ -136,7 +144,12 @@ function FarmHarvest({
           <div className="farm-details-div">
             <div className="farm-details-txt">
               <span style={{ color: "#413AE2" }}>
-                <Link to="/home">See Pair Info</Link>
+                <a
+                  target="_blank"
+                  href=" https://v2.info.uniswap.org/pair/0xdfe317f907ca9bf6202cddec3def756438a3b3f7"
+                >
+                  See Pair Info
+                </a>
               </span>
             </div>
           </div>

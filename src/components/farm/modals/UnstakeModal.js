@@ -17,8 +17,9 @@ import {
   GetPoolPositionAction,
 } from "../../../redux/actions/contract.actions";
 import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
+import { Link } from "react-router-dom";
 
-function UnStakeModal({ Close }) {
+function UnStakeModal({ Close, userInfo }) {
   const [lpValue, setlpValue] = useState(0.0);
   const [maxlpValue, setmaxlpValue] = useState(0.0);
 
@@ -50,7 +51,8 @@ function UnStakeModal({ Close }) {
 
   useEffect(() => {
     if (web3context.active && web3context.account && poolPosition) {
-      setmaxlpValue(poolPosition.lp);
+      // setmaxlpValue(poolPosition.lp);
+      setmaxlpValue(Web3.utils.fromWei(userInfo.amount));
       console.log("poolPosition.lp", poolPosition.lp);
     }
   }, [web3context.account, poolPosition]);
@@ -148,7 +150,10 @@ function UnStakeModal({ Close }) {
         className="get-phnx-eth-lp"
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "12px" }}
       >
-        Get PHNX-ETH LP <img src={ShareLogo}></img>
+        <Link to="/liquidity">
+          Get PHNX-ETH LP
+          <img src={ShareLogo}></img>
+        </Link>
       </div>
     </div>
   );
