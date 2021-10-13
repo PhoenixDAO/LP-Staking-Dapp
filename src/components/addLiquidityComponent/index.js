@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Typography,
-  Modal,
-  Box,
-  TextField,
-  // InputAdornment,
-} from "@mui/material";
+import { Button, Typography, Box, TextField } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import ComponentCss from "../componentCss.css";
@@ -96,7 +89,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const _handleCheckApproval = async () => {
     try {
-      let result = await SERVICE.checkApproval(web3context, contractPhnxDao);
+      let result = await SERVICE.checkApprovalPhnxDao(
+        web3context,
+        contractPhnxDao
+      );
       setAllowance(result);
     } catch (e) {
       console.error("_handleCheckApproval", e);
@@ -105,7 +101,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const _handleGiveApproval = async () => {
     try {
-      await SERVICE.giveApproval(web3context, contractPhnxDao);
+      await SERVICE.giveApprovalPhnxDao(web3context, contractPhnxDao);
     } catch (e) {
       ToastMsg("error", "Failed to give approval!");
       console.error("Error _handleGiveApproval", e);

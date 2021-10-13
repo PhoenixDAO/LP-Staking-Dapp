@@ -19,7 +19,7 @@ import {
   Route,
 } from "@uniswap/sdk";
 import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../contract/constant";
-import TransactionSubmitted from "../components/connectModal/TransactionSubmitted";
+// import TransactionSubmitted from "../components/connectModal/TransactionSubmitted";
 
 const chainId = ChainId.RINKEBY;
 const customHttpProvider = new ethers.providers.JsonRpcProvider(
@@ -191,7 +191,7 @@ export const getPhnxBalance = async (web3context, contractPhnxDao) => {
   }
 };
 
-export const checkApproval = async (web3context, contractPhnxDao) => {
+export const checkApprovalPhnxDao = async (web3context, contractPhnxDao) => {
   let allowance1 = await contractPhnxDao.methods
     .allowance(web3context.account, UNISWAP_CONTRACT_ADDRESS_RINEBY)
     .call();
@@ -199,7 +199,7 @@ export const checkApproval = async (web3context, contractPhnxDao) => {
   return allowance1;
 };
 
-export const giveApproval = async (web3context, contractPhnxDao) => {
+export const giveApprovalPhnxDao = async (web3context, contractPhnxDao) => {
   if (!web3context.account) {
     alert("Connect your wallet");
     return;
@@ -216,11 +216,151 @@ export const giveApproval = async (web3context, contractPhnxDao) => {
     .on("confirmation", function (confirmationNumber, receipt) {
       if (confirmationNumber === 2) {
         // tx confirmed
-        checkApproval(web3context, contractPhnxDao);
+        checkApprovalPhnxDao(web3context, contractPhnxDao);
         ToastMsg("success", "Approved successfully!");
       }
     })
     .on("error", function (err) {
       console.error(err);
     });
+};
+
+export const checkApprovalUniswapPair = async (
+  web3context,
+  contractUniswapPair,
+  setAllowance
+) => {
+  if (contractUniswapPair) {
+    console.log("contractUniswapPair", contractUniswapPair);
+    let allowance1 = await contractUniswapPair.methods
+      .allowance(
+        web3context.account,
+        "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
+      )
+      .call();
+    console.log("allowance", allowance1);
+    if (setAllowance) {
+      setAllowance(allowance1);
+    }
+  } else {
+    throw "contractUniswapPair not initialized!";
+  }
+};
+
+export const giveApprovalUniswapPair = async (
+  web3context,
+  contractUniswapPair,
+  setAllowance
+) => {
+  if (contractUniswapPair && web3context) {
+    await contractUniswapPair.methods
+      .approve(
+        "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+        Web3.utils.toWei("1000000000000000000000000000000000000000000000000000")
+      )
+      .send({ from: web3context.account })
+      .on("transactionHash", (hash) => {
+        // hash of tx
+        console.log("tx hash", hash);
+      })
+      .on("confirmation", async function (confirmationNumber, receipt) {
+        if (confirmationNumber === 2) {
+          // tx confirmed
+          await checkApprovalUniswapPair(
+            web3context,
+            contractUniswapPair,
+            setAllowance
+          );
+        }
+      })
+      .on("error", function (err) {
+        console.error(err);
+      });
+  } else {
+    throw "contractUniswapPair not initialized! @giveApprovalUniswapPair";
+  }
+};
+
+export const removeLiquidity = async (
+  web3context,
+  contractUniswapRouter,
+  poolPosition,
+  selectedPercentage,
+  settransactionProcessModal,
+  settransactionConfirmModal,
+  settransactionSubmittedModal
+) => {
+  if (web3context && contractUniswapRouter && poolPosition) {
+    let deadline = Date.now();
+    deadline += 20 * 60;
+
+    let ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
+    let phnxValue = poolPosition.phnx * (selectedPercentage / 100).toString();
+    let phnxMin = phnxValue - phnxValue * 0.2;
+    let ethMin = ethValue - ethValue * 0.2;
+
+    await contractUniswapRouter.methods
+      .removeLiquidityETH(
+        "0xfe1b6abc39e46cec54d275efb4b29b33be176c2a", // address token,
+        Web3.utils.toWei(
+          (poolPosition.lp * (selectedPercentage / 100)).toString(),
+          "ether"
+        ), //LP token
+        Web3.utils.toWei(phnxMin.toString()), //uint amountTokenMin,
+        Web3.utils.toWei(ethMin.toString()), // uint amountETHMin
+        web3context.account, //address to,
+        deadline //deadline
+      )
+      .send({
+        from: web3context.account,
+      })
+      .on("transactionHash", (hash) => {
+        // hash of tx
+        settransactionProcessModal(false);
+        settransactionConfirmModal(false);
+        settransactionSubmittedModal(true);
+        console.log("hash", hash);
+      })
+      .on("confirmation", function (confirmationNumber, receipt) {
+        if (confirmationNumber === 1) {
+          console.log("confirmationNumber", confirmationNumber);
+
+          if (web3context.active && web3context.account) {
+            // getPoolPosition();
+          }
+        }
+      })
+      .on("error", function (err) {
+        settransactionProcessModal(false);
+        throw err;
+      });
+  } else {
+    throw "undefined arguments!";
+  }
+};
+
+export const calculateLpToken = async (
+  contractUniswapPair,
+  amount0,
+  amount1,
+  setphnxethburn
+) => {
+  if (!contractUniswapPair || !amount0 || !amount1) {
+    return;
+  }
+  const getReserves = await contractUniswapPair.methods.getReserves().call();
+  const _totalSupply = await contractUniswapPair.methods.totalSupply().call();
+
+  const _reserve0 = getReserves._reserve0;
+  const _reserve1 = getReserves._reserve1;
+
+  amount0 = Web3.utils.toWei(amount0.toString());
+  amount1 = Web3.utils.toWei(amount1.toString());
+
+  const liquidity = Math.min(
+    (amount0 * _totalSupply) / _reserve0,
+    (amount1 * _totalSupply) / _reserve1
+  );
+  // console.log(liquidity);
+  setphnxethburn(Web3.utils.fromWei(liquidity.toString(), "ether"));
 };
