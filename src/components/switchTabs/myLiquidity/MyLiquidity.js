@@ -15,6 +15,8 @@ import {
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { GetPoolPositionAction } from "../../../redux/actions/contract.actions";
+import SlippingTolerance from "../../connectModal/SlippingTolerance";
+
 
 function MyLiquidity({ ChangeTab }) {
   const web3context = useWeb3React();
@@ -26,6 +28,9 @@ function MyLiquidity({ ChangeTab }) {
   const contractUniswapPair = useSelector(
     (state) => state.contractReducer.contractUniswapPair
   );
+
+  const [slippageModal,setSlippageModal]=useState(false);
+  const [slippageValue,setSlippageValue]=useState(25);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -48,7 +53,7 @@ function MyLiquidity({ ChangeTab }) {
   }, [web3context.active, contractUniswapPair]);
 
   return (
-    <div className="my-liquidity-div">
+    <div className="my-liquidity-div" >
       <div className="my-liq-head">My Liquidity</div>
 
       <div style={{ display: "flex", alignItems: "center" }}>
@@ -56,8 +61,9 @@ function MyLiquidity({ ChangeTab }) {
           Remove Liquidity to recieve tokens back
         </div>
         <img
+          onClick={()=>setSlippageModal(!slippageModal)}
           src={SettingsLogo}
-          style={{ marginLeft: "auto", height: "20px", width: "20px" }}
+          style={{ marginLeft: "auto", height: "20px", width: "20px",cursor:'pointer' }}
         ></img>
       </div>
 
@@ -249,9 +255,10 @@ function MyLiquidity({ ChangeTab }) {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <RemoveLiquidityModal />
+          <RemoveLiquidityModal slippageValue={slippageValue}/>
         </Modal>
       ) : null}
+      <SlippingTolerance status={slippageModal} handleClose={setSlippageModal} setSlippageValue={setSlippageValue} />
     </div>
   );
 }

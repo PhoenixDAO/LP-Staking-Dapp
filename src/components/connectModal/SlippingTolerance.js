@@ -5,37 +5,40 @@ import percentage from "../../assets/percentage.svg";
 
 import { Button, IconButton, InputAdornment, Modal, TextField } from "@mui/material";
 
-const SlippingTolerance = () => {
-  const [selectedPercentage, setSelectedPercentage] = useState(0);
+const SlippingTolerance = ({status,handleClose,setSlippageValue}) => {
+ 
+  const [selectedPercentage, setSelectedPercentage] = useState(25);
   
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(status);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const handlePercentageInput = (e) => {
     if (e.target.value === "" || isNaN(e.target.value)) {
       setSelectedPercentage(parseInt(0));
+      setSlippageValue(parseInt(0));
     } else if (e.target.value > 100) {
       setSelectedPercentage(100);
+      setSlippageValue(100);
     } else {
       setSelectedPercentage(parseInt(e.target.value));
+      setSlippageValue(parseInt(e.target.value));
     }
   };
 
   return (
     <div>
-    <Button onClick={handleOpen}>Slipping Tolerance</Button>
+    {/* <Button onClick={handleOpen}>Slipping Tolerance</Button> */}
     <Modal
-      open={open}
-      onClose={handleClose}
+      open={status}
+      onClose={()=>handleClose(false)}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
     <div className="slippingLiq-div">
-    <div className="">
+      <div className="">
               <div className="closeModalSlipper">
                 <span className="cursorPointer">
-                  <CloseIcon onClick={handleClose} />
+                  <CloseIcon onClick={()=>handleClose(false)} />
                 </span>
               </div>
             </div>
@@ -115,7 +118,7 @@ const SlippingTolerance = () => {
         ></TextField>
       </div>
 
-        <button className="slippingLiq-btn" >
+        <button className="slippingLiq-btn" onClick={()=>handleClose(false)}>
           Set Slippage
         </button>
         

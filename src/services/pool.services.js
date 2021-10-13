@@ -340,7 +340,8 @@ export const removeLiquidity = async (
   settransactionSubmittedModal,
   handleGetPoolPosition,
   handleGetEthBalance,
-  handleGetPhnxBalance
+  handleGetPhnxBalance,
+  slippageValue
 ) => {
   if (web3context && contractUniswapRouter && poolPosition) {
     let deadline = Date.now();
@@ -354,8 +355,8 @@ export const removeLiquidity = async (
     // );
     let ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
     let phnxValue = poolPosition.phnx * (selectedPercentage / 100).toString();
-    let phnxMin = phnxValue - phnxValue * 0.2;
-    let ethMin = ethValue - ethValue * 0.2;
+    let phnxMin = phnxValue - phnxValue * (slippageValue/100);
+    let ethMin = ethValue - ethValue * (slippageValue/100);
 
     // console.log(
     //   "ethValue ",

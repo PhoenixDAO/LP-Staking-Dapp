@@ -15,7 +15,7 @@ import {
 } from "../../redux/actions/contract.actions";
 import { GetEthBalanceAction } from "../../redux/actions/local.actions";
 
-const RemoveLiquidityModaL = () => {
+const RemoveLiquidityModaL = ({slippageValue}) => {
   const web3context = useWeb3React();
   const dispatch = useDispatch();
   const phnxPerEth = useSelector((state) => state.localReducer.phnxPerEth);
@@ -70,7 +70,8 @@ const RemoveLiquidityModaL = () => {
         settransactionSubmittedModal,
         handleGetPoolPosition,
         handleGetEthBalance,
-        handleGetPhnxBalance
+        handleGetPhnxBalance,
+        slippageValue
       );
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
       dispatch(GetEthBalanceAction(web3context));
