@@ -188,6 +188,9 @@ input{
   /* text-shadow: none !important; */
 }
 
+*:focus{
+  outline: none !important;
+}
 
 .notify {
 	font-size: 90%;
