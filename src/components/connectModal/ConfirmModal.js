@@ -12,36 +12,33 @@ import Modal from "@mui/material/Modal";
 import { useSelector, useDispatch } from "react-redux";
 import Web3 from "web3";
 
-
-const ConfirmModal = ({transactionConfirmModal,setTxModalClose,phnx,eth,phnxethburn,removeLiquidity}) => {
-
+const ConfirmModal = ({
+  transactionConfirmModal,
+  setTxModalClose,
+  phnx,
+  eth,
+  phnxethburn,
+  handleRemoveLiquidity,
+}) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   // const[phnxethburn,setphnxethburn] = useState(0);
 
-  const phnxpereth = useSelector(
-    (state) => state.localReducer.phnxPerEth
-  );
+  const phnxpereth = useSelector((state) => state.localReducer.phnxPerEth);
 
-  const ethperphnx = useSelector(
-    (state) => state.localReducer.ethPerPhnx
-  );
+  const ethperphnx = useSelector((state) => state.localReducer.ethPerPhnx);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     setOpen(transactionConfirmModal);
-  },[transactionConfirmModal])
+  }, [transactionConfirmModal]);
 
-
-  const handleConfirm = () =>{
-    if(eth==0 || phnx==0){
+  const handleConfirm = () => {
+    if (eth == 0 || phnx == 0) {
       return;
     }
-
-    removeLiquidity();
-    
-  }
+    handleRemoveLiquidity();
+  };
 
   const style = {
     position: "absolute",
@@ -65,7 +62,6 @@ const ConfirmModal = ({transactionConfirmModal,setTxModalClose,phnx,eth,phnxethb
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          
           <div className="add-liq-div">
             <div className="displayFlex">
               <div className="confirmPhnxDepositeLogo">
@@ -118,7 +114,9 @@ const ConfirmModal = ({transactionConfirmModal,setTxModalClose,phnx,eth,phnxethb
                     </div>
                     <div>PHNX-ETH BURNED</div>
                   </div>
-                  <div className="confirmPhnxDeposite confirmPhnxDepositeFontSize">{phnxethburn}</div>
+                  <div className="confirmPhnxDeposite confirmPhnxDepositeFontSize">
+                    {phnxethburn}
+                  </div>
                 </div>
               </div>
             </div>
@@ -132,17 +130,21 @@ const ConfirmModal = ({transactionConfirmModal,setTxModalClose,phnx,eth,phnxethb
                 <div className="phnxDeposite">Rates</div>
                 <div className="phnxDepositePrice fontWeight400 displayInlineGrid ratesFontColor">
                   <div className="justifySelfEnd ratesFontColor">
-                    1 PHNX = {ethperphnx+' '} ETH
+                    1 PHNX = {ethperphnx + " "} ETH
                   </div>
                   <div className="justifySelfEnd ratesFontColor">
-                    1 ETH = {phnxpereth+' '} PHNX
+                    1 ETH = {phnxpereth + " "} PHNX
                   </div>
                 </div>
               </div>
             </div>
-            
-              <button className="add-liq-btn cursorPointer" onClick={handleConfirm} >Confirm</button>
 
+            <button
+              className="add-liq-btn cursorPointer"
+              onClick={handleConfirm}
+            >
+              Confirm
+            </button>
           </div>
         </Modal>
       </div>

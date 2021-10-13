@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Typography,
-  Modal,
-  Box,
-  TextField,
-  // InputAdornment,
-} from "@mui/material";
+import { Button, Typography, Box, TextField } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import ComponentCss from "../componentCss.css";
@@ -14,7 +7,6 @@ import PhnxLogo from "../../assets/phnxLogo.png";
 import EthLogo from "../../assets/ETH1.png";
 import * as SERVICE from "../../services/pool.services";
 import { useWeb3React } from "@web3-react/core";
-import { ToastMsg } from "../Toast";
 import {
   GetPoolPositionAction,
   GetPhnxBalanceAction,
@@ -75,7 +67,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   useEffect(() => {
     if (web3context.active && web3context.account) {
-      _handleGetPoolPosition();
+      handleGetPoolPosition();
       _handleCheckApproval();
     }
   }, [web3context.active, web3context.account, contractUniswapPair]);
@@ -90,13 +82,12 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     dispatch(GetMainDataAction());
   };
 
-  const _handleGetPoolPosition = async () => {
-    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
-  };
-
   const _handleCheckApproval = async () => {
     try {
-      let result = await SERVICE.checkApproval(web3context, contractPhnxDao);
+      let result = await SERVICE.checkApprovalPhnxDao(
+        web3context,
+        contractPhnxDao
+      );
       setAllowance(result);
     } catch (e) {
       console.error("_handleCheckApproval", e);
@@ -105,11 +96,28 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const _handleGiveApproval = async () => {
     try {
-      await SERVICE.giveApproval(web3context, contractPhnxDao);
+      await SERVICE.giveApprovalPhnxDao(
+        web3context,
+        contractPhnxDao,
+        handleGetPoolPosition,
+        handleGetEthBalance,
+        handleGetPhnxBalance
+      );
+      // _handleGetPoolPosition();
+      // await GetBalances();
     } catch (e) {
-      ToastMsg("error", "Failed to give approval!");
       console.error("Error _handleGiveApproval", e);
     }
+  };
+
+  const handleGetPoolPosition = () => {
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  };
+  const handleGetEthBalance = () => {
+    dispatch(GetEthBalanceAction(web3context));
+  };
+  const handleGetPhnxBalance = () => {
+    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
 
   const _handleSupply = async () => {
@@ -124,12 +132,13 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         contractUniswapRouter,
         settransactionProcessModal,
         settransactionSubmittedModal,
-        _handleGetPoolPosition
+        handleGetPoolPosition,
+        handleGetEthBalance,
+        handleGetPhnxBalance
       );
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
       await GetBalances();
     } catch (e) {
-      ToastMsg("error", "Couldn't add liquidity");
       console.error("Error _handleSupply", e);
     } finally {
       setLoading(false);

@@ -7,7 +7,13 @@ import {
   UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY,
 } from "../contract/constant";
 
-export const giveApprovalFarming = async (web3context, contractUniswapPair) => {
+export const giveApprovalFarming = async (
+  web3context,
+  contractUniswapPair,
+  handleGetPoolPosition,
+  handleGetEthBalance,
+  handleGetPhnxBalance
+) => {
   //   const web3 = new Web3(web3context?.library?.currentProvider);
   if (web3context && contractUniswapPair) {
     await contractUniswapPair.methods
@@ -20,11 +26,14 @@ export const giveApprovalFarming = async (web3context, contractUniswapPair) => {
         // hash of tx
         console.log("transactionHash", hash);
       })
-      .on("confirmation", function (confirmationNumber, receipt) {
+      .on("confirmation", async function (confirmationNumber, receipt) {
         if (confirmationNumber === 2) {
           // tx confirmed
           console.log("confirmationNumber", confirmationNumber);
         }
+        await handleGetPoolPosition;
+        await handleGetEthBalance;
+        await handleGetPhnxBalance;
       })
       .on("error", function (err) {
         console.log("err", err);
@@ -37,6 +46,9 @@ export const giveApprovalFarming = async (web3context, contractUniswapPair) => {
 export const harvestPHNX = async (
   web3context,
   contractPhnxStake,
+  handleGetPoolPosition,
+  handleGetEthBalance,
+  handleGetPhnxBalance,
   setLoading
 ) => {
   if (web3context && contractPhnxStake) {
@@ -69,6 +81,9 @@ export const harvestPHNX = async (
             }
           );
         }
+        await handleGetPoolPosition;
+        await handleGetEthBalance;
+        await handleGetPhnxBalance;
       })
       .on("error", function (err) {
         // throw err;
@@ -146,6 +161,9 @@ export const stakeLp = async (
   web3context,
   contractPhnxStake,
   lpValue,
+  handleGetPoolPosition,
+  handleGetEthBalance,
+  handleGetPhnxBalance,
   setLoading,
   Close
 ) => {
@@ -180,6 +198,9 @@ export const stakeLp = async (
           }
         );
       }
+      await handleGetPoolPosition;
+      await handleGetEthBalance;
+      await handleGetPhnxBalance;
     })
     .on("error", function (err) {
       // throw err;
@@ -200,6 +221,9 @@ export const unStakeLp = async (
   web3context,
   contractPhnxStake,
   lpValue,
+  handleGetPoolPosition,
+  handleGetEthBalance,
+  handleGetPhnxBalance,
   setLoading,
   Close
 ) => {
@@ -234,6 +258,9 @@ export const unStakeLp = async (
           }
         );
       }
+      await handleGetPoolPosition;
+      await handleGetEthBalance;
+      await handleGetPhnxBalance;
     })
     .on("error", function (err) {
       // throw err;
