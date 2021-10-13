@@ -19,10 +19,9 @@ import {
   Route,
 } from "@uniswap/sdk";
 import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../contract/constant";
-import TransactionSubmitted from "../components/connectModal/TransactionSubmitted";
-import { ToastContainer, toast } from 'react-toastify';
+// import TransactionSubmitted from "../components/connectModal/TransactionSubmitted";
+import { toast } from "react-toastify";
 import Notify from "../components/Notify";
-
 
 const chainId = ChainId.RINKEBY;
 const customHttpProvider = new ethers.providers.JsonRpcProvider(
@@ -48,7 +47,9 @@ export const supply = async (
   contractUniswapRouter,
   settransactionProcessModal,
   settransactionSubmittedModal,
-  _handleGetPoolPosition
+  handleGetPoolPosition,
+  handleGetEthBalance,
+  handleGetPhnxBalance
 ) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
 
@@ -77,10 +78,8 @@ export const supply = async (
 
       toast(
         <Notify
-          text={
-            "Transaction in Progress 😃, you'll be notified soon."
-          }
-          severity='success'
+          text={"Transaction in Progress 😃, you'll be notified soon."}
+          severity="success"
         />,
         {
           position: "bottom-right",
@@ -91,23 +90,19 @@ export const supply = async (
       settransactionSubmittedModal(true);
       console.log("hash", hash);
     })
-    .on("confirmation", function (confirmationNumber, receipt) {
+    .on("confirmation", async function (confirmationNumber, receipt) {
       if (confirmationNumber === 1) {
         // settransactionProcessModal(false);
         // settransactionSubmittedModal(true);
         toast(
-          <Notify
-            text={
-              "Transaction Successful 🚀"
-            }
-            severity='success'
-          />,
+          <Notify text={"Transaction Successful 🚀"} severity="success" />,
           {
             position: "bottom-right",
           }
         );
-
-        _handleGetPoolPosition();
+        await handleGetPoolPosition();
+        await handleGetEthBalance();
+        await handleGetPhnxBalance();
 
         console.log("confirmationNumber", confirmationNumber);
         //   setLoading(false);
@@ -120,13 +115,10 @@ export const supply = async (
       }
     })
     .on("error", function (err) {
-
       toast(
         <Notify
-          text={
-            "Transaction Rejected 😔. Try again later."
-          }
-          severity='error'
+          text={"Transaction Rejected 😔. Try again later."}
+          severity="error"
         />,
         {
           position: "bottom-right",
@@ -232,7 +224,7 @@ export const getPhnxBalance = async (web3context, contractPhnxDao) => {
   }
 };
 
-export const checkApproval = async (web3context, contractPhnxDao) => {
+export const checkApprovalPhnxDao = async (web3context, contractPhnxDao) => {
   let allowance1 = await contractPhnxDao.methods
     .allowance(web3context.account, UNISWAP_CONTRACT_ADDRESS_RINEBY)
     .call();
@@ -240,7 +232,13 @@ export const checkApproval = async (web3context, contractPhnxDao) => {
   return allowance1;
 };
 
-export const giveApproval = async (web3context, contractPhnxDao) => {
+export const giveApprovalPhnxDao = async (
+  web3context,
+  contractPhnxDao,
+  handleGetPoolPosition,
+  handleGetEthBalance,
+  handleGetPhnxBalance
+) => {
   if (!web3context.account) {
     alert("Connect your wallet");
     return;
@@ -254,14 +252,187 @@ export const giveApproval = async (web3context, contractPhnxDao) => {
       // hash of tx
       console.log("tx hash", hash);
     })
-    .on("confirmation", function (confirmationNumber, receipt) {
+    .on("confirmation", async function (confirmationNumber, receipt) {
       if (confirmationNumber === 2) {
         // tx confirmed
-        checkApproval(web3context, contractPhnxDao);
+        checkApprovalPhnxDao(web3context, contractPhnxDao);
         ToastMsg("success", "Approved successfully!");
+
+        await handleGetPoolPosition();
+        await handleGetEthBalance();
+        await handleGetPhnxBalance();
       }
     })
     .on("error", function (err) {
       console.error(err);
     });
+};
+
+export const checkApprovalUniswapPair = async (
+  web3context,
+  contractUniswapPair,
+  setAllowance
+) => {
+  if (contractUniswapPair) {
+    // console.log("contractUniswapPair", contractUniswapPair);
+    let allowance1 = await contractUniswapPair.methods
+      .allowance(
+        web3context.account,
+        "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
+      )
+      .call();
+    console.log("allowance", allowance1);
+    if (setAllowance) {
+      setAllowance(allowance1);
+    }
+  } else {
+    throw "contractUniswapPair not initialized!";
+  }
+};
+
+export const giveApprovalUniswapPair = async (
+  web3context,
+  contractUniswapPair,
+  setAllowance,
+  handleGetPoolPosition,
+  handleGetEthBalance,
+  handleGetPhnxBalance
+) => {
+  if (contractUniswapPair && web3context) {
+    await contractUniswapPair.methods
+      .approve(
+        "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+        Web3.utils.toWei("1000000000000000000000000000000000000000000000000000")
+      )
+      .send({ from: web3context.account })
+      .on("transactionHash", (hash) => {
+        // hash of tx
+        console.log("tx hash", hash);
+      })
+      .on("confirmation", async function (confirmationNumber, receipt) {
+        if (confirmationNumber === 2) {
+          // tx confirmed
+          await checkApprovalUniswapPair(
+            web3context,
+            contractUniswapPair,
+            setAllowance
+          );
+          await handleGetPoolPosition();
+          await handleGetEthBalance();
+          await handleGetPhnxBalance();
+        }
+      })
+      .on("error", function (err) {
+        console.error(err);
+      });
+  } else {
+    throw "contractUniswapPair not initialized! @giveApprovalUniswapPair";
+  }
+};
+
+export const removeLiquidity = async (
+  web3context,
+  contractUniswapRouter,
+  poolPosition,
+  selectedPercentage,
+  settransactionProcessModal,
+  settransactionConfirmModal,
+  settransactionSubmittedModal,
+  handleGetPoolPosition,
+  handleGetEthBalance,
+  handleGetPhnxBalance
+) => {
+  if (web3context && contractUniswapRouter && poolPosition) {
+    let deadline = Date.now();
+    deadline += 20 * 60;
+
+    // console.log(
+    //   "poolPosition",
+    //   poolPosition,
+    //   "selectedPercentage",
+    //   selectedPercentage
+    // );
+    let ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
+    let phnxValue = poolPosition.phnx * (selectedPercentage / 100).toString();
+    let phnxMin = phnxValue - phnxValue * 0.2;
+    let ethMin = ethValue - ethValue * 0.2;
+
+    // console.log(
+    //   "ethValue ",
+    //   ethValue,
+    //   " phnxValue ",
+    //   phnxValue,
+    //   "phnxMin",
+    //   phnxMin,
+    //   "ethMin",
+    //   ethMin
+    // );
+
+    await contractUniswapRouter.methods
+      .removeLiquidityETH(
+        "0xfe1b6abc39e46cec54d275efb4b29b33be176c2a", // address token,
+        Web3.utils.toWei(
+          (poolPosition.lp * (selectedPercentage / 100)).toString(),
+          "ether"
+        ), //LP token
+        Web3.utils.toWei(phnxMin.toString()), //uint amountTokenMin,
+        Web3.utils.toWei(ethMin.toString()), // uint amountETHMin
+        web3context.account, //address to,
+        deadline //deadline
+      )
+      .send({
+        from: web3context.account,
+      })
+      .on("transactionHash", (hash) => {
+        // hash of tx
+        settransactionProcessModal(false);
+        settransactionConfirmModal(false);
+        settransactionSubmittedModal(true);
+        console.log("hash", hash);
+      })
+      .on("confirmation", async function (confirmationNumber, receipt) {
+        if (confirmationNumber === 1) {
+          console.log("confirmationNumber", confirmationNumber);
+
+          await handleGetPoolPosition();
+          await handleGetEthBalance();
+          await handleGetPhnxBalance();
+          if (web3context.active && web3context.account) {
+            // getPoolPosition();
+          }
+        }
+      })
+      .on("error", function (err) {
+        settransactionProcessModal(false);
+        throw err;
+      });
+  } else {
+    throw "undefined arguments!";
+  }
+};
+
+export const calculateLpToken = async (
+  contractUniswapPair,
+  amount0,
+  amount1,
+  setphnxethburn
+) => {
+  if (!contractUniswapPair || !amount0 || !amount1) {
+    return;
+  }
+  const getReserves = await contractUniswapPair.methods.getReserves().call();
+  const _totalSupply = await contractUniswapPair.methods.totalSupply().call();
+
+  const _reserve0 = getReserves._reserve0;
+  const _reserve1 = getReserves._reserve1;
+
+  amount0 = Web3.utils.toWei(amount0.toString());
+  amount1 = Web3.utils.toWei(amount1.toString());
+
+  const liquidity = Math.min(
+    (amount0 * _totalSupply) / _reserve0,
+    (amount1 * _totalSupply) / _reserve1
+  );
+  // console.log(liquidity);
+  setphnxethburn(Web3.utils.fromWei(liquidity.toString(), "ether"));
 };

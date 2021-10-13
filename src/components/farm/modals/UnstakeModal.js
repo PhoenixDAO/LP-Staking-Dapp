@@ -62,14 +62,31 @@ function UnStakeModal({ Close, userInfo }) {
       return;
     } else {
       try {
-        await STAKE_SERVICES.unStakeLp(web3context, contractPhnxStake, lpValue);
-        dispatch(GetEthBalanceAction(web3context));
-        dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
-        dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+        await STAKE_SERVICES.unStakeLp(
+          web3context,
+          contractPhnxStake,
+          lpValue,
+          handleGetPoolPosition,
+          handleGetEthBalance,
+          handleGetPhnxBalance
+        );
+        // dispatch(GetEthBalanceAction(web3context));
+        // dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+        // dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
       } catch (e) {
         console.error(e);
       }
     }
+  };
+
+  const handleGetPoolPosition = () => {
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  };
+  const handleGetEthBalance = () => {
+    dispatch(GetEthBalanceAction(web3context));
+  };
+  const handleGetPhnxBalance = () => {
+    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
 
   return (
