@@ -99,8 +99,6 @@ export const supply = async (
           }
         );
 
-        _handleGetPoolPosition();
-
         console.log("confirmationNumber", confirmationNumber);
         //   setLoading(false);
         //   setPhnxValue("");
@@ -261,7 +259,7 @@ export const checkApprovalUniswapPair = async (
   setAllowance
 ) => {
   if (contractUniswapPair) {
-    console.log("contractUniswapPair", contractUniswapPair);
+    // console.log("contractUniswapPair", contractUniswapPair);
     let allowance1 = await contractUniswapPair.methods
       .allowance(
         web3context.account,
@@ -280,7 +278,10 @@ export const checkApprovalUniswapPair = async (
 export const giveApprovalUniswapPair = async (
   web3context,
   contractUniswapPair,
-  setAllowance
+  setAllowance,
+  handleGetPoolPosition,
+  handleGetEthBalance,
+  handleGetPhnxBalance
 ) => {
   if (contractUniswapPair && web3context) {
     await contractUniswapPair.methods
@@ -301,6 +302,9 @@ export const giveApprovalUniswapPair = async (
             contractUniswapPair,
             setAllowance
           );
+          await handleGetPoolPosition();
+          await handleGetEthBalance();
+          await handleGetPhnxBalance();
         }
       })
       .on("error", function (err) {
@@ -318,16 +322,36 @@ export const removeLiquidity = async (
   selectedPercentage,
   settransactionProcessModal,
   settransactionConfirmModal,
-  settransactionSubmittedModal
+  settransactionSubmittedModal,
+  handleGetPoolPosition,
+  handleGetEthBalance,
+  handleGetPhnxBalance
 ) => {
   if (web3context && contractUniswapRouter && poolPosition) {
     let deadline = Date.now();
     deadline += 20 * 60;
 
+    // console.log(
+    //   "poolPosition",
+    //   poolPosition,
+    //   "selectedPercentage",
+    //   selectedPercentage
+    // );
     let ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
     let phnxValue = poolPosition.phnx * (selectedPercentage / 100).toString();
     let phnxMin = phnxValue - phnxValue * 0.2;
     let ethMin = ethValue - ethValue * 0.2;
+
+    // console.log(
+    //   "ethValue ",
+    //   ethValue,
+    //   " phnxValue ",
+    //   phnxValue,
+    //   "phnxMin",
+    //   phnxMin,
+    //   "ethMin",
+    //   ethMin
+    // );
 
     await contractUniswapRouter.methods
       .removeLiquidityETH(
@@ -351,10 +375,13 @@ export const removeLiquidity = async (
         settransactionSubmittedModal(true);
         console.log("hash", hash);
       })
-      .on("confirmation", function (confirmationNumber, receipt) {
+      .on("confirmation", async function (confirmationNumber, receipt) {
         if (confirmationNumber === 1) {
           console.log("confirmationNumber", confirmationNumber);
 
+          await handleGetPoolPosition();
+          await handleGetEthBalance();
+          await handleGetPhnxBalance();
           if (web3context.active && web3context.account) {
             // getPoolPosition();
           }

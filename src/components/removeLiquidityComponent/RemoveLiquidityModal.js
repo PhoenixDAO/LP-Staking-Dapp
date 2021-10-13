@@ -64,9 +64,13 @@ const RemoveLiquidityModaL = () => {
         web3context,
         contractUniswapRouter,
         poolPosition,
+        selectedPercentage,
         settransactionProcessModal,
         settransactionConfirmModal,
-        settransactionSubmittedModal
+        settransactionSubmittedModal,
+        handleGetPoolPosition,
+        handleGetEthBalance,
+        handleGetPhnxBalance
       );
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
       dispatch(GetEthBalanceAction(web3context));
@@ -123,6 +127,31 @@ const RemoveLiquidityModaL = () => {
 
     _handleCalculateLpToken(ethValue, phnxValue);
   }, [selectedPercentage, poolPosition]);
+
+  const handleGetPoolPosition = () => {
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  };
+  const handleGetEthBalance = () => {
+    dispatch(GetEthBalanceAction(web3context));
+  };
+  const handleGetPhnxBalance = () => {
+    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+  };
+
+  const _handleGiveApprovalUniswapPair = async () => {
+    try {
+      await SERVICES.giveApprovalUniswapPair(
+        web3context,
+        contractUniswapPair,
+        setAllowance,
+        handleGetPoolPosition,
+        handleGetEthBalance,
+        handleGetPhnxBalance
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <div className="rm-liq-div">
@@ -218,9 +247,13 @@ const RemoveLiquidityModaL = () => {
         </div>
       </div>
 
-      {allowance === 0 ? (
-        <button className="rm-liq-btn" onClick={() => setTxModalOpen}>
-          Approve PHNX
+      {allowance == 0 ? (
+        <button
+          className="rm-liq-btn"
+          onClick={_handleGiveApprovalUniswapPair}
+          // onClick={() => setTxModalOpen()}
+        >
+          Approve ETH-PHNX LP
         </button>
       ) : selectedPercentage == 0 || selectedPercentage == "" ? (
         <button

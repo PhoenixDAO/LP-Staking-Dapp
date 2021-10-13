@@ -102,8 +102,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const _handleGiveApproval = async () => {
     try {
       await SERVICE.giveApprovalPhnxDao(web3context, contractPhnxDao);
+      _handleGetPoolPosition();
+      await GetBalances();
     } catch (e) {
-      ToastMsg("error", "Failed to give approval!");
       console.error("Error _handleGiveApproval", e);
     }
   };
@@ -119,13 +120,11 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         web3context,
         contractUniswapRouter,
         settransactionProcessModal,
-        settransactionSubmittedModal,
-        _handleGetPoolPosition
+        settransactionSubmittedModal
       );
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
       await GetBalances();
     } catch (e) {
-      ToastMsg("error", "Couldn't add liquidity");
       console.error("Error _handleSupply", e);
     } finally {
       setLoading(false);
