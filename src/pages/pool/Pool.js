@@ -13,6 +13,9 @@ import { Link } from "react-router-dom";
 import ConnectModal from "../../components/connectModal/ConnectModal";
 import TransactionSubmitted from "../../components/connectModal/TransactionSubmitted";
 import TransactionProgress from "../../components/connectModal/TransactionProgress";
+import ConfirmModal from "../../components/connectModal/ConfirmModal";
+import SlippingTolerance from "../../components/connectModal/SlippingTolerance";
+import VersionModal from "../../components/connectModal/VersionModal";
 
 const Pool = () => {
   const { account, active } = useWeb3React();
@@ -21,9 +24,12 @@ const Pool = () => {
 
   return (
     <div>
-          <ConnectModal/>
+          {/* <ConnectModal/>
           <TransactionSubmitted/>
           <TransactionProgress/>
+          <ConfirmModal />
+          <SlippingTolerance/>
+          <VersionModal/> */}
       <div className="container-div">
         <div className="gradient-div">
           <p className="connect-wallet-txt">

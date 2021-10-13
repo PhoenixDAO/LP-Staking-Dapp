@@ -9,18 +9,64 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import Web3 from "web3";
+import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
+import { useSelector, useDispatch } from "react-redux";
 
-const ConnectModal = ({transactionConfirmModal,_handleSupply,setTxModalClose }) => {
-
+const ConnectModal = ({
+  transactionConfirmModal,
+  _handleSupply,
+  setTxModalClose,
+  phnxValue,
+  ethValue,
+  poolShare,
+  phnxPerEth,
+  ethPerPhnx,
+}) => {
   // const [open, setOpen] = useState(transactionConfirmModal);
   // const handleClose = () => {setOpen(false)};
 
+  const [lp, setlp] = useState(0);
 
+  useEffect(() => {
+    calculateLpToken(ethValue, phnxValue);
+  }, [phnxValue, ethValue]);
 
   // useEffect(()=>{
   //   console.log('asdasdasd')
   //   setOpen(transactionConfirmModal)
   // },[transactionConfirmModal]);
+  const web3context = useWeb3React();
+  const uniswapV2PairContract = useSelector(
+    (state) => state.contractReducer.contractUniswapPair
+  );
+
+  const calculateLpToken = async (amount0, amount1) => {
+    console.log(amount0, amount1);
+
+    if (!uniswapV2PairContract || !amount0 || !amount1) {
+      return;
+    }
+
+    const getReserves = await uniswapV2PairContract.methods
+      .getReserves()
+      .call();
+    const _totalSupply = await uniswapV2PairContract.methods
+      .totalSupply()
+      .call();
+
+    const _reserve0 = getReserves._reserve0;
+    const _reserve1 = getReserves._reserve1;
+
+    amount0 = Web3.utils.toWei(amount0.toString());
+    amount1 = Web3.utils.toWei(amount1.toString());
+
+    const liquidity = Math.min(
+      (amount0 * _totalSupply) / _reserve0,
+      (amount1 * _totalSupply) / _reserve1
+    );
+    setlp(Web3.utils.fromWei(liquidity.toString(), "ether"));
+  };
 
   const style = {
     position: "absolute",
@@ -35,7 +81,6 @@ const ConnectModal = ({transactionConfirmModal,_handleSupply,setTxModalClose }) 
   };
 
   return (
-    
     <div>
       <div>
         {/* <Button onClick={handleOpen}>Connect Modal</Button> */}
@@ -51,15 +96,15 @@ const ConnectModal = ({transactionConfirmModal,_handleSupply,setTxModalClose }) 
                 <img className="add-liq-Logo" src={Logo}></img>
               </div>
               <div className="closeModalIcon">
-              <span className="cursorPointer">
-                <CloseIcon onClick={setTxModalClose} />
+                <span className="cursorPointer">
+                  <CloseIcon onClick={setTxModalClose} />
                 </span>
               </div>
             </div>
             <div className="add-liq-heading">YOU WILL RECIEVE</div>
 
             <div className="add-liq-ps-div">
-              0.54321
+              {lp}
               <span className="iconMargin">
                 <img src={PhnxLogo} className="add-liq-phnx-eth-img"></img>
                 <img
@@ -82,7 +127,7 @@ const ConnectModal = ({transactionConfirmModal,_handleSupply,setTxModalClose }) 
                         className="phnxDepositePriceImage"
                       ></img>
                     </div>
-                    <div>0.0653232</div>
+                    <div>{phnxValue}</div>
                   </div>
                 </div>
               </div>
@@ -96,7 +141,7 @@ const ConnectModal = ({transactionConfirmModal,_handleSupply,setTxModalClose }) 
                         className="phnxDepositePriceImage"
                       ></img>
                     </div>
-                    <div>0.231</div>
+                    <div>{ethValue}</div>
                   </div>
                 </div>
               </div>
@@ -105,10 +150,10 @@ const ConnectModal = ({transactionConfirmModal,_handleSupply,setTxModalClose }) 
                   <div className="phnxDeposite">Rates</div>
                   <div className="phnxDepositePrice fontWeight400 displayInlineGrid ratesFontColor">
                     <div className="justifySelfEnd ratesFontColor">
-                      1 PHNX = 0.2335 ETH
+                      {"1 PHNX = " + ethPerPhnx + " ETH"}
                     </div>
                     <div className="justifySelfEnd ratesFontColor">
-                      1 ETH = 0.3456665 PHNX
+                      {"1 ETH = " + phnxPerEth + " PHNX"}
                     </div>
                   </div>
                 </div>
@@ -117,7 +162,7 @@ const ConnectModal = ({transactionConfirmModal,_handleSupply,setTxModalClose }) 
                 <div className="displayFlex">
                   <div className="phnxDeposite">Pool Share</div>
                   <div className="phnxDepositePrice displayFlex">
-                    0.000000346%
+                    {poolShare}
                   </div>
                 </div>
               </div>
@@ -133,11 +178,14 @@ const ConnectModal = ({transactionConfirmModal,_handleSupply,setTxModalClose }) 
         <div className="add-liq-phnx-eth-con">1 ETH = 0.3456665 PHNX</div>
       </div> */}
 
-            <button className="add-liq-btn cursorPointer" onClick={()=>{
-              _handleSupply();
-            
-              }
-              }>Add Liquidity</button>
+            <button
+              className="add-liq-btn cursorPointer"
+              onClick={() => {
+                _handleSupply();
+              }}
+            >
+              Add Liquidity
+            </button>
           </div>
         </Modal>
       </div>

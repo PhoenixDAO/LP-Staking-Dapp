@@ -57,7 +57,7 @@ export default function WalletSettings({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        {/* <Box sx={style}>
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -156,7 +156,95 @@ export default function WalletSettings({
           >
             Disconnect Wallet
           </Button>
-        </Box>
+        </Box> */}
+          <div className="add-liq-div">
+          <div className="displayFlex">
+              <div className="confirmPhnxDepositeLogo">
+                <img className="add-liq-Logo" src={Logo}></img>
+              </div>
+              <div className="closeModalIcon">
+                <span className="cursorPointer">
+                  <CloseIcon onClick={handleClose} />
+                </span>
+              </div>
+            </div>
+
+          <br />
+          <Typography
+            variant="h5"
+            component="h2"
+            color="primary"
+            sx={{ color: "#413ae2", fontWeight: "bold" }}
+          >
+            Wallet
+          </Typography>
+          <br />
+          <Typography variant="body2" component="h2">
+            YOUR ADDRESS
+          </Typography>
+          <TextField
+            id="outlined-basic"
+            fullWidth
+            variant="outlined"
+            disabled
+            value={web3context?.account}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="start">
+                  <CopyToClipboard
+                    text={web3context?.account}
+                    onCopy={() => {
+                      ToastMsg("success", "Copied to clipboard");
+                    }}
+                  >
+                    <IconButton>
+                      <ContentCopyIcon />
+                    </IconButton>
+                  </CopyToClipboard>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <br />
+          <br />
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography id="modal-modal-title" variant="body1" component="h2">
+              PHNX BALANCE
+            </Typography>
+            <Typography id="modal-modal-description">{balancePhnx}</Typography>
+          </Stack>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography id="modal-modal-title" variant="body1" component="h2">
+              ETH BALANCE
+            </Typography>
+            <Typography id="modal-modal-description">{balanceEth}</Typography>
+          </Stack>
+          <br />
+          <Typography
+            variant="body2"
+            component="h2"
+            color="primary"
+            sx={{ color: "#413ae2", fontWeight: "bold" }}
+          >
+            View on Etherscan <img src={redirectIcon} alt="redirectIcon" />
+          </Typography>
+          <br />
+
+
+
+            <button className="add-liq-btn cursorPointer"  onClick={() => {
+              deactivateWallet();
+              handleClose();
+            }}>Disconnect Wallet</button>
+          </div>
       </Modal>
 
       <Menu
