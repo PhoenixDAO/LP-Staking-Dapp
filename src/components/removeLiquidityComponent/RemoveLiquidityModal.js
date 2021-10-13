@@ -141,13 +141,16 @@ const RemoveLiquidityModaL = () => {
       })
       .on("transactionHash", (hash) => {
         // hash of tx
+        settransactionProcessModal(false);
+        settransactionConfirmModal(false);
+        settransactionSubmittedModal(true);
         console.log("hash", hash);
         
       })
       .on("confirmation", function (confirmationNumber, receipt) {
         if (confirmationNumber === 1) {
-          settransactionProcessModal(false);
-          settransactionSubmittedModal(true);
+          // settransactionProcessModal(false);
+          // settransactionSubmittedModal(true);
           console.log("confirmationNumber", confirmationNumber);
           // setLoading(false);
           // setPhnxValue("");
@@ -159,6 +162,7 @@ const RemoveLiquidityModaL = () => {
         }
       })
       .on("error", function (err) {
+        settransactionProcessModal(false);
         console.log("error", err);
       });
   };
@@ -277,7 +281,7 @@ const RemoveLiquidityModaL = () => {
     setPerEthValue(ethValue);
     setPerPhnxValue(phnxValue);
 
-    calculateLpToken(perEthVal,perPhnxVal)
+    calculateLpToken(ethValue,phnxValue)
 
   },[selectedPercentage])
 
@@ -376,11 +380,19 @@ const RemoveLiquidityModaL = () => {
         <button className="rm-liq-btn" onClick={() => setTxModalOpen}>
           Approve PHNX
         </button>
-      ) : (
-        <button className="rm-liq-btn" onClick={() => settransactionConfirmModal(true)}>
-          Remove Liquidity
-        </button>
-      )}
+      ) : 
+      
+        selectedPercentage==0 || selectedPercentage=='' ? (
+        
+        <button className="add-liq-btn cursorPointer" style={{backgroundColor: "#acacac",}}>Enter Value</button>
+        
+        )
+       :    
+        (
+          <button className="rm-liq-btn" onClick={() => settransactionConfirmModal(true)}>
+            Remove Liquidity
+          </button>
+        )}
 
       <div className="rm-liq-divider"></div>
 

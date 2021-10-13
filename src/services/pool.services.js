@@ -71,13 +71,14 @@ export const supply = async (
     })
     .on("transactionHash", (hash) => {
       // hash of tx
-
+      settransactionProcessModal(false);
+      settransactionSubmittedModal(true);
       console.log("hash", hash);
     })
     .on("confirmation", function (confirmationNumber, receipt) {
       if (confirmationNumber === 1) {
-        settransactionProcessModal(false);
-        settransactionSubmittedModal(true);
+        // settransactionProcessModal(false);
+        // settransactionSubmittedModal(true);
         _handleGetPoolPosition();
 
         console.log("confirmationNumber", confirmationNumber);

@@ -34,39 +34,6 @@ const ConfirmModal = ({transactionConfirmModal,setTxModalClose,phnx,eth,phnxethb
   },[transactionConfirmModal])
 
 
-  // const calculateLpToken = async (amount0, amount1) => {
-  //   console.log(amount0, amount1);
-
-  //   if (!uniswapV2PairContract || !amount0 || !amount1) {
-  //     return;
-  //   }
-
-  //   const getReserves = await uniswapV2PairContract.methods
-  //     .getReserves()
-  //     .call();
-  //   const _totalSupply = await uniswapV2PairContract.methods
-  //     .totalSupply()
-  //     .call();
-
-  //   const _reserve0 = getReserves._reserve0;
-  //   const _reserve1 = getReserves._reserve1;
-
-  //   amount0 = Web3.utils.toWei(amount0.toString());
-  //   amount1 = Web3.utils.toWei(amount1.toString());
-
-  //   const liquidity = Math.min(
-  //     (amount0 * _totalSupply) / _reserve0,
-  //     (amount1 * _totalSupply) / _reserve1
-  //   );
-  //   setphnxethburn(Web3.utils.fromWei(liquidity.toString(), "ether"));
-  // };
-
-
-  // useState(()=>{
-  //   setphnxethburn('Calculating...')
-  //   calculateLpToken(eth,phnx)
-  // },[phnx,eth])
-
   const handleConfirm = () =>{
     if(eth==0 || phnx==0){
       return;
@@ -173,8 +140,9 @@ const ConfirmModal = ({transactionConfirmModal,setTxModalClose,phnx,eth,phnxethb
                 </div>
               </div>
             </div>
+            
+              <button className="add-liq-btn cursorPointer" onClick={handleConfirm} >Confirm</button>
 
-            <button className="add-liq-btn cursorPointer" onClick={handleConfirm}>Confirm</button>
           </div>
         </Modal>
       </div>
