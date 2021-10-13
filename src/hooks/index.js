@@ -8,12 +8,8 @@ import { abi as UniswapV2PairABI } from "../contract/abi/UniswapV2PairABI.json";
 import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
 import {
   PHNX_RINKEBY_TOKEN_ADDRESS,
-  UNISWAP_CONTRACT_ADDRESS_RINEBY,
-  //   urlInfuraMainnet,
-  urlInfuraRinkeby,
-  //   tokenAddressMainnet,
-  tokenAddressRinkeby,
-} from "../contract/constants";
+  URL_INFURA_RINKEBY,
+} from "../contract/constant";
 import {
   ChainId,
   //   Token,
@@ -33,7 +29,7 @@ import { useWeb3React } from "@web3-react/core";
 
 const chainId = ChainId.RINKEBY;
 const customHttpProvider = new ethers.providers.JsonRpcProvider(
-  urlInfuraRinkeby
+  URL_INFURA_RINKEBY
 );
 
 const initialState = {
@@ -75,7 +71,7 @@ export const usePoolControl = () => {
   const getDataMain = async () => {
     const phnx = await Fetcher.fetchTokenData(
       chainId,
-      tokenAddressRinkeby,
+      PHNX_RINKEBY_TOKEN_ADDRESS,
       customHttpProvider
     );
     const weth = WETH[chainId];

@@ -52,14 +52,7 @@ import { ToastMsg } from "./Toast";
 
 import Web3 from "web3";
 import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
-import {
-  PHNX_RINKEBY_TOKEN_ADDRESS,
-  UNISWAP_CONTRACT_ADDRESS_RINEBY,
-  //   urlInfuraMainnet,
-  urlInfuraRinkeby,
-  //   tokenAddressMainnet,
-  tokenAddressRinkeby,
-} from "../contract/constants";
+import { PHNX_RINKEBY_TOKEN_ADDRESS } from "../contract/constant";
 import WalletSettings from "./walletSettings";
 
 const style = {
@@ -100,7 +93,11 @@ const Item = styled("button")(({ theme }) => ({
   },
 }));
 
-export default function ConnectWallet({ landingScreenBtn , justModal , openModal }) {
+export default function ConnectWallet({
+  landingScreenBtn,
+  justModal,
+  openModal,
+}) {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   const contractPhnxDao = useSelector(
@@ -119,7 +116,15 @@ export default function ConnectWallet({ landingScreenBtn , justModal , openModal
   useEffect(() => {
     dispatch(GetEthBalanceAction(web3context));
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
-  }, [contractPhnxDao]);
+  }, [contractPhnxDao, web3context.active]);
+
+  const balanceEth = useSelector(
+    (state) => state.localReducer.balanceEth
+  );
+  const balancePhnx = useSelector(
+    (state) => state.contractReducer.balancePhnx
+  );
+
 
   const { account, active, connector, deactivate, library, chainId } =
     web3context;
@@ -144,39 +149,16 @@ export default function ConnectWallet({ landingScreenBtn , justModal , openModal
 
   const handleClose = () => setOpen(false);
 
+
   useEffect(() => {
-    // if (!!account && !!library) {
-    //   let stale = false;
-    //   library
-    //     .getBalance(account)
-    //     .then((balance) => {
-    //       if (!stale) {
-    //         setBalance(balance);
-    //       }
-    //     })
-    //     .catch(() => {
-    //       if (!stale) {
-    //         setBalance(null);
-    //       }
-    //     });
-    //   return () => {
-    //     stale = true;
-    //     setBalance(undefined);
-    //   };
-    // }
-  }, [account, library, chainId]);
-
-  useEffect(()=>{
-
-    if(justModal==true){
-      if(openModal==true){
+    if (justModal == true) {
+      if (openModal == true) {
         handleOpen();
-      }else{
+      } else {
         handleClose();
       }
     }
-
-  },[openModal])
+  }, [openModal]);
 
   const activateWallet = useCallback(
     async (connector, onClose = () => {}) => {
@@ -236,41 +218,14 @@ export default function ConnectWallet({ landingScreenBtn , justModal , openModal
     }
   };
 
-  useEffect(() => {
-    if (web3context) {
-      const web3 = new Web3(web3context?.library?.currentProvider);
-
-      if (account) {
-        web3.eth.getBalance(account).then((ether) => {
-          let bal = parseFloat(web3.utils.fromWei(ether, "ether"));
-          let res = (
-            Math.floor(bal * Math.pow(10, 2)) / Math.pow(10, 2)
-          ).toFixed(2);
-          setEthBalance(res);
-        });
-      }
-
-      if (account) {
-        const contract = new web3.eth.Contract(
-          PhoenixDaoABI,
-          PHNX_RINKEBY_TOKEN_ADDRESS
-        );
-
-        contract.methods
-          .balanceOf(account)
-          .call()
-          .then((phnx) => {
-            let bal = parseFloat(web3.utils.fromWei(phnx, "ether"));
-            // console.log('balance phnx :'+bal)
-            setPhnxBalance(bal.toFixed(2));
-          });
-      }
-    }
-  }, [web3context, account]);
+  // useEffect(()=>{
+  //   if(poolPosition1==null) return;
+  //   setEthBalance(poolPosition1.eth);
+  //   setPhnxBalance(poolPosition1.phnx);
+  // },[poolPosition1])
 
   return (
-    <div style={{width:'fit-content'}}>
-
+    <div style={{ width: "fit-content" }}>
       {active && account && justModal != true ? (
         <button className="connect-wallet-btn balance-btn">
           <div
@@ -285,24 +240,22 @@ export default function ConnectWallet({ landingScreenBtn , justModal , openModal
               alt="EthLogo"
               className="connect-wallet-btn-img"
             ></img>
-            {EthBalance}
+            {balanceEth}
             &nbsp; | &nbsp;
             <img
               src={PhnxLogo}
               alt="PhnxLogo"
               className="connect-wallet-btn-img"
             ></img>
-            {PhnxBalance}
+            {balancePhnx}
           </div>
         </button>
       ) : null}
 
-      {landingScreenBtn!=true ? <>&nbsp; &nbsp;</> : null}
-      
-      {
-        justModal == true ?
-        null :
-          <button
+      {landingScreenBtn != true ? <>&nbsp; &nbsp;</> : null}
+
+      {justModal == true ? null : (
+        <button
           onClick={(e) => {
             !active && !account ? handleOpen() : handleClick2(e);
           }}
@@ -331,9 +284,9 @@ export default function ConnectWallet({ landingScreenBtn , justModal , openModal
           ) : (
             "Connect Wallet"
           )}
-          </button>
-      }
-   
+        </button>
+      )}
+
       <Modal
         open={open}
         onClose={handleClose}
