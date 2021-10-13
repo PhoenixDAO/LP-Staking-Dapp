@@ -9,11 +9,8 @@ import { abi as PhoenixStakeABI } from "../contract/abi/PHXStakeABI.json";
 import {
   PHNX_RINKEBY_TOKEN_ADDRESS,
   UNISWAP_CONTRACT_ADDRESS_RINEBY,
-  //   urlInfuraMainnet,
-  urlInfuraRinkeby,
-  //   tokenAddressMainnet,
-  tokenAddressRinkeby,
-} from "../contract/constants";
+  URL_INFURA_RINKEBY,
+} from "../contract/constant";
 import {
   ChainId,
   //   Token,
@@ -26,13 +23,13 @@ import TransactionSubmitted from "../components/connectModal/TransactionSubmitte
 
 const chainId = ChainId.RINKEBY;
 const customHttpProvider = new ethers.providers.JsonRpcProvider(
-  urlInfuraRinkeby
+  URL_INFURA_RINKEBY
 );
 
 export const getDataMain = async () => {
   const phnx = await Fetcher.fetchTokenData(
     chainId,
-    tokenAddressRinkeby,
+    PHNX_RINKEBY_TOKEN_ADDRESS,
     customHttpProvider
   );
   const weth = WETH[chainId];
@@ -74,7 +71,7 @@ export const supply = async (
     })
     .on("transactionHash", (hash) => {
       // hash of tx
-      
+
       console.log("hash", hash);
     })
     .on("confirmation", function (confirmationNumber, receipt) {

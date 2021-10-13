@@ -52,14 +52,7 @@ import { ToastMsg } from "./Toast";
 
 import Web3 from "web3";
 import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
-import {
-  PHNX_RINKEBY_TOKEN_ADDRESS,
-  UNISWAP_CONTRACT_ADDRESS_RINEBY,
-  //   urlInfuraMainnet,
-  urlInfuraRinkeby,
-  //   tokenAddressMainnet,
-  tokenAddressRinkeby,
-} from "../contract/constants";
+import { PHNX_RINKEBY_TOKEN_ADDRESS } from "../contract/constant";
 import WalletSettings from "./walletSettings";
 
 const style = {
@@ -100,7 +93,11 @@ const Item = styled("button")(({ theme }) => ({
   },
 }));
 
-export default function ConnectWallet({ landingScreenBtn , justModal , openModal }) {
+export default function ConnectWallet({
+  landingScreenBtn,
+  justModal,
+  openModal,
+}) {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   const contractPhnxDao = useSelector(
@@ -166,17 +163,15 @@ export default function ConnectWallet({ landingScreenBtn , justModal , openModal
     // }
   }, [account, library, chainId]);
 
-  useEffect(()=>{
-
-    if(justModal==true){
-      if(openModal==true){
+  useEffect(() => {
+    if (justModal == true) {
+      if (openModal == true) {
         handleOpen();
-      }else{
+      } else {
         handleClose();
       }
     }
-
-  },[openModal])
+  }, [openModal]);
 
   const activateWallet = useCallback(
     async (connector, onClose = () => {}) => {
@@ -269,8 +264,7 @@ export default function ConnectWallet({ landingScreenBtn , justModal , openModal
   }, [web3context, account]);
 
   return (
-    <div style={{width:'fit-content'}}>
-
+    <div style={{ width: "fit-content" }}>
       {active && account && justModal != true ? (
         <button className="connect-wallet-btn balance-btn">
           <div
@@ -297,12 +291,10 @@ export default function ConnectWallet({ landingScreenBtn , justModal , openModal
         </button>
       ) : null}
 
-      {landingScreenBtn!=true ? <>&nbsp; &nbsp;</> : null}
-      
-      {
-        justModal == true ?
-        null :
-          <button
+      {landingScreenBtn != true ? <>&nbsp; &nbsp;</> : null}
+
+      {justModal == true ? null : (
+        <button
           onClick={(e) => {
             !active && !account ? handleOpen() : handleClick2(e);
           }}
@@ -331,9 +323,9 @@ export default function ConnectWallet({ landingScreenBtn , justModal , openModal
           ) : (
             "Connect Wallet"
           )}
-          </button>
-      }
-   
+        </button>
+      )}
+
       <Modal
         open={open}
         onClose={handleClose}

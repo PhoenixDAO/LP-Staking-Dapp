@@ -7,6 +7,7 @@ import DropUpLogo from "../../../assets/dropup.png";
 import ShareLogo from "../../../assets/share.png";
 import CalculatorLogo from "../../../assets/calculator.png";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
   const [showMore, setShowMore] = useState(false);
@@ -33,7 +34,9 @@ function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
 
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
-        <div className="farm-details-txt-right">200% &nbsp;<img src={CalculatorLogo}></img></div>
+        <div className="farm-details-txt-right">
+          200% &nbsp;<img src={CalculatorLogo}></img>
+        </div>
       </div>
 
       <div className="farm-details-div">
@@ -67,7 +70,10 @@ function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
         </button>
       )}
 
-      <div className="get-phnx-eth-lp">Get PHNX-ETH LP <img src={ShareLogo}></img></div>
+      <div className="get-phnx-eth-lp">
+        <Link to="/liquidity">Get PHNX-ETH LP</Link>
+        <img src={ShareLogo}></img>
+      </div>
 
       <div className="farm-divider"></div>
 
@@ -96,13 +102,17 @@ function FarmStake({ stakeModalOpen, allowance, giveApproval, userInfo }) {
 
           <div className="farm-details-div">
             <div className="farm-details-txt">
-              <span style={{ color: "#413AE2" }}>View Contract</span>
+              <span style={{ color: "#413AE2" }}>
+                <Link to="/home">View Contract</Link>
+              </span>
             </div>
           </div>
 
           <div className="farm-details-div">
             <div className="farm-details-txt">
-              <span style={{ color: "#413AE2" }}>See Pair Info</span>
+              <span style={{ color: "#413AE2" }}>
+                <Link to="/home">See Pair Info</Link>
+              </span>
             </div>
           </div>
         </div>
