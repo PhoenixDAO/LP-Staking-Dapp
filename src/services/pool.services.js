@@ -20,6 +20,9 @@ import {
 } from "@uniswap/sdk";
 import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../contract/constant";
 import TransactionSubmitted from "../components/connectModal/TransactionSubmitted";
+import { ToastContainer, toast } from 'react-toastify';
+import Notify from "../components/Notify";
+
 
 const chainId = ChainId.RINKEBY;
 const customHttpProvider = new ethers.providers.JsonRpcProvider(
@@ -71,6 +74,19 @@ export const supply = async (
     })
     .on("transactionHash", (hash) => {
       // hash of tx
+
+      toast(
+        <Notify
+          text={
+            "Transaction in Progress 😃, you'll be notified soon."
+          }
+          severity='success'
+        />,
+        {
+          position: "bottom-right",
+        }
+      );
+
       settransactionProcessModal(false);
       settransactionSubmittedModal(true);
       console.log("hash", hash);
@@ -79,6 +95,18 @@ export const supply = async (
       if (confirmationNumber === 1) {
         // settransactionProcessModal(false);
         // settransactionSubmittedModal(true);
+        toast(
+          <Notify
+            text={
+              "Transaction Successful 🚀"
+            }
+            severity='success'
+          />,
+          {
+            position: "bottom-right",
+          }
+        );
+
         _handleGetPoolPosition();
 
         console.log("confirmationNumber", confirmationNumber);
@@ -92,6 +120,19 @@ export const supply = async (
       }
     })
     .on("error", function (err) {
+
+      toast(
+        <Notify
+          text={
+            "Transaction Rejected 😔. Try again later."
+          }
+          severity='error'
+        />,
+        {
+          position: "bottom-right",
+        }
+      );
+
       settransactionProcessModal(false);
 
       console.log("error", err);
