@@ -11,6 +11,7 @@ import {
   GetPoolPositionAction,
 } from "../../../redux/actions/contract.actions";
 import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
+import { Link } from "react-router-dom";
 
 function StakeModal({ Close }) {
   const [lpValue, setlpValue] = useState(0.0);
@@ -32,11 +33,11 @@ function StakeModal({ Close }) {
   );
 
   const LpChange = (e) => {
-    if (lpValue > maxlpValue) {
-      return;
-    } else {
-      setlpValue(parseFloat(e.target.value));
-    }
+    // if (lpValue > maxlpValue) {
+    //   return;
+    // } else {
+    setlpValue(parseFloat(e.target.value));
+    // }
   };
 
   useEffect(() => {
@@ -145,7 +146,10 @@ function StakeModal({ Close }) {
         className="get-phnx-eth-lp"
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "12px" }}
       >
-        Get PHNX-ETH LP <img src={ShareLogo}></img>
+        <Link to="/liquidity">
+          Get PHNX-ETH LP
+          <img src={ShareLogo}></img>
+        </Link>
       </div>
     </div>
   );
