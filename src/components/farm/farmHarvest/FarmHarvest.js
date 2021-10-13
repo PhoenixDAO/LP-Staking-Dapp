@@ -7,8 +7,8 @@ import DropUpLogo from "../../../assets/dropup.png";
 import ShareLogo from "../../../assets/share.png";
 import CalculatorLogo from "../../../assets/calculator.png";
 import Web3 from "web3";
-
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function FarmHarvest({
   stakeModalOpen,
@@ -41,7 +41,9 @@ function FarmHarvest({
 
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
-        <div className="farm-details-txt-right">200% &nbsp;<img src={CalculatorLogo}></img></div>
+        <div className="farm-details-txt-right">
+          200% &nbsp;<img src={CalculatorLogo}></img>
+        </div>
       </div>
 
       <div className="farm-details-div">
@@ -93,7 +95,10 @@ function FarmHarvest({
         Harvest
       </button>
 
-      <div className="get-phnx-eth-lp">Get PHNX-ETH LP <img src={ShareLogo}></img> </div>
+      <div className="get-phnx-eth-lp">
+        <Link to="/liquidity">Get PHNX-ETH LP</Link>
+        <img src={ShareLogo}></img>{" "}
+      </div>
 
       <div className="farm-divider"></div>
 
@@ -122,13 +127,17 @@ function FarmHarvest({
 
           <div className="farm-details-div">
             <div className="farm-details-txt">
-              <span style={{ color: "#413AE2" }}>View Contract</span>
+              <span style={{ color: "#413AE2" }}>
+                <Link to="/home">View Contract</Link>
+              </span>
             </div>
           </div>
 
           <div className="farm-details-div">
             <div className="farm-details-txt">
-              <span style={{ color: "#413AE2" }}>See Pair Info</span>
+              <span style={{ color: "#413AE2" }}>
+                <Link to="/home">See Pair Info</Link>
+              </span>
             </div>
           </div>
         </div>
