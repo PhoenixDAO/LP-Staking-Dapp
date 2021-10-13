@@ -187,3 +187,41 @@ input{
   box-shadow: none !important;
   /* text-shadow: none !important; */
 }
+
+
+.notify {
+	font-size: 90%;
+}
+​
+.notify2 {
+	font-size: 90%;
+	justify-content: center;
+	text-align: center;
+	color: #4e4e55;
+}
+​
+.notify2 a {
+	color: #4e4e55;
+}
+​
+.Toastify__toast--default {
+	background: rgb(243, 243, 243);
+	border: 1px solid rgb(10, 53, 88);
+	border-radius: 10px;
+}
+​
+.notify2 i {
+	margin-bottom: 10px;
+}
+​
+.notify p {
+	color: black;
+	text-align: center;
+}
+​
+.notify img {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
