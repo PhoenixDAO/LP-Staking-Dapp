@@ -1,4 +1,7 @@
 import Web3 from "web3";
+import { toast } from "react-toastify";
+import Notify from "../components/Notify";
+
 import {
   PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY,
   UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY,
@@ -31,8 +34,13 @@ export const giveApprovalFarming = async (web3context, contractUniswapPair) => {
   }
 };
 
-export const harvestPHNX = async (web3context, contractPhnxStake) => {
+export const harvestPHNX = async (
+  web3context,
+  contractPhnxStake,
+  setLoading
+) => {
   if (web3context && contractPhnxStake) {
+    setLoading(true);
     const web3 = new Web3(web3context?.library?.currentProvider);
     await contractPhnxStake.methods
       .deposit(web3.utils.toWei("0"))
@@ -40,16 +48,40 @@ export const harvestPHNX = async (web3context, contractPhnxStake) => {
       .on("transactionHash", (hash) => {
         // hash of tx
         console.log("tx hash", hash);
+        toast(
+          <Notify
+            text={"Transaction in Progress 😃, you'll be notified soon."}
+            severity="success"
+          />,
+          {
+            position: "bottom-right",
+          }
+        );
       })
       .on("confirmation", function (confirmationNumber, receipt) {
-        if (confirmationNumber === 2) {
+        if (confirmationNumber === 1) {
           // tx confirmed
-          // checkApproval(contractUniswapPair, web3context, setAllowance);
-          alert("success", "tx successfull!");
+          setLoading(false);
+          toast(
+            <Notify text={"Transaction Successful 🚀"} severity="success" />,
+            {
+              position: "bottom-right",
+            }
+          );
         }
       })
       .on("error", function (err) {
-        console.error(err);
+        // throw err;
+        setLoading(false);
+        toast(
+          <Notify
+            text={"Transaction Rejected 😔. Try again later."}
+            severity="error"
+          />,
+          {
+            position: "bottom-right",
+          }
+        );
       });
   } else {
     throw "Invalid credentials of harvestPHNX";
@@ -110,8 +142,15 @@ export const getPendingPHX = async (
   }
 };
 
-export const stakeLp = async (web3context, contractPhnxStake, lpValue) => {
+export const stakeLp = async (
+  web3context,
+  contractPhnxStake,
+  lpValue,
+  setLoading,
+  Close
+) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
+  setLoading(true);
 
   await contractPhnxStake.methods
     .deposit(web3.utils.toWei(lpValue.toString()))
@@ -119,21 +158,53 @@ export const stakeLp = async (web3context, contractPhnxStake, lpValue) => {
     .on("transactionHash", (hash) => {
       // hash of tx
       console.log("tx hash", hash);
+      toast(
+        <Notify
+          text={"Transaction in Progress 😃, you'll be notified soon."}
+          severity="success"
+        />,
+        {
+          position: "bottom-right",
+        }
+      );
     })
     .on("confirmation", function (confirmationNumber, receipt) {
-      if (confirmationNumber === 2) {
+      if (confirmationNumber === 1) {
         // tx confirmed
-        // checkApproval(web3context, contractPhnx);
-        alert("success", "tx successfull!");
+        setLoading(false);
+        Close();
+        toast(
+          <Notify text={"Transaction Successful 🚀"} severity="success" />,
+          {
+            position: "bottom-right",
+          }
+        );
       }
     })
     .on("error", function (err) {
-      throw err;
+      // throw err;
+      setLoading(false);
+      toast(
+        <Notify
+          text={"Transaction Rejected 😔. Try again later."}
+          severity="error"
+        />,
+        {
+          position: "bottom-right",
+        }
+      );
     });
 };
 
-export const unStakeLp = async (web3context, contractPhnxStake, lpValue) => {
+export const unStakeLp = async (
+  web3context,
+  contractPhnxStake,
+  lpValue,
+  setLoading,
+  Close
+) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
+  setLoading(true);
 
   await contractPhnxStake.methods
     .withdraw(web3.utils.toWei(lpValue.toString()))
@@ -141,15 +212,40 @@ export const unStakeLp = async (web3context, contractPhnxStake, lpValue) => {
     .on("transactionHash", (hash) => {
       // hash of tx
       console.log("tx hash", hash);
+      toast(
+        <Notify
+          text={"Transaction in Progress 😃, you'll be notified soon."}
+          severity="success"
+        />,
+        {
+          position: "bottom-right",
+        }
+      );
     })
     .on("confirmation", function (confirmationNumber, receipt) {
-      if (confirmationNumber === 2) {
+      if (confirmationNumber === 1) {
         // tx confirmed
-        // checkApproval(web3context, contractPhnx);
-        alert("success", "Approved successfully!");
+        setLoading(false);
+        Close();
+        toast(
+          <Notify text={"Transaction Successful 🚀"} severity="success" />,
+          {
+            position: "bottom-right",
+          }
+        );
       }
     })
     .on("error", function (err) {
-      throw err;
+      // throw err;
+      setLoading(false);
+      toast(
+        <Notify
+          text={"Transaction Rejected 😔. Try again later."}
+          severity="error"
+        />,
+        {
+          position: "bottom-right",
+        }
+      );
     });
 };

@@ -18,10 +18,12 @@ import {
 } from "../../../redux/actions/contract.actions";
 import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
 import { Link } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 
 function UnStakeModal({ Close, userInfo }) {
   const [lpValue, setlpValue] = useState(0.0);
   const [maxlpValue, setmaxlpValue] = useState(0.0);
+  const [loading, setLoading] = useState(false);
 
   const web3context = useWeb3React();
   const dispatch = useDispatch();
@@ -62,7 +64,13 @@ function UnStakeModal({ Close, userInfo }) {
       return;
     } else {
       try {
-        await STAKE_SERVICES.unStakeLp(web3context, contractPhnxStake, lpValue);
+        await STAKE_SERVICES.unStakeLp(
+          web3context,
+          contractPhnxStake,
+          lpValue,
+          setLoading,
+          Close
+        );
         dispatch(GetEthBalanceAction(web3context));
         dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
         dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
@@ -141,8 +149,10 @@ function UnStakeModal({ Close, userInfo }) {
           onClick={() => {
             _handleUnstakeLp();
           }}
+          disabled={loading}
         >
-          Confirm
+          {loading && <CircularProgress sx={{ color: "#fff" }} size={14} />}
+          {!loading && "Confirm"}
         </button>
       </div>
 
