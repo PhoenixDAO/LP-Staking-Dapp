@@ -2,10 +2,8 @@ import * as types from "../types/local.types";
 
 const INITIAL_STATE = {
   loading_MainData: false,
-  // mainData: null,
   error: "",
   balanceEth: 0.0,
-  // web3State: null,
 
   phnxPerEth: 0,
   ethPerPhnx: 0,
@@ -20,7 +18,6 @@ const localReducer = (state = INITIAL_STATE, action) => {
     case types.GET_MAIN_DATA_SUCCESS:
       return {
         ...state,
-        // mainData: action.payload,
         error: "",
         loading_MainData: false,
         phnxPerEth: action.payload.route.midPrice.toSignificant(6),
