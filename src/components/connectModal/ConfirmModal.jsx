@@ -174,7 +174,7 @@ const ConfirmModal = ({transactionConfirmModal,setTxModalClose,phnx,eth,phnxethb
               </div>
             </div>
 
-            <button className="add-liq-btn cursorPointer" onClick={handleConfirm}>Confirm</button>
+            <button className="add-liq-btn cursorPointer" onClick={handleConfirm} >Confirm</button>
           </div>
         </Modal>
       </div>

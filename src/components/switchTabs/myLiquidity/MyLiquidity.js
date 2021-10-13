@@ -40,9 +40,9 @@ function MyLiquidity({ ChangeTab }) {
   };
 
   useEffect(() => {
-    if (!poolPosition) {
+    // if (!poolPosition) {
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
-    }
+    // }
   }, [web3context.account]);
 
   return (
@@ -130,7 +130,8 @@ function MyLiquidity({ ChangeTab }) {
 
           </div>
         :
-        poolPosition.lp == 0 ?
+        // poolPosition !== null ?
+        poolPosition?.lp == 0 ?
 
         <div>
           <br></br>
