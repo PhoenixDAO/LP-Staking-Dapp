@@ -70,7 +70,7 @@ export const harvestPHNX = async (
           }
         );
       })
-      .on("confirmation", function (confirmationNumber, receipt) {
+      .on("confirmation", async function (confirmationNumber, receipt) {
         if (confirmationNumber === 1) {
           // tx confirmed
           setLoading(false);
@@ -186,7 +186,7 @@ export const stakeLp = async (
         }
       );
     })
-    .on("confirmation", function (confirmationNumber, receipt) {
+    .on("confirmation", async function (confirmationNumber, receipt) {
       if (confirmationNumber === 1) {
         // tx confirmed
         setLoading(false);
@@ -246,7 +246,7 @@ export const unStakeLp = async (
         }
       );
     })
-    .on("confirmation", function (confirmationNumber, receipt) {
+    .on("confirmation", async function (confirmationNumber, receipt) {
       if (confirmationNumber === 1) {
         // tx confirmed
         setLoading(false);
