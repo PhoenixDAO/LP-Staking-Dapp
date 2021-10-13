@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   loading_MainData: false,
   // mainData: null,
   error: "",
-  balanceEth: 0,
+  balanceEth: 0.0,
   // web3State: null,
 
   phnxPerEth: 0,

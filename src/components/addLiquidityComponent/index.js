@@ -15,11 +15,10 @@ import EthLogo from "../../assets/ETH1.png";
 import * as SERVICE from "../../services/pool.services";
 import { useWeb3React } from "@web3-react/core";
 import { ToastMsg } from "../Toast";
-// import Web3 from "web3";
-// import { abi } from "../../contract/abi/PhoenixDaoABI.json";
 import {
   GetPoolPositionAction,
   GetPhnxBalanceAction,
+  PhnxDaoContractInitAction,
 } from "../../redux/actions/contract.actions";
 import {
   GetEthBalanceAction,
@@ -85,7 +84,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     if (web3context) {
       GetBalances();
     }
-  }, [contractPhnxDao]);
+  }, [web3context, contractPhnxDao]);
 
   const _handleGetDataMain = async () => {
     dispatch(GetMainDataAction());
@@ -163,13 +162,12 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     }
   };
 
-  const { account, active, connector, deactivate, library, chainId } =
-    web3context;
-
   const GetBalances = async () => {
     if (contractPhnxDao) {
       dispatch(GetEthBalanceAction(web3context));
       dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+    } else {
+      dispatch(PhnxDaoContractInitAction(web3context));
     }
   };
 
@@ -217,10 +215,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         </div>
 
         <div style={{ position: "relative" }}>
-          <div
-            className="token-container"
-            // style={styles.tokenContainer}
-          >
+          <div className="token-container">
             <div style={{ display: "flex", flexDirection: "row" }}>
               <img alt="logo" style={styles.imgLogoPhnx} src={PhnxLogo} />
               <div style={styles.containerImg}>
@@ -232,13 +227,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available PHNX:</Typography>
                 <Typography style={styles.txtAmount}>
-                  {balancePhnx} PHNX
+                  {balancePhnx ? `${balancePhnx}` : "0.0"} PHNX
                 </Typography>
               </div>
-              <div
-                className="wrapper-input"
-                // style={styles.wrapperInput}
-              >
+              <div className="wrapper-input">
                 <TextField
                   hiddenLabel
                   id="standard-adornment-weight"
@@ -246,12 +238,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   placeholder="0.0"
                   background="rgba(195, 183, 255, 0.17);"
                   value={phnxValue}
-                  // disabled={ethPerPhnx > 0 && phnxPerEth > 0 ? false : true}
                   type="number"
                   onChange={(event) => {
-                    // if(parseFloat(event.target.value) > parseFloat(PhnxBalance)){
-                    //   return;
-                    // }
                     OnChangeHandler(event.target.value, "phnx");
                   }}
                   style={styles.inputStyle}
@@ -275,18 +263,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
 
           <div style={styles.containerAddDiv}>
-            <div
-              className="add-div"
-              // style={styles.addDiv}
-            >
-              +
-            </div>
+            <div className="add-div">+</div>
           </div>
 
-          <div
-            className="token-container"
-            // style={styles.tokenContainer}
-          >
+          <div className="token-container">
             <div style={{ display: "flex", flexDirection: "row" }}>
               <img alt="logo" style={styles.imgLogoPhnx} src={EthLogo} />
               <div style={styles.containerImg}>
@@ -303,10 +283,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   {balanceEth} ETH
                 </Typography>
               </div>
-              <div
-                className="wrapper-input"
-                // style={styles.wrapperInput}
-              >
+              <div className="wrapper-input">
                 <TextField
                   hiddenLabel
                   id="standard-adornment-weight"
@@ -314,12 +291,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   placeholder="0.0"
                   background="rgba(195, 183, 255, 0.17)"
                   value={ethValue}
-                  // disabled={ethPerPhnx > 0 && phnxPerEth > 0 ? false : true}
                   type="number"
                   onChange={(event) => {
-                    // if(parseFloat(event.target.value) > parseFloat(EthBalance)){
-                    //   return;
-                    // }
                     OnChangeHandler(event.target.value, "eth");
                   }}
                   style={styles.inputStyle}
@@ -346,10 +319,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         <div className="container-pool-share">
           <div style={styles.txtDivPhEth}>
             <Typography style={styles.txtConvDetails}>
-              <b>{phnxPerEth ? phnxPerEth : "_ _"}</b> PHNX/ETH
+              <b>{phnxPerEth ? phnxPerEth : "0.0"}</b> PHNX/ETH
             </Typography>
             <Typography style={styles.txtConvDetails}>
-              <b>{ethPerPhnx ? ethPerPhnx : "_ _"}</b> ETH/PHNX
+              <b>{ethPerPhnx ? ethPerPhnx : "0.0"}</b> ETH/PHNX
             </Typography>
           </div>
           <div className="pool-share">
@@ -359,7 +332,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             <Typography style={styles.txtConvDetails}>pool share</Typography>
           </div>
         </div>
-        {/* <p>{allowance}</p> */}
         {web3context.active == false ? (
           <Button
             variant="contained"
@@ -430,11 +402,26 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         )}
       </div>
 
-      <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus}></ConnectWallet>
-      <ConnectModal transactionConfirmModal={transactionConfirmModal} setTxModalClose={setTxModalClose} _handleSupply={_handleSupply} phnxValue={phnxValue} ethValue={ethValue} poolShare={poolShare} phnxPerEth={phnxPerEth} ethPerPhnx={ethPerPhnx}></ConnectModal>
-      <TransactionProgress transactionProcessModal={transactionProcessModal}> </TransactionProgress>
-      <TransactionSubmitted transactionSubmittedModal={transactionSubmittedModal}></TransactionSubmitted>
-
+      <ConnectWallet
+        justModal={true}
+        openModal={ConnectWalletModalStatus}
+      ></ConnectWallet>
+      <ConnectModal
+        transactionConfirmModal={transactionConfirmModal}
+        setTxModalClose={setTxModalClose}
+        _handleSupply={_handleSupply}
+        phnxValue={phnxValue}
+        ethValue={ethValue}
+        poolShare={poolShare}
+        phnxPerEth={phnxPerEth}
+        ethPerPhnx={ethPerPhnx}
+      ></ConnectModal>
+      <TransactionProgress transactionProcessModal={transactionProcessModal}>
+        {" "}
+      </TransactionProgress>
+      <TransactionSubmitted
+        transactionSubmittedModal={transactionSubmittedModal}
+      ></TransactionSubmitted>
     </Box>
   );
 };
