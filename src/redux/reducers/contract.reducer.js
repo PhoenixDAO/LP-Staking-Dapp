@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   error: "",
   allowance1: null,
   loading_CheckApproval: false,
-  balancePhnx: 0,
+  balancePhnx: 0.0,
   contractPhnxDao: null,
   contractPhnxStake: null,
   contractUniswapPair: null,
