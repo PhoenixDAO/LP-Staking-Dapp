@@ -14,15 +14,24 @@ import {
   getUserInfo,
   getPendingPHX,
 } from "../../services/stake.services";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import { GetEthBalanceAction } from "../../redux/actions/local.actions";
+import {
+  GetPhnxBalanceAction,
+  GetPoolPositionAction,
+} from "../../redux/actions/contract.actions";
 
 function Farm() {
+  const dispatch = useDispatch();
   const contractPhnxStake = useSelector(
     (state) => state.contractReducer.contractPhnxStake
   );
   const contractUniswapPair = useSelector(
     (state) => state.contractReducer.contractUniswapPair
+  );
+  const contractPhnxDao = useSelector(
+    (state) => state.contractReducer.contractPhnxDao
   );
 
   const [stakeNull, checkStateNull] = useState(false);
@@ -98,15 +107,37 @@ function Farm() {
   //give approval for lp tokens
   const _giveApproval = async () => {
     try {
-      await giveApprovalFarming(web3context, contractUniswapPair);
+      await giveApprovalFarming(
+        web3context,
+        contractUniswapPair,
+        handleGetPoolPosition,
+        handleGetEthBalance,
+        handleGetPhnxBalance
+      );
     } catch (e) {
       console.error(e);
     }
   };
 
+  const handleGetPoolPosition = () => {
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  };
+  const handleGetEthBalance = () => {
+    dispatch(GetEthBalanceAction(web3context));
+  };
+  const handleGetPhnxBalance = () => {
+    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+  };
+
   const _harvestPHNX = async () => {
     try {
-      await harvestPHNX(web3context, contractPhnxStake);
+      await harvestPHNX(
+        web3context,
+        contractPhnxStake,
+        handleGetPoolPosition,
+        handleGetEthBalance,
+        handleGetPhnxBalance
+      );
     } catch (e) {
       console.error(e);
     }

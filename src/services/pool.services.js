@@ -20,7 +20,7 @@ import {
 } from "@uniswap/sdk";
 import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../contract/constant";
 // import TransactionSubmitted from "../components/connectModal/TransactionSubmitted";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Notify from "../components/Notify";
 
 const chainId = ChainId.RINKEBY;
@@ -47,7 +47,9 @@ export const supply = async (
   contractUniswapRouter,
   settransactionProcessModal,
   settransactionSubmittedModal,
-  _handleGetPoolPosition
+  handleGetPoolPosition,
+  handleGetEthBalance,
+  handleGetPhnxBalance
 ) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
 
@@ -88,7 +90,7 @@ export const supply = async (
       settransactionSubmittedModal(true);
       console.log("hash", hash);
     })
-    .on("confirmation", function (confirmationNumber, receipt) {
+    .on("confirmation", async function (confirmationNumber, receipt) {
       if (confirmationNumber === 1) {
         // settransactionProcessModal(false);
         // settransactionSubmittedModal(true);
@@ -98,6 +100,9 @@ export const supply = async (
             position: "bottom-right",
           }
         );
+        await handleGetPoolPosition();
+        await handleGetEthBalance();
+        await handleGetPhnxBalance();
 
         console.log("confirmationNumber", confirmationNumber);
         //   setLoading(false);
@@ -227,7 +232,13 @@ export const checkApprovalPhnxDao = async (web3context, contractPhnxDao) => {
   return allowance1;
 };
 
-export const giveApprovalPhnxDao = async (web3context, contractPhnxDao) => {
+export const giveApprovalPhnxDao = async (
+  web3context,
+  contractPhnxDao,
+  handleGetPoolPosition,
+  handleGetEthBalance,
+  handleGetPhnxBalance
+) => {
   if (!web3context.account) {
     alert("Connect your wallet");
     return;
@@ -241,11 +252,15 @@ export const giveApprovalPhnxDao = async (web3context, contractPhnxDao) => {
       // hash of tx
       console.log("tx hash", hash);
     })
-    .on("confirmation", function (confirmationNumber, receipt) {
+    .on("confirmation", async function (confirmationNumber, receipt) {
       if (confirmationNumber === 2) {
         // tx confirmed
         checkApprovalPhnxDao(web3context, contractPhnxDao);
         ToastMsg("success", "Approved successfully!");
+
+        await handleGetPoolPosition();
+        await handleGetEthBalance();
+        await handleGetPhnxBalance();
       }
     })
     .on("error", function (err) {

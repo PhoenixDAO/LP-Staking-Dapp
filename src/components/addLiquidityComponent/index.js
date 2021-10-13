@@ -7,7 +7,6 @@ import PhnxLogo from "../../assets/phnxLogo.png";
 import EthLogo from "../../assets/ETH1.png";
 import * as SERVICE from "../../services/pool.services";
 import { useWeb3React } from "@web3-react/core";
-import { ToastMsg } from "../Toast";
 import {
   GetPoolPositionAction,
   GetPhnxBalanceAction,
@@ -68,7 +67,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   useEffect(() => {
     if (web3context.active && web3context.account) {
-      _handleGetPoolPosition();
+      handleGetPoolPosition();
       _handleCheckApproval();
     }
   }, [web3context.active, web3context.account, contractUniswapPair]);
@@ -81,10 +80,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const _handleGetDataMain = async () => {
     dispatch(GetMainDataAction());
-  };
-
-  const _handleGetPoolPosition = async () => {
-    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
   };
 
   const _handleCheckApproval = async () => {
@@ -101,12 +96,28 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const _handleGiveApproval = async () => {
     try {
-      await SERVICE.giveApprovalPhnxDao(web3context, contractPhnxDao);
-      _handleGetPoolPosition();
-      await GetBalances();
+      await SERVICE.giveApprovalPhnxDao(
+        web3context,
+        contractPhnxDao,
+        handleGetPoolPosition,
+        handleGetEthBalance,
+        handleGetPhnxBalance
+      );
+      // _handleGetPoolPosition();
+      // await GetBalances();
     } catch (e) {
       console.error("Error _handleGiveApproval", e);
     }
+  };
+
+  const handleGetPoolPosition = () => {
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  };
+  const handleGetEthBalance = () => {
+    dispatch(GetEthBalanceAction(web3context));
+  };
+  const handleGetPhnxBalance = () => {
+    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
 
   const _handleSupply = async () => {
@@ -120,7 +131,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         web3context,
         contractUniswapRouter,
         settransactionProcessModal,
-        settransactionSubmittedModal
+        settransactionSubmittedModal,
+        handleGetPoolPosition,
+        handleGetEthBalance,
+        handleGetPhnxBalance
       );
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
       await GetBalances();
