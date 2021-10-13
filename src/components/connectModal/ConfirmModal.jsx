@@ -9,14 +9,72 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { useSelector, useDispatch } from "react-redux";
+import Web3 from "web3";
 
-const ConfirmModal = () => {
-  const [selectedPercentage, setSelectedPercentage] = useState(0);
-  const [allowance, setAllowance] = useState(0);
+
+const ConfirmModal = ({transactionConfirmModal,setTxModalClose,phnx,eth,phnxethburn,removeLiquidity}) => {
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  // const[phnxethburn,setphnxethburn] = useState(0);
+
+  const phnxpereth = useSelector(
+    (state) => state.localReducer.phnxPerEth
+  );
+
+  const ethperphnx = useSelector(
+    (state) => state.localReducer.ethPerPhnx
+  );
+
+
+  useEffect(()=>{
+    setOpen(transactionConfirmModal);
+  },[transactionConfirmModal])
+
+
+  // const calculateLpToken = async (amount0, amount1) => {
+  //   console.log(amount0, amount1);
+
+  //   if (!uniswapV2PairContract || !amount0 || !amount1) {
+  //     return;
+  //   }
+
+  //   const getReserves = await uniswapV2PairContract.methods
+  //     .getReserves()
+  //     .call();
+  //   const _totalSupply = await uniswapV2PairContract.methods
+  //     .totalSupply()
+  //     .call();
+
+  //   const _reserve0 = getReserves._reserve0;
+  //   const _reserve1 = getReserves._reserve1;
+
+  //   amount0 = Web3.utils.toWei(amount0.toString());
+  //   amount1 = Web3.utils.toWei(amount1.toString());
+
+  //   const liquidity = Math.min(
+  //     (amount0 * _totalSupply) / _reserve0,
+  //     (amount1 * _totalSupply) / _reserve1
+  //   );
+  //   setphnxethburn(Web3.utils.fromWei(liquidity.toString(), "ether"));
+  // };
+
+
+  // useState(()=>{
+  //   setphnxethburn('Calculating...')
+  //   calculateLpToken(eth,phnx)
+  // },[phnx,eth])
+
+  const handleConfirm = () =>{
+    if(eth==0 || phnx==0){
+      return;
+    }
+
+    removeLiquidity();
+    
+  }
 
   const style = {
     position: "absolute",
@@ -33,10 +91,10 @@ const ConfirmModal = () => {
   return (
     <div>
       <div>
-        <Button onClick={handleOpen}>Confirm Modal</Button>
+        {/* <Button onClick={handleOpen}>Confirm Modal</Button> */}
         <Modal
-          open={open}
-          onClose={handleClose}
+          open={transactionConfirmModal}
+          onClose={setTxModalClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -48,7 +106,7 @@ const ConfirmModal = () => {
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
-                  <CloseIcon onClick={handleClose} />
+                  <CloseIcon onClick={setTxModalClose} />
                 </span>
               </div>
             </div>
@@ -62,7 +120,7 @@ const ConfirmModal = () => {
                     </div>
                     <div>PHNX</div>
                   </div>
-                  <div className="confirmPhnxDeposite confirmPrice">0.653232</div>
+                  <div className="confirmPhnxDeposite confirmPrice">{phnx}</div>
                 </div>
               </div>
               <div className="confirmModalAddPrice">
@@ -73,7 +131,7 @@ const ConfirmModal = () => {
                     </div>
                     <div>ETH</div>
                   </div>
-                  <div className="confirmPhnxDeposite confirmPrice">0.231</div>
+                  <div className="confirmPhnxDeposite confirmPrice">{eth}</div>
                 </div>
               </div>
               <div className="confirmModalAddPrice">
@@ -93,7 +151,7 @@ const ConfirmModal = () => {
                     </div>
                     <div>PHNX-ETH BURNED</div>
                   </div>
-                  <div className="confirmPhnxDeposite confirmPhnxDepositeFontSize">0.54321</div>
+                  <div className="confirmPhnxDeposite confirmPhnxDepositeFontSize">{phnxethburn}</div>
                 </div>
               </div>
             </div>
@@ -107,16 +165,16 @@ const ConfirmModal = () => {
                 <div className="phnxDeposite">Rates</div>
                 <div className="phnxDepositePrice fontWeight400 displayInlineGrid ratesFontColor">
                   <div className="justifySelfEnd ratesFontColor">
-                    1 PHNX = 0.2335 ETH
+                    1 PHNX = {ethperphnx+' '} ETH
                   </div>
                   <div className="justifySelfEnd ratesFontColor">
-                    1 ETH = 0.3456665 PHNX
+                    1 ETH = {phnxpereth+' '} PHNX
                   </div>
                 </div>
               </div>
             </div>
 
-            <button className="add-liq-btn cursorPointer">Confirm</button>
+            <button className="add-liq-btn cursorPointer" onClick={handleConfirm}>Confirm</button>
           </div>
         </Modal>
       </div>

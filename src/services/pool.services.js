@@ -74,6 +74,7 @@ export const supply = async (
     })
     .on("transactionHash", (hash) => {
       // hash of tx
+      
       console.log("hash", hash);
     })
     .on("confirmation", function (confirmationNumber, receipt) {

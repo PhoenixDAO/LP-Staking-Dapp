@@ -97,6 +97,39 @@ function MyLiquidity({ ChangeTab }) {
 
         :
 
+        poolPosition == null ?
+          <div>
+            <br></br>
+
+            <div className="phnx-eth">
+              <p className="phnx-eth-no" style={{width:'100%',textAlign:'center',fontWeight:'400'}}>No Liquidity Found.</p>
+            </div>
+
+            <Button
+                  variant="contained"
+                  size="small"
+                  fullWidth={true}
+                  style={{
+                    backgroundColor: "#413AE2",
+                    margin: "25px 0px 30px 0px",
+                    height: 45,
+                    borderRadius: 12,
+                  }}
+                  onClick={() => {
+                    ChangeTab("addLiquidity");
+                  }}
+                  
+                >
+                  {"Add Liquidity"}
+              </Button>
+
+              <br></br><br></br><br></br>
+
+              <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus}></ConnectWallet>
+
+
+          </div>
+        :
         poolPosition.lp == 0 ?
 
         <div>
@@ -197,7 +230,7 @@ function MyLiquidity({ ChangeTab }) {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <RemoveLiquidityModal></RemoveLiquidityModal>
+          <RemoveLiquidityModal ></RemoveLiquidityModal>
         </Modal>
       ) : null}
     </div>
