@@ -162,12 +162,3 @@ function FarmStake({
 }
 
 export default FarmStake;
-
-const styles = {
-  btnAddLiquidity: {
-    backgroundColor: "#413AE2",
-    margin: "25px 0px 30px 0px",
-    height: 45,
-    borderRadius: 12,
-  },
-};
