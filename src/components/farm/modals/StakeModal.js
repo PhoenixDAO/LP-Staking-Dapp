@@ -12,10 +12,12 @@ import {
 } from "../../../redux/actions/contract.actions";
 import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
 import { Link } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 
 function StakeModal({ Close }) {
   const [lpValue, setlpValue] = useState(0.0);
   const [maxlpValue, setmaxlpValue] = useState(0.0);
+  const [loading, setLoading] = useState(false);
 
   const web3context = useWeb3React();
   const dispatch = useDispatch();
@@ -65,11 +67,11 @@ function StakeModal({ Close }) {
           lpValue,
           handleGetPoolPosition,
           handleGetEthBalance,
-          handleGetPhnxBalance
+          handleGetPhnxBalance,
+          setLoading,
+          Close,
         );
-        // dispatch(GetEthBalanceAction(web3context));
-        // dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
-        // dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+      
       } catch (e) {
         console.error(e);
       }
@@ -154,8 +156,10 @@ function StakeModal({ Close }) {
           onClick={() => {
             _handleStakeLp();
           }}
+          disabled={loading}
         >
-          Confirm
+          {loading && <CircularProgress sx={{ color: "#fff" }} size={14} />}
+          {!loading && "Confirm"}
         </button>
       </div>
 

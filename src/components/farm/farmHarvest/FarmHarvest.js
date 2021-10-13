@@ -9,6 +9,7 @@ import CalculatorLogo from "../../../assets/calculator.png";
 import Web3 from "web3";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 function FarmHarvest({
   stakeModalOpen,
@@ -17,6 +18,7 @@ function FarmHarvest({
   pendingPHX,
   harvestPHNX,
   reserveUSD,
+  loading,
 }) {
   const [showMore, setShowMore] = useState(false);
 
@@ -75,16 +77,14 @@ function FarmHarvest({
           className="farm-btn-stake-outline"
           onClick={() => UnstakeModalOpen()}
         >
-          {" "}
-          UnStake PHNX-ETH LP
+          <b>-</b> UnStake PHNX-ETH LP
         </button>
         <button
           className="farm-btn-stake-outline"
           style={{ marginLeft: "auto" }}
           onClick={() => stakeModalOpen()}
         >
-          {" "}
-          Stake PHNX-ETH LP
+          <b>+</b> Stake PHNX-ETH LP
         </button>
       </div>
 
@@ -92,8 +92,10 @@ function FarmHarvest({
         className="farm-btn-stake"
         style={{ marginTop: "20px" }}
         onClick={harvestPHNX}
+        disabled={loading}
       >
-        Harvest
+        {loading && <CircularProgress sx={{ color: "#fff" }} size={14} />}
+        {!loading && "Harvest"}
       </button>
 
       <div className="get-phnx-eth-lp">
