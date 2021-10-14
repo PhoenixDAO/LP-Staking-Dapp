@@ -20,8 +20,10 @@ import Logo from "../../assets/Logo.png";
 import CloseIcon from "@mui/icons-material/Close";
 import redirectIcon from "../../assets/redirectIcon.png";
 import { CopyToClipboard } from "react-copy-to-clipboard";
-import { ToastMsg } from "../Toast";
+// import { ToastMsg } from "../Toast";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Notify from "../Notify";
 
 const style = {
   position: "absolute",
@@ -194,7 +196,15 @@ export default function WalletSettings({
                   <CopyToClipboard
                     text={web3context?.account}
                     onCopy={() => {
-                      ToastMsg("success", "Copied to clipboard");
+                      toast(
+                        <Notify
+                          text={"success", "Copied to clipboard 😃."}
+                          severity="success"
+                        />,
+                        {
+                          position: "bottom-right",
+                        }
+                      );
                     }}
                   >
                     <IconButton>

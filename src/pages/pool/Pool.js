@@ -6,7 +6,7 @@ import landingImg from "../../assets/landingScreenLogo.svg";
 import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 // import { Web3InitAction } from "../../redux/actions/local.actions";
-import { ToastMsg } from "../../components/Toast";
+// import { ToastMsg } from "../../components/Toast";
 import Notify from "../../components/Notify";
 import ConnectWallet from "../../components/ConnectWallet";
 import { Link } from "react-router-dom";
