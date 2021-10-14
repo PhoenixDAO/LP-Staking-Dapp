@@ -33,6 +33,7 @@ function Farm() {
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
   );
+  const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);
 
   const [stakeNull, checkStateNull] = useState(false);
   const [isStackVisible, setStackVisible] = useState(false);
@@ -77,6 +78,7 @@ function Farm() {
     web3context?.account,
     web3context?.active,
     contractUniswapPair,
+    balancePhnx,
   ]);
 
   useEffect(() => {
@@ -178,7 +180,7 @@ function Farm() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <StakingModal Close={handleStackClose}></StakingModal>
+        <StakingModal Close={handleStackClose} />
       </Modal>
       <Modal
         open={isUnStackVisible}
