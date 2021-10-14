@@ -24,6 +24,9 @@ import {
 
 function Farm() {
   const dispatch = useDispatch();
+  const web3context = useWeb3React();
+  const userIsActive = useSelector((state) => state.localReducer.userIsActive);
+
   const contractPhnxStake = useSelector(
     (state) => state.contractReducer.contractPhnxStake
   );
@@ -46,8 +49,6 @@ function Farm() {
   const [pendingPHX, setPendingPHX] = useState({ 0: 0, 1: 0 });
   const [reserveUSD, setReserveUSD] = useState(0);
   const [loading, setLoading] = useState(false);
-
-  const web3context = useWeb3React();
 
   const handleStackOpen = () => {
     setStackVisible(true);
@@ -162,7 +163,7 @@ function Farm() {
   return (
     <div>
       <div className="farm-div">
-        {userInfo.amount == 0 ? (
+        {!userIsActive ? (
           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}

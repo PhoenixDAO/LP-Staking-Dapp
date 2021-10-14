@@ -25,7 +25,6 @@ import * as CONTRACT_TYPES from "../redux/types/contract.types";
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
 import { conciseAddress } from "../utils/formatters";
-import { formatEther } from "@ethersproject/units";
 
 import CloseIcon from "@mui/icons-material/Close";
 import Logo from "../assets/Logo.png";
@@ -34,13 +33,8 @@ import ledgerIcon from "../assets/ledger.png";
 import metamaskIcon from "../assets/metamask.png";
 import walletConnectIcon from "../assets/walletConnect.png";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import LogoutIcon from "@mui/icons-material/Logout";
 import EthLogo from "../assets/ETH1.png";
 import PhnxLogo from "../assets/PhnxLogo1.png";
-// import { ToastMsg } from "./Toast";
 
 import WalletSettings from "./walletSettings";
 import axios from "axios";
@@ -167,6 +161,7 @@ export default function ConnectWallet({
           true
         );
         handleClose();
+        dispatch({ type: LOCAL_TYPES.CONNECT_USER });
         // ToastMsg("success", "You are connected to mainnet");
       } catch (e) {
         const err = getErrorMessage(e);
@@ -194,6 +189,7 @@ export default function ConnectWallet({
       dispatch({
         type: CONTRACT_TYPES.RESET_ALL_CONTRACT_REDUCER,
       });
+      // dispatch({ type: LOCAL_TYPES.DISCONNECT_USER });
     }, 500);
     // onSuccess();
   };

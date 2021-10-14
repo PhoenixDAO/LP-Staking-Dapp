@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   ethPerPhnx: 0,
   reserve0: 0,
   reserve1: 0,
+  userIsActive: false,
 };
 
 const localReducer = (state = INITIAL_STATE, action) => {
@@ -32,6 +33,12 @@ const localReducer = (state = INITIAL_STATE, action) => {
       return { ...state, balanceEth: action.payload, error: "" };
     case types.ETH_BALANCE_ERROR:
       return { ...state, error: action.payload };
+
+    case types.CONNECT_USER:
+      return { ...state, userIsActive: true };
+
+    case types.DISCONNECT_USER:
+      return { ...state, userIsActive: false };
 
     case types.RESET_ALL_LOCAL_REDUCER:
       return { ...INITIAL_STATE };
