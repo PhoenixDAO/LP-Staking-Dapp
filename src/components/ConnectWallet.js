@@ -1,14 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  Box,
-  Button,
-  Typography,
-  Modal,
-  Stack,
-  styled,
-  Divider,
-} from "@mui/material";
+import { Box, Typography, Modal, Stack, styled, Divider } from "@mui/material";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import {
   InjectedConnector,
@@ -27,6 +19,8 @@ import {
   UniswapContractRouterInitAction,
   GetPoolPositionAction,
 } from "../redux/actions/contract.actions";
+import * as LOCAL_TYPES from "../redux/types/local.types";
+import * as CONTRACT_TYPES from "../redux/types/contract.types";
 
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
@@ -46,7 +40,7 @@ import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import LogoutIcon from "@mui/icons-material/Logout";
 import EthLogo from "../assets/ETH.png";
 import PhnxLogo from "../assets/phnxLogo.png";
-import { ToastMsg } from "./Toast";
+// import { ToastMsg } from "./Toast";
 
 import WalletSettings from "./walletSettings";
 
@@ -169,10 +163,10 @@ export default function ConnectWallet({
           true
         );
         handleClose();
-        ToastMsg("success", "You are connected to mainnet");
+        // ToastMsg("success", "You are connected to mainnet");
       } catch (e) {
         const err = getErrorMessage(e);
-        ToastMsg("error", err);
+        // ToastMsg("error", err);
         console.error("ERROR activateWallet -> ", err);
       }
     },
@@ -188,9 +182,15 @@ export default function ConnectWallet({
     if (connector instanceof WalletLinkConnector) {
       await connector.close();
     }
-
-    ToastMsg("warning", "Wallet disconnected");
-
+    // ToastMsg("warning", "Wallet disconnected");
+    setTimeout(() => {
+      dispatch({
+        type: LOCAL_TYPES.RESET_ALL_LOCAL_REDUCER,
+      });
+      dispatch({
+        type: CONTRACT_TYPES.RESET_ALL_CONTRACT_REDUCER,
+      });
+    }, 500);
     // onSuccess();
   };
 
