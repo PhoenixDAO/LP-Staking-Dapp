@@ -38,11 +38,12 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import LogoutIcon from "@mui/icons-material/Logout";
-import EthLogo from "../assets/ETH.png";
-import PhnxLogo from "../assets/phnxLogo.png";
+import EthLogo from "../assets/ETH1.png";
+import PhnxLogo from "../assets/PhnxLogo1.png";
 // import { ToastMsg } from "./Toast";
 
 import WalletSettings from "./walletSettings";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -89,6 +90,7 @@ export default function ConnectWallet({
 }) {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
+  const [reserveUSD, setReserveUSD] = useState(0);
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
   );
@@ -113,7 +115,9 @@ export default function ConnectWallet({
 
   const balanceEth = useSelector((state) => state.localReducer.balanceEth);
   const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);
-
+  const poolPosition = useSelector(
+    (state) => state.contractReducer.poolPosition
+  );
   const { account, active, connector, deactivate, library, chainId } =
     web3context;
 
@@ -208,6 +212,32 @@ export default function ConnectWallet({
     }
   };
 
+  useEffect(() => {
+    const getTotalLiquidity = async () => {
+      await axios({
+        url: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2",
+        method: "post",
+        data: {
+          query: `
+          {
+            pairs(where:{id:"0xdfe317f907ca9bf6202cddec3def756438a3b3f7"}){
+              reserveUSD
+            }
+          }
+          `,
+        },
+      })
+        .then((response) => {
+          if (response.data) {
+            console.log(parseInt(response.data.data.pairs[0]["reserveUSD"]));
+            setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
+          }
+        })
+        .catch((err) => console.error(err));
+    };
+    getTotalLiquidity();
+  }, []);
+
   // useEffect(()=>{
   //   if(poolPosition1==null) return;
   //   setEthBalance(poolPosition1.eth);
@@ -216,6 +246,34 @@ export default function ConnectWallet({
 
   return (
     <div style={{ width: "fit-content" }}>
+      {active && account && justModal != true ? (
+        <button
+          className="connect-wallet-btn balance-btn"
+          style={{ border: "none" }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItem: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src={PhnxLogo}
+              alt="PhnxLogo"
+              className="connect-wallet-btn-img"
+            ></img>
+            $
+            {poolPosition != null
+              ? parseFloat(poolPosition.poolPerc) *
+                (parseFloat(reserveUSD) / 100)
+              : "---"}
+          </div>
+        </button>
+      ) : null}
+
+      {landingScreenBtn != true ? <>&nbsp; &nbsp;</> : null}
+
       {active && account && justModal != true ? (
         <button className="connect-wallet-btn balance-btn">
           <div

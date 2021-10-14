@@ -304,10 +304,16 @@ div.liq-modal-res > div > .css-196kcza{
 
 }
 
+.balance-btn{
+  color: #000 !important;
+}
+
+.balance-btn:hover{
+  color: #fff !important;
+}
 
 
-
-@media(max-width: 635px){
+@media(max-width: 830px){
   .balance-btn{
     display: none;
   }
@@ -356,6 +362,7 @@ div.liq-modal-res > div > .css-196kcza{
 
   .connect-wallet-btn{
     font-size: medium;
+    font-weight: 700;
     padding: 9px 11px;
     background-color: #fff;
     color: #413AE2;

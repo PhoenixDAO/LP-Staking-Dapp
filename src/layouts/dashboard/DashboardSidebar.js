@@ -135,18 +135,18 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
       {
         SocialIcon ?
 
-        <div style={{position:'absolute',bottom:'100px',display:'flex',justifyContent:'space-around',alignItem:'center',width:'100%',padding:'0px 30px'}}>
+        <div style={{position:'absolute',bottom:'100px',display:'flex',justifyContent:'space-around',alignItem:'baseline',width:'100%',padding:'0px 30px',}}>
 
           <a href="https://t.me/PHNXDAO" target='_blank'>
-            <img src={TelegramLogo} style={{height:'22px'}}></img>
+            <img src={TelegramLogo}></img>
           </a>
 
           <a href="https://twitter.com/phnxdao" target='_blank'>
-          <img src={TwitterLogo}  style={{height:'22px'}}></img>
+          <img src={TwitterLogo}></img>
           </a>
 
           <a href="https://github.com/XORD-one/phoenixdao-lp-staking-dapp" target='_blank'>
-          <img src={GithubLogo}   style={{height:'22px'}}></img>
+          <img src={GithubLogo}></img>
           </a>
   
   

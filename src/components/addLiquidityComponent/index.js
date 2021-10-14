@@ -189,7 +189,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   };
 
   return (
-    <Box sx={styles.containerStyle} className="modal-scroll">
+    <Box sx={styles.containerStyle} className="modal-scroll" >
       <div style={{ paddingLeft: 10 }}>
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>

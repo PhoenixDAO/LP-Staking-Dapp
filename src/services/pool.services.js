@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import { Contract, ethers } from "ethers";
-import { ToastMsg } from "../components/Toast";
+// import { ToastMsg } from "../components/Toast";
 import { abi as UniswapV2Router02ABI } from "../contract/abi/UniswapV2Router02ABI.json";
 import { abi as UniswapV2PairABI } from "../contract/abi/UniswapV2PairABI.json";
 import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
@@ -256,7 +256,7 @@ export const giveApprovalPhnxDao = async (
       if (confirmationNumber === 2) {
         // tx confirmed
         checkApprovalPhnxDao(web3context, contractPhnxDao);
-        ToastMsg("success", "Approved successfully!");
+        // ToastMsg("success", "Approved successfully!");
 
         await handleGetPoolPosition();
         await handleGetEthBalance();
@@ -386,6 +386,17 @@ export const removeLiquidity = async (
       })
       .on("transactionHash", (hash) => {
         // hash of tx
+
+        toast(
+          <Notify
+            text={"Transaction in Progress 😃, you'll be notified soon."}
+            severity="success"
+          />,
+          {
+            position: "bottom-right",
+          }
+        );
+
         settransactionProcessModal(false);
         settransactionConfirmModal(false);
         settransactionSubmittedModal(true);
@@ -393,6 +404,14 @@ export const removeLiquidity = async (
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
         if (confirmationNumber === 1) {
+
+          toast(
+            <Notify text={"Transaction Successful 🚀"} severity="success" />,
+            {
+              position: "bottom-right",
+            }
+          );
+
           console.log("confirmationNumber", confirmationNumber);
 
           await handleGetPoolPosition();
@@ -405,6 +424,17 @@ export const removeLiquidity = async (
       })
       .on("error", function (err) {
         settransactionProcessModal(false);
+
+        toast(
+          <Notify
+            text={"Transaction Rejected 😔. Try again later."}
+            severity="error"
+          />,
+          {
+            position: "bottom-right",
+          }
+        );
+
         throw err;
       });
   } else {

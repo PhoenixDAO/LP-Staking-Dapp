@@ -76,7 +76,7 @@ function MyLiquidity({ ChangeTab }) {
           <div className="phnx-eth">
             <p
               className="phnx-eth-no"
-              style={{ width: "100%", textAlign: "center", fontWeight: "400" }}
+              style={{ width: "100%", textAlign: "center", fontWeight: "400",fontSize:'23px' }}
             >
               Connect Wallet.
             </p>
@@ -115,9 +115,9 @@ function MyLiquidity({ ChangeTab }) {
           <div className="phnx-eth">
             <p
               className="phnx-eth-no"
-              style={{ width: "100%", textAlign: "center", fontWeight: "400" }}
+              style={{ width: "100%", textAlign: "center", fontWeight: "400",fontSize:'23px' }}
             >
-              No Liquidity Found.
+              No Liquidity Found 😔.
             </p>
           </div>
 
@@ -155,9 +155,9 @@ function MyLiquidity({ ChangeTab }) {
           <div className="phnx-eth">
             <p
               className="phnx-eth-no"
-              style={{ width: "100%", textAlign: "center", fontWeight: "400" }}
+              style={{ width: "100%", textAlign: "center", fontWeight: "400",fontSize:'23px' }}
             >
-              No Liquidity Found.
+              No Liquidity Found 😔.
             </p>
           </div>
 
