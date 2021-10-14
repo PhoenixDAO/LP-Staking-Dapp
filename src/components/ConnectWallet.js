@@ -18,16 +18,14 @@ import {
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  // Web3InitAction,
-  GetEthBalanceAction,
-} from "../redux/actions/local.actions";
+import { GetEthBalanceAction } from "../redux/actions/local.actions";
 import {
   GetPhnxBalanceAction,
   PhnxDaoContractInitAction,
   PhnxStakeContractInitAction,
   UniswapContractPairInitAction,
   UniswapContractRouterInitAction,
+  GetPoolPositionAction,
 } from "../redux/actions/contract.actions";
 
 import { injected } from "../utils/web3Connectors";
@@ -50,9 +48,6 @@ import EthLogo from "../assets/ETH1.png";
 import PhnxLogo from "../assets/PhnxLogo1.png";
 // import { ToastMsg } from "./Toast";
 
-import Web3 from "web3";
-import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
-import { PHNX_RINKEBY_TOKEN_ADDRESS } from "../contract/constant";
 import WalletSettings from "./walletSettings";
 import axios from "axios";
 
@@ -106,6 +101,9 @@ export default function ConnectWallet({
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
   );
+  const contractUniswapPair = useSelector(
+    (state) => state.contractReducer.contractUniswapPair
+  );
 
   useEffect(() => {
     if (web3context.account && web3context.active) {
@@ -119,26 +117,18 @@ export default function ConnectWallet({
   useEffect(() => {
     dispatch(GetEthBalanceAction(web3context));
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
-  }, [contractPhnxDao, web3context.active]);
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  }, [contractUniswapPair, web3context.active]);
 
-  const balanceEth = useSelector(
-    (state) => state.localReducer.balanceEth
-  );
-  const balancePhnx = useSelector(
-    (state) => state.contractReducer.balancePhnx
-  );
+  const balanceEth = useSelector((state) => state.localReducer.balanceEth);
+  const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);
   const poolPosition = useSelector(
     (state) => state.contractReducer.poolPosition
   );
-
-
   const { account, active, connector, deactivate, library, chainId } =
     web3context;
 
   const [open, setOpen] = useState(false);
-  const [balance, setBalance] = useState(0);
-  const [EthBalance, setEthBalance] = useState(0.0);
-  const [PhnxBalance, setPhnxBalance] = useState(0.0);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const open2 = Boolean(anchorEl);
@@ -154,7 +144,6 @@ export default function ConnectWallet({
   };
 
   const handleClose = () => setOpen(false);
-
 
   useEffect(() => {
     if (justModal == true) {
