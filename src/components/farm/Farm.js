@@ -33,6 +33,9 @@ function Farm() {
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
   );
+  const poolPosition = useSelector(
+    (state) => state.contractReducer.poolPosition
+  );
   const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);
 
   const [stakeNull, checkStateNull] = useState(false);
@@ -70,7 +73,8 @@ function Farm() {
       contractPhnxStake
     ) {
       checkApproval(contractUniswapPair, web3context, setAllowance);
-      getUserInfo(contractPhnxStake, web3context, setUserInfo);
+      // getUserInfo(contractPhnxStake, web3context, setUserInfo);
+      handleGetUserInfo();
       getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
       handleGetPoolPosition();
     }
@@ -81,6 +85,13 @@ function Farm() {
     contractUniswapPair,
     balancePhnx,
   ]);
+
+  useEffect(() => {
+    handleGetUserInfo();
+  }, [poolPosition]);
+  const handleGetUserInfo = () => {
+    getUserInfo(contractPhnxStake, web3context, setUserInfo);
+  };
 
   useEffect(() => {
     const getTotalLiquidity = async () => {

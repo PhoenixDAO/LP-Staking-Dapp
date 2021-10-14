@@ -73,7 +73,17 @@ function FarmStake({
         </div>
       </div>
 
-      {web3context.active == false ? (
+      {web3context.active ? (
+        allowance != 0 ? (
+          <button className="farm-btn-stake" onClick={stakeModalOpen}>
+            Stake LP
+          </button>
+        ) : (
+          <button className="farm-btn-stake" onClick={giveApproval}>
+            Approve LP
+          </button>
+        )
+      ) : (
         <button
           variant="contained"
           size="small"
@@ -82,14 +92,6 @@ function FarmStake({
           onClick={() => setConnectWalletModalStatus(!ConnectWalletModalStatus)}
         >
           {"Connect Wallet"}
-        </button>
-      ) : allowance != 0 ? (
-        <button className="farm-btn-stake" onClick={stakeModalOpen}>
-          Stake LP
-        </button>
-      ) : (
-        <button className="farm-btn-stake" onClick={giveApproval}>
-          Approve LP
         </button>
       )}
 
