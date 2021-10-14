@@ -105,13 +105,13 @@ export default function ConnectWallet({
       dispatch(UniswapContractPairInitAction(web3context));
       dispatch(UniswapContractRouterInitAction(web3context));
     }
-  }, [web3context]);
+  }, [web3context.activate, web3context.account]);
 
   useEffect(() => {
     dispatch(GetEthBalanceAction(web3context));
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
     dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
-  }, [contractUniswapPair, web3context.active]);
+  }, [contractUniswapPair, web3context.active, web3context.account]);
 
   const balanceEth = useSelector((state) => state.localReducer.balanceEth);
   const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);

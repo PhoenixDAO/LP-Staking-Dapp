@@ -72,6 +72,7 @@ function Farm() {
       checkApproval(contractUniswapPair, web3context, setAllowance);
       getUserInfo(contractPhnxStake, web3context, setUserInfo);
       getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
+      handleGetPoolPosition();
     }
   }, [
     web3context?.library?.currentProvider,

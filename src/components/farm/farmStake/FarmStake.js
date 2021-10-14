@@ -47,7 +47,8 @@ function FarmStake({
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
         <div className="farm-details-txt-right">
-          200% &nbsp;<img src={CalculatorLogo}></img>
+          200% &nbsp;
+          <img style={{ height: "16px" }} src={CalculatorLogo} />
         </div>
       </div>
 
