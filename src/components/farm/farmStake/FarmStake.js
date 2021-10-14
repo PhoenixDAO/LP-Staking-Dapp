@@ -9,7 +9,6 @@ import CalculatorLogo from "../../../assets/calculator.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ConnectWallet from "../../ConnectWallet";
-import { Button } from "@mui/material";
 import { useWeb3React } from "@web3-react/core";
 
 function FarmStake({
@@ -85,7 +84,7 @@ function FarmStake({
         </button>
       ) : allowance != 0 ? (
         <button className="farm-btn-stake" onClick={stakeModalOpen}>
-          Stake PHNX-ETH LP
+          Stake LP
         </button>
       ) : (
         <button className="farm-btn-stake" onClick={giveApproval}>

@@ -1,87 +1,80 @@
-.farm-heading{
-    color:#413AE2;
-    font-size: 25px;
-    font-weight: bold;
+.farm-heading {
+  color: #413ae2;
+  font-size: 25px;
+  font-weight: bold;
 }
 
-.farm-sub-heading{
-    margin-top: 15px;
-    font-size: 16px;
+.farm-sub-heading {
+  margin-top: 15px;
+  font-size: 16px;
 }
 
-.farm-divider{
-    width: 100%;
-    height: 1px;
-    background-color: rgba(0, 0, 0, 0.1);
-    margin: 25px 0px;
-
+.farm-divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: 25px 0px;
 }
 
-.farm-phnx-eth{
-    display: flex;
-    align-items: center;
-    width: 100%;
+.farm-phnx-eth {
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
-.farm-phnx-eth-logo{
-    height: 30px;
-    width: 30px;
+.farm-phnx-eth-logo {
+  height: 30px;
+  width: 30px;
 }
 
-.farm-details-div{
-    display: flex;
-    align-items: center;
-    margin-top: 20px;
+.farm-details-div {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
 }
 
-.farm-details-txt{
-    font-size: 17px;
+.farm-details-txt {
+  font-size: 17px;
 }
 
-.farm-details-txt-right{
-    display: flex;
-    align-items: center;
-    margin-left: auto;
-    color: #73727D;
+.farm-details-txt-right {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  color: #73727d;
+  font-weight: bold;
 }
 
-.farm-btn-stake{
-    background-color: #413AE2;
-    width: 100%;
-    font-size: medium;
-    color: #fff;
-    border-radius: 9px;
-    border: none;
-    padding: 13px;
-    margin-top: 50px;
+.farm-btn-stake {
+  background-color: #413ae2;
+  width: 100%;
+  font-size: medium;
+  color: #fff;
+  border-radius: 9px;
+  border: none;
+  padding: 13px;
+  margin-top: 50px;
 }
 
-.get-phnx-eth-lp{
-    font-size: 16px;
-    text-align: center;
-    margin-top: 30px;
-    color: #413AE2;
+.get-phnx-eth-lp {
+  font-size: 16px;
+  text-align: center;
+  margin-top: 30px;
+  color: #413ae2;
 }
 
-
-.farm-btn-stake-outline{
-    background-color: #fff;
-    color: #413AE2;
-    border: solid 1px #413AE2;
-    border-radius: 9px;
-    width: 49%;
-    padding: 13px;
-    margin-top: 40px;
-    
-
+.farm-btn-stake-outline {
+  background-color: #fff;
+  color: #413ae2;
+  border: solid 1px #413ae2;
+  border-radius: 9px;
+  width: 49%;
+  padding: 13px;
+  margin-top: 40px;
 }
 
-
-
-@media only screen and (max-width: 700px){
-
-    .farm-details-txt{
-        font-size: 12px;
-    }
- 
+@media only screen and (max-width: 700px) {
+  .farm-details-txt {
+    font-size: 12px;
+  }
 }
