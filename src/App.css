@@ -71,6 +71,10 @@
   }
 }
 
+*{
+  font-family: 'Aeonik' !important;
+}
+
 .css-tzssek-MuiSvgIcon-root {
   margin-top: -20px !important;
   background-color: none !important;
@@ -189,6 +193,10 @@ input{
 }
 
 *:focus{
+  outline: none !important;
+}
+
+input:hover{
   outline: none !important;
 }
 

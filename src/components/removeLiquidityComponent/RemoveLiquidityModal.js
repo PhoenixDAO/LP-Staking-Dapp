@@ -14,6 +14,9 @@ import {
   GetPhnxBalanceAction,
 } from "../../redux/actions/contract.actions";
 import { GetEthBalanceAction } from "../../redux/actions/local.actions";
+import { Button, IconButton, InputAdornment, Modal, TextField } from "@mui/material";
+import percentage from "../../assets/percentage.svg";
+
 
 const RemoveLiquidityModaL = ({slippageValue}) => {
   const web3context = useWeb3React();
@@ -211,14 +214,35 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
       </div>
 
       <div className="rm-liq-ps-input-div">
-        <input
+        {/* <input
           className="rm-liq-ps-input"
           placeholder="Enter a value"
           value={selectedPercentage}
           onChange={(e) => {
             handlePercentageInput(e);
           }}
-        ></input>
+        ><img src={percentage} className="textFieldIcon"></img></input> */}
+          <TextField
+            sx={{
+              borderRadius:"6px",
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment>
+                  <IconButton>
+                    <img src={percentage} className="textFieldIcon"></img>
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
+              className="slippingLiq-ps-input"
+              placeholder="Enter a value"
+              value={selectedPercentage}
+              onChange={(e) => {
+                handlePercentageInput(e);
+            }}
+          ></TextField>
+      
       </div>
 
       <div className="rm-liq-u-will-rec">You will recieve</div>

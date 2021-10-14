@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";
-import { ToastMsg } from "../components/Toast";
+// import { ToastMsg } from "../components/Toast";
 import { abi as UniswapV2Router02ABI } from "../contract/abi/UniswapV2Router02ABI.json";
 import { abi as UniswapV2PairABI } from "../contract/abi/UniswapV2PairABI.json";
 import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
