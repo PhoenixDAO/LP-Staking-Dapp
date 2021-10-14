@@ -64,6 +64,8 @@ const contractReducer = (state = INITIAL_STATE, action) => {
     case types.UNISWAP_ROUTER_INIT_ERROR:
       return { ...state, error: action.payload };
 
+    case types.RESET_ALL_CONTRACT_REDUCER:
+      return { ...INITIAL_STATE };
     default:
       return state;
   }

@@ -33,6 +33,9 @@ const localReducer = (state = INITIAL_STATE, action) => {
     case types.ETH_BALANCE_ERROR:
       return { ...state, error: action.payload };
 
+    case types.RESET_ALL_LOCAL_REDUCER:
+      return { ...INITIAL_STATE };
+
     default:
       return state;
   }

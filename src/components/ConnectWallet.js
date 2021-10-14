@@ -1,14 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  Box,
-  Button,
-  Typography,
-  Modal,
-  Stack,
-  styled,
-  Divider,
-} from "@mui/material";
+import { Box, Typography, Modal, Stack, styled, Divider } from "@mui/material";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import {
   InjectedConnector,
@@ -27,6 +19,8 @@ import {
   UniswapContractRouterInitAction,
   GetPoolPositionAction,
 } from "../redux/actions/contract.actions";
+import * as LOCAL_TYPES from "../redux/types/local.types";
+import * as CONTRACT_TYPES from "../redux/types/contract.types";
 
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
@@ -50,7 +44,6 @@ import PhnxLogo from "../assets/PhnxLogo1.png";
 
 import WalletSettings from "./walletSettings";
 import axios from "axios";
-
 
 const style = {
   position: "absolute",
@@ -193,9 +186,15 @@ export default function ConnectWallet({
     if (connector instanceof WalletLinkConnector) {
       await connector.close();
     }
-
     // ToastMsg("warning", "Wallet disconnected");
-
+    setTimeout(() => {
+      dispatch({
+        type: LOCAL_TYPES.RESET_ALL_LOCAL_REDUCER,
+      });
+      dispatch({
+        type: CONTRACT_TYPES.RESET_ALL_CONTRACT_REDUCER,
+      });
+    }, 500);
     // onSuccess();
   };
 
@@ -230,7 +229,7 @@ export default function ConnectWallet({
       })
         .then((response) => {
           if (response.data) {
-            console.log((parseInt(response.data.data.pairs[0]["reserveUSD"])));
+            console.log(parseInt(response.data.data.pairs[0]["reserveUSD"]));
             setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
           }
         })
@@ -247,9 +246,11 @@ export default function ConnectWallet({
 
   return (
     <div style={{ width: "fit-content" }}>
-      
       {active && account && justModal != true ? (
-        <button className="connect-wallet-btn balance-btn" style={{border:'none'}}>
+        <button
+          className="connect-wallet-btn balance-btn"
+          style={{ border: "none" }}
+        >
           <div
             style={{
               display: "flex",
@@ -261,8 +262,12 @@ export default function ConnectWallet({
               src={PhnxLogo}
               alt="PhnxLogo"
               className="connect-wallet-btn-img"
-            ></img>$
-            {poolPosition != null ? (parseFloat(poolPosition.poolPerc)*(parseFloat(reserveUSD)/100)) : '---'}
+            ></img>
+            $
+            {poolPosition != null
+              ? parseFloat(poolPosition.poolPerc) *
+                (parseFloat(reserveUSD) / 100)
+              : "---"}
           </div>
         </button>
       ) : null}
