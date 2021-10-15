@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
-import { Contract, ethers } from "ethers";
-// import { ToastMsg } from "../components/Toast";
+import { ethers } from "ethers";
+import { fixedWithoutRounding } from "../utils/formatters";
 import { abi as UniswapV2Router02ABI } from "../contract/abi/UniswapV2Router02ABI.json";
 import { abi as UniswapV2PairABI } from "../contract/abi/UniswapV2PairABI.json";
 import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
@@ -19,7 +19,6 @@ import {
   Route,
 } from "@uniswap/sdk";
 import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../contract/constant";
-// import TransactionSubmitted from "../components/connectModal/TransactionSubmitted";
 import { toast } from "react-toastify";
 import Notify from "../components/Notify";
 
@@ -52,8 +51,6 @@ export const supply = async (
   handleGetPhnxBalance
 ) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
-
-  
 
   let deadline = Date.now();
   deadline += 5 * 60;
@@ -159,7 +156,7 @@ export const getPoolPosition = async (web3context, contractUniswapPair) => {
   _token1 = _token1.dividedBy(conv);
 
   return {
-    lp: _balance.toFixed(2),
+    lp: fixedWithoutRounding(_balance, 3), //.toFixed(2),
     poolPerc: _poolPercentage.toFormat(6),
     eth: _token1.toFormat(6),
     phnx: _token0.toFormat(6),
@@ -223,10 +220,12 @@ export const uniswapV2PairInit = (web3context) => {
 export const getEthBalance = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   let WeiEthBalance = await web3.eth.getBalance(web3context.account);
-  let EthBalance = parseFloat(
-    web3.utils.fromWei(WeiEthBalance, "ether")
-  ).toFixed(2);
-  return Number(EthBalance).toFixed(2);
+  let EthBalance = fixedWithoutRounding(
+    parseFloat(web3.utils.fromWei(WeiEthBalance, "ether")),
+    3
+  );
+  return Number(EthBalance);
+  // .toFixed(2);
 };
 
 export const getPhnxBalance = async (web3context, contractPhnxDao) => {
@@ -236,7 +235,8 @@ export const getPhnxBalance = async (web3context, contractPhnxDao) => {
       .call();
 
     // console.log("Service getPhnxBalance ==>>", PhnxBalance);
-    return Number(Web3.utils.fromWei(PhnxBalance)).toFixed(2);
+    return fixedWithoutRounding(Number(Web3.utils.fromWei(PhnxBalance)), 3);
+    // .toFixed(2);
   } else {
     throw "Invalid arguments for getPhnxBalance";
   }
