@@ -227,6 +227,7 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
           <TextField
             sx={{
               borderRadius:"6px",
+              marginBottom:"20px",
             }}
             InputProps={{
               endAdornment: (
@@ -239,7 +240,7 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
             }}
               className="slippingLiq-ps-input"
               placeholder="Enter a value"
-              value={selectedPercentage}
+              value={selectedPercentage==0?"":selectedPercentage}
               onChange={(e) => {
                 handlePercentageInput(e);
             }}
@@ -247,7 +248,7 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
       
       </div>
 
-      <div className="rm-liq-u-will-rec">You will recieve</div>
+      <div className="rm-liq-u-will-rec" style={{textTransform:"uppercase"}}>You will recieve</div>
 
       <div className="rm-liq-phnx-eth-det-div">
         <div className="rm-liq-phnx-eth-det">
@@ -294,7 +295,7 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
           className="rm-liq-btn"
           onClick={() => settransactionConfirmModal(true)}
         >
-          Remove Liquidity
+          Remove
         </button>
       )}
 

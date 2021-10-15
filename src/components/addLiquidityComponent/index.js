@@ -357,7 +357,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
           <div className="pool-share">
             <Typography style={styles.txtConvDetails}>
-            &lt; {poolShare ? poolShare : "0"}%
+            {poolShare ? poolShare : "0"}%
             </Typography>
             <Typography style={styles.txtConvDetails}>pool share</Typography>
           </div>
