@@ -10,9 +10,8 @@ export const conciseAddress = (address) => {
   return "-";
 };
 
-
-export const fixedWithoutRounding = (num,decPlaces) =>{
+export const fixedWithoutRounding = (num, decPlaces) => {
   num = num.toString(); //If it's not already a String
-  num = num.slice(0, (num.indexOf("."))+decPlaces); //With 3 exposing the hundredths place
-  return(Number(num));
-}
+  num = num.slice(0, num.indexOf(".") + decPlaces); //With 3 exposing the hundredths place
+  return Number(num);
+};

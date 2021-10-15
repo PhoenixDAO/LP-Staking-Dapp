@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./farmStake.css";
 import PhnxLogo from "../../../assets/PhnxLogo1.png";
 import EthLogo from "../../../assets/ETH1.png";
@@ -6,10 +6,10 @@ import DropDownLogo from "../../../assets/dropdown.png";
 import DropUpLogo from "../../../assets/dropup.png";
 import ShareLogo from "../../../assets/share.png";
 import CalculatorLogo from "../../../assets/calculator.png";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import ConnectWallet from "../../ConnectWallet";
 import { useWeb3React } from "@web3-react/core";
+import { useSelector } from "react-redux";
 
 function FarmStake({
   stakeModalOpen,
@@ -20,11 +20,12 @@ function FarmStake({
   APR,
 }) {
   const web3context = useWeb3React();
-
+  //   const userIsActive = useSelector((state) => state.localReducer.userIsActive);
+  //  nsole.log(userIsActive, "userIsActive");
+  //   });
   const [showMore, setShowMore] = useState(false);
   const [ConnectWalletModalStatus, setConnectWalletModalStatus] =
     useState(false);
-
   return (
     <div>
       <div className="farm-heading">Farm</div>
@@ -64,7 +65,6 @@ function FarmStake({
         </div>
         <div className="farm-details-txt-right">0.000</div>
       </div>
-
       <div className="farm-details-div">
         <div className="farm-details-txt">
           <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
@@ -73,8 +73,17 @@ function FarmStake({
           {userInfo.amount && userInfo.amount}
         </div>
       </div>
-
-      {web3context.active == false ? (
+      {web3context.activate ? (
+        allowance != 0 ? (
+          <button className="farm-btn-stake" onClick={stakeModalOpen}>
+            Stake LP
+          </button>
+        ) : (
+          <button className="farm-btn-stake" onClick={giveApproval}>
+            Approve LP
+          </button>
+        )
+      ) : (
         <button
           variant="contained"
           size="small"
@@ -84,20 +93,9 @@ function FarmStake({
         >
           {"Connect Wallet"}
         </button>
-      ) : allowance != 0 ? (
-        <button className="farm-btn-stake" onClick={stakeModalOpen}>
-          Stake LP
-        </button>
-      ) : (
-        <button className="farm-btn-stake" onClick={giveApproval}>
-          Approve LP
-        </button>
       )}
 
-      <ConnectWallet
-        justModal={true}
-        openModal={ConnectWalletModalStatus}
-      ></ConnectWallet>
+      <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus} />
 
       <div className="get-phnx-eth-lp">
         <Link to="/liquidity">
