@@ -24,7 +24,7 @@ import * as CONTRACT_TYPES from "../redux/types/contract.types";
 
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
-import { conciseAddress } from "../utils/formatters";
+import { conciseAddress, fixedWithoutRounding } from "../utils/formatters";
 
 import CloseIcon from "@mui/icons-material/Close";
 import Logo from "../assets/Logo.png";
@@ -267,8 +267,11 @@ export default function ConnectWallet({
             ></img>
             $
             {poolPosition != null
-              ? parseFloat(poolPosition.poolPerc) *
-                (parseFloat(reserveUSD) / 100)
+              ? fixedWithoutRounding(
+                  parseFloat(poolPosition.poolPerc) *
+                    (parseFloat(reserveUSD) / 100),
+                  4
+                )
               : "0.00"}
           </div>
         </button>
