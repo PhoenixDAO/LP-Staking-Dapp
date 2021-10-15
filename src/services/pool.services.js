@@ -169,32 +169,25 @@ export const phnxDaoContractInit = async (web3context) => {
     PhoenixDaoABI,
     PHNX_RINKEBY_TOKEN_ADDRESS
   );
-
-  // let balance = await contract.methods
-  //   .balanceOf(PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
-  //   .call();
-  // console.log("phnxDaoContractInit service", web3.utils.fromWei(balance));
   return contract;
 };
 
 export const phnxStakeContractInit = async (web3context) => {
-  const web3 = new Web3(web3context?.library?.currentProvider);
+  const web3 = new Web3(URL_INFURA_RINKEBY);
   const contract = new web3.eth.Contract(
     PhoenixStakeABI,
     PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
   );
-  // console.log("phnxStakeContractInit service", contract);
-  // let respp = await web3.eth.getBalance(
-  //   "0xfe1b6abc39e46cec54d275efb4b29b33be176c2a"
-  // );
-  // console.log(
-  //   contract.methods.balanceOf(""),
-  //   "Balance of Pool PhnxStakeContract"
-  // );
-  let balance = await contract.methods
-    .balanceOf(PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
-    .call();
-  console.log(web3.utils.fromWei(balance), "Balance of PhnxStakeContract");
+  console.log("phnxStakeContractInit service", contract);
+  // if (web3context.active) {
+  //   let balance = await contract.methods
+  //     .balanceOf(PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
+  //     .call();
+  //   console.log(
+  //     web3.utils.fromWei(balance),
+  //     "phnxStakeContractInit Balance of"
+  //   );
+  // }
 
   return contract;
 };

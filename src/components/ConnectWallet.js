@@ -93,9 +93,10 @@ export default function ConnectWallet({
   );
 
   useEffect(() => {
+    // console.log(web3context, "web3contextttttttttttttt");
+    dispatch(PhnxStakeContractInitAction(web3context));
     if (web3context.account && web3context.active) {
       dispatch(PhnxDaoContractInitAction(web3context));
-      dispatch(PhnxStakeContractInitAction(web3context));
       dispatch(UniswapContractPairInitAction(web3context));
       dispatch(UniswapContractRouterInitAction(web3context));
     }
