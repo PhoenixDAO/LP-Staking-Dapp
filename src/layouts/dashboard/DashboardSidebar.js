@@ -12,8 +12,16 @@ import {
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import HomeIcon from "@mui/icons-material/Home";
+import HomeLogo from "../../assets/home.png";
+import DropLogo from "../../assets/drop.png";
+import FarmLogo from "../../assets/farm.png";
+import TelegramLogo from "../../assets/telegram.png";
+import TwitterLogo from "../../assets/twitter.png";
+import GithubLogo from "../../assets/github.png";
+
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import { drawerWidth } from "./constants";
+import { useState, useEffect } from "react";
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -65,10 +73,36 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 const DashboardSidebar = ({ open, handleDrawerClose }) => {
   const theme = useTheme();
 
+  const [currentTab, setCurrentTab] = useState(0);
+  let cT;
+  const [SocialIcon, setSocialIcon] = useState(false);
+
+  useEffect(() => {
+    cT = window.location.href.split("/")[3];
+    if (cT === "home") {
+      setCurrentTab(0);
+    } else if (cT === "liquidity") {
+      setCurrentTab(1);
+    } else if (cT === "farm") {
+      setCurrentTab(2);
+    }
+  });
+
+  useEffect(()=>{
+    setSocialIcon(open)
+  },[open])
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
-    <Drawer variant="permanent" open={open}>
+    <Drawer variant="permanent" open={open} >
       <DrawerHeader>
-        <IconButton onClick={handleDrawerClose}>
+        <IconButton onClick={()=>{
+          handleDrawerClose();
+          setSocialIcon(false)
+          }}>
           {theme.direction === "rtl" ? (
             <ChevronRightIcon />
           ) : (
@@ -78,15 +112,52 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
       </DrawerHeader>
       <Divider />
       <List>
-        {["pool", "staking"].map((text, index) => (
-          <ListItem button key={text} component={Link} to={`/${text}`}>
+        {["home", "liquidity", "farm"].map((text, index) => (
+          <ListItem
+            button
+            key={text}
+            component={Link}
+            to={`/${text}`}
+            className={index === currentTab ? "current-tab" : null}
+          >
             <ListItemIcon>
-              {index % 2 === 0 ? <HomeIcon /> : <LocalFloristIcon />}
+              <img
+                src={index === 0 ? HomeLogo : index === 1 ? DropLogo : FarmLogo}
+                style={{ height: "18px", marginLeft: "5px" }}
+                alt="icon"
+              ></img>
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={capitalizeFirstLetter(text)} />
           </ListItem>
         ))}
       </List>
+
+      {
+        SocialIcon ?
+
+        <div style={{position:'absolute',bottom:'100px',display:'flex',justifyContent:'space-around',alignItem:'baseline',width:'100%',padding:'0px 30px',}}>
+
+          <a href="https://t.me/PHNXDAO" target='_blank'>
+            <img src={TelegramLogo}></img>
+          </a>
+
+          <a href="https://twitter.com/phnxdao" target='_blank'>
+          <img src={TwitterLogo}></img>
+          </a>
+
+          <a href="https://github.com/XORD-one/phoenixdao-lp-staking-dapp" target='_blank'>
+          <img src={GithubLogo}></img>
+          </a>
+  
+  
+        </div>
+
+        :
+
+        null
+
+      }
+      
     </Drawer>
   );
 };

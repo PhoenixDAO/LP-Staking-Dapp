@@ -59,7 +59,7 @@ const DashboardNavbar = ({ open, handleDrawerOpen }) => {
             <img src={Logo} alt="logo" />
           </Item>
           <Item>
-            <ConnectWallet />
+            <ConnectWallet landingScreenBtn={false}/>
           </Item>
         </Stack>
       </Toolbar>

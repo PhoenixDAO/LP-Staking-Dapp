@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Box,
   Button,
@@ -7,7 +8,6 @@ import {
   Stack,
   styled,
   Divider,
-  IconButton,
 } from "@mui/material";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import {
@@ -17,6 +17,18 @@ import {
 } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  // Web3InitAction,
+  GetEthBalanceAction,
+} from "../redux/actions/local.actions";
+import {
+  GetPhnxBalanceAction,
+  PhnxDaoContractInitAction,
+  PhnxStakeContractInitAction,
+  UniswapContractPairInitAction,
+  UniswapContractRouterInitAction,
+} from "../redux/actions/contract.actions";
 
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
@@ -31,9 +43,24 @@ import metamaskIcon from "../assets/metamask.png";
 import walletConnectIcon from "../assets/walletConnect.png";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import LogoutIcon from "@mui/icons-material/Logout";
+import EthLogo from "../assets/ETH1.png";
+import PhnxLogo from "../assets/PhnxLogo1.png";
+// import { ToastMsg } from "./Toast";
+
+import Web3 from "web3";
+import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
+import { PHNX_RINKEBY_TOKEN_ADDRESS } from "../contract/constant";
+import WalletSettings from "./walletSettings";
+import axios from "axios";
+
 
 const style = {
   position: "absolute",
+  maxHeight: "90%",
+  overflowY: "auto",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -45,7 +72,11 @@ const style = {
   display: "flex",
   flexDirection: "column",
   // alignItems: "center",
-  borderRadius: 2,
+  borderRadius: 5,
+  ["@media (max-width: 650px)"]: {
+    width: "90%",
+    padding: 2,
+  },
 };
 
 const Item = styled("button")(({ theme }) => ({
@@ -58,59 +89,93 @@ const Item = styled("button")(({ theme }) => ({
   backgroundColor: "transparent",
   border: "none",
   "&: hover": {
-    border: "1px solid #413AE2",
-    // backgroundColor: "#D3D3D3",
+    // border: "1px solid #413AE2",
+    backgroundColor: "#D3D3D3",
     borderRadius: 4,
   },
 }));
 
-export default function ConnectWallet() {
+export default function ConnectWallet({
+  landingScreenBtn,
+  justModal,
+  openModal,
+}) {
+  const dispatch = useDispatch();
   const web3context = useWeb3React();
+  const [reserveUSD, setReserveUSD] = useState(0);
+  const contractPhnxDao = useSelector(
+    (state) => state.contractReducer.contractPhnxDao
+  );
+
+  useEffect(() => {
+    if (web3context.account && web3context.active) {
+      dispatch(PhnxDaoContractInitAction(web3context));
+      dispatch(PhnxStakeContractInitAction(web3context));
+      dispatch(UniswapContractPairInitAction(web3context));
+      dispatch(UniswapContractRouterInitAction(web3context));
+    }
+  }, [web3context]);
+
+  useEffect(() => {
+    dispatch(GetEthBalanceAction(web3context));
+    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+  }, [contractPhnxDao, web3context.active]);
+
+  const balanceEth = useSelector(
+    (state) => state.localReducer.balanceEth
+  );
+  const balancePhnx = useSelector(
+    (state) => state.contractReducer.balancePhnx
+  );
+  const poolPosition = useSelector(
+    (state) => state.contractReducer.poolPosition
+  );
+
 
   const { account, active, connector, deactivate, library, chainId } =
     web3context;
 
   const [open, setOpen] = useState(false);
   const [balance, setBalance] = useState(0);
+  const [EthBalance, setEthBalance] = useState(0.0);
+  const [PhnxBalance, setPhnxBalance] = useState(0.0);
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleOpen = () => setOpen(true);
+  const open2 = Boolean(anchorEl);
+  const handleClick2 = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose2 = () => {
+    setAnchorEl(null);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
   const handleClose = () => setOpen(false);
 
+
   useEffect(() => {
-    if (!!account && !!library) {
-      let stale = false;
-
-      library
-        .getBalance(account)
-        .then((balance) => {
-          if (!stale) {
-            setBalance(balance);
-          }
-        })
-        .catch(() => {
-          if (!stale) {
-            setBalance(null);
-          }
-        });
-
-      return () => {
-        stale = true;
-        setBalance(undefined);
-      };
+    if (justModal == true) {
+      if (openModal == true) {
+        handleOpen();
+      } else {
+        handleClose();
+      }
     }
-  }, [account, library, chainId]);
+  }, [openModal]);
 
   const activateWallet = useCallback(
-    (connector, onClose = () => {}) => {
+    async (connector, onClose = () => {}) => {
       if (
         connector instanceof WalletConnectConnector &&
         connector.walletConnectProvider?.wc?.uri
       ) {
         connector.walletConnectProvider = undefined;
       }
-
-      web3context
-        .activate(
+      try {
+        let result = await web3context.activate(
           connector
             ? connector
             : new InjectedConnector({
@@ -118,18 +183,14 @@ export default function ConnectWallet() {
               }),
           undefined,
           true
-        )
-        .then(() => {
-          // onSuccess();
-          handleClose();
-        })
-        .catch((e) => {
-          const err = getErrorMessage(e);
-          alert(err);
-          // showSnackbarF({ message: err, severity: "error" });
-          console.error("ERROR activateWallet -> ", err);
-          //   setLoadingF({ walletConnection: false });
-        });
+        );
+        handleClose();
+        // ToastMsg("success", "You are connected to mainnet");
+      } catch (e) {
+        const err = getErrorMessage(e);
+        // ToastMsg("error", err);
+        console.error("ERROR activateWallet -> ", err);
+      }
     },
     [web3context]
   );
@@ -143,6 +204,8 @@ export default function ConnectWallet() {
     if (connector instanceof WalletLinkConnector) {
       await connector.close();
     }
+
+    // ToastMsg("warning", "Wallet disconnected");
 
     // onSuccess();
   };
@@ -161,33 +224,136 @@ export default function ConnectWallet() {
     }
   };
 
+  useEffect(() => {
+    const getTotalLiquidity = async () => {
+      await axios({
+        url: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2",
+        method: "post",
+        data: {
+          query: `
+          {
+            pairs(where:{id:"0xdfe317f907ca9bf6202cddec3def756438a3b3f7"}){
+              reserveUSD
+            }
+          }
+          `,
+        },
+      })
+        .then((response) => {
+          if (response.data) {
+            console.log((parseInt(response.data.data.pairs[0]["reserveUSD"])));
+            setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
+          }
+        })
+        .catch((err) => console.error(err));
+    };
+    getTotalLiquidity();
+  }, []);
+
+  // useEffect(()=>{
+  //   if(poolPosition1==null) return;
+  //   setEthBalance(poolPosition1.eth);
+  //   setPhnxBalance(poolPosition1.phnx);
+  // },[poolPosition1])
+
   return (
-    <div>
-      <span>
-        {balance === null ? "Error" : balance ? `Ξ${formatEther(balance)}` : ""}
-      </span>
-      <Button onClick={handleOpen} variant="outlined">
-        {active && account ? conciseAddress(account) : "  Connect Wallet"}
-      </Button>
+    <div style={{ width: "fit-content" }}>
+      
+      {active && account && justModal != true ? (
+        <button className="connect-wallet-btn balance-btn" style={{border:'none'}}>
+          <div
+            style={{
+              display: "flex",
+              alignItem: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src={PhnxLogo}
+              alt="PhnxLogo"
+              className="connect-wallet-btn-img"
+            ></img>$
+            {poolPosition != null ? (parseFloat(poolPosition.poolPerc)*(parseFloat(reserveUSD)/100)).toFixed(2) : '0.00'}
+          </div>
+        </button>
+      ) : null}
+
+      {landingScreenBtn != true ? <>&nbsp; &nbsp;</> : null}
+
+      {active && account && justModal != true ? (
+        <button className="connect-wallet-btn balance-btn">
+          <div
+            style={{
+              display: "flex",
+              alignItem: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              src={EthLogo}
+              alt="EthLogo"
+              className="connect-wallet-btn-img"
+            ></img>
+            {balanceEth}
+            &nbsp; | &nbsp;
+            <img
+              src={PhnxLogo}
+              alt="PhnxLogo"
+              className="connect-wallet-btn-img"
+            ></img>
+            {balancePhnx}
+          </div>
+        </button>
+      ) : null}
+
+      {landingScreenBtn != true ? <>&nbsp; &nbsp;</> : null}
+
+      {justModal == true ? null : (
+        <button
+          onClick={(e) => {
+            !active && !account ? handleOpen() : handleClick2(e);
+          }}
+          className={
+            landingScreenBtn === true
+              ? "connect-wallet-btn connect-wallet-btn-reverse"
+              : "connect-wallet-btn"
+          }
+        >
+          {active && account ? (
+            <div
+              style={{
+                display: "flex",
+                alignItem: "center",
+                justifyContent: "center",
+              }}
+            >
+              {" "}
+              <img
+                src={EthLogo}
+                alt="EthLogo"
+                className="connect-wallet-btn-img"
+              ></img>{" "}
+              {conciseAddress(account)}{" "}
+            </div>
+          ) : (
+            "Connect Wallet"
+          )}
+        </button>
+      )}
+
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <IconButton
-            sx={{ ml: "auto" }}
-            aria-label="close-connect-wallet-modal"
-            onClick={handleClose}
-          >
-            <CloseIcon fontSize="large" />
-          </IconButton>
-
+        <Box sx={style} className="modal-scroll">
+          <button onClick={handleClose} className="icon-btn">
+            <CloseIcon />
+          </button>
           <Stack sx={{ mt: 5, alignItems: "center" }}>
             <img src={Logo} alt="logo" width="192px" height="54px" />
           </Stack>
-
           <Typography
             id="modal-modal-title"
             variant="h6"
@@ -198,13 +364,12 @@ export default function ConnectWallet() {
           >
             Connect to your wallet
           </Typography>
-
           <Stack spacing={2} sx={{ mt: 5 }}>
             <Item
               onClick={() =>
-                !active && !(connector instanceof InjectedConnector)
-                  ? activateWallet(injected)
-                  : deactivateWallet()
+                !active &&
+                !(connector instanceof InjectedConnector) &&
+                activateWallet(injected)
               }
             >
               <img src={metamaskIcon} alt="logo" />
@@ -214,31 +379,20 @@ export default function ConnectWallet() {
                 component="h2"
                 sx={{ ml: 3 }}
               >
-                {active && connector instanceof InjectedConnector
-                  ? "Disconnect Metamask"
-                  : "Metamask"}
+                Metamask
               </Typography>
-
-              {active && connector instanceof InjectedConnector ? (
-                <CheckCircleOutlineIcon
-                  sx={{ ml: "auto" }}
-                  fontSize="large"
-                  color="primary"
-                />
-              ) : (
-                <ArrowRightAltIcon
-                  sx={{ ml: "auto" }}
-                  fontSize="large"
-                  color="primary"
-                />
-              )}
+              <ArrowRightAltIcon
+                sx={{ ml: "auto" }}
+                fontSize="large"
+                color="primary"
+              />
             </Item>
             <Divider />
             <Item
               onClick={() => {
-                !active && !(connector instanceof WalletConnectConnector)
-                  ? activateWallet(walletconnect)
-                  : deactivateWallet();
+                !active &&
+                  !(connector instanceof WalletConnectConnector) &&
+                  activateWallet(walletconnect);
               }}
             >
               <img src={walletConnectIcon} alt="logo" />
@@ -248,57 +402,36 @@ export default function ConnectWallet() {
                 component="h2"
                 sx={{ ml: 3 }}
               >
-                {active && connector instanceof WalletConnectConnector
-                  ? "Disconnect  Wallet Connect"
-                  : " Wallet Connect"}
+                Wallet Connect
               </Typography>
-              {active && connector instanceof WalletConnectConnector ? (
-                <CheckCircleOutlineIcon
-                  sx={{ ml: "auto" }}
-                  fontSize="large"
-                  color="primary"
-                />
-              ) : (
-                <ArrowRightAltIcon
-                  sx={{ ml: "auto" }}
-                  fontSize="large"
-                  color="primary"
-                />
-              )}
+              <ArrowRightAltIcon
+                sx={{ ml: "auto" }}
+                fontSize="large"
+                color="primary"
+              />
             </Item>
             <Divider />
             <Item
               onClick={() => {
-                !active && !(connector instanceof WalletLinkConnector)
-                  ? activateWallet(walletlink)
-                  : deactivateWallet();
+                !active &&
+                  !(connector instanceof WalletLinkConnector) &&
+                  activateWallet(walletlink);
               }}
             >
               <img src={coinbaseIcon} alt="logo" />
-
               <Typography
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
                 sx={{ ml: 3 }}
               >
-                {active && connector instanceof WalletLinkConnector
-                  ? "Disconnect  Coinbase Wallet"
-                  : "Coinbase Wallet"}
+                Coinbase Wallet
               </Typography>
-              {active && connector instanceof WalletLinkConnector ? (
-                <CheckCircleOutlineIcon
-                  sx={{ ml: "auto" }}
-                  fontSize="large"
-                  color="primary"
-                />
-              ) : (
-                <ArrowRightAltIcon
-                  sx={{ ml: "auto" }}
-                  fontSize="large"
-                  color="primary"
-                />
-              )}
+              <ArrowRightAltIcon
+                sx={{ ml: "auto" }}
+                fontSize="large"
+                color="primary"
+              />
             </Item>
             <Divider />
             <Item>
@@ -334,10 +467,20 @@ export default function ConnectWallet() {
             align="center"
             sx={{ mt: 4 }}
           >
-            By connecting, I accept PhoenixDAO’s Terms of service
+            By connecting, I accept PhoenixDAO’s{" "}
+            <Link to="/terms" onClick={handleClose}>
+              {" "}
+              Terms of service{" "}
+            </Link>
           </Typography>
         </Box>
       </Modal>
+      <WalletSettings
+        anchorEl={anchorEl}
+        open2={open2}
+        handleClose2={handleClose2}
+        deactivateWallet={deactivateWallet}
+      />
     </div>
   );
 }
