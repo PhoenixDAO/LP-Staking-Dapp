@@ -24,14 +24,12 @@ import TransactionSubmitted from "../connectModal/TransactionSubmitted";
 import SlippingTolerance from "../connectModal/SlippingTolerance";
 import SettingsLogo from "../../assets/settings.png";
 
-
-
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [ethValue, setEthValue] = useState("");
   const [phnxValue, setPhnxValue] = useState("");
 
-  const [slippageModal,setSlippageModal]=useState(false);
-  const [slippageValue,setSlippageValue]=useState(1);
+  const [slippageModal, setSlippageModal] = useState(false);
+  const [slippageValue, setSlippageValue] = useState(1);
 
   const [poolShare, setPoolShare] = useState(0);
 
@@ -67,8 +65,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [transactionProcessModal, settransactionProcessModal] = useState(false);
   const [transactionSubmittedModal, settransactionSubmittedModal] =
     useState(false);
-  const [tranHash,settranHash] = useState('');
-
+  const [tranHash, settranHash] = useState("");
 
   useEffect(() => {
     _handleGetDataMain();
@@ -204,12 +201,17 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       <div style={{ paddingLeft: 10 }}>
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>
-          <p className="subheading-modal" style={{display:'flex'}}>
+          <p className="subheading-modal" style={{ display: "flex" }}>
             Add liquidity to the ETH/PHNX pool <br /> and receive LP tokens
             <img
-              onClick={()=>setSlippageModal(!slippageModal)}
+              onClick={() => setSlippageModal(!slippageModal)}
               src={SettingsLogo}
-              style={{ marginLeft: "auto", height: "20px", width: "20px",cursor:'pointer' }}
+              style={{
+                marginLeft: "auto",
+                height: "20px",
+                width: "20px",
+                cursor: "pointer",
+              }}
             ></img>
           </p>
           <br></br>
@@ -239,7 +241,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             liquidity.
           </Typography>
         </div>
-
         <div style={{ position: "relative" }}>
           <div className="token-container">
             <div style={{ display: "flex", flexDirection: "row" }}>
@@ -341,7 +342,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             </div>
           </div>
         </div>
-
         <div className="container-pool-share">
           <div style={styles.txtDivPhEth}>
             <Typography style={styles.txtConvDetails}>
@@ -442,7 +442,11 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         phnxPerEth={phnxPerEth}
         ethPerPhnx={ethPerPhnx}
       ></ConnectModal>
-      <SlippingTolerance status={slippageModal} handleClose={setSlippageModal} setSlippageValue={setSlippageValue} />
+      <SlippingTolerance
+        status={slippageModal}
+        handleClose={setSlippageModal}
+        setSlippageValue={setSlippageValue}
+      />
 
       <TransactionProgress transactionProcessModal={transactionProcessModal}>
         {" "}
@@ -517,9 +521,11 @@ const styles = {
   },
   btnAddLiquidity: {
     backgroundColor: "#413AE2",
-    margin: "25px 0px 30px 0px",
+    margin: "25px 0px 0px 0px",
     height: 45,
     borderRadius: 12,
+    textTransform: "capitalize",
+    fontSize: 18,
   },
   tokenContainer: {
     display: "flex",
@@ -572,6 +578,7 @@ const styles = {
     padding: "7px 8px 5px 8px",
     borderRadius: 8,
     fontWeight: "800 !important",
+    marginTop: 5,
   },
   wrapperInput: {
     display: "flex",
