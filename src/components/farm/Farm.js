@@ -177,6 +177,12 @@ function Farm() {
         (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
         Web3.utils.fromWei(lpTokenSupply);
 
+      const roi =
+        (100 - Web3.utils.fromWei(lpTokenSupply)) /
+        Web3.utils.fromWei(lpTokenSupply);
+
+      console.log("roi", Web3.utils.fromWei(lpTokenSupply), roi * 100);
+
       setAPR(parseInt(apr));
     };
 
@@ -184,6 +190,7 @@ function Farm() {
       calculateAPR();
     }
   }, [contractPhnxStake]);
+
   // Check if phnx earned is less than contract balance for staking
   // for unstake if phnx earned + unstaked token < contract balance of staking
 
@@ -235,7 +242,7 @@ function Farm() {
           userInfo={userInfo}
         ></UnStakingModal>
       </Modal>
-      <VersionSwitch/>
+      <VersionSwitch />
     </div>
   );
 }
