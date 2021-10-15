@@ -53,33 +53,33 @@ export const harvestPHNX = async (
   setLoading
 ) => {
   if (web3context && contractPhnxStake) {
-
     setLoading(true);
     const web3 = new Web3(web3context?.library?.currentProvider);
 
+    let pendingPhnx = await contractPhnxStake.methods
+      .pendingPHX(web3context.account)
+      .call();
+    let contractRemainingPhnx = await contractPhnxDao.methods
+      .balanceOf(contractPhnxStake._address)
+      .call();
+    console.log("pendingPHNX", parseFloat(pendingPhnx[0]));
+    console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
-    let pendingPhnx =  await contractPhnxStake.methods.pendingPHX(web3context.account).call();
-    let contractRemainingPhnx = await contractPhnxDao.methods.balanceOf(contractPhnxStake._address).call();
-    console.log("pendingPHNX",parseFloat(pendingPhnx[0]));
-    console.log("contractRemainingPhnx",parseFloat(contractRemainingPhnx));
+    if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
+      toast(
+        <Notify
+          text={
+            "We don't have enough Phnx to give you right now 😔, please try later."
+          }
+          severity=""
+        />,
+        {
+          position: "bottom-right",
+        }
+      );
 
-    if(parseFloat(pendingPhnx[0])>parseFloat(contractRemainingPhnx)){
-
-    toast(
-    <Notify
-      text={"We don't have enough Phnx to give you right now 😔, please try later."}
-      severity=""
-    />,
-    {
-      position: "bottom-right",
+      return;
     }
-    );
-
-    return;
-
-    }
-
-
 
     await contractPhnxStake.methods
       .deposit(web3.utils.toWei("0"))
@@ -135,8 +135,6 @@ export const checkApproval = async (
   web3context,
   setAllowance
 ) => {
-
-
   if (contractUniswapPair && web3context && setAllowance) {
     const al = await contractUniswapPair.methods
       .allowance(web3context?.account, PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
@@ -170,18 +168,16 @@ export const getPendingPHX = async (
   web3context,
   setPendingPHX
 ) => {
-  console.log(
-    contractPhnxStake + "==> contractPhnxStake",
-    web3context + "==> web3context",
-    setPendingPHX + "==> setPendingPHX"
-  );
-
-
+  // console.log(
+  //   contractPhnxStake + "==> contractPhnxStake",
+  //   web3context + "==> web3context",
+  //   setPendingPHX + "==> setPendingPHX"
+  // );
   if (contractPhnxStake && web3context && setPendingPHX) {
     const pending = await contractPhnxStake.methods
       .pendingPHX(web3context?.account)
       .call();
-    console.log("pending", pending);
+    console.log("getPendingPHX response", pending);
     setPendingPHX(pending);
   } else {
     throw "Invalid credentials of getPendingPHX";
@@ -201,19 +197,24 @@ export const stakeLp = async (
 ) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   setLoading(true);
-  
+
   // console.log(await UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY.methods);
 
-  let pendingPhnx =  await contractPhnxStake.methods.pendingPHX(web3context.account).call();
-  let contractRemainingPhnx = await contractPhnxDao.methods.balanceOf(contractPhnxStake._address).call();
-  console.log("pendingPHNX",parseFloat(pendingPhnx[0]));
-  console.log("contractRemainingPhnx",parseFloat(contractRemainingPhnx));
+  let pendingPhnx = await contractPhnxStake.methods
+    .pendingPHX(web3context.account)
+    .call();
+  let contractRemainingPhnx = await contractPhnxDao.methods
+    .balanceOf(contractPhnxStake._address)
+    .call();
+  console.log("pendingPHNX", parseFloat(pendingPhnx[0]));
+  console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
-  if(parseFloat(pendingPhnx[0])>parseFloat(contractRemainingPhnx)){
-
+  if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
     toast(
       <Notify
-        text={"We don't have enough Phnx to give you right now 😔, please try later."}
+        text={
+          "We don't have enough Phnx to give you right now 😔, please try later."
+        }
         severity=""
       />,
       {
@@ -222,10 +223,7 @@ export const stakeLp = async (
     );
 
     return;
-
   }
-
-
 
   await contractPhnxStake.methods
     .deposit(web3.utils.toWei(lpValue.toString()))
@@ -290,16 +288,21 @@ export const unStakeLp = async (
 
   // console.log(contractPhnxStake._address);
 
-  let pendingPhnx =  await contractPhnxStake.methods.pendingPHX(web3context.account).call();
-  let contractRemainingPhnx = await contractPhnxDao.methods.balanceOf(contractPhnxStake._address).call();
-  console.log("pendingPHNX",parseFloat(pendingPhnx[0]));
-  console.log("contractRemainingPhnx",parseFloat(contractRemainingPhnx));
+  let pendingPhnx = await contractPhnxStake.methods
+    .pendingPHX(web3context.account)
+    .call();
+  let contractRemainingPhnx = await contractPhnxDao.methods
+    .balanceOf(contractPhnxStake._address)
+    .call();
+  console.log("pendingPHNX", parseFloat(pendingPhnx[0]));
+  console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
-  if(parseFloat(pendingPhnx[0])>parseFloat(contractRemainingPhnx)){
-
+  if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
     toast(
       <Notify
-        text={"We don't have enough Phnx to give you right now 😔, please try later."}
+        text={
+          "We don't have enough Phnx to give you right now 😔, please try later."
+        }
         severity=""
       />,
       {
@@ -308,7 +311,6 @@ export const unStakeLp = async (
     );
 
     return;
-
   }
 
   await contractPhnxStake.methods

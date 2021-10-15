@@ -24,6 +24,9 @@ import {
 
 function Farm() {
   const dispatch = useDispatch();
+  const web3context = useWeb3React();
+  const userIsActive = useSelector((state) => state.localReducer.userIsActive);
+
   const contractPhnxStake = useSelector(
     (state) => state.contractReducer.contractPhnxStake
   );
@@ -32,6 +35,9 @@ function Farm() {
   );
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
+  );
+  const poolPosition = useSelector(
+    (state) => state.contractReducer.poolPosition
   );
   const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);
 
@@ -43,8 +49,6 @@ function Farm() {
   const [pendingPHX, setPendingPHX] = useState({ 0: 0, 1: 0 });
   const [reserveUSD, setReserveUSD] = useState(0);
   const [loading, setLoading] = useState(false);
-
-  const web3context = useWeb3React();
 
   const handleStackOpen = () => {
     setStackVisible(true);
@@ -70,7 +74,8 @@ function Farm() {
       contractPhnxStake
     ) {
       checkApproval(contractUniswapPair, web3context, setAllowance);
-      getUserInfo(contractPhnxStake, web3context, setUserInfo);
+      // getUserInfo(contractPhnxStake, web3context, setUserInfo);
+      handleGetUserInfo();
       getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
       handleGetPoolPosition();
     }
@@ -81,6 +86,13 @@ function Farm() {
     contractUniswapPair,
     balancePhnx,
   ]);
+
+  useEffect(() => {
+    handleGetUserInfo();
+  }, [poolPosition]);
+  const handleGetUserInfo = () => {
+    getUserInfo(contractPhnxStake, web3context, setUserInfo);
+  };
 
   useEffect(() => {
     const getTotalLiquidity = async () => {
@@ -149,10 +161,13 @@ function Farm() {
     }
   };
 
+  // Check if phnx earned is less than contract balance for staking
+  // for unstake if phnx earned + unstaked token < contract balance of staking
+
   return (
     <div>
       <div className="farm-div">
-        {userInfo.amount == 0 ? (
+        {!userIsActive ? (
           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}

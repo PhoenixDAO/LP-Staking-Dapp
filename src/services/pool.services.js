@@ -166,23 +166,39 @@ export const getPoolPosition = async (web3context, contractUniswapPair) => {
   };
 };
 
-export const phnxDaoContractInit = (web3context) => {
+export const phnxDaoContractInit = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   const contract = new web3.eth.Contract(
     PhoenixDaoABI,
     PHNX_RINKEBY_TOKEN_ADDRESS
   );
-  console.log("phnxDaoContractInit service", contract);
+
+  // let balance = await contract.methods
+  //   .balanceOf(PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
+  //   .call();
+  // console.log("phnxDaoContractInit service", web3.utils.fromWei(balance));
   return contract;
 };
 
-export const phnxStakeContractInit = (web3context) => {
+export const phnxStakeContractInit = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   const contract = new web3.eth.Contract(
     PhoenixStakeABI,
     PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
   );
-  console.log("phnxStakeContractInit service", contract);
+  // console.log("phnxStakeContractInit service", contract);
+  // let respp = await web3.eth.getBalance(
+  //   "0xfe1b6abc39e46cec54d275efb4b29b33be176c2a"
+  // );
+  // console.log(
+  //   contract.methods.balanceOf(""),
+  //   "Balance of Pool PhnxStakeContract"
+  // );
+  let balance = await contract.methods
+    .balanceOf(PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
+    .call();
+  console.log(web3.utils.fromWei(balance), "Balance of PhnxStakeContract");
+
   return contract;
 };
 
@@ -357,8 +373,8 @@ export const removeLiquidity = async (
     // );
     let ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
     let phnxValue = poolPosition.phnx * (selectedPercentage / 100).toString();
-    let phnxMin = phnxValue - phnxValue * (slippageValue/100);
-    let ethMin = ethValue - ethValue * (slippageValue/100);
+    let phnxMin = phnxValue - phnxValue * (slippageValue / 100);
+    let ethMin = ethValue - ethValue * (slippageValue / 100);
 
     // console.log(
     //   "ethValue ",
@@ -406,7 +422,6 @@ export const removeLiquidity = async (
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
         if (confirmationNumber === 1) {
-
           toast(
             <Notify text={"Transaction Successful 🚀"} severity="success" />,
             {
