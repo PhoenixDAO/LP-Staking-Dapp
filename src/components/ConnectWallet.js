@@ -29,6 +29,8 @@ import {
   UniswapContractPairInitAction,
   UniswapContractRouterInitAction,
 } from "../redux/actions/contract.actions";
+import * as LOCAL_TYPES from "../redux/types/local.types";
+import * as CONTRACT_TYPES from "../redux/types/contract.types";
 
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
