@@ -19,6 +19,7 @@ function FarmHarvest({
   harvestPHNX,
   reserveUSD,
   loading,
+  APR,
 }) {
   const [showMore, setShowMore] = useState(false);
 
@@ -45,7 +46,7 @@ function FarmHarvest({
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
         <div className="farm-details-txt-right">
-          200% &nbsp;<img src={CalculatorLogo}></img>
+          {APR}% &nbsp;<img src={CalculatorLogo}></img>
         </div>
       </div>
 

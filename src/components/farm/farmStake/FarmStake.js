@@ -17,6 +17,7 @@ function FarmStake({
   giveApproval,
   userInfo,
   reserveUSD,
+  APR,
 }) {
   const web3context = useWeb3React();
   //   const userIsActive = useSelector((state) => state.localReducer.userIsActive);
@@ -48,7 +49,7 @@ function FarmStake({
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
         <div className="farm-details-txt-right">
-          200% &nbsp;
+          {APR}% &nbsp;
           <img style={{ height: "16px" }} src={CalculatorLogo} />
         </div>
       </div>
