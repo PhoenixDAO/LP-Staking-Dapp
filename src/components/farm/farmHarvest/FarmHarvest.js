@@ -10,6 +10,7 @@ import Web3 from "web3";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import { fixedWithoutRounding } from "../../../utils/formatters";
 
 function FarmHarvest({
   stakeModalOpen,
@@ -60,7 +61,8 @@ function FarmHarvest({
           <span style={{ color: "#413AE2" }}>PHNX</span> EARNED
         </div>
         <div className="farm-details-txt-right">
-          {pendingPHX["0"] && Web3.utils.fromWei(pendingPHX["0"])}
+          {pendingPHX["0"] &&
+            fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)}
         </div>
       </div>
 
@@ -102,7 +104,7 @@ function FarmHarvest({
       <div className="get-phnx-eth-lp">
         <Link to="/liquidity">
           Get PHNX-ETH LP
-          <img src={ShareLogo}></img>
+          <img style={{ marginLeft: 5 }} src={ShareLogo}></img>
         </Link>
       </div>
 

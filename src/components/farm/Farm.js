@@ -7,6 +7,7 @@ import { Modal } from "@mui/material";
 import StakingModal from "./modals/StakeModal";
 import UnStakingModal from "./modals/UnstakeModal";
 import { useWeb3React } from "@web3-react/core";
+import { fixedWithoutRounding } from "../../utils/formatters";
 import {
   giveApprovalFarming,
   harvestPHNX,
