@@ -148,7 +148,7 @@ function MyLiquidity({ ChangeTab }) {
           ></ConnectWallet>
         </div>
       ) : // poolPosition !== null ?
-      poolPosition.lp === 0 ? (
+      poolPosition.lp == 0 ? (
         <div>
           <br></br>
 
