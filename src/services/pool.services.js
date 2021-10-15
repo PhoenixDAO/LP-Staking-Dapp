@@ -156,7 +156,7 @@ export const getPoolPosition = async (web3context, contractUniswapPair) => {
   _token1 = _token1.dividedBy(conv);
 
   return {
-    lp: fixedWithoutRounding(_balance, 3), //.toFixed(2),
+    lp: fixedWithoutRounding(_balance, 4), //.toFixed(2),
     poolPerc: _poolPercentage.toFormat(6),
     eth: _token1.toFormat(6),
     phnx: _token0.toFormat(6),
@@ -222,7 +222,7 @@ export const getEthBalance = async (web3context) => {
   let WeiEthBalance = await web3.eth.getBalance(web3context.account);
   let EthBalance = fixedWithoutRounding(
     parseFloat(web3.utils.fromWei(WeiEthBalance, "ether")),
-    3
+    4
   );
   return Number(EthBalance);
   // .toFixed(2);
@@ -235,7 +235,7 @@ export const getPhnxBalance = async (web3context, contractPhnxDao) => {
       .call();
 
     // console.log("Service getPhnxBalance ==>>", PhnxBalance);
-    return fixedWithoutRounding(Number(Web3.utils.fromWei(PhnxBalance)), 3);
+    return fixedWithoutRounding(Number(Web3.utils.fromWei(PhnxBalance)), 4);
     // .toFixed(2);
   } else {
     throw "Invalid arguments for getPhnxBalance";
