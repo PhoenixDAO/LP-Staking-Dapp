@@ -25,12 +25,6 @@ const Pool = () => {
 
   return (
     <div>
-          {/* <ConnectModal/>
-          <TransactionSubmitted/>
-          <TransactionProgress/>
-          <ConfirmModal />
-          <SlippingTolerance/>
-          <VersionModal/> */}
       <div className="container-div">
         <div className="gradient-div">
           <p className="connect-wallet-txt">

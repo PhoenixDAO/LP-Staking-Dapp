@@ -88,21 +88,23 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
     }
   });
 
-  useEffect(()=>{
-    setSocialIcon(open)
-  },[open])
+  useEffect(() => {
+    setSocialIcon(open);
+  }, [open]);
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   return (
-    <Drawer variant="permanent" open={open} >
+    <Drawer variant="permanent" open={open}>
       <DrawerHeader>
-        <IconButton onClick={()=>{
-          handleDrawerClose();
-          setSocialIcon(false)
-          }}>
+        <IconButton
+          onClick={() => {
+            handleDrawerClose();
+            setSocialIcon(false);
+          }}
+        >
           {theme.direction === "rtl" ? (
             <ChevronRightIcon />
           ) : (
@@ -132,32 +134,34 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
         ))}
       </List>
 
-      {
-        SocialIcon ?
-
-        <div style={{position:'absolute',bottom:'100px',display:'flex',justifyContent:'space-around',alignItem:'baseline',width:'100%',padding:'0px 30px',}}>
-
-          <a href="https://t.me/PHNXDAO" target='_blank'>
+      {SocialIcon ? (
+        <div
+          style={{
+            position: "absolute",
+            bottom: "100px",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItem: "baseline",
+            width: "100%",
+            padding: "0px 30px",
+          }}
+        >
+          <a href="https://t.me/PHNXDAO" target="_blank">
             <img src={TelegramLogo}></img>
           </a>
 
-          <a href="https://twitter.com/phnxdao" target='_blank'>
-          <img src={TwitterLogo}></img>
+          <a href="https://twitter.com/phnxdao" target="_blank">
+            <img src={TwitterLogo}></img>
           </a>
 
-          <a href="https://github.com/XORD-one/phoenixdao-lp-staking-dapp" target='_blank'>
-          <img src={GithubLogo}></img>
+          <a
+            href="https://github.com/XORD-one/phoenixdao-lp-staking-dapp"
+            target="_blank"
+          >
+            <img src={GithubLogo}></img>
           </a>
-  
-  
         </div>
-
-        :
-
-        null
-
-      }
-      
+      ) : null}
     </Drawer>
   );
 };

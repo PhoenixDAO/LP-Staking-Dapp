@@ -11,6 +11,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY } from "../../contract/constant";
 
 const TransactionSubmitted = ({ transactionSubmittedModal }) => {
   const [selectedPercentage, setSelectedPercentage] = useState(0);
@@ -36,8 +37,9 @@ const TransactionSubmitted = ({ transactionSubmittedModal }) => {
     p: 4,
   };
 
+  //add eth/phnx LP's to MM
   const registerToken = async () => {
-    const tokenAddress = "0xff8ae8805552c813d75ad6ff456dbc417bd12be6";
+    const tokenAddress = UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY;
     const tokenSymbol = "UNI-V2";
     const tokenDecimals = 18;
 
@@ -96,7 +98,15 @@ const TransactionSubmitted = ({ transactionSubmittedModal }) => {
               <div className="transactionSubmitted">Transaction Submitted</div>
 
               <div className="displayFlex bscScan">
-                <div className="cursorPointer">View on BscScan</div>
+                <div className="cursorPointer">
+                  <a
+                    href={`https://etherscan.io`}
+                    rel="external nofollow noopener"
+                    target="_blank"
+                  >
+                    View on Etherscan
+                  </a>
+                </div>
                 <div className="openTabPadding  cursorPointer">
                   <svg
                     width="14"

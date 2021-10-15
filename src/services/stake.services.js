@@ -31,9 +31,9 @@ export const giveApprovalFarming = async (
           // tx confirmed
           console.log("confirmationNumber", confirmationNumber);
         }
-        await handleGetPoolPosition;
-        await handleGetEthBalance;
-        await handleGetPhnxBalance;
+        await handleGetPoolPosition();
+        await handleGetEthBalance();
+        await handleGetPhnxBalance();
       })
       .on("error", function (err) {
         console.log("err", err);
@@ -108,9 +108,9 @@ export const harvestPHNX = async (
             }
           );
         }
-        await handleGetPoolPosition;
-        await handleGetEthBalance;
-        await handleGetPhnxBalance;
+        await handleGetPoolPosition();
+        await handleGetEthBalance();
+        await handleGetPhnxBalance();
       })
       .on("error", function (err) {
         // throw err;
@@ -254,10 +254,10 @@ export const stakeLp = async (
             position: "bottom-right",
           }
         );
+        await handleGetPoolPosition();
+        await handleGetEthBalance();
+        await handleGetPhnxBalance();
       }
-      await handleGetPoolPosition;
-      await handleGetEthBalance;
-      await handleGetPhnxBalance;
     })
     .on("error", function (err) {
       // throw err;
@@ -338,10 +338,10 @@ export const unStakeLp = async (
             position: "bottom-right",
           }
         );
+        await handleGetPoolPosition();
+        await handleGetEthBalance();
+        await handleGetPhnxBalance();
       }
-      await handleGetPoolPosition;
-      await handleGetEthBalance;
-      await handleGetPhnxBalance;
     })
     .on("error", function (err) {
       // throw err;

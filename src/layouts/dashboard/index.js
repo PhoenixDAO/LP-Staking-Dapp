@@ -21,7 +21,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export default function DashboardLayout() {
   // const web3context = useWeb3React();
-  // const web3 = useSelector((state) => state.localReducer.web3State);
   // const dispatch = useDispatch();
   // React.useEffect(() => {
   //   if (web3context.active && web3context.account) {
@@ -45,7 +44,12 @@ export default function DashboardLayout() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <DashboardNavbar open={open} handleDrawerOpen={handleDrawerOpen} />
-      <DashboardSidebar open={open} handleDrawerClose={handleDrawerClose} handleDrawerOpen={handleDrawerOpen} />
+
+      <DashboardSidebar
+        open={open}
+        handleDrawerClose={handleDrawerClose}
+        handleDrawerOpen={handleDrawerOpen}
+      />
       <Box
         // component="main"
         // sx={{ flexGrow: 1, p: 3, background: "#E5E5E5", height: "100vh" }}

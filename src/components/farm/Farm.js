@@ -33,6 +33,7 @@ function Farm() {
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
   );
+  const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);
 
   const [stakeNull, checkStateNull] = useState(false);
   const [isStackVisible, setStackVisible] = useState(false);
@@ -71,12 +72,14 @@ function Farm() {
       checkApproval(contractUniswapPair, web3context, setAllowance);
       getUserInfo(contractPhnxStake, web3context, setUserInfo);
       getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
+      handleGetPoolPosition();
     }
   }, [
     web3context?.library?.currentProvider,
     web3context?.account,
     web3context?.active,
     contractUniswapPair,
+    balancePhnx,
   ]);
 
   useEffect(() => {
@@ -179,7 +182,7 @@ function Farm() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <StakingModal Close={handleStackClose}></StakingModal>
+        <StakingModal Close={handleStackClose} />
       </Modal>
       <Modal
         open={isUnStackVisible}

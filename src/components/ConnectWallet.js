@@ -1,14 +1,6 @@
 import React, { useCallback, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  Box,
-  Button,
-  Typography,
-  Modal,
-  Stack,
-  styled,
-  Divider,
-} from "@mui/material";
+import { Box, Typography, Modal, Stack, styled, Divider } from "@mui/material";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import {
   InjectedConnector,
@@ -18,17 +10,17 @@ import {
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  // Web3InitAction,
-  GetEthBalanceAction,
-} from "../redux/actions/local.actions";
+import { GetEthBalanceAction } from "../redux/actions/local.actions";
 import {
   GetPhnxBalanceAction,
   PhnxDaoContractInitAction,
   PhnxStakeContractInitAction,
   UniswapContractPairInitAction,
   UniswapContractRouterInitAction,
+  GetPoolPositionAction,
 } from "../redux/actions/contract.actions";
+import * as LOCAL_TYPES from "../redux/types/local.types";
+import * as CONTRACT_TYPES from "../redux/types/contract.types";
 
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
@@ -50,12 +42,8 @@ import EthLogo from "../assets/ETH1.png";
 import PhnxLogo from "../assets/PhnxLogo1.png";
 // import { ToastMsg } from "./Toast";
 
-import Web3 from "web3";
-import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
-import { PHNX_RINKEBY_TOKEN_ADDRESS } from "../contract/constant";
 import WalletSettings from "./walletSettings";
 import axios from "axios";
-
 
 const style = {
   position: "absolute",
@@ -106,6 +94,9 @@ export default function ConnectWallet({
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
   );
+  const contractUniswapPair = useSelector(
+    (state) => state.contractReducer.contractUniswapPair
+  );
 
   useEffect(() => {
     if (web3context.account && web3context.active) {
@@ -114,31 +105,23 @@ export default function ConnectWallet({
       dispatch(UniswapContractPairInitAction(web3context));
       dispatch(UniswapContractRouterInitAction(web3context));
     }
-  }, [web3context]);
+  }, [web3context.activate, web3context.account]);
 
   useEffect(() => {
     dispatch(GetEthBalanceAction(web3context));
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
-  }, [contractPhnxDao, web3context.active]);
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  }, [contractUniswapPair, web3context.active, web3context.account]);
 
-  const balanceEth = useSelector(
-    (state) => state.localReducer.balanceEth
-  );
-  const balancePhnx = useSelector(
-    (state) => state.contractReducer.balancePhnx
-  );
+  const balanceEth = useSelector((state) => state.localReducer.balanceEth);
+  const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);
   const poolPosition = useSelector(
     (state) => state.contractReducer.poolPosition
   );
-
-
   const { account, active, connector, deactivate, library, chainId } =
     web3context;
 
   const [open, setOpen] = useState(false);
-  const [balance, setBalance] = useState(0);
-  const [EthBalance, setEthBalance] = useState(0.0);
-  const [PhnxBalance, setPhnxBalance] = useState(0.0);
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const open2 = Boolean(anchorEl);
@@ -154,7 +137,6 @@ export default function ConnectWallet({
   };
 
   const handleClose = () => setOpen(false);
-
 
   useEffect(() => {
     if (justModal == true) {
@@ -204,9 +186,15 @@ export default function ConnectWallet({
     if (connector instanceof WalletLinkConnector) {
       await connector.close();
     }
-
     // ToastMsg("warning", "Wallet disconnected");
-
+    setTimeout(() => {
+      dispatch({
+        type: LOCAL_TYPES.RESET_ALL_LOCAL_REDUCER,
+      });
+      dispatch({
+        type: CONTRACT_TYPES.RESET_ALL_CONTRACT_REDUCER,
+      });
+    }, 500);
     // onSuccess();
   };
 
@@ -241,7 +229,7 @@ export default function ConnectWallet({
       })
         .then((response) => {
           if (response.data) {
-            console.log((parseInt(response.data.data.pairs[0]["reserveUSD"])));
+            console.log(parseInt(response.data.data.pairs[0]["reserveUSD"]));
             setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
           }
         })
@@ -258,9 +246,11 @@ export default function ConnectWallet({
 
   return (
     <div style={{ width: "fit-content" }}>
-      
       {active && account && justModal != true ? (
-        <button className="connect-wallet-btn balance-btn" style={{border:'none'}}>
+        <button
+          className="connect-wallet-btn balance-btn"
+          style={{ border: "none" }}
+        >
           <div
             style={{
               display: "flex",
@@ -272,6 +262,12 @@ export default function ConnectWallet({
               src={PhnxLogo}
               alt="PhnxLogo"
               className="connect-wallet-btn-img"
+            ></img>
+            $
+            {poolPosition != null
+              ? parseFloat(poolPosition.poolPerc) *
+                (parseFloat(reserveUSD) / 100)
+              : "---"}
             ></img>$
             {poolPosition != null ? (parseFloat(poolPosition.poolPerc)*(parseFloat(reserveUSD)/100)).toFixed(2) : '0.00'}
           </div>
