@@ -96,7 +96,9 @@ function StakeModal({ Close }) {
       <div style={{ display: "flex", alignItem: "center" }}>
         <div className="stakingModal-details">STAKE</div>
         <div style={{ marginLeft: "auto" }} className="stakingModal-details">
-          Bal: <span style={{ color: "#000" }}>{maxlpValue} PHNX-ETH LP</span>
+          <span>
+          Bal: {" "}<span style={{ color: "#000" }}>{maxlpValue} PHNX-ETH LP</span>
+          </span>
         </div>
       </div>
 
@@ -114,7 +116,7 @@ function StakeModal({ Close }) {
             setlpValue(maxlpValue);
           }}
         >
-          Max
+          MAX
         </button>
       </div>
 
@@ -126,12 +128,11 @@ function StakeModal({ Close }) {
           className="stakingModal-details"
           style={{ marginLeft: "auto", marginTop: "0px" }}
         >
-          $0.00 &nbsp;
-          <img style={{ width: 15, height: 22 }} src={CalculatorLogo}></img>
+          $0.00 &nbsp;<img src={CalculatorLogo} style={{height:"15px",alignSelf:"center"}}></img>
         </div>
       </div>
 
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={{ display: "flex", alignItems: "center",marginTop:"10px" }}>
         <button
           className="farm-btn-stake-outline"
           style={{ marginTop: "25px" }}
@@ -166,7 +167,7 @@ function StakeModal({ Close }) {
 
       <div
         className="get-phnx-eth-lp"
-        style={{ marginTop: "25px", fontWeight: "bold", fontSize: "12px" }}
+        style={{ marginTop: "25px", fontWeight: "bold", fontSize: "14px" }}
       >
         <Link to="/liquidity">
           Get PHNX-ETH LP

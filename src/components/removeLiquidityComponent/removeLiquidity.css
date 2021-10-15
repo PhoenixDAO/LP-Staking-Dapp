@@ -13,7 +13,7 @@
 }
 
 .rm-liq-Logo{
-  width: 100px;
+  width: 125px;
 }
 
 .rm-liq-heading{
@@ -86,6 +86,7 @@
 .rm-liq-phnx-eth-name{
   font-size: 18px;
   margin-left: 10px;
+  color:#4E4E55;
 }
 
 .rm-liq-phnx-eth-number{
@@ -98,6 +99,7 @@
 .rm-liq-phnx-eth-con-div{
   width: 100%;
   margin-top: 9px;
+  margin-bottom:40px;
 }
 
 .rm-liq-phnx-eth-con{
