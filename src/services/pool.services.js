@@ -48,15 +48,17 @@ export const supply = async (
   settransactionSubmittedModal,
   handleGetPoolPosition,
   handleGetEthBalance,
-  handleGetPhnxBalance
+  handleGetPhnxBalance,
+  settranHash,
+  slippageValue
 ) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
 
   let deadline = Date.now();
   deadline += 5 * 60;
 
-  let phnxMin = phnxValue - phnxValue * 0.1;
-  let ethMin = ethValue - ethValue * 0.1;
+  let phnxMin = phnxValue - phnxValue * (slippageValue/100);
+  let ethMin = ethValue - ethValue * (slippageValue/100);
 
   await contractUniswapRouter.methods
     .addLiquidityETH(
@@ -84,7 +86,7 @@ export const supply = async (
           position: "bottom-right",
         }
       );
-
+      settranHash(hash)
       settransactionProcessModal(false);
       settransactionSubmittedModal(true);
       console.log("hash", hash);
@@ -359,7 +361,8 @@ export const removeLiquidity = async (
   handleGetPoolPosition,
   handleGetEthBalance,
   handleGetPhnxBalance,
-  slippageValue
+  slippageValue,
+  settranHash
 ) => {
   if (web3context && contractUniswapRouter && poolPosition) {
     let deadline = Date.now();
@@ -414,7 +417,7 @@ export const removeLiquidity = async (
             position: "bottom-right",
           }
         );
-
+        settranHash(hash)
         settransactionProcessModal(false);
         settransactionConfirmModal(false);
         settransactionSubmittedModal(true);

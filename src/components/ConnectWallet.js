@@ -38,6 +38,8 @@ import PhnxLogo from "../assets/PhnxLogo1.png";
 
 import WalletSettings from "./walletSettings";
 import axios from "axios";
+import { toast } from "react-toastify";
+import Notify from "./Notify";
 
 const style = {
   position: "absolute",
@@ -104,6 +106,8 @@ export default function ConnectWallet({
   useEffect(() => {
     dispatch(GetEthBalanceAction(web3context));
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+
+
   }, [contractPhnxDao, web3context.active]);
 
   const balanceEth = useSelector((state) => state.localReducer.balanceEth);
@@ -129,6 +133,7 @@ export default function ConnectWallet({
   const handleOpen = () => {
     setOpen(true);
   };
+
 
   const handleClose = () => setOpen(false);
 
@@ -165,8 +170,16 @@ export default function ConnectWallet({
         // ToastMsg("success", "You are connected to mainnet");
       } catch (e) {
         const err = getErrorMessage(e);
-        // ToastMsg("error", err);
         console.error("ERROR activateWallet -> ", err);
+        toast(
+          <Notify
+            text={err}
+            severity="success"
+          />,
+          {
+            position: "bottom-right",
+          }
+        );
       }
     },
     [web3context]
@@ -197,15 +210,15 @@ export default function ConnectWallet({
 
   const getErrorMessage = (e) => {
     if (e instanceof UnsupportedChainIdError) {
-      return "Unsupported Network";
+      return "You are connected to wrong network 😔, Connect to Ethereum Mainnet.";
     } else if (e instanceof NoEthereumProviderError) {
-      return "No Wallet Found";
+      return <span> No Wallet Found please install <a href='https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en' target='_blank'>Metamask</a> </span>;
     } else if (e instanceof UserRejectedRequestError) {
-      return "Wallet Connection Rejected";
+      return "Wallet Connection Rejected 😔, Try Again!";
     } else if (e.code === -32002) {
       return "Wallet Connection Request Pending";
     } else {
-      return "An Error Occurred";
+      return "An Error Occurred ";
     }
   };
 

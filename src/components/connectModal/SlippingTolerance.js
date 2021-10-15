@@ -7,18 +7,18 @@ import { Button, IconButton, InputAdornment, Modal, TextField } from "@mui/mater
 
 const SlippingTolerance = ({status,handleClose,setSlippageValue}) => {
  
-  const [selectedPercentage, setSelectedPercentage] = useState(25);
+  const [selectedPercentage, setSelectedPercentage] = useState('');
   
   const [open, setOpen] = useState(status);
   const handleOpen = () => setOpen(true);
 
   const handlePercentageInput = (e) => {
     if (e.target.value === "" || isNaN(e.target.value)) {
-      setSelectedPercentage(parseInt(0));
-      setSlippageValue(parseInt(0));
-    } else if (e.target.value > 100) {
-      setSelectedPercentage(100);
-      setSlippageValue(100);
+      setSelectedPercentage(parseInt(1));
+      setSlippageValue(parseInt(1));
+    } else if (e.target.value > 50) {
+      setSelectedPercentage(50);
+      setSlippageValue(50);
     } else {
       setSelectedPercentage(parseInt(e.target.value));
       setSlippageValue(parseInt(e.target.value));
@@ -42,60 +42,61 @@ const SlippingTolerance = ({status,handleClose,setSlippageValue}) => {
                 </span>
               </div>
             </div>
-      <div className="slippingLiq-heading">Slipping Tolerance</div>
+      <div className="slippingLiq-heading">Slippage Tolerance</div>
 
       <div className="slippingLiq-ps-div">
         <div
           className="slippingLiq-ps"
           style={{
-            backgroundColor: selectedPercentage === 25 ? "#413AE2" : "#eee",
-            color: selectedPercentage === 25 ? "#fff" : "#000",
+            backgroundColor: selectedPercentage === 5 ? "#413AE2" : "#eee",
+            color: selectedPercentage === 5 ? "#fff" : "#000",
           }}
           onClick={() => {
-            setSelectedPercentage(25);
+            setSelectedPercentage(5);
           }}
         >
-          25%
+          5%
         </div>
         <div
           className="slippingLiq-ps"
           style={{
-            backgroundColor: selectedPercentage === 50 ? "#413AE2" : "#eee",
-            color: selectedPercentage === 50 ? "#fff" : "#000",
+            backgroundColor: selectedPercentage === 10 ? "#413AE2" : "#eee",
+            color: selectedPercentage === 10 ? "#fff" : "#000",
           }}
           onClick={() => {
-            setSelectedPercentage(50);
+            setSelectedPercentage(10);
           }}
         >
-          50%
+          10%
         </div>
         <div
           className="slippingLiq-ps"
           style={{
-            backgroundColor: selectedPercentage === 75 ? "#413AE2" : "#eee",
-            color: selectedPercentage === 75 ? "#fff" : "#000",
+            backgroundColor: selectedPercentage === 20 ? "#413AE2" : "#eee",
+            color: selectedPercentage === 20 ? "#fff" : "#000",
           }}
           onClick={() => {
-            setSelectedPercentage(75);
+            setSelectedPercentage(20);
           }}
         >
-          75%
+          20%
         </div>
         <div
           className="slippingLiq-ps"
           style={{
-            backgroundColor: selectedPercentage === 100 ? "#413AE2" : "#eee",
-            color: selectedPercentage === 100 ? "#fff" : "#000",
+            backgroundColor: selectedPercentage != 5 && selectedPercentage != 10 && selectedPercentage != 20 ? "#413AE2" : "#eee",
+            color: selectedPercentage != 5 && selectedPercentage != 10 && selectedPercentage != 20 ? "#fff" : "#000",
           }}
           onClick={() => {
-            setSelectedPercentage(100);
+            // setSelectedPercentage(10);
           }}
         >
           Auto
         </div>
       </div>
 
-      <div className="slippingLiq-ps-input-div">
+      <br></br>
+      {/* <div className="slippingLiq-ps-input-div"> */}
         <TextField
         sx={{
           borderRadius:"6px",
@@ -116,9 +117,10 @@ const SlippingTolerance = ({status,handleClose,setSlippageValue}) => {
             handlePercentageInput(e);
           }}
         ></TextField>
-      </div>
+      {/* </div> */}
+      <br></br><br></br>
 
-        <button className="slippingLiq-btn" onClick={()=>handleClose(false)}>
+        <button className="slippingLiq-btn" onClick={()=>handleClose(false)} style={{backgroundColor: selectedPercentage==''? '#afafaf' : '#413ae2'}}>
           Set Slippage
         </button>
         

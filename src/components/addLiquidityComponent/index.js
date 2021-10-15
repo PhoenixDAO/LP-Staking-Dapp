@@ -21,10 +21,17 @@ import ConnectWallet from "../ConnectWallet";
 import ConnectModal from "../connectModal/ConnectModal";
 import TransactionProgress from "../connectModal/TransactionProgress";
 import TransactionSubmitted from "../connectModal/TransactionSubmitted";
+import SlippingTolerance from "../connectModal/SlippingTolerance";
+import SettingsLogo from "../../assets/settings.png";
+
+
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [ethValue, setEthValue] = useState("");
   const [phnxValue, setPhnxValue] = useState("");
+
+  const [slippageModal,setSlippageModal]=useState(false);
+  const [slippageValue,setSlippageValue]=useState(1);
 
   const [poolShare, setPoolShare] = useState(0);
 
@@ -60,6 +67,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [transactionProcessModal, settransactionProcessModal] = useState(false);
   const [transactionSubmittedModal, settransactionSubmittedModal] =
     useState(false);
+  const [tranHash,settranHash] = useState('');
+
 
   useEffect(() => {
     _handleGetDataMain();
@@ -134,7 +143,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         settransactionSubmittedModal,
         handleGetPoolPosition,
         handleGetEthBalance,
-        handleGetPhnxBalance
+        handleGetPhnxBalance,
+        settranHash,
+        slippageValue
       );
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
       await GetBalances();
@@ -193,9 +204,15 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       <div style={{ paddingLeft: 10 }}>
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>
-          <p className="subheading-modal">
+          <p className="subheading-modal" style={{display:'flex'}}>
             Add liquidity to the ETH/PHNX pool <br /> and receive LP tokens
+            <img
+              onClick={()=>setSlippageModal(!slippageModal)}
+              src={SettingsLogo}
+              style={{ marginLeft: "auto", height: "20px", width: "20px",cursor:'pointer' }}
+            ></img>
           </p>
+          <br></br>
 
           {closeBtn ? (
             <button onClick={handleClose} className="icon-btn">
@@ -425,11 +442,14 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         phnxPerEth={phnxPerEth}
         ethPerPhnx={ethPerPhnx}
       ></ConnectModal>
+      <SlippingTolerance status={slippageModal} handleClose={setSlippageModal} setSlippageValue={setSlippageValue} />
+
       <TransactionProgress transactionProcessModal={transactionProcessModal}>
         {" "}
       </TransactionProgress>
       <TransactionSubmitted
         transactionSubmittedModal={transactionSubmittedModal}
+        hash={tranHash}
       ></TransactionSubmitted>
     </Box>
   );
