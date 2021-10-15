@@ -5,6 +5,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import ComponentCss from "../componentCss.css";
 import PhnxLogo from "../../assets/phnxLogo.png";
 import EthLogo from "../../assets/ETH1.png";
+import downArrow from "../../assets/downArrow.svg"
+import blueDownArrow from "../../assets/blueDownArrow.svg"
+import plusLiquidity from "../../assets/plusLiquidity.svg";
 import * as SERVICE from "../../services/pool.services";
 import { useWeb3React } from "@web3-react/core";
 import {
@@ -21,6 +24,7 @@ import ConnectWallet from "../ConnectWallet";
 import ConnectModal from "../connectModal/ConnectModal";
 import TransactionProgress from "../connectModal/TransactionProgress";
 import TransactionSubmitted from "../connectModal/TransactionSubmitted";
+import VersionSwitch from "../versionSwitch/versionSwitch";
 import SlippingTolerance from "../connectModal/SlippingTolerance";
 import SettingsLogo from "../../assets/settings.png";
 
@@ -201,7 +205,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   return (
     <Box sx={styles.containerStyle} className="modal-scroll">
-      <div style={{ paddingLeft: 10 }}>
+      <div >
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>
           <p className="subheading-modal" style={{display:'flex'}}>
@@ -246,7 +250,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <img alt="logo" style={styles.imgLogoPhnx} src={PhnxLogo} />
               <div style={styles.containerImg}>
                 <Typography style={styles.txtInput}>Input</Typography>
-                <Typography style={styles.txtPhnx}>PHNX ↓</Typography>
+                <Typography style={styles.txtPhnx}>PHNX <img src={blueDownArrow} style={styles.downArrow}></img></Typography>
               </div>
             </div>
             <div style={styles.containerInput}>
@@ -289,7 +293,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
 
           <div style={styles.containerAddDiv}>
-            <div className="add-div">+</div>
+            <div className="add-div"><img src={plusLiquidity}></img></div>
           </div>
 
           <div className="token-container">
@@ -298,7 +302,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.containerImg}>
                 <Typography style={styles.txtInput}>Input</Typography>
                 <Typography style={{ ...styles.txtPhnx, color: "#454A75" }}>
-                  ETH ↓
+                  ETH <img src={downArrow} style={styles.downArrow}></img>
                 </Typography>
               </div>
             </div>
@@ -345,15 +349,15 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         <div className="container-pool-share">
           <div style={styles.txtDivPhEth}>
             <Typography style={styles.txtConvDetails}>
-              <b>{phnxPerEth ? phnxPerEth : "0.0"}</b> PHNX/ETH
+              {phnxPerEth ? phnxPerEth : "0.0"} PHNX / ETH
             </Typography>
             <Typography style={styles.txtConvDetails}>
-              <b>{ethPerPhnx ? ethPerPhnx : "0.0"}</b> ETH/PHNX
+              {ethPerPhnx ? ethPerPhnx : "0.0"} ETH / PHNX
             </Typography>
           </div>
           <div className="pool-share">
             <Typography style={styles.txtConvDetails}>
-              less than <b>{poolShare ? poolShare : "0"}%</b>
+            &lt; {poolShare ? poolShare : "0"}%
             </Typography>
             <Typography style={styles.txtConvDetails}>pool share</Typography>
           </div>
@@ -477,6 +481,10 @@ const styles = {
       padding: 2,
     },
   },
+  downArrow:{
+height: "10px",
+width:"14px"
+  },
   containerAddDiv: {
     position: "absolute",
     width: 50,
@@ -505,7 +513,7 @@ const styles = {
   containerTip: {
     display: "flex",
     width: "100%",
-    padding: "9px 15px",
+    padding: "18px 15px",
     background:
       "linear-gradient(90deg, rgba(56, 16, 255, 0.55) 0%, rgba(255, 0, 245, 0.55) 143.12%)",
     borderRadius: 15,

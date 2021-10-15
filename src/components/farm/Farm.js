@@ -22,6 +22,7 @@ import {
   GetPhnxBalanceAction,
   GetPoolPositionAction,
 } from "../../redux/actions/contract.actions";
+import VersionSwitch from "../versionSwitch/versionSwitch";
 import Web3 from "web3";
 
 function Farm() {
@@ -234,6 +235,7 @@ function Farm() {
           userInfo={userInfo}
         ></UnStakingModal>
       </Modal>
+      <VersionSwitch/>
     </div>
   );
 }

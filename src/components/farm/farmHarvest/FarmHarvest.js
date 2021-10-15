@@ -61,8 +61,11 @@ function FarmHarvest({
           <span style={{ color: "#413AE2" }}>PHNX</span> EARNED
         </div>
         <div className="farm-details-txt-right">
+          <span style={{fontWeight:"bolder", color:"#4E4E55"}}>
           {pendingPHX["0"] &&
             fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)}
+        </span>
+
         </div>
       </div>
 
@@ -71,7 +74,9 @@ function FarmHarvest({
           <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
         </div>
         <div className="farm-details-txt-right">
+          <span style={{fontWeight:"bolder", color:"#4E4E55"}}>
           {userInfo.amount && Web3.utils.fromWei(userInfo.amount)}
+        </span>
         </div>
       </div>
 

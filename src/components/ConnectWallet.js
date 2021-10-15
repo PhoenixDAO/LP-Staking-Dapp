@@ -390,12 +390,12 @@ export default function ConnectWallet({
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
-                sx={{ ml: 3 }}
+                sx={{ ml: 3,textAlign: "left"  }}
               >
                 Metamask
               </Typography>
               <ArrowRightAltIcon
-                sx={{ ml: "auto" }}
+                sx={{ ml: "auto"}}
                 fontSize="large"
                 color="primary"
               />
@@ -478,7 +478,7 @@ export default function ConnectWallet({
             variant="p"
             component="p"
             align="center"
-            sx={{ mt: 4 }}
+            sx={{ mt: 4}}
           >
             By connecting, I accept PhoenixDAO’s{" "}
             <Link to="/terms" onClick={handleClose}>
