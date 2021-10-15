@@ -1,14 +1,5 @@
 import * as types from "../types/local.types";
-import {
-  getDataMain,
-  getPoolPosition,
-  checkApproval,
-  giveApproval,
-  // Web3Init,
-  phnxContractInit,
-  getEthBalance,
-} from "../../services/pool.services";
-// import {} from '../../services/stake.services'
+import { getDataMain, getEthBalance } from "../../services/pool.services";
 
 export const GetMainDataAction = () => {
   return async (dispatch) => {
