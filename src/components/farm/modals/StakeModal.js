@@ -42,12 +42,12 @@ function StakeModal({ Close }) {
     // }
   };
 
-  useEffect(() => {
-    // if (!poolPosition) {
-    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
-    // }
-    // console.log("Pool position already init!");
-  }, [web3context.account]);
+  // useEffect(() => {
+  // if (!poolPosition) {
+  // dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  // }
+  // console.log("Pool position already init!");
+  // }, [web3context.account]);
 
   useEffect(() => {
     if (web3context.active && web3context.account && poolPosition) {
@@ -70,9 +70,8 @@ function StakeModal({ Close }) {
           handleGetEthBalance,
           handleGetPhnxBalance,
           setLoading,
-          Close,
+          Close
         );
-      
       } catch (e) {
         console.error(e);
       }

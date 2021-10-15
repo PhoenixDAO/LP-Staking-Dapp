@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Web3ReactProvider } from "@web3-react/core";
 import { getLibrary } from "./utils/getLibrary";
 import { Provider } from "react-redux";
