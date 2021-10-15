@@ -14,6 +14,9 @@ export const PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY =
 export const URL_INFURA_RINKEBY =
   "https://rinkeby.infura.io/v3/3677788ecbb042f3b941ddd26dc8fc08";
 
+export const TX_LINK_RINKEBY = 
+  "https://rinkeby.etherscan.io/tx/";
+
 //mainnet
 export const UNISWAP_CONTRACT_ADDRESS_MAINNET =
   "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
@@ -28,3 +31,6 @@ export const PHNX_LP_STAKING_CONTRACT_ADDRESS_MAINNET = "";
 
 export const URL_INFURA_MAINNET =
   "https://mainnet.infura.io/v3/3677788ecbb042f3b941ddd26dc8fc08";
+
+export const TX_LINK_MAINNET = 
+"https://etherscan.io/tx/";

@@ -18,6 +18,7 @@ import { Button, IconButton, InputAdornment, Modal, TextField } from "@mui/mater
 import percentage from "../../assets/percentage.svg";
 
 
+
 const RemoveLiquidityModaL = ({slippageValue}) => {
   const web3context = useWeb3React();
   const dispatch = useDispatch();
@@ -40,13 +41,13 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
   const [perPhnxVal, setPerPhnxValue] = useState(0);
 
   const [phnxethburn, setphnxethburn] = useState(0);
-  const [selectedPercentage, setSelectedPercentage] = useState(0);
+  const [selectedPercentage, setSelectedPercentage] = useState(10);
   const [allowance, setAllowance] = useState(0);
 
   const [transactionConfirmModal, settransactionConfirmModal] = useState(false);
   const [transactionProcessModal, settransactionProcessModal] = useState(false);
-  const [transactionSubmittedModal, settransactionSubmittedModal] =
-    useState(false);
+  const [transactionSubmittedModal, settransactionSubmittedModal] = useState(false);
+  const [tranHash,settranHash] = useState('');
 
   const _handleCheckApproval = async () => {
     try {
@@ -74,7 +75,8 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
         handleGetPoolPosition,
         handleGetEthBalance,
         handleGetPhnxBalance,
-        slippageValue
+        slippageValue,
+        settranHash
       );
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
       dispatch(GetEthBalanceAction(web3context));
@@ -349,6 +351,7 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
       <TransactionProgress transactionProcessModal={transactionProcessModal} />
       <TransactionSubmitted
         transactionSubmittedModal={transactionSubmittedModal}
+        hash={tranHash}
       />
     </div>
   );

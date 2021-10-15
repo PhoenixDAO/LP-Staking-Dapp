@@ -1,7 +1,7 @@
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
-import { Contract, ethers } from "ethers";
-// import { ToastMsg } from "../components/Toast";
+import { ethers } from "ethers";
+import { fixedWithoutRounding } from "../utils/formatters";
 import { abi as UniswapV2Router02ABI } from "../contract/abi/UniswapV2Router02ABI.json";
 import { abi as UniswapV2PairABI } from "../contract/abi/UniswapV2PairABI.json";
 import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
@@ -19,7 +19,6 @@ import {
   Route,
 } from "@uniswap/sdk";
 import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../contract/constant";
-// import TransactionSubmitted from "../components/connectModal/TransactionSubmitted";
 import { toast } from "react-toastify";
 import Notify from "../components/Notify";
 
@@ -49,17 +48,17 @@ export const supply = async (
   settransactionSubmittedModal,
   handleGetPoolPosition,
   handleGetEthBalance,
-  handleGetPhnxBalance
+  handleGetPhnxBalance,
+  settranHash,
+  slippageValue
 ) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
-
-  
 
   let deadline = Date.now();
   deadline += 5 * 60;
 
-  let phnxMin = phnxValue - phnxValue * 0.1;
-  let ethMin = ethValue - ethValue * 0.1;
+  let phnxMin = phnxValue - phnxValue * (slippageValue/100);
+  let ethMin = ethValue - ethValue * (slippageValue/100);
 
   await contractUniswapRouter.methods
     .addLiquidityETH(
@@ -87,7 +86,7 @@ export const supply = async (
           position: "bottom-right",
         }
       );
-
+      settranHash(hash)
       settransactionProcessModal(false);
       settransactionSubmittedModal(true);
       console.log("hash", hash);
@@ -159,7 +158,7 @@ export const getPoolPosition = async (web3context, contractUniswapPair) => {
   _token1 = _token1.dividedBy(conv);
 
   return {
-    lp: _balance.toFixed(2),
+    lp: fixedWithoutRounding(_balance, 4), //.toFixed(2),
     poolPerc: _poolPercentage.toFormat(6),
     eth: _token1.toFormat(6),
     phnx: _token0.toFormat(6),
@@ -172,32 +171,25 @@ export const phnxDaoContractInit = async (web3context) => {
     PhoenixDaoABI,
     PHNX_RINKEBY_TOKEN_ADDRESS
   );
-
-  // let balance = await contract.methods
-  //   .balanceOf(PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
-  //   .call();
-  // console.log("phnxDaoContractInit service", web3.utils.fromWei(balance));
   return contract;
 };
 
 export const phnxStakeContractInit = async (web3context) => {
-  const web3 = new Web3(web3context?.library?.currentProvider);
+  const web3 = new Web3(URL_INFURA_RINKEBY);
   const contract = new web3.eth.Contract(
     PhoenixStakeABI,
     PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
   );
-  // console.log("phnxStakeContractInit service", contract);
-  // let respp = await web3.eth.getBalance(
-  //   "0xfe1b6abc39e46cec54d275efb4b29b33be176c2a"
-  // );
-  // console.log(
-  //   contract.methods.balanceOf(""),
-  //   "Balance of Pool PhnxStakeContract"
-  // );
-  let balance = await contract.methods
-    .balanceOf(PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
-    .call();
-  console.log(web3.utils.fromWei(balance), "Balance of PhnxStakeContract");
+  console.log("phnxStakeContractInit service", contract);
+  // if (web3context.active) {
+  //   let balance = await contract.methods
+  //     .balanceOf(PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
+  //     .call();
+  //   console.log(
+  //     web3.utils.fromWei(balance),
+  //     "phnxStakeContractInit Balance of"
+  //   );
+  // }
 
   return contract;
 };
@@ -223,10 +215,12 @@ export const uniswapV2PairInit = (web3context) => {
 export const getEthBalance = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   let WeiEthBalance = await web3.eth.getBalance(web3context.account);
-  let EthBalance = parseFloat(
-    web3.utils.fromWei(WeiEthBalance, "ether")
-  ).toFixed(2);
-  return Number(EthBalance).toFixed(2);
+  let EthBalance = fixedWithoutRounding(
+    parseFloat(web3.utils.fromWei(WeiEthBalance, "ether")),
+    4
+  );
+  return Number(EthBalance);
+  // .toFixed(2);
 };
 
 export const getPhnxBalance = async (web3context, contractPhnxDao) => {
@@ -236,7 +230,8 @@ export const getPhnxBalance = async (web3context, contractPhnxDao) => {
       .call();
 
     // console.log("Service getPhnxBalance ==>>", PhnxBalance);
-    return Number(Web3.utils.fromWei(PhnxBalance)).toFixed(2);
+    return fixedWithoutRounding(Number(Web3.utils.fromWei(PhnxBalance)), 4);
+    // .toFixed(2);
   } else {
     throw "Invalid arguments for getPhnxBalance";
   }
@@ -359,7 +354,8 @@ export const removeLiquidity = async (
   handleGetPoolPosition,
   handleGetEthBalance,
   handleGetPhnxBalance,
-  slippageValue
+  slippageValue,
+  settranHash
 ) => {
   if (web3context && contractUniswapRouter && poolPosition) {
     let deadline = Date.now();
@@ -414,7 +410,7 @@ export const removeLiquidity = async (
             position: "bottom-right",
           }
         );
-
+        settranHash(hash)
         settransactionProcessModal(false);
         settransactionConfirmModal(false);
         settransactionSubmittedModal(true);

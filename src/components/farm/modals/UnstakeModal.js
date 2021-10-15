@@ -123,7 +123,7 @@ function UnStakeModal({ Close, userInfo }) {
         </button>
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", marginTop: "13px" }}>
+      {/* <div style={{ display: "flex", alignItems: "center", marginTop: "13px" }}>
         <div className="stakingModal-details" style={{ marginTop: "0px" }}>
           Annual ROI at current rates:
         </div>
@@ -133,7 +133,7 @@ function UnStakeModal({ Close, userInfo }) {
         >
           $0.00 &nbsp;<img src={CalculatorLogo}></img>
         </div>
-      </div>
+      </div> */}
 
       <div style={{ display: "flex", alignItems: "center" }}>
         <button

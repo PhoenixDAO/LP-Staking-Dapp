@@ -12,8 +12,10 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY } from "../../contract/constant";
+import { TX_LINK_MAINNET , TX_LINK_RINKEBY } from "../../contract/constant";
 
-const TransactionSubmitted = ({ transactionSubmittedModal }) => {
+
+const TransactionSubmitted = ({ transactionSubmittedModal , hash}) => {
   const [selectedPercentage, setSelectedPercentage] = useState(0);
   const [allowance, setAllowance] = useState(0);
 
@@ -100,7 +102,7 @@ const TransactionSubmitted = ({ transactionSubmittedModal }) => {
               <div className="displayFlex bscScan">
                 <div className="cursorPointer">
                   <a
-                    href={`https://etherscan.io`}
+                    href={TX_LINK_RINKEBY+hash}
                     rel="external nofollow noopener"
                     target="_blank"
                   >

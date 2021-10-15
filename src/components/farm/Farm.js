@@ -7,6 +7,7 @@ import { Modal } from "@mui/material";
 import StakingModal from "./modals/StakeModal";
 import UnStakingModal from "./modals/UnstakeModal";
 import { useWeb3React } from "@web3-react/core";
+import { fixedWithoutRounding } from "../../utils/formatters";
 import {
   giveApprovalFarming,
   harvestPHNX,
@@ -22,6 +23,7 @@ import {
   GetPoolPositionAction,
 } from "../../redux/actions/contract.actions";
 import VersionSwitch from "../versionSwitch/versionSwitch";
+import Web3 from "web3";
 
 function Farm() {
   const dispatch = useDispatch();
@@ -50,6 +52,7 @@ function Farm() {
   const [pendingPHX, setPendingPHX] = useState({ 0: 0, 1: 0 });
   const [reserveUSD, setReserveUSD] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [APR, setAPR] = useState(0);
 
   const handleStackOpen = () => {
     setStackVisible(true);
@@ -162,6 +165,25 @@ function Farm() {
     }
   };
 
+  useEffect(() => {
+    const calculateAPR = async () => {
+      const blockInAYear = 2102400;
+      const phxPerBlock = await contractPhnxStake.methods.phxPerBlock().call();
+      const lpTokenSupply = await contractPhnxStake.methods
+        .lpTokenSupply()
+        .call();
+
+      const apr =
+        (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
+        Web3.utils.fromWei(lpTokenSupply);
+
+      setAPR(parseInt(apr));
+    };
+
+    if (contractPhnxStake) {
+      calculateAPR();
+    }
+  }, [contractPhnxStake]);
   // Check if phnx earned is less than contract balance for staking
   // for unstake if phnx earned + unstaked token < contract balance of staking
 
@@ -176,6 +198,7 @@ function Farm() {
             userInfo={userInfo}
             reserveUSD={reserveUSD}
             loading={loading}
+            APR={APR}
           />
         ) : (
           <FarmHarvest
@@ -186,6 +209,7 @@ function Farm() {
             harvestPHNX={_harvestPHNX}
             reserveUSD={reserveUSD}
             loading={loading}
+            APR={APR}
           />
         )}
       </div>

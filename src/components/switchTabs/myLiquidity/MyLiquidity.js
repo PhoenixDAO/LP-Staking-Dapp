@@ -30,7 +30,7 @@ function MyLiquidity({ ChangeTab }) {
   );
 
   const [slippageModal,setSlippageModal]=useState(false);
-  const [slippageValue,setSlippageValue]=useState(25);
+  const [slippageValue,setSlippageValue]=useState(10);
 
   const [isModalVisible, setModalVisible] = useState(false);
 

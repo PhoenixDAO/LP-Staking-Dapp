@@ -10,6 +10,7 @@ import Web3 from "web3";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import { fixedWithoutRounding } from "../../../utils/formatters";
 
 function FarmHarvest({
   stakeModalOpen,
@@ -19,6 +20,7 @@ function FarmHarvest({
   harvestPHNX,
   reserveUSD,
   loading,
+  APR,
 }) {
   const [showMore, setShowMore] = useState(false);
 
@@ -45,7 +47,7 @@ function FarmHarvest({
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
         <div className="farm-details-txt-right">
-          200% &nbsp;<img src={CalculatorLogo}></img>
+          {APR}% &nbsp;<img src={CalculatorLogo}></img>
         </div>
       </div>
 
@@ -60,8 +62,10 @@ function FarmHarvest({
         </div>
         <div className="farm-details-txt-right">
           <span style={{fontWeight:"bolder", color:"#4E4E55"}}>
-          {pendingPHX["0"] && Web3.utils.fromWei(pendingPHX["0"])}
+          {pendingPHX["0"] &&
+            fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)}
         </span>
+
         </div>
       </div>
 
@@ -105,7 +109,7 @@ function FarmHarvest({
       <div className="get-phnx-eth-lp">
         <Link to="/liquidity">
           Get PHNX-ETH LP
-          <img src={ShareLogo}></img>
+          <img style={{ marginLeft: 5 }} src={ShareLogo}></img>
         </Link>
       </div>
 
