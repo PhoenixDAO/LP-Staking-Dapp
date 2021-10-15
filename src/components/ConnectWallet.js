@@ -56,7 +56,6 @@ import { PHNX_RINKEBY_TOKEN_ADDRESS } from "../contract/constant";
 import WalletSettings from "./walletSettings";
 import axios from "axios";
 
-
 const style = {
   position: "absolute",
   maxHeight: "90%",
@@ -121,16 +120,11 @@ export default function ConnectWallet({
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   }, [contractPhnxDao, web3context.active]);
 
-  const balanceEth = useSelector(
-    (state) => state.localReducer.balanceEth
-  );
-  const balancePhnx = useSelector(
-    (state) => state.contractReducer.balancePhnx
-  );
+  const balanceEth = useSelector((state) => state.localReducer.balanceEth);
+  const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);
   const poolPosition = useSelector(
     (state) => state.contractReducer.poolPosition
   );
-
 
   const { account, active, connector, deactivate, library, chainId } =
     web3context;
@@ -154,7 +148,6 @@ export default function ConnectWallet({
   };
 
   const handleClose = () => setOpen(false);
-
 
   useEffect(() => {
     if (justModal == true) {
@@ -241,7 +234,7 @@ export default function ConnectWallet({
       })
         .then((response) => {
           if (response.data) {
-            console.log((parseInt(response.data.data.pairs[0]["reserveUSD"])));
+            console.log(parseInt(response.data.data.pairs[0]["reserveUSD"]));
             setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
           }
         })
@@ -258,9 +251,11 @@ export default function ConnectWallet({
 
   return (
     <div style={{ width: "fit-content" }}>
-      
       {active && account && justModal != true ? (
-        <button className="connect-wallet-btn balance-btn" style={{border:'none'}}>
+        <button
+          className="connect-wallet-btn balance-btn"
+          style={{ border: "none" }}
+        >
           <div
             style={{
               display: "flex",
@@ -272,8 +267,12 @@ export default function ConnectWallet({
               src={PhnxLogo}
               alt="PhnxLogo"
               className="connect-wallet-btn-img"
-            ></img>$
-            {poolPosition != null ? (parseFloat(poolPosition.poolPerc)*(parseFloat(reserveUSD)/100)).toFixed(2) : '0.00'}
+            ></img>
+            $
+            {poolPosition != null
+              ? parseFloat(poolPosition.poolPerc) *
+                (parseFloat(reserveUSD) / 100)
+              : "0.00"}
           </div>
         </button>
       ) : null}

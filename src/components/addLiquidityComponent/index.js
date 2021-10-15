@@ -22,9 +22,6 @@ import ConnectModal from "../connectModal/ConnectModal";
 import TransactionProgress from "../connectModal/TransactionProgress";
 import TransactionSubmitted from "../connectModal/TransactionSubmitted";
 
-
-
-
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [ethValue, setEthValue] = useState("");
   const [phnxValue, setPhnxValue] = useState("");
@@ -67,7 +64,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   useEffect(() => {
     _handleGetDataMain();
   }, []);
-
 
   useEffect(() => {
     if (web3context.active && web3context.account) {
@@ -193,7 +189,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   };
 
   return (
-    <Box sx={styles.containerStyle} className="modal-scroll" >
+    <Box sx={styles.containerStyle} className="modal-scroll">
       <div style={{ paddingLeft: 10 }}>
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>
@@ -340,7 +336,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
           <div className="pool-share">
             <Typography style={styles.txtConvDetails}>
-              less than <b>{poolShare ? poolShare.toFixed(2) : "0"}%</b>
+              less than <b>{poolShare ? poolShare : "0"}%</b>
             </Typography>
             <Typography style={styles.txtConvDetails}>pool share</Typography>
           </div>
