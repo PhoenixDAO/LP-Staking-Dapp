@@ -138,6 +138,7 @@ function Farm() {
       await harvestPHNX(
         web3context,
         contractPhnxStake,
+        contractPhnxDao,
         handleGetPoolPosition,
         handleGetEthBalance,
         handleGetPhnxBalance,
