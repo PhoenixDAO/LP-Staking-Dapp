@@ -160,6 +160,9 @@ function Farm() {
     }
   };
 
+  // Check if phnx earned is less than contract balance for staking
+  // for unstake if phnx earned + unstaked token < contract balance of staking
+
   return (
     <div>
       <div className="farm-div">

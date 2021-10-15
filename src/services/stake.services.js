@@ -141,16 +141,16 @@ export const getPendingPHX = async (
   web3context,
   setPendingPHX
 ) => {
-  console.log(
-    contractPhnxStake + "==> contractPhnxStake",
-    web3context + "==> web3context",
-    setPendingPHX + "==> setPendingPHX"
-  );
+  // console.log(
+  //   contractPhnxStake + "==> contractPhnxStake",
+  //   web3context + "==> web3context",
+  //   setPendingPHX + "==> setPendingPHX"
+  // );
   if (contractPhnxStake && web3context && setPendingPHX) {
     const pending = await contractPhnxStake.methods
       .pendingPHX(web3context?.account)
       .call();
-    console.log("pending", pending);
+    console.log("getPendingPHX response", pending);
     setPendingPHX(pending);
   } else {
     throw "Invalid credentials of getPendingPHX";
