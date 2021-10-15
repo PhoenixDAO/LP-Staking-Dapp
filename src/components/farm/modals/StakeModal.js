@@ -126,7 +126,8 @@ function StakeModal({ Close }) {
           className="stakingModal-details"
           style={{ marginLeft: "auto", marginTop: "0px" }}
         >
-          $0.00 &nbsp;<img src={CalculatorLogo}></img>
+          $0.00 &nbsp;
+          <img style={{ width: 15, height: 22 }} src={CalculatorLogo}></img>
         </div>
       </div>
 
