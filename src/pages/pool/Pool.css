@@ -26,6 +26,7 @@ div.gradient-div {
 p.connect-wallet-txt {
   font-size: 20px;
   text-align: left;
+  width: 55%;
   margin: 34px 0px 40px 36px;
   font-weight: 500;
 }

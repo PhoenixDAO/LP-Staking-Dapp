@@ -39,6 +39,7 @@
 
 .farm-details-txt-right {
   display: flex;
+  font-size: 18px;
   align-items: center;
   margin-left: auto;
   color: #73727d;

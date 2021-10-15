@@ -113,7 +113,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
         </IconButton>
       </DrawerHeader>
       <Divider />
-      <List>
+      <List style={{marginTop:"60px"}}>
         {["home", "liquidity", "farm"].map((text, index) => (
           <ListItem
             button
@@ -121,11 +121,12 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
             component={Link}
             to={`/${text}`}
             className={index === currentTab ? "current-tab" : null}
+            style={{color:"#73727D", fontWeight:"500"}}
           >
             <ListItemIcon>
               <img
                 src={index === 0 ? HomeLogo : index === 1 ? DropLogo : FarmLogo}
-                style={{ height: "18px", marginLeft: "5px" }}
+                style={{ height: "20px", marginLeft: "5px"}}
                 alt="icon"
               ></img>
             </ListItemIcon>

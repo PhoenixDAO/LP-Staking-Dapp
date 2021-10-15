@@ -21,6 +21,7 @@ import {
   GetPhnxBalanceAction,
   GetPoolPositionAction,
 } from "../../redux/actions/contract.actions";
+import VersionSwitch from "../versionSwitch/versionSwitch";
 
 function Farm() {
   const dispatch = useDispatch();
@@ -210,6 +211,7 @@ function Farm() {
           userInfo={userInfo}
         ></UnStakingModal>
       </Modal>
+      <VersionSwitch/>
     </div>
   );
 }

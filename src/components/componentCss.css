@@ -127,11 +127,11 @@ div.add-div {
   align-items: center;
   justify-content: center;
   display: flex;
-  padding-bottom: 7px;
+  /* padding-bottom: 7px; */
 }
 .icon-btn {
-  right: 50px;
-  top: 40px;
+  right: 20px;
+  top: 30px;
   position: absolute;
   border: 0px;
   border-radius: 20px;
@@ -149,7 +149,7 @@ div.container-pool-share {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 15px 10px 15px 15px;
+  padding: 10px 10px 10px 15px;
   margin-top: 15px;
   margin-bottom: 10px;
   border: 1px solid #e2e1ff;
@@ -313,7 +313,7 @@ div.liq-modal-res > div > .css-196kcza{
 }
 
 
-@media(max-width: 830px){
+@media(max-width: 900px){
   .balance-btn{
     display: none;
   }
