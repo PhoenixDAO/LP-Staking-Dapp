@@ -22,6 +22,9 @@ import ConnectModal from "../connectModal/ConnectModal";
 import TransactionProgress from "../connectModal/TransactionProgress";
 import TransactionSubmitted from "../connectModal/TransactionSubmitted";
 
+
+
+
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [ethValue, setEthValue] = useState("");
   const [phnxValue, setPhnxValue] = useState("");
@@ -64,6 +67,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   useEffect(() => {
     _handleGetDataMain();
   }, []);
+
 
   useEffect(() => {
     if (web3context.active && web3context.account) {

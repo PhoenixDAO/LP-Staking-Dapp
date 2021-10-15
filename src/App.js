@@ -7,15 +7,10 @@ import { store, persistor } from "./redux/store";
 import Router from "./routes";
 import { BrowserRouter } from "react-router-dom";
 import "./App.css";
-import { ToastContainer, toast } from "react-toastify";
-import Notify from "./components/Notify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// import { ToastMsg } from "./components/Toast";
-
 const App = () => {
-  // });
-
   return (
     <BrowserRouter>
       <Provider store={store}>

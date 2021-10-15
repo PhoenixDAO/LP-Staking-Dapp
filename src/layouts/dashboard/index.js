@@ -44,6 +44,7 @@ export default function DashboardLayout() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <DashboardNavbar open={open} handleDrawerOpen={handleDrawerOpen} />
+
       <DashboardSidebar
         open={open}
         handleDrawerClose={handleDrawerClose}
