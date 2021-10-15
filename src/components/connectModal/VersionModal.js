@@ -11,11 +11,11 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Checkbox, IconButton, InputAdornment, TextField } from "@mui/material";
 
-const VersionModal = () => {
+const VersionModal = ({status,setStatus}) => {
   const [selectedPercentage, setSelectedPercentage] = useState(0);
   const [allowance, setAllowance] = useState(0);
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(status);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [checked, setChecked] = useState(false);
@@ -39,10 +39,10 @@ const VersionModal = () => {
   return (
     <div>
       <div>
-        <Button onClick={handleOpen}>Version Modal</Button>
+        {/* <Button onClick={handleOpen}>Version Modal</Button> */}
         <Modal
-          open={open}
-          onClose={handleClose}
+          open={status}
+          onClose={()=>setStatus(false)}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -53,7 +53,7 @@ const VersionModal = () => {
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
-                  <CloseIcon onClick={handleClose} />
+                  <CloseIcon onClick={()=>setStatus(false)} />
                 </span>
               </div>
             </div>
@@ -90,6 +90,7 @@ const VersionModal = () => {
                 },
               }}
               className="version-btn cursorPointer"
+              onClick={()=>setStatus(false)}
             >
               Go to V2 Staking dApp
             </Button>
@@ -202,6 +203,7 @@ const VersionModal = () => {
                 },
               }}
               className="version-btn cursorPointer"
+              onClick={()=>setStatus(false)}
             >
               Continue to V1
             </Button>

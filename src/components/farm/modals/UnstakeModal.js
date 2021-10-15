@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 
 function UnStakeModal({ Close, userInfo }) {
+
   const [lpValue, setlpValue] = useState(0.0);
   const [maxlpValue, setmaxlpValue] = useState(0.0);
   const [loading, setLoading] = useState(false);
@@ -67,6 +68,7 @@ function UnStakeModal({ Close, userInfo }) {
         await STAKE_SERVICES.unStakeLp(
           web3context,
           contractPhnxStake,
+          contractPhnxDao,
           lpValue,
           handleGetPoolPosition,
           handleGetEthBalance,

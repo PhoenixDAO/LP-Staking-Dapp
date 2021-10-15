@@ -268,6 +268,8 @@ export default function ConnectWallet({
               ? parseFloat(poolPosition.poolPerc) *
                 (parseFloat(reserveUSD) / 100)
               : "---"}
+            ></img>$
+            {poolPosition != null ? (parseFloat(poolPosition.poolPerc)*(parseFloat(reserveUSD)/100)).toFixed(2) : '0.00'}
           </div>
         </button>
       ) : null}

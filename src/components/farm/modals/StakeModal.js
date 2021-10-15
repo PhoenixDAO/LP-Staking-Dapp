@@ -64,6 +64,7 @@ function StakeModal({ Close }) {
         await STAKE_SERVICES.stakeLp(
           web3context,
           contractPhnxStake,
+          contractPhnxDao,
           lpValue,
           handleGetPoolPosition,
           handleGetEthBalance,
