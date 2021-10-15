@@ -16,6 +16,7 @@ import TransactionProgress from "../../components/connectModal/TransactionProgre
 import ConfirmModal from "../../components/connectModal/ConfirmModal";
 import SlippingTolerance from "../../components/connectModal/SlippingTolerance";
 import VersionModal from "../../components/connectModal/VersionModal";
+import VersionSwitch from "../../components/versionSwitch/versionSwitch";
 
 const Pool = () => {
   const { account, active } = useWeb3React();
@@ -70,7 +71,9 @@ const Pool = () => {
 
           <img className="img-landing-logo" src={landingImg} />
         </div>
+        
       </div>
+      <VersionSwitch/>
     </div>
   );
 };

@@ -273,7 +273,7 @@ export default function ConnectWallet({
               alt="PhnxLogo"
               className="connect-wallet-btn-img"
             ></img>$
-            {poolPosition != null ? (parseFloat(poolPosition.poolPerc)*(parseFloat(reserveUSD)/100)) : '---'}
+            {poolPosition != null ? (parseFloat(poolPosition.poolPerc)*(parseFloat(reserveUSD)/100)).toFixed(2) : '0.00'}
           </div>
         </button>
       ) : null}
