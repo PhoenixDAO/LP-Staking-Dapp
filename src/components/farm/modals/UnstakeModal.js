@@ -105,7 +105,7 @@ function UnStakeModal({ Close, userInfo }) {
         </div>
       </div>
 
-      <div style={{ display: "flex", marginTop: "10px", alignItems: "center" , border:'solid 1px #000' ,borderRadius:'5px',paddingRight:'5px'}}>
+      <div style={{ display: "flex", marginTop: "10px", alignItems: "center" , border:'solid 1px #E4E4E7' ,borderRadius:'5px',paddingRight:'5px'}}>
         <input
           type="number"
           placeholder="0.0"
