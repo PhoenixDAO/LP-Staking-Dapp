@@ -7,12 +7,13 @@ import {
   UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY,
 } from "../contract/constant";
 
-export const giveApprovalFarming = async (
+export const giveApprovalPhnxStaking = async (
   web3context,
   contractUniswapPair,
   handleGetPoolPosition,
   handleGetEthBalance,
-  handleGetPhnxBalance
+  handleGetPhnxBalance,
+  handleCheckApprovalPhnxStakingAction
 ) => {
   //   const web3 = new Web3(web3context?.library?.currentProvider);
   if (web3context && contractUniswapPair) {
@@ -30,6 +31,7 @@ export const giveApprovalFarming = async (
         if (confirmationNumber === 2) {
           // tx confirmed
           console.log("confirmationNumber", confirmationNumber);
+          await handleCheckApprovalPhnxStakingAction();
         }
         await handleGetPoolPosition();
         await handleGetEthBalance();
@@ -130,17 +132,18 @@ export const harvestPHNX = async (
   }
 };
 
-export const checkApproval = async (
-  contractUniswapPair,
+export const checkApprovalPhnxStaking = async (
   web3context,
-  setAllowance
+  contractUniswapPair
+  // setAllowance
 ) => {
-  if (contractUniswapPair && web3context && setAllowance) {
+  if (contractUniswapPair && web3context) {
     const al = await contractUniswapPair.methods
       .allowance(web3context?.account, PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
       .call();
-    console.log("al", al);
-    setAllowance(al);
+    console.log("al checkApprovalPhnxStaking", al);
+    return al;
+    // setAllowance(al);
   } else {
     throw "Invalid credentials of checkApproval STAKE-SERVICES";
   }

@@ -9,6 +9,7 @@ import {
   checkApprovalUniswapPair,
   checkApprovalPhnxDao,
 } from "../../services/pool.services";
+import { checkApprovalPhnxStaking } from "../../services/stake.services";
 
 export const PhnxDaoContractInitAction = (web3context) => {
   return async (dispatch) => {
@@ -138,6 +139,30 @@ export const CheckApprovalPhnxDaoAction = (web3context, contractPhnxDao) => {
     } catch (e) {
       dispatch({
         type: types.CHECK_APPROVAL_PHNXDAO_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
+
+export const CheckApprovalPhnxStakingAction = (
+  web3context,
+  contractUniswapPair
+) => {
+  return async (dispatch) => {
+    try {
+      let response = await checkApprovalPhnxStaking(
+        web3context,
+        contractUniswapPair
+      );
+      console.log("CheckApprovalPhnxStakingAction response", response);
+      dispatch({
+        type: types.CHECK_APPROVAL_PHNX_STAKING_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: types.CHECK_APPROVAL_PHNX_STAKING_ERROR,
         payload: e?.response?.data?.message || e.message,
       });
     }
