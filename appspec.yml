@@ -3,7 +3,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/dafi-dapp
+    destination: /home/ubuntu/phoenix-dao-lp
 permissions:
   - object: /home/ubuntu
     owner: ubuntu

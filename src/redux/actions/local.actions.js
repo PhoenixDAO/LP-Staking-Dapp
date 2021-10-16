@@ -9,7 +9,7 @@ export const GetMainDataAction = () => {
     });
     try {
       let response = await getDataMain();
-      // console.log("GetMainDataAction response", response);
+      console.log("GetMainDataAction response", response);
       dispatch({
         type: types.GET_MAIN_DATA_SUCCESS,
         payload: response,
@@ -27,6 +27,8 @@ export const GetEthBalanceAction = (web3context) => {
   return async (dispatch) => {
     try {
       let response = await getEthBalance(web3context);
+      console.log(response)
+
       // console.log("GetEthBalaceAction response", response);
       dispatch({
         type: types.ETH_BALANCE_SUCCESS,

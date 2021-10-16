@@ -10,7 +10,6 @@ import { useWeb3React } from "@web3-react/core";
 import {
   giveApprovalFarming,
   harvestPHNX,
-  checkApproval,
   getUserInfo,
   getPendingPHX,
 } from "../../services/stake.services";
@@ -21,17 +20,17 @@ import {
   GetPhnxBalanceAction,
   GetPoolPositionAction,
   PhnxStakeContractInitAction,
+  CheckApprovalUniswapPairAction,
 } from "../../redux/actions/contract.actions";
 import VersionSwitch from "../versionSwitch/versionSwitch";
 import Web3 from "web3";
-import { phnxStakeContractInit } from "../../services/pool.services";
+import { phnxStakeContractInit,giveApprovalUniswapPair } from "../../services/pool.services";
 import BigNumber from "bignumber.js";
 
 function Farm() {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   const userIsActive = useSelector((state) => state.localReducer.userIsActive);
-
   const contractPhnxStake = useSelector(
     (state) => state.contractReducer.contractPhnxStake
   );
@@ -59,17 +58,42 @@ function Farm() {
   const handleStackOpen = () => {
     setStackVisible(true);
   };
-
   const handleStackClose = () => {
     setStackVisible(false);
   };
-
   const handleUnStackOpen = () => {
     setUnStackVisible(true);
   };
-
   const handleUnStackClose = () => {
     setUnStackVisible(false);
+  };
+  const handleGetUserInfo = async () => {
+    getUserInfo(contractPhnxStake, web3context, setUserInfo);
+  };
+  const handleGetPoolPositionAction = async () => {
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  };
+  const handleGetEthBalanceAction = async () => {
+    dispatch(GetEthBalanceAction(web3context));
+  };
+  const handleGetPhnxBalanceAction = async () => {
+    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+  };
+  const handleCheckApprovalUniswapPairAction = async () => {
+    console.log("coming to handleCheckApprovalUniswapPairAction");
+    dispatch(CheckApprovalUniswapPairAction(web3context, contractUniswapPair));
+  };
+
+  // This f() to be called on give approval button
+  const handleGiveApprovalUniswapPair = async () => {
+    await giveApprovalUniswapPair(
+      web3context,
+      contractUniswapPair,
+      handleGetPoolPositionAction,
+      handleGetEthBalanceAction,
+      handleGetPhnxBalanceAction,
+      handleCheckApprovalUniswapPairAction
+    );
   };
 
   useEffect(() => {
@@ -79,12 +103,13 @@ function Farm() {
       contractUniswapPair &&
       contractPhnxStake
     ) {
-      dispatch(PhnxStakeContractInitAction(web3context));
-      checkApproval(contractUniswapPair, web3context, setAllowance);
-      // getUserInfo(contractPhnxStake, web3context, setUserInfo);
-      handleGetUserInfo();
-      getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
-      handleGetPoolPosition();
+      (async () => {
+        dispatch(PhnxStakeContractInitAction(web3context));
+        await handleCheckApprovalUniswapPairAction();
+        await handleGetUserInfo();
+        await getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
+        await handleGetPoolPositionAction();
+      })();
     }
   }, [
     web3context?.library?.currentProvider,
@@ -103,13 +128,7 @@ function Farm() {
     ) {
       handleGetUserInfo();
     }
-  }, [poolPosition, web3context.active, contractPhnxStake]);
-
-  const handleGetUserInfo = () => {
-    if (web3context.active) {
-      getUserInfo(contractPhnxStake, web3context, setUserInfo);
-    }
-  };
+  }, [poolPosition]);
 
   useEffect(() => {
     const getTotalLiquidity = async () => {
@@ -137,30 +156,21 @@ function Farm() {
     getTotalLiquidity();
   }, []);
 
-  //give approval for lp tokens
-  const _giveApproval = async () => {
-    try {
-      await giveApprovalFarming(
-        web3context,
-        contractUniswapPair,
-        handleGetPoolPosition,
-        handleGetEthBalance,
-        handleGetPhnxBalance
-      );
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const handleGetPoolPosition = () => {
-    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
-  };
-  const handleGetEthBalance = () => {
-    dispatch(GetEthBalanceAction(web3context));
-  };
-  const handleGetPhnxBalance = () => {
-    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
-  };
+  //give approval for lp tokens hiii
+  // const _giveApproval = async () => {
+  //   try {
+  //     await giveApprovalFarming(
+  //       web3context,
+  //       contractUniswapPair,
+  //       handleGetPoolPositionAction,
+  //       handleGetEthBalanceAction,
+  //       handleGetPhnxBalanceAction
+  //     );
+  //     await checkApproval(contractUniswapPair, web3context, setAllowance);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
 
   const _harvestPHNX = async () => {
     try {
@@ -168,9 +178,9 @@ function Farm() {
         web3context,
         contractPhnxStake,
         contractPhnxDao,
-        handleGetPoolPosition,
-        handleGetEthBalance,
-        handleGetPhnxBalance,
+        handleGetPoolPositionAction,
+        handleGetEthBalanceAction,
+        handleGetPhnxBalanceAction,
         setLoading
       );
     } catch (e) {
@@ -194,8 +204,6 @@ function Farm() {
 
   useEffect(() => {
     const calculateAPR = async () => {
-      console.log("calculateAPR");
-
       const blockInAYear = 2102400;
       const phxPerBlock = await contractPhnxStake?.methods
         ?.phxPerBlock()
@@ -271,7 +279,7 @@ function Farm() {
           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
-            giveApproval={_giveApproval}
+            giveApproval={handleGiveApprovalUniswapPair}
             userInfo={userInfo}
             reserveUSD={reserveUSD}
             loading={loading}
@@ -281,7 +289,7 @@ function Farm() {
           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
-            giveApproval={_giveApproval}
+            giveApproval={handleGiveApprovalUniswapPair}
             userInfo={userInfo}
             reserveUSD={reserveUSD}
             loading={loading}
@@ -317,10 +325,7 @@ function Farm() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <UnStakingModal
-          Close={handleUnStackClose}
-          userInfo={userInfo}
-        ></UnStakingModal>
+        <UnStakingModal Close={handleUnStackClose} userInfo={userInfo} />
       </Modal>
       <VersionSwitch />
     </div>

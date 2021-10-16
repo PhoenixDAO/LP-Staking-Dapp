@@ -333,8 +333,8 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
       </div>
 
       <div className="rm-liq-phnx-eth-lp-div" style={{ marginTop: "7px" }}>
-        <div className="rm-liq-phnx-eth-lp-sub">Pooled Share</div>
-        <div className="rm-liq-phnx-eth-lp-sub-no">{poolPosition.poolPerc}</div>
+        <div className="rm-liq-phnx-eth-lp-sub">Pool Share</div>
+        <div className="rm-liq-phnx-eth-lp-sub-no">{poolPosition.poolPerc}%</div>
       </div>
 
       <br></br>

@@ -24,8 +24,9 @@ const localReducer = (state = INITIAL_STATE, action) => {
         loading_MainData: false,
         phnxPerEth: action.payload.route.midPrice.toSignificant(6),
         ethPerPhnx: action.payload.route.midPrice.invert().toSignificant(6),
-        reserve0: action.payload.pair.reserveO,
-        reserve1: fixedWithoutRounding(action.payload.pair.reserve1, 4), //.toFixed(2),
+        reserve0: action.payload.pair.reserve0,
+        reserve1: action.payload.pair.reserve1.toFixed(2),
+        // reserve1: fixedWithoutRounding(action.payload.pair.reserve1, 4), //.toFixed(2),
       };
     case types.GET_MAIN_DATA_ERROR:
       return { ...state, error: action.payload, loading_MainData: false };

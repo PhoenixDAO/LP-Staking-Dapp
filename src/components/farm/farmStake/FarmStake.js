@@ -19,6 +19,15 @@ function FarmStake({
   reserveUSD,
   APR,
 }) {
+
+  const [approveStatus,setApproveStatus] = useState(false);
+  const handleApproval = async () =>{
+      setApproveStatus(true);
+      await giveApproval();
+      setApproveStatus(false);
+  }
+
+  console.log('allowance1:',allowance);
   const web3context = useWeb3React();
   //   const userIsActive = useSelector((state) => state.localReducer.userIsActive);
   //  nsole.log(userIsActive, "userIsActive");
@@ -70,17 +79,18 @@ function FarmStake({
           <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
         </div>
         <div className="farm-details-txt-right">
-          {userInfo.amount && userInfo.amount}
+          {userInfo?.amount}
         </div>
       </div>
       {web3context.active ? (
+        
         allowance != 0 ? (
           <button className="farm-btn-stake" onClick={stakeModalOpen}>
             Stake LP
           </button>
         ) : (
-          <button className="farm-btn-stake" onClick={giveApproval}>
-            Approve LP
+          <button className="farm-btn-stake" onClick={approveStatus==false ? handleApproval : null} style={{backgroundColor: approveStatus==false ? '#413ae2' : '#AAAAAA', }}>
+           {approveStatus==false ? 'Approve' : 'Approving...'}
           </button>
         )
       ) : (

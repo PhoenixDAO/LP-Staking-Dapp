@@ -5,8 +5,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import ComponentCss from "../componentCss.css";
 import PhnxLogo from "../../assets/phnxLogo.png";
 import EthLogo from "../../assets/ETH1.png";
-import downArrow from "../../assets/downArrow.svg"
-import blueDownArrow from "../../assets/blueDownArrow.svg"
+import downArrow from "../../assets/downArrow.svg";
+import blueDownArrow from "../../assets/blueDownArrow.svg";
 import plusLiquidity from "../../assets/plusLiquidity.svg";
 import * as SERVICE from "../../services/pool.services";
 import { useWeb3React } from "@web3-react/core";
@@ -14,6 +14,7 @@ import {
   GetPoolPositionAction,
   GetPhnxBalanceAction,
   PhnxDaoContractInitAction,
+  CheckApprovalPhnxDaoAction,
 } from "../../redux/actions/contract.actions";
 import {
   GetEthBalanceAction,
@@ -24,9 +25,10 @@ import ConnectWallet from "../ConnectWallet";
 import ConnectModal from "../connectModal/ConnectModal";
 import TransactionProgress from "../connectModal/TransactionProgress";
 import TransactionSubmitted from "../connectModal/TransactionSubmitted";
-import VersionSwitch from "../versionSwitch/versionSwitch";
+// import VersionSwitch from "../versionSwitch/versionSwitch";
 import SlippingTolerance from "../connectModal/SlippingTolerance";
 import SettingsLogo from "../../assets/settings.png";
+// import { Check } from "@mui/icons-material";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [ethValue, setEthValue] = useState("");
@@ -37,11 +39,13 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const [poolShare, setPoolShare] = useState(0);
 
-  const [allowance, setAllowance] = useState(0);
+  // const [allowance, setAllowance] = useState(0);
 
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   const phnxPerEth = useSelector((state) => state.localReducer.phnxPerEth);
+  const allowance = useSelector((state) => state.contractReducer.allowancePhnxDao);
+
   const ethPerPhnx = useSelector((state) => state.localReducer.ethPerPhnx);
   const reserve0 = useSelector((state) => state.localReducer.reserve0);
   const reserve1 = useSelector((state) => state.localReducer.reserve1);
@@ -78,7 +82,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   useEffect(() => {
     if (web3context.active && web3context.account) {
       handleGetPoolPosition();
-      _handleCheckApproval();
+      handleCheckApprovalPhnxDaoAction();
     }
   }, [web3context.active, web3context.account, contractUniswapPair]);
 
@@ -91,35 +95,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const _handleGetDataMain = async () => {
     dispatch(GetMainDataAction());
   };
-
-  const _handleCheckApproval = async () => {
-    try {
-      let result = await SERVICE.checkApprovalPhnxDao(
-        web3context,
-        contractPhnxDao
-      );
-      setAllowance(result);
-    } catch (e) {
-      console.error("_handleCheckApproval", e);
-    }
-  };
-
-  const _handleGiveApproval = async () => {
-    try {
-      await SERVICE.giveApprovalPhnxDao(
-        web3context,
-        contractPhnxDao,
-        handleGetPoolPosition,
-        handleGetEthBalance,
-        handleGetPhnxBalance
-      );
-      // _handleGetPoolPosition();
-      // await GetBalances();
-    } catch (e) {
-      console.error("Error _handleGiveApproval", e);
-    }
-  };
-
   const handleGetPoolPosition = () => {
     dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
   };
@@ -129,6 +104,50 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const handleGetPhnxBalance = () => {
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
+  // This will be replaced with allowance state
+  const handleCheckApprovalPhnxDaoAction = async () => {
+    dispatch(CheckApprovalPhnxDaoAction(web3context, contractPhnxDao));
+  };
+  // const _handleCheckApproval = async () => {
+  //   try {
+  //     let result = await SERVICE.checkApprovalPhnxDao(
+  //       web3context,
+  //       contractPhnxDao
+  //     );
+  //     setAllowance(result);
+  //   } catch (e) {
+  //     console.error("_handleCheckApproval", e);
+  //   }
+  // };
+
+  const handleGiveApprovalPhnxDao = async () => {
+    try {
+      await SERVICE.giveApprovalPhnxDao(
+        web3context,
+        contractPhnxDao,
+        handleGetPoolPosition,
+        handleGetEthBalance,
+        handleGetPhnxBalance,
+        handleCheckApprovalPhnxDaoAction
+      );
+    } catch (e) {
+      console.error("Error handleGiveApprovalPhnxDao", e);
+    }
+  };
+
+  // const _handleGiveApproval = async () => {
+  //   try {
+  //     await SERVICE.giveApprovalPhnxDao(
+  //       web3context,
+  //       contractPhnxDao,
+  //       handleGetPoolPosition,
+  //       handleGetEthBalance,
+  //       handleGetPhnxBalance
+  //     );
+  //   } catch (e) {
+  //     console.error("Error _handleGiveApproval", e);
+  //   }
+  // };
 
   const _handleSupply = async () => {
     try {
@@ -162,22 +181,23 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const OnChangeHandler = (val, tokenName) => {
     if (tokenName === "phnx") {
-      // if (Number(val) <= balancePhnx) {
+
       let v = parseFloat(val);
       let total = parseFloat(reserve1) + v;
-      setPoolShare((v / total) * 100);
+      console.log('res'+reserve1)
+      setPoolShare(((v / total) * 100).toFixed(3));
       setPhnxValue(v);
       setEthValue(parseFloat(ethPerPhnx) * v || num);
-      // }
+      
     } else if (tokenName === "eth") {
-      // if (Number(val) <= balanceEth) {
       let v = parseFloat(val);
       let total = parseFloat(phnxPerEth) * v;
       total = total + parseFloat(reserve1);
-      setPoolShare(((parseFloat(phnxPerEth) * v) / total) * 100);
+      console.log('v',poolShare)
+
+      setPoolShare((((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(3));
       setEthValue(v);
       setPhnxValue(parseFloat(phnxPerEth) * v || num);
-      // }
     } else {
       return;
     }
@@ -202,7 +222,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   return (
     <Box sx={styles.containerStyle} className="modal-scroll">
-      <div >
+      <div>
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>
           <p className="subheading-modal" style={{ display: "flex" }}>
@@ -251,7 +271,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <img alt="logo" style={styles.imgLogoPhnx} src={PhnxLogo} />
               <div style={styles.containerImg}>
                 <Typography style={styles.txtInput}>Input</Typography>
-                <Typography style={styles.txtPhnx}>PHNX <img src={blueDownArrow} style={styles.downArrow}></img></Typography>
+                <Typography style={styles.txtPhnx}>
+                  PHNX <img src={blueDownArrow} style={styles.downArrow}></img>
+                </Typography>
               </div>
             </div>
             <div style={styles.containerInput}>
@@ -294,7 +316,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
 
           <div style={styles.containerAddDiv}>
-            <div className="add-div"><img src={plusLiquidity}></img></div>
+            <div className="add-div">
+              <img src={plusLiquidity}></img>
+            </div>
           </div>
 
           <div className="token-container">
@@ -327,7 +351,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                     OnChangeHandler(event.target.value, "eth");
                   }}
                   style={styles.inputStyle}
-                  className='liq-tab-inputs'
+                  className="liq-tab-inputs"
                   variant="standard"
                   InputProps={{
                     endAdornment: (
@@ -358,7 +382,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
           <div className="pool-share">
             <Typography style={styles.txtConvDetails}>
-            {poolShare ? poolShare : "0"}%
+
+            {isNaN(poolShare) ? '0.00' : poolShare +'%'}
+
             </Typography>
             <Typography style={styles.txtConvDetails}>pool share</Typography>
           </div>
@@ -392,7 +418,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                 ethValue === 0 ||
                 phnxValue == "" ||
                 ethValue == ""
-                  ? "#eee"
+                  ? "#acacac"
                   : "#413AE2",
             }}
             disabled={
@@ -422,11 +448,11 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             fullWidth={true}
             style={{
               ...styles.btnAddLiquidity,
-              backgroundColor: loading ? "#eee" : "#413AE2",
+              backgroundColor: loading ? "#acacac" : "#413AE2",
               textTransform: "capitalize",
             }}
             disabled={loading}
-            onClick={_handleGiveApproval}
+            onClick={handleGiveApprovalPhnxDao}
           >
             Approve PHNX
           </Button>
@@ -469,14 +495,15 @@ export default LiquidityModal;
 const styles = {
   containerStyle: {
     position: "absolute",
-    maxHeight: "90%",
-    overflowY: "scroll",
+    maxHeight: "100%",
+    overflowY: "hidden",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 600,
     bgcolor: "#fff",
     padding: 20,
+    
     // border: "2px solid #000",
     borderRadius: 5,
     boxShadow: 0,
@@ -486,9 +513,9 @@ const styles = {
       padding: 2,
     },
   },
-  downArrow:{
-height: "10px",
-width:"14px"
+  downArrow: {
+    height: "10px",
+    width: "14px",
   },
   containerAddDiv: {
     position: "absolute",
@@ -535,6 +562,9 @@ width:"14px"
     borderRadius: 12,
     textTransform: "capitalize",
     fontSize: 18,
+    color:'#fff'
+    
+
   },
   tokenContainer: {
     display: "flex",
@@ -570,8 +600,8 @@ width:"14px"
     alignItems: "flex-end",
   },
   txtAmount: {
-    fontSize: 15,
-    fontWeight: "bold",
+    fontSize: 18,
+    fontWeight: "900",
     marginLeft: 5,
   },
   divPhnxAmount: {
@@ -607,7 +637,7 @@ width:"14px"
   },
   txtInput: {
     color: "#707070",
-    fontSize: 13,
+    fontSize: 15,
   },
   iconBtn: {
     height: 25,
