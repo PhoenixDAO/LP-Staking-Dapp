@@ -39,11 +39,13 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const [poolShare, setPoolShare] = useState(0);
 
-  const [allowance, setAllowance] = useState(0);
+  // const [allowance, setAllowance] = useState(0);
 
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   const phnxPerEth = useSelector((state) => state.localReducer.phnxPerEth);
+  const allowance = useSelector((state) => state.contractReducer.allowancePhnxDao);
+
   const ethPerPhnx = useSelector((state) => state.localReducer.ethPerPhnx);
   const reserve0 = useSelector((state) => state.localReducer.reserve0);
   const reserve1 = useSelector((state) => state.localReducer.reserve1);
@@ -416,7 +418,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                 ethValue === 0 ||
                 phnxValue == "" ||
                 ethValue == ""
-                  ? "#eee"
+                  ? "#acacac"
                   : "#413AE2",
             }}
             disabled={
@@ -446,7 +448,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             fullWidth={true}
             style={{
               ...styles.btnAddLiquidity,
-              backgroundColor: loading ? "#eee" : "#413AE2",
+              backgroundColor: loading ? "#acacac" : "#413AE2",
               textTransform: "capitalize",
             }}
             disabled={loading}
@@ -493,14 +495,15 @@ export default LiquidityModal;
 const styles = {
   containerStyle: {
     position: "absolute",
-    maxHeight: "90%",
-    overflowY: "scroll",
+    maxHeight: "100%",
+    overflowY: "hidden",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: 600,
     bgcolor: "#fff",
     padding: 20,
+    
     // border: "2px solid #000",
     borderRadius: 5,
     boxShadow: 0,
@@ -559,6 +562,9 @@ const styles = {
     borderRadius: 12,
     textTransform: "capitalize",
     fontSize: 18,
+    color:'#fff'
+    
+
   },
   tokenContainer: {
     display: "flex",
