@@ -74,7 +74,7 @@ function FarmStake({
         </div>
       </div>
       {web3context.active ? (
-        allowance != 0 ? (
+        allowance !== 0 ? (
           <button className="farm-btn-stake" onClick={stakeModalOpen}>
             Stake LP
           </button>

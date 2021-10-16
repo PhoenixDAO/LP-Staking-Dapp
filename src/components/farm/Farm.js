@@ -145,6 +145,7 @@ function Farm() {
         handleGetEthBalance,
         handleGetPhnxBalance
       );
+      await checkApproval(contractUniswapPair, web3context, setAllowance);
     } catch (e) {
       console.error(e);
     }
