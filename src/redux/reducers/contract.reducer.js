@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   contractUniswapRouter: null,
   allowanceUniswapPair: 0,
   allowancePhnxDao: 0,
+  allowancePhnxStaking: 0,
 };
 
 const contractReducer = (state = INITIAL_STATE, action) => {
@@ -75,6 +76,11 @@ const contractReducer = (state = INITIAL_STATE, action) => {
       return { ...state, allowancePhnxDao: action.payload, error: "" };
     case types.CHECK_APPROVAL_PHNXDAO_ERROR:
       return { ...state, allowancePhnxDao: 0, error: action.payload };
+
+    case types.CHECK_APPROVAL_PHNX_STAKING_SUCCESS:
+      return { ...state, allowancePhnxStaking: action.payload, error: "" };
+    case types.CHECK_APPROVAL_PHNX_STAKING_ERROR:
+      return { ...state, error: action.payload, allowancePhnxStaking: 0 };
 
     case types.RESET_ALL_CONTRACT_REDUCER:
       return { ...INITIAL_STATE };

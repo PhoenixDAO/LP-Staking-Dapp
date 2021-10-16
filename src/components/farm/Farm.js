@@ -8,10 +8,10 @@ import StakingModal from "./modals/StakeModal";
 import UnStakingModal from "./modals/UnstakeModal";
 import { useWeb3React } from "@web3-react/core";
 import {
-  giveApprovalFarming,
   harvestPHNX,
   getUserInfo,
   getPendingPHX,
+  giveApprovalPhnxStaking,
 } from "../../services/stake.services";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
@@ -21,6 +21,7 @@ import {
   GetPoolPositionAction,
   PhnxStakeContractInitAction,
   CheckApprovalUniswapPairAction,
+  CheckApprovalPhnxStakingAction,
 } from "../../redux/actions/contract.actions";
 import VersionSwitch from "../versionSwitch/versionSwitch";
 import Web3 from "web3";
@@ -30,7 +31,6 @@ import BigNumber from "bignumber.js";
 function Farm() {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
-  const userIsActive = useSelector((state) => state.localReducer.userIsActive);
   const contractPhnxStake = useSelector(
     (state) => state.contractReducer.contractPhnxStake
   );
@@ -83,6 +83,16 @@ function Farm() {
     console.log("coming to handleCheckApprovalUniswapPairAction");
     dispatch(CheckApprovalUniswapPairAction(web3context, contractUniswapPair));
   };
+  const handleCheckApprovalPhnxStakingAction = () => {
+    console.log("handleCheckApprovalPhnxStakingAction iiii");
+    dispatch(CheckApprovalPhnxStakingAction(web3context, contractUniswapPair));
+  };
+
+  useEffect(() => {
+    if (contractUniswapPair && web3context.active) {
+      handleCheckApprovalPhnxStakingAction();
+    }
+  }, [contractUniswapPair, web3context.active]);
 
   // This f() to be called on give approval button
   const handleGiveApprovalUniswapPair = async () => {
@@ -94,6 +104,22 @@ function Farm() {
       handleGetPhnxBalanceAction,
       handleCheckApprovalUniswapPairAction
     );
+  };
+
+  // have to put on a button handleGiveApprovalPhnxStakingAction
+  const handleGiveApprovalPhnxStakingAction = async () => {
+    try {
+      await giveApprovalPhnxStaking(
+        web3context,
+        contractUniswapPair,
+        handleGetPoolPositionAction,
+        handleGetEthBalanceAction,
+        handleGetPhnxBalanceAction,
+        handleCheckApprovalPhnxStakingAction
+      );
+    } catch (e) {
+      console.error(e, "err in handleGiveApprovalPhnxStakingAction");
+    }
   };
 
   useEffect(() => {
@@ -155,22 +181,6 @@ function Farm() {
 
     getTotalLiquidity();
   }, []);
-
-  //give approval for lp tokens hiii
-  // const _giveApproval = async () => {
-  //   try {
-  //     await giveApprovalFarming(
-  //       web3context,
-  //       contractUniswapPair,
-  //       handleGetPoolPositionAction,
-  //       handleGetEthBalanceAction,
-  //       handleGetPhnxBalanceAction
-  //     );
-  //     await checkApproval(contractUniswapPair, web3context, setAllowance);
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
 
   const _harvestPHNX = async () => {
     try {
