@@ -358,6 +358,9 @@ div.liq-modal-res > div > .css-196kcza{
     background: linear-gradient(-270.37deg, rgba(65, 58, 226, 0.3) -144.64%, rgba(65, 58, 226, 0) 99.7%);
 
   }
+  .no-current-tab{
+    border-left: solid 5px #fff !important;
+  }
 
 
   .connect-wallet-btn{
