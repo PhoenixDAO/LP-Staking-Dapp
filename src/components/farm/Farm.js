@@ -91,8 +91,16 @@ function Farm() {
   ]);
 
   useEffect(() => {
-    handleGetUserInfo();
-  }, [poolPosition]);
+    if (
+      web3context?.account &&
+      web3context?.active &&
+      contractUniswapPair &&
+      contractPhnxStake
+    ) {
+      handleGetUserInfo();
+    }
+  }, [poolPosition, web3context.activate]);
+
   const handleGetUserInfo = () => {
     if (web3context.activate) {
       getUserInfo(contractPhnxStake, web3context.account, setUserInfo);

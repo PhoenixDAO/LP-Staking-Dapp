@@ -152,7 +152,11 @@ export const getUserInfo = async (
   setUserInfo
 ) => {
   console.log("Wroking getUserInfooo");
-  if (contractPhnxStake.methods && web3context.active != false && setUserInfo) {
+  if (
+    contractPhnxStake?.methods &&
+    web3context.active != false &&
+    setUserInfo
+  ) {
     const info = await contractPhnxStake?.methods
       ?.userInfo(web3context.account)
       .call();
