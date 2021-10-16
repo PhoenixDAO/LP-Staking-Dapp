@@ -327,6 +327,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                     OnChangeHandler(event.target.value, "eth");
                   }}
                   style={styles.inputStyle}
+                  className='liq-tab-inputs'
                   variant="standard"
                   InputProps={{
                     endAdornment: (
@@ -524,7 +525,7 @@ width:"14px"
     // marginBottom: 20,
   },
   txtTipParagraph: {
-    fontSize: 13,
+    fontSize: 15,
     color: "#FFFFFF",
   },
   btnAddLiquidity: {
@@ -580,12 +581,12 @@ width:"14px"
   },
   inputStyle: {
     // width: 150,
-    size: 12,
+    size: 20,
     background: "rgba(195, 183, 255, 0.17)",
     border: "none",
     padding: "7px 8px 5px 8px",
     borderRadius: 8,
-    fontWeight: "800 !important",
+    fontWeight: 700,
     marginTop: 5,
   },
   wrapperInput: {

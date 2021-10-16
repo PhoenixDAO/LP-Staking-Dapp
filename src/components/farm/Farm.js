@@ -197,8 +197,19 @@ function Farm() {
   return (
     <div>
       <div className="farm-div">
-        {!userIsActive ? (
+        {
+        !web3context.active || poolPosition==null ? (
           <FarmStake
+            stakeModalOpen={handleStackOpen}
+            allowance={allowance}
+            giveApproval={_giveApproval}
+            userInfo={userInfo}
+            reserveUSD={reserveUSD}
+            loading={loading}
+            APR={APR}
+          />
+        ) : poolPosition.lp == 0 ?(
+           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
             giveApproval={_giveApproval}

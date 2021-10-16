@@ -93,7 +93,7 @@ const ConnectModal = ({
           <div className="add-liq-div">
             <div className="displayFlex">
               <div className="phnxDeposite">
-                <img className="add-liq-Logo" src={Logo}></img>
+                <img className="add-liq-Logo" src={Logo} ></img>
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
@@ -103,18 +103,19 @@ const ConnectModal = ({
             </div>
             <div className="add-liq-heading">YOU WILL RECIEVE</div>
 
-            <div className="add-liq-ps-div">
+            <div className="add-liq-ps-div" style={{display: 'flex' , alignItems: 'center'}}>
               {lp}
-              <span className="iconMargin">
-                <img src={PhnxLogo} className="add-liq-phnx-eth-img"></img>
+              {/* <span className="iconMargin"> */}
+                <img src={PhnxLogo} className="add-liq-phnx-eth-img" style={{height:'25px',width:'25px',marginLeft:'5px'}}></img>
                 <img
                   src={EthLogo}
                   className="add-liq-phnx-eth-img iconLeftMargin"
+                  style={{height:'25px',width:'25px',marginLeft:'5px'}}
                 ></img>
-              </span>
+              {/* </span> */}
             </div>
 
-            <div className="textRecieve">PHNX/ETH Pool tokens</div>
+            <div className="textRecieve" style={{marginBottom:'15px'}}>PHNX/ETH Pool tokens</div>
             <div className="add-liq-divider"></div>
             <div className="priceContainer">
               <div className="addPrice">
@@ -162,7 +163,7 @@ const ConnectModal = ({
                 <div className="displayFlex">
                   <div className="phnxDeposite">Pool Share</div>
                   <div className="phnxDepositePrice displayFlex">
-                    {poolShare}
+                    {poolShare}%
                   </div>
                 </div>
               </div>
