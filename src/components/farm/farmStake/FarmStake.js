@@ -20,6 +20,13 @@ function FarmStake({
   APR,
 }) {
 
+  const [approveStatus,setApproveStatus] = useState(false);
+  const handleApproval = async () =>{
+      setApproveStatus(true);
+      await giveApproval();
+      setApproveStatus(false);
+  }
+
   console.log('allowance1:',allowance);
   const web3context = useWeb3React();
   //   const userIsActive = useSelector((state) => state.localReducer.userIsActive);
@@ -82,8 +89,8 @@ function FarmStake({
             Stake LP
           </button>
         ) : (
-          <button className="farm-btn-stake" onClick={giveApproval}>
-            Approve LP
+          <button className="farm-btn-stake" onClick={approveStatus==false ? handleApproval : null} style={{backgroundColor: approveStatus==false ? '#413ae2' : '#AAAAAA', }}>
+           {approveStatus==false ? 'Approve' : 'Approving...'}
           </button>
         )
       ) : (
