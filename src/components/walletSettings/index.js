@@ -1,4 +1,5 @@
 import React from "react";
+import "./wallet.css";
 import {
   MenuItem,
   Menu,
@@ -13,6 +14,8 @@ import {
 } from "@mui/material";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import EthLogo from "../../assets/ETH1.png";
+import PhnxLogo from "../../assets/PhnxLogo1.png";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useWeb3React } from "@web3-react/core";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -26,15 +29,14 @@ import { toast } from "react-toastify";
 import Notify from "../Notify";
 
 const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 500,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 4,
-  borderRadius: 5,
+  greyBalance:{
+    color: "#4E4E55",
+  },
+  address:{
+    "& .Mui-disabled.Mui-disabled":{
+      color: "black !important",
+    }
+  }
 };
 
 export default function WalletSettings({
@@ -81,7 +83,7 @@ export default function WalletSettings({
             Wallet
           </Typography>
           <br />
-          <Typography variant="body2" component="h2">
+          <Typography sx={{marginBottom:"10px"}} variant="body2" component="h2">
             YOUR ADDRESS
           </Typography>
           <TextField
@@ -108,7 +110,7 @@ export default function WalletSettings({
                     }}
                   >
                     <IconButton>
-                      <ContentCopyIcon />
+                      <ContentCopyIcon sx={{color:"black"}} />
                     </IconButton>
                   </CopyToClipboard>
                 </InputAdornment>
@@ -121,11 +123,16 @@ export default function WalletSettings({
             direction="row"
             justifyContent="space-between"
             alignItems="center"
+            mb={1.5}
           >
             <Typography id="modal-modal-title" variant="body1" component="h2">
               PHNX BALANCE
             </Typography>
-            <Typography id="modal-modal-description">{balancePhnx}</Typography>
+            <div className="rm-liq-phnx-eth-det">
+          <img src={PhnxLogo} style={{  height:"20px",
+  width: "20px", marginRight:"5px"}}></img>
+          <div style={style.greyBalance}>{balancePhnx}</div>
+        </div>
           </Stack>
           <Stack
             direction="row"
@@ -135,7 +142,11 @@ export default function WalletSettings({
             <Typography id="modal-modal-title" variant="body1" component="h2">
               ETH BALANCE
             </Typography>
-            <Typography id="modal-modal-description">{balanceEth}</Typography>
+            <div className="rm-liq-phnx-eth-det">
+          <img src={EthLogo} style={{  height:"20px",
+  width: "20px", marginRight:"5px"}}></img>
+          <div style={style.greyBalance}>{balanceEth}</div>
+        </div>
           </Stack>
           <br />
           <Typography
@@ -149,7 +160,7 @@ export default function WalletSettings({
               rel="external nofollow noopener"
               target="_blank"
             >
-              View on Etherscan <img src={redirectIcon} alt="redirectIcon" />
+              View on Etherscan <img src={redirectIcon} style={{height:"12px"}} alt="redirectIcon" />
             </a>
           </Typography>
           <br />

@@ -129,7 +129,7 @@
   margin-top: 5px !important;
 }
 .css-9mgopn-MuiDivider-root {
-  margin-top: 5px !important;
+  /* margin-top: 5px !important; */
 }
 
 .css-usdyv8-MuiStack-root {
@@ -188,7 +188,7 @@ input{
 }
 
 .css-9mgopn-MuiDivider-root{
-  display: none !important;
+  /* display: none !important; */
 }
 
 .css-11o2879-MuiDrawer-docked, .MuiDrawer-paper{
