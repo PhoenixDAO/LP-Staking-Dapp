@@ -94,7 +94,9 @@ function Farm() {
     handleGetUserInfo();
   }, [poolPosition]);
   const handleGetUserInfo = () => {
-    getUserInfo(contractPhnxStake, web3context, setUserInfo);
+    if (web3context.activate) {
+      getUserInfo(contractPhnxStake, web3context.account, setUserInfo);
+    }
   };
 
   useEffect(() => {
@@ -166,23 +168,27 @@ function Farm() {
 
   useEffect(() => {
     const calculateAPR = async () => {
-      const blockInAYear = 2102400;
-      const phxPerBlock = await contractPhnxStake.methods.phxPerBlock().call();
-      const lpTokenSupply = await contractPhnxStake.methods
-        .lpTokenSupply()
-        .call();
+      if (web3context.activate) {
+        const blockInAYear = 2102400;
+        const phxPerBlock = await contractPhnxStake?.methods
+          ?.phxPerBlock()
+          .call();
+        const lpTokenSupply = await contractPhnxStake?.methods
+          ?.lpTokenSupply()
+          .call();
 
-      const apr =
-        (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
-        Web3.utils.fromWei(lpTokenSupply);
+        const apr =
+          (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
+          Web3.utils.fromWei(lpTokenSupply);
 
-      setAPR(parseInt(apr));
+        setAPR(parseInt(apr));
+      }
     };
 
-    if (contractPhnxStake) {
+    if (contractPhnxStake?.methods && web3context.activate) {
       calculateAPR();
     }
-  }, [contractPhnxStake]);
+  }, [contractPhnxStake, web3context.activate]);
   // Check if phnx earned is less than contract balance for staking
   // for unstake if phnx earned + unstaked token < contract balance of staking
 
