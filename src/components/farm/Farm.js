@@ -100,10 +100,10 @@ function Farm() {
     ) {
       handleGetUserInfo();
     }
-  }, [poolPosition, web3context.activate]);
+  }, [poolPosition, web3context.active]);
 
   const handleGetUserInfo = () => {
-    if (web3context.activate) {
+    if (web3context.active) {
       getUserInfo(contractPhnxStake, web3context, setUserInfo);
     }
   };
@@ -177,30 +177,33 @@ function Farm() {
 
   useEffect(() => {
     const calculateAPR = async () => {
-  if (web3context.activate) {
-      const blockInAYear = 2102400;
-      const phxPerBlock = await contractPhnxStake?.methods?.phxPerBlock()?.call();
-      const lpTokenSupply = await contractPhnxStake?.methods
-        ?.lpTokenSupply()
-        ?.call();
+      if (web3context.active) {
+        const blockInAYear = 2102400;
+        const phxPerBlock = await contractPhnxStake?.methods
+          ?.phxPerBlock()
+          ?.call();
+        const lpTokenSupply = await contractPhnxStake?.methods
+          ?.lpTokenSupply()
+          ?.call();
 
-      const apr =
-        (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
-        Web3.utils.fromWei(lpTokenSupply);
+        const apr =
+          (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
+          Web3.utils.fromWei(lpTokenSupply);
 
-      const roi =
-        (100 - Web3.utils.fromWei(lpTokenSupply)) /
-        Web3.utils.fromWei(lpTokenSupply);
+        const roi =
+          (100 - Web3.utils.fromWei(lpTokenSupply)) /
+          Web3.utils.fromWei(lpTokenSupply);
 
-      console.log("roi", Web3.utils.fromWei(lpTokenSupply), roi * 100);
+        console.log("roi", Web3.utils.fromWei(lpTokenSupply), roi * 100);
 
-      setAPR(parseInt(apr));
+        setAPR(parseInt(apr));
+      }
+
+      if (contractPhnxStake?.methods && web3context.active) {
+        calculateAPR();
+      }
     };
-
-    if (contractPhnxStake?.methods && web3context.activate) {
-      calculateAPR();
-    }
-  }, [contractPhnxStake, web3context.activate]);
+  }, [contractPhnxStake, web3context.active]);
 
   // Check if phnx earned is less than contract balance for staking
   // for unstake if phnx earned + unstaked token < contract balance of staking
@@ -208,8 +211,7 @@ function Farm() {
   return (
     <div>
       <div className="farm-div">
-        {
-        !web3context.active || poolPosition==null ? (
+        {!web3context.active || poolPosition == null ? (
           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
@@ -219,8 +221,8 @@ function Farm() {
             loading={loading}
             APR={APR}
           />
-        ) : poolPosition.lp == 0 ?(
-           <FarmStake
+        ) : poolPosition.lp == 0 ? (
+          <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
             giveApproval={_giveApproval}
