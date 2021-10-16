@@ -120,7 +120,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
             key={text}
             component={Link}
             to={`/${text}`}
-            className={index === currentTab ? "current-tab" : null}
+            className={index === currentTab ? "current-tab" : "no-current-tab"}
             style={{color:"#73727D", fontWeight:"500"}}
           >
             <ListItemIcon>

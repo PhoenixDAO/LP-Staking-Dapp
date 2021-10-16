@@ -23,8 +23,10 @@
 }
 
 .farm-phnx-eth-logo {
-  height: 30px;
-  width: 30px;
+  height: 35px;
+  width: 35px;
+  border-radius: 35px;
+  /* border: solid 1px #73727d; */
 }
 
 .farm-details-div {

@@ -151,10 +151,17 @@ export const getUserInfo = async (
   web3context,
   setUserInfo
 ) => {
-  console.log("Wroking getUserInfooo");
-  if (contractPhnxStake && web3context && setUserInfo) {
-    const info = await contractPhnxStake.methods
-      .userInfo(web3context?.account)
+  if (contractPhnxStake?.methods && web3context.active == true && setUserInfo) {
+    console.log(
+      "contractPhnxStake.methods",
+      contractPhnxStake.methods,
+      " web3context.active ",
+      web3context.active,
+      " setUserInfo ",
+      setUserInfo
+    );
+    const info = await contractPhnxStake?.methods
+      ?.userInfo(web3context.account)
       .call();
     console.log("info", info);
     setUserInfo(info);
@@ -173,9 +180,9 @@ export const getPendingPHX = async (
   //   web3context + "==> web3context",
   //   setPendingPHX + "==> setPendingPHX"
   // );
-  if (contractPhnxStake && web3context && setPendingPHX) {
-    const pending = await contractPhnxStake.methods
-      .pendingPHX(web3context?.account)
+  if (contractPhnxStake && web3context.active != false && setPendingPHX) {
+    const pending = await contractPhnxStake?.methods
+      ?.pendingPHX(web3context?.account)
       .call();
     console.log("getPendingPHX response", pending);
     setPendingPHX(pending);

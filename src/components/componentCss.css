@@ -102,7 +102,7 @@ div.token-container {
   background-color: rgba(195, 183, 255, 0.17);
   border: 1px solid #e2e1ff;
   border-radius: 20px;
-  margin-top: 15px;
+  margin: 20px 0px;
 }
 
 div.wrapper-input {
@@ -357,6 +357,9 @@ div.liq-modal-res > div > .css-196kcza{
     border-left: solid 5px #413AE2 !important;
     background: linear-gradient(-270.37deg, rgba(65, 58, 226, 0.3) -144.64%, rgba(65, 58, 226, 0) 99.7%);
 
+  }
+  .no-current-tab{
+    border-left: solid 5px #fff !important;
   }
 
 
