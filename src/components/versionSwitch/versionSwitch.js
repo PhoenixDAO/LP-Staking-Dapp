@@ -1,5 +1,6 @@
 import React , {useState} from 'react';
 import VersionModal from '../connectModal/VersionModal';
+import "../../App.css";
 
 
 function VersionSwitch() {
@@ -8,7 +9,7 @@ function VersionSwitch() {
 
     return (
         <>
-            <div style={{cursor:'pointer',position:'fixed',display:'flex',bottom:'20px',left:'100px',backgroundColor:'#fff',borderRadius:'7px',padding:'2px'}}>
+            <div className="versionButtons">
                 <div style={{backgroundColor:'#fff',padding:'5px 15px',color:'#000',borderRadius:'7px'}} onClick={()=>setModalStatus(!modalStatus)}>
                     V1
                 </div>

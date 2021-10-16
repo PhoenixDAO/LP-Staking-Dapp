@@ -109,6 +109,21 @@
   margin-bottom: 20px !important;
 }
 
+@media (max-width:400px){
+  .css-1jeep95-MuiTypography-root {
+    font-size: 10px;
+    margin-top: 40px !important;
+    margin-bottom: 20px !important;
+  }
+}
+@media (max-width:330px){
+  .css-1jeep95-MuiTypography-root {
+    font-size: 9px;
+    margin-top: 40px !important;
+    margin-bottom: 20px !important;
+  }
+}
+
 .css-1duvn0l {
   padding: 7px !important;
   margin-top: 5px !important;
@@ -130,14 +145,38 @@
 .MuiList-root,
 .MuiList-padding,
 .css-1ontqvh {
-  margin-top: 60px !important;
+  /* margin-top: 60px !important; */
 }
 
 .css-bshv44-MuiButtonBase-root-MuiListItem-root {
   height: 50px !important;
 }
 
-
+.versionButtons{
+  cursor:pointer;
+  position:fixed;
+  display:flex;
+  bottom:20px;
+  left:100px;
+  background-color:#fff;
+  border-radius:7px;
+  padding:2px
+}
+@media(max-width: 900px){
+  .versionButtons{
+    cursor:pointer;
+    position:inherit;
+    display:flex;
+    bottom:20px;
+    margin-left: 20px;
+    margin-bottom: 50px;
+    width: max-content;
+    left:100px;
+    background-color:#fff;
+    border-radius:7px;
+    padding:2px
+  }
+}
 button{
   font-family: 'Aeonik' !important;
   cursor: pointer !important;
@@ -148,6 +187,12 @@ input{
   padding-right: 4px !important;
 }
 
+
+.css-nz481w-MuiInputBase-input-MuiInput-input{
+  font-weight: 900 !important;
+  font-size: 17px !important;
+}
+
 .css-9mgopn-MuiDivider-root{
   display: none !important;
 }
@@ -156,12 +201,11 @@ input{
  border: none !important;
 }
 
-.css-nz481w-MuiInputBase-input-MuiInput-input{
-  font-weight: bold !important;
-}
+
 
 .css-kg848s-MuiTypography-root{
   font-size: 20px !important;
+  text-align: left;
 }
 
 .css-hd5gve>img{

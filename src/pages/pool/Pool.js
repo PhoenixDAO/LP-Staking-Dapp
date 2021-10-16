@@ -27,10 +27,16 @@ const Pool = () => {
     <div>
       <div className="container-div">
         <div className="gradient-div">
+          {
+            account?<p className="connect-wallet-txt">
+            You currently do not have any LP Token, add liquidity to the ETH/PHNX pool on Uniswap to get some.
+          </p>:
           <p className="connect-wallet-txt">
-            Connect your wallet to provide liquidity <br /> and start earning
-            PHNX tokens
-          </p>
+          Connect your wallet to provide liquidity and start earning
+          PHNX tokens
+        </p>
+          }
+          
           <img src={handsImg} className="img-hands" />
         </div>
         {/* <p>{balanceEth}</p> */}
@@ -67,7 +73,6 @@ const Pool = () => {
         </div>
         
       </div>
-      <VersionSwitch/>
     </div>
   );
 };

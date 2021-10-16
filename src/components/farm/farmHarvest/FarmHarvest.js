@@ -37,7 +37,7 @@ function FarmHarvest({
           <img
             src={PhnxLogo}
             className="farm-phnx-eth-logo"
-            style={{ marginLeft: "-15px" }}
+            style={{ marginLeft: "-17px" }}
             alt="PhnxLogo"
           ></img>
         </div>
@@ -61,8 +61,11 @@ function FarmHarvest({
           <span style={{ color: "#413AE2" }}>PHNX</span> EARNED
         </div>
         <div className="farm-details-txt-right">
+          <span style={{fontWeight:"bolder", color:"#4E4E55"}}>
           {pendingPHX["0"] &&
             fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)}
+        </span>
+
         </div>
       </div>
 
@@ -71,7 +74,9 @@ function FarmHarvest({
           <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
         </div>
         <div className="farm-details-txt-right">
+          <span style={{fontWeight:"bolder", color:"#4E4E55"}}>
           {userInfo.amount && Web3.utils.fromWei(userInfo.amount)}
+        </span>
         </div>
       </div>
 
@@ -102,9 +107,9 @@ function FarmHarvest({
       </button>
 
       <div className="get-phnx-eth-lp">
-        <Link to="/liquidity">
-          Get PHNX-ETH LP
-          <img style={{ marginLeft: 5 }} src={ShareLogo}></img>
+        <Link to="/liquidity" style={{textDecoration:'none' ,color:'#413ae2'}}>
+          Get PHNX-ETH LP &nbsp;
+          <img src={ShareLogo}></img>
         </Link>
       </div>
 
@@ -130,7 +135,7 @@ function FarmHarvest({
 
           <div className="farm-details-div">
             <div className="farm-details-txt">Total Liquidity</div>
-            <div className="farm-details-txt-right">${reserveUSD}</div>
+            <div className="farm-details-txt-right" style={{color:'#000'}}>${reserveUSD.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
           </div>
 
           <div className="farm-details-div">
@@ -139,8 +144,10 @@ function FarmHarvest({
                 <a
                   target="_blank"
                   href="https://github.com/XORD-one/phoenix-LP-staking-contract"
+                  style={{textDecoration:'none' ,color:'#413ae2'}}
                 >
-                  View Contract
+                  View Contract&nbsp;
+                  <img src={ShareLogo}></img>
                 </a>
               </span>
             </div>
@@ -152,8 +159,10 @@ function FarmHarvest({
                 <a
                   target="_blank"
                   href=" https://v2.info.uniswap.org/pair/0xdfe317f907ca9bf6202cddec3def756438a3b3f7"
+                  style={{textDecoration:'none' ,color:'#413ae2'}}
                 >
-                  See Pair Info
+                  See Pair Info&nbsp;
+                  <img src={ShareLogo}></img>
                 </a>
               </span>
             </div>

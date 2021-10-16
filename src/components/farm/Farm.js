@@ -22,6 +22,7 @@ import {
   GetPhnxBalanceAction,
   GetPoolPositionAction,
 } from "../../redux/actions/contract.actions";
+import VersionSwitch from "../versionSwitch/versionSwitch";
 import Web3 from "web3";
 
 function Farm() {
@@ -176,35 +177,50 @@ function Farm() {
 
   useEffect(() => {
     const calculateAPR = async () => {
-      if (web3context.activate) {
-        const blockInAYear = 2102400;
-        const phxPerBlock = await contractPhnxStake?.methods
-          ?.phxPerBlock()
-          .call();
-        const lpTokenSupply = await contractPhnxStake?.methods
-          ?.lpTokenSupply()
-          .call();
+  if (web3context.activate) {
+      const blockInAYear = 2102400;
+      const phxPerBlock = await contractPhnxStake?.methods?.phxPerBlock()?.call();
+      const lpTokenSupply = await contractPhnxStake?.methods
+        ?.lpTokenSupply()
+        ?.call();
 
-        const apr =
-          (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
-          Web3.utils.fromWei(lpTokenSupply);
+      const apr =
+        (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
+        Web3.utils.fromWei(lpTokenSupply);
 
-        setAPR(parseInt(apr));
-      }
+      const roi =
+        (100 - Web3.utils.fromWei(lpTokenSupply)) /
+        Web3.utils.fromWei(lpTokenSupply);
+
+      console.log("roi", Web3.utils.fromWei(lpTokenSupply), roi * 100);
+
+      setAPR(parseInt(apr));
     };
 
     if (contractPhnxStake?.methods && web3context.activate) {
       calculateAPR();
     }
   }, [contractPhnxStake, web3context.activate]);
+
   // Check if phnx earned is less than contract balance for staking
   // for unstake if phnx earned + unstaked token < contract balance of staking
 
   return (
     <div>
       <div className="farm-div">
-        {!userIsActive ? (
+        {
+        !web3context.active || poolPosition==null ? (
           <FarmStake
+            stakeModalOpen={handleStackOpen}
+            allowance={allowance}
+            giveApproval={_giveApproval}
+            userInfo={userInfo}
+            reserveUSD={reserveUSD}
+            loading={loading}
+            APR={APR}
+          />
+        ) : poolPosition.lp == 0 ?(
+           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
             giveApproval={_giveApproval}
@@ -248,6 +264,7 @@ function Farm() {
           userInfo={userInfo}
         ></UnStakingModal>
       </Modal>
+      <VersionSwitch />
     </div>
   );
 }

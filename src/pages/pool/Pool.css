@@ -26,6 +26,7 @@ div.gradient-div {
 p.connect-wallet-txt {
   font-size: 20px;
   text-align: left;
+  width: 55%;
   margin: 34px 0px 40px 36px;
   font-weight: 500;
 }
@@ -172,7 +173,7 @@ img.img-landing-logo {
     margin-top: 200px;
   }
   p.connect-wallet-txt {
-    width: 100%;
+    width: 50%;
     font-size: 20px;
     margin-left: auto;
     margin-right: auto;

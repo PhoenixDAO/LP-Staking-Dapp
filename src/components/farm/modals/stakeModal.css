@@ -22,25 +22,25 @@
   margin-top: 7px;
 }
 
-.stakingModal-details {
-  font-size: 15px;
-  margin-top: 30px;
-  color: #4e4e55;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  margin-right: 50px;
+.stakingModal-details{
+    font-size: 15px;
+    margin-top: 30px;
+    color: #4E4E55;
+    /* font-weight: bold; */
+    display: flex;
+    justify-content: center;
 }
 
-.stakingModalInput {
-  font-size: 20px;
-  font-weight: bold;
-  padding: 7px;
-  flex-grow: 1;
-  margin-right: 9px;
-  color: #4e4e4e;
-  border-radius: 3px;
-  border: solid 1px #4e4e4e;
+.stakingModalInput{
+    font-size: 20px;
+    font-weight: bold;
+    padding: 7px;
+    flex-grow: 1;
+    margin-right: 9px;
+    color:#000000;
+    border-radius: 3px;
+    border: solid 1px #4E4E4E;
+
 }
 
 .stakingModalInput:focus {
