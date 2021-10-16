@@ -254,6 +254,7 @@ export const giveApprovalPhnxDao = async (
   }
   const web3 = new Web3(web3context?.library?.currentProvider);
 
+  //before add liquidity
   await contractPhnxDao.methods
     .approve(UNISWAP_CONTRACT_ADDRESS_RINEBY, web3.utils.toWei("10000000000"))
     .send({ from: web3context.account })
@@ -279,7 +280,8 @@ export const giveApprovalPhnxDao = async (
 
 export const checkApprovalUniswapPair = async (
   web3context,
-  contractUniswapPair
+  contractUniswapPair,
+  setAllowance
 ) => {
   if (contractUniswapPair) {
     // console.log("contractUniswapPair", contractUniswapPair);
@@ -289,13 +291,15 @@ export const checkApprovalUniswapPair = async (
         "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
       )
       .call();
-    console.log("allowance", allowance1);
+    console.log("allowance11", allowance1);
+    setAllowance(allowance1)
     return allowance1;
   } else {
     throw "contractUniswapPair not initialized!";
   }
 };
 
+//give approval before remove liquidity
 export const giveApprovalUniswapPair = async (
   web3context,
   contractUniswapPair,
