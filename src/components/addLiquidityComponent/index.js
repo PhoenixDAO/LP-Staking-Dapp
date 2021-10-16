@@ -179,22 +179,23 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const OnChangeHandler = (val, tokenName) => {
     if (tokenName === "phnx") {
-      // if (Number(val) <= balancePhnx) {
+
       let v = parseFloat(val);
       let total = parseFloat(reserve1) + v;
-      setPoolShare((v / total) * 100);
+      console.log('res'+reserve1)
+      setPoolShare(((v / total) * 100).toFixed(3));
       setPhnxValue(v);
       setEthValue(parseFloat(ethPerPhnx) * v || num);
-      // }
+      
     } else if (tokenName === "eth") {
-      // if (Number(val) <= balanceEth) {
       let v = parseFloat(val);
       let total = parseFloat(phnxPerEth) * v;
       total = total + parseFloat(reserve1);
-      setPoolShare(((parseFloat(phnxPerEth) * v) / total) * 100);
+      console.log('v',poolShare)
+
+      setPoolShare((((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(3));
       setEthValue(v);
       setPhnxValue(parseFloat(phnxPerEth) * v || num);
-      // }
     } else {
       return;
     }
@@ -379,7 +380,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
           <div className="pool-share">
             <Typography style={styles.txtConvDetails}>
-              {poolShare ? poolShare : "0"}%
+
+            {isNaN(poolShare) ? '0.00' : poolShare +'%'}
+
             </Typography>
             <Typography style={styles.txtConvDetails}>pool share</Typography>
           </div>
@@ -591,8 +594,8 @@ const styles = {
     alignItems: "flex-end",
   },
   txtAmount: {
-    fontSize: 15,
-    fontWeight: "bold",
+    fontSize: 18,
+    fontWeight: "900",
     marginLeft: 5,
   },
   divPhnxAmount: {
@@ -628,7 +631,7 @@ const styles = {
   },
   txtInput: {
     color: "#707070",
-    fontSize: 13,
+    fontSize: 15,
   },
   iconBtn: {
     height: 25,

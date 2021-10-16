@@ -22,6 +22,7 @@ const customHttpProvider = new ethers.providers.JsonRpcProvider(
 );
 
 export const getDataMain = async () => {
+  console.log('asdadasdaaaaaaaaaaa')
   const phnx = await Fetcher.fetchTokenData(
     chainId,
     PHNX_RINKEBY_TOKEN_ADDRESS,
@@ -30,6 +31,7 @@ export const getDataMain = async () => {
   const weth = WETH[chainId];
   const pair = await Fetcher.fetchPairData(phnx, weth, customHttpProvider);
   const route = new Route([pair], weth);
+  console.log(pair.reserve1.toFixed(2), 'pairrrrrrrgdfgdfgdfgr')
   return { weth, pair, route };
 };
 
@@ -209,7 +211,7 @@ export const getEthBalance = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   let WeiEthBalance = await web3.eth.getBalance(web3context.account);
   let EthBalance = fixedWithoutRounding(
-    parseFloat(web3.utils.fromWei(WeiEthBalance, "ether")),
+    Number(web3.utils.fromWei(WeiEthBalance, "ether")),
     4
   );
   return Number(EthBalance);
