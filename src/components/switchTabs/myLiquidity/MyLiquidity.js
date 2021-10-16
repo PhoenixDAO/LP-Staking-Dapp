@@ -56,9 +56,11 @@ function MyLiquidity({ ChangeTab }) {
     <div className="my-liquidity-div" >
       <div className="my-liq-head">My Liquidity</div>
 
+
+
       <div style={{ display: "flex", alignItems: "center" }}>
         <div className="my-liq-sub-head">
-          Remove Liquidity to recieve tokens back
+          Remove Liquidity to receive tokens back
         </div>
         <img
           onClick={()=>setSlippageModal(!slippageModal)}
@@ -71,7 +73,7 @@ function MyLiquidity({ ChangeTab }) {
 
       {!web3context.account ? (
         <div>
-          <br></br>
+          <br></br><br></br>
 
           <div className="phnx-eth">
             <p
@@ -81,6 +83,9 @@ function MyLiquidity({ ChangeTab }) {
               Connect Wallet.
             </p>
           </div>
+
+
+          <br></br>
 
           <Button
             variant="contained"
@@ -110,7 +115,7 @@ function MyLiquidity({ ChangeTab }) {
         </div>
       ) : poolPosition == null ? (
         <div>
-          <br></br>
+          <br></br><br></br>
 
           <div className="phnx-eth">
             <p
@@ -120,6 +125,8 @@ function MyLiquidity({ ChangeTab }) {
               No Liquidity Found 😔.
             </p>
           </div>
+
+          <br></br>
 
           <Button
             variant="contained"
@@ -150,7 +157,7 @@ function MyLiquidity({ ChangeTab }) {
       ) : // poolPosition !== null ?
       poolPosition.lp == 0 ? (
         <div>
-          <br></br>
+          <br></br><br></br>
 
           <div className="phnx-eth">
             <p
@@ -160,7 +167,7 @@ function MyLiquidity({ ChangeTab }) {
               No Liquidity Found 😔.
             </p>
           </div>
-
+          <br></br>
           <Button
             variant="contained"
             size="small"
