@@ -69,7 +69,7 @@ export const harvestPHNX = async (
       toast(
         <Notify
           text={
-            "We don't have enough Phnx to give you right now 😔, please try later."
+            "INSUFFICIENT PHNX FUNDS IN CONTRACT 😔, Please try later"
           }
           severity=""
         />,
@@ -168,7 +168,7 @@ export const getUserInfo = async (
     const info = await contractPhnxStake?.methods
       ?.userInfo(web3context.account)
       .call();
-    console.log("infooo", info);
+    // console.log("infooo", info);
     setUserInfo(info);
   } else {
     throw "Invalid credentials of getUserInfo";
@@ -225,7 +225,7 @@ export const stakeLp = async (
     toast(
       <Notify
         text={
-          "We don't have enough Phnx to give you right now 😔, please try later."
+          "INSUFFICIENT PHNX FUNDS IN CONTRACT 😔, Please try later"
         }
         severity=""
       />,
@@ -313,7 +313,7 @@ export const unStakeLp = async (
     toast(
       <Notify
         text={
-          "We don't have enough Phnx to give you right now 😔, please try later."
+          "INSUFFICIENT PHNX FUNDS IN CONTRACT 😔, Please try later"
         }
         severity=""
       />,
