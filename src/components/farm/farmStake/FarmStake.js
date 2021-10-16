@@ -19,6 +19,8 @@ function FarmStake({
   reserveUSD,
   APR,
 }) {
+
+  console.log('allowance1:',allowance);
   const web3context = useWeb3React();
   //   const userIsActive = useSelector((state) => state.localReducer.userIsActive);
   //  nsole.log(userIsActive, "userIsActive");
@@ -74,7 +76,8 @@ function FarmStake({
         </div>
       </div>
       {web3context.active ? (
-        allowance !== 0 ? (
+        
+        allowance != 0 ? (
           <button className="farm-btn-stake" onClick={stakeModalOpen}>
             Stake LP
           </button>

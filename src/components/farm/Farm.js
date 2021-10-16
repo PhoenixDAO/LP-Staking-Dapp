@@ -77,7 +77,11 @@ function Farm() {
       contractUniswapPair &&
       contractPhnxStake
     ) {
+
+      console.log('allowance:',allowance)
+
       dispatch(PhnxStakeContractInitAction(web3context));
+
       checkApproval(contractUniswapPair, web3context, setAllowance);
       // getUserInfo(contractPhnxStake, web3context, setUserInfo);
       handleGetUserInfo();
