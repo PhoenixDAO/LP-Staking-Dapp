@@ -22,6 +22,7 @@ div.gradient-div {
   /* -webkit-filter: ; */
   z-index: 30000 !important;
   border-radius: 13px;
+  position:relative;
 }
 p.connect-wallet-txt {
   font-size: 20px;

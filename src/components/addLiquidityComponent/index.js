@@ -286,6 +286,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                         MAX
                       </IconButton>
                     ),
+                    inputProps: {
+                      min: 0,
+                    },
                     disableUnderline: true,
                   }}
                 />
