@@ -376,7 +376,7 @@ export default function ConnectWallet({
             variant="h6"
             component="h2"
             color="primary"
-            sx={{ mt: 3 }}
+            sx={{ mt: 3, color:"#413AE2", fontWeight:"bolder"}}
             align="center"
           >
             Connect to your wallet
@@ -404,7 +404,7 @@ export default function ConnectWallet({
                 color="primary"
               />
             </Item>
-            <Divider />
+            <Divider style={{marginTop:"5px"}} />
             <Item
               onClick={() => {
                 !active &&
@@ -427,7 +427,7 @@ export default function ConnectWallet({
                 color="primary"
               />
             </Item>
-            <Divider />
+            <Divider style={{marginTop:"5px"}} />
             <Item
               onClick={() => {
                 !active &&
@@ -450,7 +450,8 @@ export default function ConnectWallet({
                 color="primary"
               />
             </Item>
-            <Divider/>
+            <Divider style={{marginTop:"5px"}} />
+
             <Item>
               <img src={ledgerIcon} alt="logo" />
               <Typography

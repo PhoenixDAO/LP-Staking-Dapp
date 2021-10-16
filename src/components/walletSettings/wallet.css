@@ -1,0 +1,7 @@
+.Mui-disabled{
+    text-shadow: 0 0 black;
+  }
+
+  .MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.Mui-disabled{
+      padding-right:0px;
+  }
