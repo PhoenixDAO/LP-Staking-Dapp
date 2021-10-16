@@ -187,6 +187,9 @@ input{
   padding-right: 4px !important;
 }
 
+input[type=number] {
+  -moz-appearance:textfield;
+}
 
 .css-nz481w-MuiInputBase-input-MuiInput-input{
   font-weight: 900 !important;
