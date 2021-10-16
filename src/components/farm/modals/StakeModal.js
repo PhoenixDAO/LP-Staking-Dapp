@@ -102,14 +102,16 @@ function StakeModal({ Close }) {
         </div>
       </div>
 
-      <div style={{ display: "flex", marginTop: "10px", alignItems: "center" }}>
+      <div style={{ display: "flex", marginTop: "10px", alignItems: "center" , border:'solid 1px #E4E4E7' ,borderRadius:'5px',paddingRight:'5px'}}>
         <input
           type="number"
           placeholder="0.0"
           className="stakingModalInput"
           onChange={(e) => LpChange(e)}
           value={lpValue}
-        ></input>
+        >
+        </input>
+
         <button
           className="stakingModalInputBtn"
           onClick={() => {
@@ -118,6 +120,7 @@ function StakeModal({ Close }) {
         >
           MAX
         </button>
+        
       </div>
 
       <div style={{ display: "flex", alignItems: "center", marginTop: "13px" }}>
