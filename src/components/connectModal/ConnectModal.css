@@ -12,9 +12,6 @@
   padding: 25px;
 }
 
-.add-liq-Logo{
-  width: 100px;
-}
 
 .cursorPointer{
   cursor: pointer;
@@ -143,6 +140,7 @@ text-align:center;
    font-weight: bolder;
   text-align: center;
   border: none;
+  text-transform: capitalize;
   border-radius: 9px;
   padding: 15px;
   margin: 13px 0px;

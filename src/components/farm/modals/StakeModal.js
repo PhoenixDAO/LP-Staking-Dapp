@@ -173,8 +173,8 @@ function StakeModal({ Close }) {
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "14px" }}
       >
         <Link to="/liquidity">
-          Get PHNX-ETH LP
-          <img src={ShareLogo}></img>
+          Get PHNX-ETH LP{" "}
+          <img src={ShareLogo} style={{height:"12px"}}></img>
         </Link>
       </div>
     </div>

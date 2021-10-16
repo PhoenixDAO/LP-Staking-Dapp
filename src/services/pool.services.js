@@ -57,8 +57,8 @@ export const supply = async (
   let deadline = Date.now();
   deadline += 5 * 60;
 
-  let phnxMin = phnxValue - phnxValue * (slippageValue/100);
-  let ethMin = ethValue - ethValue * (slippageValue/100);
+  let phnxMin = phnxValue - phnxValue * (slippageValue / 100);
+  let ethMin = ethValue - ethValue * (slippageValue / 100);
 
   await contractUniswapRouter.methods
     .addLiquidityETH(
@@ -86,7 +86,7 @@ export const supply = async (
           position: "bottom-right",
         }
       );
-      settranHash(hash)
+      settranHash(hash);
       settransactionProcessModal(false);
       settransactionSubmittedModal(true);
       console.log("hash", hash);
@@ -175,22 +175,21 @@ export const phnxDaoContractInit = async (web3context) => {
 };
 
 export const phnxStakeContractInit = async (web3context) => {
-  const web3 = new Web3(URL_INFURA_RINKEBY);
-  const contract = new web3.eth.Contract(
-    PhoenixStakeABI,
-    PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
-  );
-  console.log("phnxStakeContractInit service", contract);
-  // if (web3context.active) {
-  //   let balance = await contract.methods
-  //     .balanceOf(PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
-  //     .call();
-  //   console.log(
-  //     web3.utils.fromWei(balance),
-  //     "phnxStakeContractInit Balance of"
-  //   );
-  // }
-
+  let contract;
+  if (web3context.active) {
+    const web3 = new Web3(web3context?.library?.currentProvider);
+    contract = new web3.eth.Contract(
+      PhoenixStakeABI,
+      PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
+    );
+  } else {
+    const web3 = new Web3(URL_INFURA_RINKEBY);
+    contract = new web3.eth.Contract(
+      PhoenixStakeABI,
+      PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
+    );
+    console.log("phnxStakeContractInit service", contract);
+  }
   return contract;
 };
 
@@ -410,7 +409,7 @@ export const removeLiquidity = async (
             position: "bottom-right",
           }
         );
-        settranHash(hash)
+        settranHash(hash);
         settransactionProcessModal(false);
         settransactionConfirmModal(false);
         settransactionSubmittedModal(true);
