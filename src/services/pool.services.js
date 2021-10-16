@@ -177,7 +177,7 @@ export const phnxDaoContractInit = async (web3context) => {
 export const phnxStakeContractInit = async (web3context) => {
   let contract;
   if (web3context.active) {
-    const web3 = new Web3(web3context);
+    const web3 = new Web3(web3context?.library?.currentProvider);
     contract = new web3.eth.Contract(
       PhoenixStakeABI,
       PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
@@ -190,16 +190,6 @@ export const phnxStakeContractInit = async (web3context) => {
     );
     console.log("phnxStakeContractInit service", contract);
   }
-  // if (web3context.active) {
-  //   let balance = await contract.methods
-  //     .balanceOf(PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
-  //     .call();
-  //   console.log(
-  //     web3.utils.fromWei(balance),
-  //     "phnxStakeContractInit Balance of"
-  //   );
-  // }
-
   return contract;
 };
 
