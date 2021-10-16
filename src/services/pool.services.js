@@ -11,13 +11,7 @@ import {
   UNISWAP_CONTRACT_ADDRESS_RINEBY,
   URL_INFURA_RINKEBY,
 } from "../contract/constant";
-import {
-  ChainId,
-  //   Token,
-  WETH,
-  Fetcher,
-  Route,
-} from "@uniswap/sdk";
+import { ChainId, WETH, Fetcher, Route } from "@uniswap/sdk";
 import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../contract/constant";
 import { toast } from "react-toastify";
 import Notify from "../components/Notify";
@@ -242,7 +236,7 @@ export const checkApprovalPhnxDao = async (web3context, contractPhnxDao) => {
   let allowance1 = await contractPhnxDao.methods
     .allowance(web3context.account, UNISWAP_CONTRACT_ADDRESS_RINEBY)
     .call();
-  console.log("allowance", allowance1);
+  // console.log("allowance", allowance1);
   return allowance1;
 };
 
@@ -251,7 +245,8 @@ export const giveApprovalPhnxDao = async (
   contractPhnxDao,
   handleGetPoolPosition,
   handleGetEthBalance,
-  handleGetPhnxBalance
+  handleGetPhnxBalance,
+  handleCheckApprovalPhnxDaoAction
 ) => {
   if (!web3context.account) {
     alert("Connect your wallet");
@@ -269,9 +264,9 @@ export const giveApprovalPhnxDao = async (
     .on("confirmation", async function (confirmationNumber, receipt) {
       if (confirmationNumber === 2) {
         // tx confirmed
-        checkApprovalPhnxDao(web3context, contractPhnxDao);
+        await handleCheckApprovalPhnxDaoAction(web3context, contractPhnxDao);
+        // checkApprovalPhnxDao(web3context, contractPhnxDao);
         // ToastMsg("success", "Approved successfully!");
-
         await handleGetPoolPosition();
         await handleGetEthBalance();
         await handleGetPhnxBalance();
@@ -284,8 +279,7 @@ export const giveApprovalPhnxDao = async (
 
 export const checkApprovalUniswapPair = async (
   web3context,
-  contractUniswapPair,
-  setAllowance
+  contractUniswapPair
 ) => {
   if (contractUniswapPair) {
     // console.log("contractUniswapPair", contractUniswapPair);
@@ -296,9 +290,7 @@ export const checkApprovalUniswapPair = async (
       )
       .call();
     console.log("allowance", allowance1);
-    if (setAllowance) {
-      setAllowance(allowance1);
-    }
+    return allowance1;
   } else {
     throw "contractUniswapPair not initialized!";
   }
@@ -307,10 +299,10 @@ export const checkApprovalUniswapPair = async (
 export const giveApprovalUniswapPair = async (
   web3context,
   contractUniswapPair,
-  setAllowance,
   handleGetPoolPosition,
   handleGetEthBalance,
-  handleGetPhnxBalance
+  handleGetPhnxBalance,
+  handleCheckApprovalUniswapPairAction
 ) => {
   if (contractUniswapPair && web3context) {
     await contractUniswapPair.methods
@@ -325,12 +317,13 @@ export const giveApprovalUniswapPair = async (
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
         if (confirmationNumber === 2) {
+          await handleCheckApprovalUniswapPairAction();
           // tx confirmed
-          await checkApprovalUniswapPair(
-            web3context,
-            contractUniswapPair,
-            setAllowance
-          );
+          // await checkApprovalUniswapPair(
+          //   web3context,
+          //   contractUniswapPair,
+          //   setAllowance
+          // );
           await handleGetPoolPosition();
           await handleGetEthBalance();
           await handleGetPhnxBalance();
@@ -362,27 +355,10 @@ export const removeLiquidity = async (
     let deadline = Date.now();
     deadline += 20 * 60;
 
-    // console.log(
-    //   "poolPosition",
-    //   poolPosition,
-    //   "selectedPercentage",
-    //   selectedPercentage
-    // );
     let ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
     let phnxValue = poolPosition.phnx * (selectedPercentage / 100).toString();
     let phnxMin = phnxValue - phnxValue * (slippageValue / 100);
     let ethMin = ethValue - ethValue * (slippageValue / 100);
-
-    // console.log(
-    //   "ethValue ",
-    //   ethValue,
-    //   " phnxValue ",
-    //   phnxValue,
-    //   "phnxMin",
-    //   phnxMin,
-    //   "ethMin",
-    //   ethMin
-    // );
 
     await contractUniswapRouter.methods
       .removeLiquidityETH(
