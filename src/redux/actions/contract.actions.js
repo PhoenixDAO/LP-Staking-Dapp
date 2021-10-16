@@ -1,13 +1,12 @@
 import * as types from "../types/contract.types";
 import {
   getPoolPosition,
-  // checkApprovalPhnxDao,
-  // giveApproval,
   getPhnxBalance,
   phnxDaoContractInit,
   phnxStakeContractInit,
   uniswapV2PairInit,
   uniswapV2RouterInit,
+  checkApprovalUniswapPair,
 } from "../../services/pool.services";
 
 export const PhnxDaoContractInitAction = (web3context) => {
@@ -102,27 +101,31 @@ export const GetPoolPositionAction = (web3context, contractUniswapPair) => {
   };
 };
 
-// export const CheckApprovalAction = () => {
-//   return async (dispatch) => {
-//     dispatch({
-//       type: types.CHECK_APPROVAL_LOADING,
-//       // payload: response?.data,
-//     });
-//     try {
-//       let response = await checkApproval();
-//       console.log("CheckApprovalAction response", response);
-//       dispatch({
-//         type: types.CHECK_APPROVAL_SUCCESS,
-//         payload: response,
-//       });
-//     } catch (e) {
-//       dispatch({
-//         type: types.CHECK_APPROVAL_ERROR,
-//         payload: e?.response?.data?.message || e.message,
-//       });
-//     }
-//   };
-// };
+export const CheckApprovalUniswapPairAction = (
+  web3context,
+  contractUniswapPair
+  // setAllowance
+) => {
+  return async (dispatch) => {
+    try {
+      let response = await checkApprovalUniswapPair(
+        web3context,
+        contractUniswapPair
+        // setAllowance
+      );
+      console.log("CheckApprovalUniswapPairAction response", response);
+      dispatch({
+        type: types.CHECK_APPROVAL_UNISWAP_PAIR_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: types.CHECK_APPROVAL_UNISWAP_PAIR_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
 
 export const GetPhnxBalanceAction = (web3context, contractPhnxDao) => {
   return async (dispatch) => {

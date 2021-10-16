@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   contractPhnxDao: null,
   contractPhnxStake: null,
   contractUniswapPair: null,
+  allowanceUniswapPair: 0,
   contractUniswapRouter: null,
 };
 
@@ -63,6 +64,11 @@ const contractReducer = (state = INITIAL_STATE, action) => {
       return { ...state, contractUniswapRouter: action.payload, error: "" };
     case types.UNISWAP_ROUTER_INIT_ERROR:
       return { ...state, error: action.payload };
+
+    case types.CHECK_APPROVAL_UNISWAP_PAIR_SUCCESS:
+      return { ...state, allowanceUniswapPair: action.payload, error: "" };
+    case types.CHECK_APPROVAL_UNISWAP_PAIR_ERROR:
+      return { ...state, allowanceUniswapPair: 0, error: action.payload };
 
     case types.RESET_ALL_CONTRACT_REDUCER:
       return { ...INITIAL_STATE };
