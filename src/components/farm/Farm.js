@@ -103,7 +103,7 @@ function Farm() {
 
   const handleGetUserInfo = () => {
     if (web3context.activate) {
-      getUserInfo(contractPhnxStake, web3context.account, setUserInfo);
+      getUserInfo(contractPhnxStake, web3context, setUserInfo);
     }
   };
 
