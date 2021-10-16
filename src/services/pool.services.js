@@ -234,7 +234,7 @@ export const checkApprovalPhnxDao = async (web3context, contractPhnxDao) => {
   let allowance1 = await contractPhnxDao.methods
     .allowance(web3context.account, UNISWAP_CONTRACT_ADDRESS_RINEBY)
     .call();
-  console.log("allowance", allowance1);
+  // console.log("allowance", allowance1);
   return allowance1;
 };
 
@@ -243,7 +243,8 @@ export const giveApprovalPhnxDao = async (
   contractPhnxDao,
   handleGetPoolPosition,
   handleGetEthBalance,
-  handleGetPhnxBalance
+  handleGetPhnxBalance,
+  handleCheckApprovalPhnxDaoAction
 ) => {
   if (!web3context.account) {
     alert("Connect your wallet");
@@ -261,9 +262,9 @@ export const giveApprovalPhnxDao = async (
     .on("confirmation", async function (confirmationNumber, receipt) {
       if (confirmationNumber === 2) {
         // tx confirmed
-        checkApprovalPhnxDao(web3context, contractPhnxDao);
+        await handleCheckApprovalPhnxDaoAction(web3context, contractPhnxDao);
+        // checkApprovalPhnxDao(web3context, contractPhnxDao);
         // ToastMsg("success", "Approved successfully!");
-
         await handleGetPoolPosition();
         await handleGetEthBalance();
         await handleGetPhnxBalance();

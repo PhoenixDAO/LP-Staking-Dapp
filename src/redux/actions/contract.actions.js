@@ -7,6 +7,7 @@ import {
   uniswapV2PairInit,
   uniswapV2RouterInit,
   checkApprovalUniswapPair,
+  checkApprovalPhnxDao,
 } from "../../services/pool.services";
 
 export const PhnxDaoContractInitAction = (web3context) => {
@@ -104,14 +105,12 @@ export const GetPoolPositionAction = (web3context, contractUniswapPair) => {
 export const CheckApprovalUniswapPairAction = (
   web3context,
   contractUniswapPair
-  // setAllowance
 ) => {
   return async (dispatch) => {
     try {
       let response = await checkApprovalUniswapPair(
         web3context,
         contractUniswapPair
-        // setAllowance
       );
       console.log("CheckApprovalUniswapPairAction response", response);
       dispatch({
@@ -121,6 +120,24 @@ export const CheckApprovalUniswapPairAction = (
     } catch (e) {
       dispatch({
         type: types.CHECK_APPROVAL_UNISWAP_PAIR_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
+
+export const CheckApprovalPhnxDaoAction = (web3context, contractPhnxDao) => {
+  return async (dispatch) => {
+    try {
+      let response = await checkApprovalPhnxDao(web3context, contractPhnxDao);
+      console.log("CheckApprovalPhnxDaoAction response", response);
+      dispatch({
+        type: types.CHECK_APPROVAL_PHNXDAO_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: types.CHECK_APPROVAL_PHNXDAO_ERROR,
         payload: e?.response?.data?.message || e.message,
       });
     }
