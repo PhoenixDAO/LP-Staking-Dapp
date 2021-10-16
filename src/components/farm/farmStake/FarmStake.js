@@ -79,7 +79,7 @@ function FarmStake({
           <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
         </div>
         <div className="farm-details-txt-right">
-          {userInfo.amount && userInfo.amount}
+          {userInfo?.amount}
         </div>
       </div>
       {web3context.active ? (
