@@ -7,7 +7,6 @@ import { Modal } from "@mui/material";
 import StakingModal from "./modals/StakeModal";
 import UnStakingModal from "./modals/UnstakeModal";
 import { useWeb3React } from "@web3-react/core";
-import { fixedWithoutRounding } from "../../utils/formatters";
 import {
   giveApprovalFarming,
   harvestPHNX,
@@ -21,9 +20,11 @@ import { GetEthBalanceAction } from "../../redux/actions/local.actions";
 import {
   GetPhnxBalanceAction,
   GetPoolPositionAction,
+  PhnxStakeContractInitAction,
 } from "../../redux/actions/contract.actions";
 import VersionSwitch from "../versionSwitch/versionSwitch";
 import Web3 from "web3";
+import { phnxStakeContractInit } from "../../services/pool.services";
 
 function Farm() {
   const dispatch = useDispatch();
@@ -44,7 +45,6 @@ function Farm() {
   );
   const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);
 
-  const [stakeNull, checkStateNull] = useState(false);
   const [isStackVisible, setStackVisible] = useState(false);
   const [isUnStackVisible, setUnStackVisible] = useState(false);
   const [allowance, setAllowance] = useState(0);
@@ -77,6 +77,7 @@ function Farm() {
       contractUniswapPair &&
       contractPhnxStake
     ) {
+      dispatch(PhnxStakeContractInitAction(web3context));
       checkApproval(contractUniswapPair, web3context, setAllowance);
       // getUserInfo(contractPhnxStake, web3context, setUserInfo);
       handleGetUserInfo();
@@ -100,7 +101,7 @@ function Farm() {
     ) {
       handleGetUserInfo();
     }
-  }, [poolPosition, web3context.active]);
+  }, [poolPosition, web3context.active, contractPhnxStake]);
 
   const handleGetUserInfo = () => {
     if (web3context.active) {
@@ -177,32 +178,32 @@ function Farm() {
 
   useEffect(() => {
     const calculateAPR = async () => {
-      if (web3context.active) {
-        const blockInAYear = 2102400;
-        const phxPerBlock = await contractPhnxStake?.methods
-          ?.phxPerBlock()
-          ?.call();
-        const lpTokenSupply = await contractPhnxStake?.methods
-          ?.lpTokenSupply()
-          ?.call();
+      console.log("calculateAPR");
 
-        const apr =
-          (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
-          Web3.utils.fromWei(lpTokenSupply);
+      const blockInAYear = 2102400;
+      const phxPerBlock = await contractPhnxStake?.methods
+        ?.phxPerBlock()
+        ?.call();
+      const lpTokenSupply = await contractPhnxStake?.methods
+        ?.lpTokenSupply()
+        ?.call();
 
-        const roi =
-          (100 - Web3.utils.fromWei(lpTokenSupply)) /
-          Web3.utils.fromWei(lpTokenSupply);
+      const apr =
+        (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
+        Web3.utils.fromWei(lpTokenSupply);
 
-        console.log("roi", Web3.utils.fromWei(lpTokenSupply), roi * 100);
+      const roi =
+        (100 - Web3.utils.fromWei(lpTokenSupply)) /
+        Web3.utils.fromWei(lpTokenSupply);
 
-        setAPR(parseInt(apr));
-      }
+      console.log("roi", Web3.utils.fromWei(lpTokenSupply), roi * 100);
 
-      if (contractPhnxStake?.methods && web3context.active) {
-        calculateAPR();
-      }
+      setAPR(parseInt(apr));
     };
+
+    if (contractPhnxStake?.methods) {
+      calculateAPR();
+    }
   }, [contractPhnxStake, web3context.active]);
 
   // Check if phnx earned is less than contract balance for staking
