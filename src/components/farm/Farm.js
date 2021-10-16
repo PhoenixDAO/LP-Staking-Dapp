@@ -154,7 +154,7 @@ function Farm() {
     getTotalLiquidity();
   }, []);
 
-  //give approval for lp tokens
+  //give approval for lp tokens hiii
   const _giveApproval = async () => {
     try {
       await giveApprovalFarming(
