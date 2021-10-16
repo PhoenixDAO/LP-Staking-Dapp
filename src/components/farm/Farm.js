@@ -154,21 +154,21 @@ function Farm() {
     getTotalLiquidity();
   }, []);
 
-  //give approval for lp tokens
-  const _giveApproval = async () => {
-    try {
-      await giveApprovalFarming(
-        web3context,
-        contractUniswapPair,
-        handleGetPoolPositionAction,
-        handleGetEthBalanceAction,
-        handleGetPhnxBalanceAction
-      );
-      await checkApproval(contractUniswapPair, web3context, setAllowance);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  //give approval for lp tokens hiii
+  // const _giveApproval = async () => {
+  //   try {
+  //     await giveApprovalFarming(
+  //       web3context,
+  //       contractUniswapPair,
+  //       handleGetPoolPositionAction,
+  //       handleGetEthBalanceAction,
+  //       handleGetPhnxBalanceAction
+  //     );
+  //     await checkApproval(contractUniswapPair, web3context, setAllowance);
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
 
   const _harvestPHNX = async () => {
     try {
@@ -224,7 +224,7 @@ function Farm() {
           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
-            giveApproval={_giveApproval}
+            giveApproval={handleGiveApprovalUniswapPair}
             userInfo={userInfo}
             reserveUSD={reserveUSD}
             loading={loading}
@@ -234,7 +234,7 @@ function Farm() {
           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
-            giveApproval={_giveApproval}
+            giveApproval={handleGiveApprovalUniswapPair}
             userInfo={userInfo}
             reserveUSD={reserveUSD}
             loading={loading}
