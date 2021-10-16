@@ -95,7 +95,6 @@ export default function ConnectWallet({
   );
 
   useEffect(() => {
-    // console.log(web3context, "web3contextttttttttttttt");
     dispatch(PhnxStakeContractInitAction(web3context));
     if (web3context.account && web3context.active) {
       dispatch(PhnxDaoContractInitAction(web3context));
@@ -103,12 +102,13 @@ export default function ConnectWallet({
       dispatch(UniswapContractRouterInitAction(web3context));
     }
   }, [web3context]);
+  useEffect(() => {
+    dispatch(PhnxStakeContractInitAction(web3context));
+  }, [web3context.activate]);
 
   useEffect(() => {
     dispatch(GetEthBalanceAction(web3context));
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
-
-
   }, [contractPhnxDao, web3context.active]);
 
   const balanceEth = useSelector((state) => state.localReducer.balanceEth);
@@ -134,7 +134,6 @@ export default function ConnectWallet({
   const handleOpen = () => {
     setOpen(true);
   };
-
 
   const handleClose = () => setOpen(false);
 
@@ -172,15 +171,9 @@ export default function ConnectWallet({
       } catch (e) {
         const err = getErrorMessage(e);
         console.error("ERROR activateWallet -> ", err);
-        toast(
-          <Notify
-            text={err}
-            severity="success"
-          />,
-          {
-            position: "bottom-right",
-          }
-        );
+        toast(<Notify text={err} severity="success" />, {
+          position: "bottom-right",
+        });
       }
     },
     [web3context]
@@ -213,7 +206,18 @@ export default function ConnectWallet({
     if (e instanceof UnsupportedChainIdError) {
       return "You are connected to wrong network 😔, Connect to Ethereum Mainnet.";
     } else if (e instanceof NoEthereumProviderError) {
-      return <span> No Wallet Found please install <a href='https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en' target='_blank'>Metamask</a> </span>;
+      return (
+        <span>
+          {" "}
+          No Wallet Found please install{" "}
+          <a
+            href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en"
+            target="_blank"
+          >
+            Metamask
+          </a>{" "}
+        </span>
+      );
     } else if (e instanceof UserRejectedRequestError) {
       return "Wallet Connection Rejected 😔, Try Again!";
     } else if (e.code === -32002) {
