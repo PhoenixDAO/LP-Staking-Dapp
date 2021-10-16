@@ -16,6 +16,7 @@ export const giveApprovalPhnxStaking = async (
   handleCheckApprovalPhnxStakingAction
 ) => {
   //   const web3 = new Web3(web3context?.library?.currentProvider);
+  //farming approval
   if (web3context && contractUniswapPair) {
     await contractUniswapPair.methods
       .approve(

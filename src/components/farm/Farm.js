@@ -47,13 +47,17 @@ function Farm() {
 
   const [isStackVisible, setStackVisible] = useState(false);
   const [isUnStackVisible, setUnStackVisible] = useState(false);
-  const [allowance, setAllowance] = useState(0);
+  // const [allowance, setAllowance] = useState(0);
   const [userInfo, setUserInfo] = useState({ amount: 0, rewardDebt: 0 });
   const [pendingPHX, setPendingPHX] = useState({ 0: 0, 1: 0 });
   const [reserveUSD, setReserveUSD] = useState(0);
   const [loading, setLoading] = useState(false);
   const [APR, setAPR] = useState(0);
   const [PhoenixDAO_market, setPhoenixDAO_market] = useState(null);
+
+  const allowance = useSelector(
+    (state) => state.contractReducer.allowancePhnxStaking
+  );
 
   const handleStackOpen = () => {
     setStackVisible(true);
@@ -96,14 +100,16 @@ function Farm() {
 
   // This f() to be called on give approval button
   const handleGiveApprovalUniswapPair = async () => {
-    await giveApprovalUniswapPair(
-      web3context,
-      contractUniswapPair,
-      handleGetPoolPositionAction,
-      handleGetEthBalanceAction,
-      handleGetPhnxBalanceAction,
-      handleCheckApprovalUniswapPairAction
-    );
+    // await giveApprovalUniswapPair(
+    //   web3context,
+    //   contractUniswapPair,
+    //   handleGetPoolPositionAction,
+    //   handleGetEthBalanceAction,
+    //   handleGetPhnxBalanceAction,
+    //   handleCheckApprovalUniswapPairAction
+    // );
+    handleGiveApprovalPhnxStakingAction()
+
   };
 
   // have to put on a button handleGiveApprovalPhnxStakingAction
@@ -251,7 +257,7 @@ function Farm() {
       let netProfit = reward - _token0;
       let roi = (netProfit / _token0) * 100;
 
-      let usd = PhoenixDAO_market.usd;
+      let usd = PhoenixDAO_market.usd ?PhoenixDAO_market.usd:0 ;
       let dollarValue = roi * usd;
 
       console.log("dollarValue", dollarValue);
