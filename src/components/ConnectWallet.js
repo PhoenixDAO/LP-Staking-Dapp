@@ -446,7 +446,7 @@ export default function ConnectWallet({
                 color="primary"
               />
             </Item>
-            <Divider />
+            <Divider/>
             <Item>
               <img src={ledgerIcon} alt="logo" />
               <Typography
