@@ -130,7 +130,7 @@ export default function WalletSettings({
             </Typography>
             <div className="rm-liq-phnx-eth-det">
           <img src={PhnxLogo} style={{  height:"20px",
-  width: "20px", marginRight:"5px"}}></img>
+             width: "20px", marginRight:"5px"}}></img>
           <div style={style.greyBalance}>{balancePhnx}</div>
         </div>
           </Stack>
@@ -216,15 +216,15 @@ export default function WalletSettings({
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleOpen}>
-          <AccountBalanceWalletIcon sx={{ mr: 1 }} />
+        <MenuItem onClick={handleOpen} style={{margin:'7px 5px',fontSize:'18px'}}>
+          <AccountBalanceWalletIcon sx={{ mr: 1 }}/>
           Wallet
         </MenuItem>
-        <MenuItem>
+        <MenuItem style={{margin:'7px 5px',fontSize:'18px'}}>
           <CompareArrowsIcon sx={{ mr: 1 }} />
           Transactions
         </MenuItem>
-        <MenuItem sx={{ color: "#F43C3C" }} onClick={deactivateWallet}>
+        <MenuItem sx={{ color: "#F43C3C" }} onClick={deactivateWallet} style={{margin:'7px 5px',fontSize:'18px'}}>
           <LogoutIcon sx={{ mr: 1 }} />
           Disconnect
         </MenuItem>
