@@ -21,7 +21,9 @@ import { GetEthBalanceAction } from "../../redux/actions/local.actions";
 import { IconButton, InputAdornment, Modal, TextField } from "@mui/material";
 import percentage from "../../assets/percentage.svg";
 
-const RemoveLiquidityModaL = ({ slippageValue }) => {
+const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval }) => {
+  console.log(allowance,'asdasdasd')
+  console.log(slippageValue,'asdasdasd')
   const web3context = useWeb3React();
   const dispatch = useDispatch();
   const phnxPerEth = useSelector((state) => state.localReducer.phnxPerEth);
@@ -43,8 +45,8 @@ const RemoveLiquidityModaL = ({ slippageValue }) => {
   const [perPhnxVal, setPerPhnxValue] = useState(0);
 
   const [phnxethburn, setphnxethburn] = useState(0);
-  const [selectedPercentage, setSelectedPercentage] = useState(10);
-  const [allowance, setAllowance] = useState(0);
+  const [selectedPercentage, setSelectedPercentage] = useState('');
+  // const [allowance, setAllowance] = useState(0);
 
   const [transactionConfirmModal, settransactionConfirmModal] = useState(false);
   const [transactionProcessModal, settransactionProcessModal] = useState(false);
@@ -56,10 +58,12 @@ const RemoveLiquidityModaL = ({ slippageValue }) => {
     console.log("coming to handleCheckApprovalUniswapPairAction");
     dispatch(CheckApprovalUniswapPairAction(web3context, contractUniswapPair));
   };
-  const handleCheckApprovalPhnxStakingAction = () => {
-    console.log("handleCheckApprovalPhnxStakingAction iiii");
-    dispatch(CheckApprovalPhnxStakingAction(web3context, contractUniswapPair));
-  };
+  // const handleCheckApprovalPhnxStakingAction = () => {
+  //   dispatch(CheckApprovalPhnxStakingAction(web3context, contractUniswapPair,setAllowance));
+  // };
+
+  
+
   const handleGetPoolPositionAction = () => {
     dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
   };
@@ -81,11 +85,11 @@ const RemoveLiquidityModaL = ({ slippageValue }) => {
   //     console.error(e);
   //   }
   // };
-  useEffect(() => {
-    if (contractUniswapPair && web3context.active) {
-      handleCheckApprovalPhnxStakingAction();
-    }
-  }, [contractUniswapPair, web3context.active]);
+  // useEffect(() => {
+  //   if (contractUniswapPair && web3context.active) {
+  //     handleCheckApprovalPhnxStakingAction();
+  //   }
+  // }, [contractUniswapPair, web3context.active]);
 
   const _handleRemoveLiquidity = async () => {
     settransactionProcessModal(true);
@@ -94,7 +98,7 @@ const RemoveLiquidityModaL = ({ slippageValue }) => {
         web3context,
         contractUniswapRouter,
         poolPosition,
-        selectedPercentage,
+        selectedPercentage=='' ? 10 : selectedPercentage,
         settransactionProcessModal,
         settransactionConfirmModal,
         settransactionSubmittedModal,
@@ -112,11 +116,12 @@ const RemoveLiquidityModaL = ({ slippageValue }) => {
     }
   };
 
-  useEffect(() => {
-    handleCheckApprovalPhnxStakingAction();
-  }, [contractUniswapPair]);
+  // useEffect(() => {
+  //   handleCheckApprovalPhnxStakingAction();
+  // }, [contractUniswapPair]);
 
   const handlePercentageInput = (e) => {
+    
     if (e.target.value === "" || isNaN(e.target.value)) {
       setSelectedPercentage(parseInt(0));
     } else if (e.target.value > 100) {
@@ -152,10 +157,13 @@ const RemoveLiquidityModaL = ({ slippageValue }) => {
       return;
     }
     const ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
-    const phnxValue = poolPosition.phnx * (selectedPercentage / 100).toString();
+    const phnxValue = parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();
+
+    
 
     setPerEthValue(ethValue);
     setPerPhnxValue(phnxValue);
+
 
     _handleCalculateLpToken(ethValue, phnxValue);
   }, [selectedPercentage, poolPosition]);
@@ -174,16 +182,16 @@ const RemoveLiquidityModaL = ({ slippageValue }) => {
   //     console.error(e);
   //   }
   // };
-  const handleGiveApprovalUniswapPair = async () => {
-    await POOL_SERVICES.giveApprovalUniswapPair(
-      web3context,
-      contractUniswapPair,
-      handleGetPoolPositionAction,
-      handleGetEthBalanceAction,
-      handleGetPhnxBalanceAction,
-      handleCheckApprovalUniswapPairAction
-    );
-  };
+  // const handleGiveApprovalUniswapPair = async () => {
+  //   await POOL_SERVICES.giveApprovalUniswapPair(
+  //     web3context,
+  //     contractUniswapPair,
+  //     handleGetPoolPositionAction,
+  //     handleGetEthBalanceAction,
+  //     handleGetPhnxBalanceAction,
+  //     handleCheckApprovalUniswapPairAction
+  //   );
+  // };
 
   return (
     <div className="rm-liq-div">
@@ -305,7 +313,7 @@ const RemoveLiquidityModaL = ({ slippageValue }) => {
       {allowance == 0 ? (
         <button
           className="rm-liq-btn"
-          onClick={handleGiveApprovalUniswapPair}
+          onClick={giveApproval}
           // onClick={() => setTxModalOpen()}
         >
           Approve ETH-PHNX LP

@@ -210,11 +210,13 @@ export const uniswapV2PairInit = (web3context) => {
 export const getEthBalance = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   let WeiEthBalance = await web3.eth.getBalance(web3context.account);
+  // console.log(web3.utils.fromWei(WeiEthBalance, "ether"),'asdasdasd');
   let EthBalance = fixedWithoutRounding(
-    Number(web3.utils.fromWei(WeiEthBalance, "ether")),
+    (web3.utils.fromWei(WeiEthBalance, "ether")),
     4
   );
-  return Number(EthBalance);
+  // console.log(EthBalance,'aaa')
+  return (EthBalance);
   // .toFixed(2);
 };
 
@@ -355,14 +357,19 @@ export const removeLiquidity = async (
   slippageValue,
   settranHash
 ) => {
+
   if (web3context && contractUniswapRouter && poolPosition) {
     let deadline = Date.now();
     deadline += 20 * 60;
 
-    let ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
-    let phnxValue = poolPosition.phnx * (selectedPercentage / 100).toString();
+    console.log(poolPosition.phnx,'dgf')
+
+    let ethValue = parseFloat(poolPosition.eth) * (selectedPercentage / 100).toString();
+    let phnxValue = parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();
     let phnxMin = phnxValue - phnxValue * (slippageValue / 100);
     let ethMin = ethValue - ethValue * (slippageValue / 100);
+
+    console.log(phnxMin,ethMin,'asdsadasd');
 
     await contractUniswapRouter.methods
       .removeLiquidityETH(

@@ -29,10 +29,13 @@ export const giveApprovalPhnxStaking = async (
         console.log("transactionHash", hash);
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
+        if(confirmationNumber == 1){
+          await handleCheckApprovalPhnxStakingAction();
+        }
         if (confirmationNumber === 2) {
           // tx confirmed
           console.log("confirmationNumber", confirmationNumber);
-          await handleCheckApprovalPhnxStakingAction();
+          // await handleCheckApprovalPhnxStakingAction();
         }
         await handleGetPoolPosition();
         await handleGetEthBalance();
@@ -69,6 +72,7 @@ export const harvestPHNX = async (
     console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
     if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
+      setLoading(false);
       toast(
         <Notify
           text={
@@ -142,6 +146,8 @@ export const checkApprovalPhnxStaking = async (
     const al = await contractUniswapPair.methods
       .allowance(web3context?.account, PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
       .call();
+      // setAllowance(al)
+      
     console.log("al checkApprovalPhnxStaking", al);
     return al;
     // setAllowance(al);
@@ -226,6 +232,7 @@ export const stakeLp = async (
   console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
   if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
+    setLoading(false);
     toast(
       <Notify
         text={
@@ -314,6 +321,7 @@ export const unStakeLp = async (
   console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
   if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
+    setLoading(false)
     toast(
       <Notify
         text={

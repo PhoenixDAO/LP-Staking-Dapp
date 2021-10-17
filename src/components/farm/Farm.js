@@ -55,6 +55,8 @@ function Farm() {
   const [APR, setAPR] = useState(0);
   const [PhoenixDAO_market, setPhoenixDAO_market] = useState(null);
 
+  const [Roi,setRoi] = useState(0.00);
+
   const allowance = useSelector(
     (state) => state.contractReducer.allowancePhnxStaking
   );
@@ -99,18 +101,7 @@ function Farm() {
   }, [contractUniswapPair, web3context.active]);
 
   // This f() to be called on give approval button
-  const handleGiveApprovalUniswapPair = async () => {
-    // await giveApprovalUniswapPair(
-    //   web3context,
-    //   contractUniswapPair,
-    //   handleGetPoolPositionAction,
-    //   handleGetEthBalanceAction,
-    //   handleGetPhnxBalanceAction,
-    //   handleCheckApprovalUniswapPairAction
-    // );
-    handleGiveApprovalPhnxStakingAction()
-
-  };
+ 
 
   // have to put on a button handleGiveApprovalPhnxStakingAction
   const handleGiveApprovalPhnxStakingAction = async () => {
@@ -218,72 +209,88 @@ function Farm() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const calculateAPR = async () => {
-      const blockInAYear = 2102400;
-      const phxPerBlock = await contractPhnxStake?.methods
-        ?.phxPerBlock()
-        ?.call();
-      const lpTokenSupply = await contractPhnxStake?.methods
-        ?.lpTokenSupply()
-        ?.call();
+  const calculateAPR = async (amt,f) => {
 
-      const apr =
-        (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
-        Web3.utils.fromWei(lpTokenSupply);
-
-      let amount = 3.671; //will get from user onChange
-
-      let rewardDebt = userInfo.rewardDebt;
-      rewardDebt = Web3.utils.fromWei(rewardDebt.toString());
-
-      const getReserves = await contractUniswapPair.methods
-        .getReserves()
-        .call();
-
-      let _balance = new BigNumber(Web3.utils.toWei(amount.toString()));
-      const _reserve0 = new BigNumber(getReserves._reserve0);
-      const _reserve1 = new BigNumber(getReserves._reserve1);
-      const _ratio = _reserve0.dividedBy(_reserve1);
-
-      let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot();
-      let _token1 = _balance.pow(2).dividedBy(_token0);
-      const conv = new BigNumber("1e+18");
-
-      _token0 = _token0.dividedBy(conv).toString(); //phnx
-      // _token1 = _token1.dividedBy(conv);
-
-      let reward = apr * amount - rewardDebt;
-      let netProfit = reward - _token0;
-      let roi = (netProfit / _token0) * 100;
-
-      let usd = PhoenixDAO_market.usd ?PhoenixDAO_market.usd:0 ;
-      let dollarValue = roi * usd;
-
-      console.log("dollarValue", dollarValue);
-
-      console.log(
-        "apr",
-        apr,
-        "amount",
-        amount,
-        "rewardDebt",
-        rewardDebt,
-        "netProfit",
-        netProfit,
-        "_token0",
-        _token0,
-        "roi",
-        roi
-      );
-
-      setAPR(parseInt(apr));
-    };
-
-    if (contractPhnxStake?.methods && contractUniswapPair?.methods) {
-      calculateAPR();
+    if(amt==0){
+      setRoi(0);
+      return;
     }
-  }, [contractPhnxStake, contractUniswapPair, web3context.active]);
+
+    const blockInAYear = 2102400;
+    const phxPerBlock = await contractPhnxStake?.methods
+    ?.phxPerBlock()
+    ?.call();
+    const lpTokenSupply = await contractPhnxStake?.methods
+    ?.lpTokenSupply()
+    ?.call();
+  
+    const apr =
+    (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
+    Web3.utils.fromWei(lpTokenSupply);
+  
+    let amount = amt; //will get from user onChange
+  
+    let rewardDebt = userInfo.rewardDebt;
+    rewardDebt = Web3.utils.fromWei(rewardDebt.toString());
+  
+    const getReserves = await contractUniswapPair.methods
+    .getReserves()
+    .call();
+  
+    let _balance = new BigNumber(Web3.utils.toWei(amount.toString()));
+    const _reserve0 = new BigNumber(getReserves._reserve0);
+    const _reserve1 = new BigNumber(getReserves._reserve1);
+    const _ratio = _reserve0.dividedBy(_reserve1);
+  
+    let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot();
+    let _token1 = _balance.pow(2).dividedBy(_token0);
+    const conv = new BigNumber("1e+18");
+  
+    _token0 = _token0.dividedBy(conv).toString(); //phnx
+    // _token1 = _token1.dividedBy(conv);
+  
+    let reward = apr * amount - rewardDebt;
+    let netProfit = reward - _token0;
+    let roi = (netProfit / _token0) * 100;
+  
+    // let usd = PhoenixDAO_market.usd ?PhoenixDAO_market.usd:0 ;
+    let usd = PhoenixDAO_market? PhoenixDAO_market.usd:0 ;
+
+    let dollarValue = roi * usd;
+  
+    console.log("dollarValue", dollarValue);
+  
+    console.log(
+    "apr",
+    apr,
+    "amount",
+    amount,
+    "rewardDebt",
+    rewardDebt,
+    "netProfit",
+    netProfit,
+    "_token0",
+    _token0,
+    "roi",
+    roi
+    );
+    setRoi(parseInt(dollarValue));
+    if(f){
+      setAPR(parseInt(apr));
+    }
+  };  
+
+  useEffect(()=>{
+    if(poolPosition!=null)
+    calculateAPR(poolPosition.lp,true);
+  })
+
+  // useEffect(() => {
+  
+  //   if (contractPhnxStake?.methods && contractUniswapPair?.methods) {
+  //     calculateAPR();
+  //   }
+  // }, [contractPhnxStake, contractUniswapPair, web3context.active]);
 
   // Check if phnx earned is less than contract balance for staking
   // for unstake if phnx earned + unstaked token < contract balance of staking
@@ -295,7 +302,7 @@ function Farm() {
           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
-            giveApproval={handleGiveApprovalUniswapPair}
+            giveApproval={handleGiveApprovalPhnxStakingAction}
             userInfo={userInfo}
             reserveUSD={reserveUSD}
             loading={loading}
@@ -305,7 +312,7 @@ function Farm() {
           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
-            giveApproval={handleGiveApprovalUniswapPair}
+            giveApproval={handleGiveApprovalPhnxStakingAction}
             userInfo={userInfo}
             reserveUSD={reserveUSD}
             loading={loading}
@@ -333,7 +340,7 @@ function Farm() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <StakingModal Close={handleStackClose} />
+        <StakingModal Close={handleStackClose} calculateAPR={calculateAPR} Roi={Roi}/>
       </Modal>
       <Modal
         open={isUnStackVisible}

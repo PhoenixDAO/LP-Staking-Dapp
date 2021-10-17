@@ -14,8 +14,15 @@ import {
   // InputAdornment,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { GetPoolPositionAction } from "../../../redux/actions/contract.actions";
+import { GetPoolPositionAction,
+  GetPhnxBalanceAction,
+  CheckApprovalPhnxStakingAction,
+  CheckApprovalUniswapPairAction,} from "../../../redux/actions/contract.actions";
 import SlippingTolerance from "../../connectModal/SlippingTolerance";
+import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
+import * as POOL_SERVICES from "../../../services/pool.services";
+
+
 
 
 function MyLiquidity({ ChangeTab }) {
@@ -28,6 +35,9 @@ function MyLiquidity({ ChangeTab }) {
   const contractUniswapPair = useSelector(
     (state) => state.contractReducer.contractUniswapPair
   );
+
+  const [allowance, setAllowance] = useState(0);
+
 
   const [slippageModal,setSlippageModal]=useState(false);
   const [slippageValue,setSlippageValue]=useState(10);
@@ -45,12 +55,51 @@ function MyLiquidity({ ChangeTab }) {
     setModalVisible(true);
   };
 
+  
+
+  
+
+  const contractPhnxDao = useSelector(
+    (state) => state.contractReducer.contractPhnxDao
+  );
+
+  
+  
+  const handleGetPoolPositionAction = () => {
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  };
+  const handleGetEthBalanceAction = () => {
+    dispatch(GetEthBalanceAction(web3context));
+  };
+  const handleGetPhnxBalanceAction = () => {
+    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
+  };
+  
+  const handleGiveApprovalUniswapPair = async () => {
+    await POOL_SERVICES.giveApprovalUniswapPair(
+      web3context,
+      contractUniswapPair,
+      handleGetPoolPositionAction,
+      handleGetEthBalanceAction,
+      handleGetPhnxBalanceAction,
+      handleCheckApprovalUniswapPairAction.apply,
+      setAllowance
+    );
+  };
+
   useEffect(() => {
     if (contractUniswapPair) {
-      console.log("asdasdasdadasd1111111");
+      console.log('asdasdasdasdasdasdads')
+      handleCheckApprovalUniswapPairAction()
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
     }
   }, [web3context.active, contractUniswapPair]);
+
+  const handleCheckApprovalUniswapPairAction = async () => {
+    console.log("coming to handleCheckApprovalUniswapPairAction");
+    POOL_SERVICES.checkApprovalUniswapPair(web3context, contractUniswapPair,setAllowance);
+    console.log(allowance,'999999999');
+  };
 
   return (
     <div className="my-liquidity-div" >
@@ -196,6 +245,7 @@ function MyLiquidity({ ChangeTab }) {
         </div>
       ) : (
         <div>
+          <br></br>
           <div className="phnx-eth">
             <p className="phnx-eth-no">{poolPosition.lp}</p>
             <img src={PhnxLogo} className="phnx-eth-logo"></img>
@@ -262,7 +312,7 @@ function MyLiquidity({ ChangeTab }) {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <RemoveLiquidityModal slippageValue={slippageValue}/>
+          <RemoveLiquidityModal slippageValue={slippageValue} allowance={allowance} giveApproval={handleGiveApprovalUniswapPair}/>
         </Modal>
       ) : null}
       <SlippingTolerance status={slippageModal} handleClose={setSlippageModal} setSlippageValue={setSlippageValue} />

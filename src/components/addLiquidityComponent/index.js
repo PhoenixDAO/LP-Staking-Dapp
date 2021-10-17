@@ -505,12 +505,13 @@ const styles = {
     padding: 20,
     
     // border: "2px solid #000",
-    borderRadius: 5,
+    borderRadius: 4,
     boxShadow: 0,
     p: 4,
     ["@media (max-width: 650px)"]: {
-      width: "90%",
+      width: "98%",
       padding: 2,
+      overflowY: "auto",
     },
   },
   downArrow: {
@@ -618,6 +619,9 @@ const styles = {
     borderRadius: 8,
     fontWeight: 700,
     marginTop: 5,
+    ["@media (max-width: 650px)"]: {
+      width: "100%",
+    },
   },
   wrapperInput: {
     display: "flex",

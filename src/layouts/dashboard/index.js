@@ -41,14 +41,15 @@ export default function DashboardLayout() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }} >
       <CssBaseline />
-      <DashboardNavbar open={open} handleDrawerOpen={handleDrawerOpen} />
+      <DashboardNavbar open={open} handleDrawerOpen={handleDrawerOpen}/>
 
       <DashboardSidebar
         open={open}
         handleDrawerClose={handleDrawerClose}
         handleDrawerOpen={handleDrawerOpen}
+        className='sideBarFullScreen'
       />
       <Box
         // component="main"

@@ -105,14 +105,19 @@ export const GetPoolPositionAction = (web3context, contractUniswapPair) => {
 
 export const CheckApprovalUniswapPairAction = (
   web3context,
-  contractUniswapPair
+  contractUniswapPair,
+  setAllowance
 ) => {
+
   return async (dispatch) => {
+
     try {
       let response = await checkApprovalUniswapPair(
         web3context,
         contractUniswapPair
       );
+      console.log(response,'555555555')
+      setAllowance(response)
       console.log("CheckApprovalUniswapPairAction response", response);
       dispatch({
         type: types.CHECK_APPROVAL_UNISWAP_PAIR_SUCCESS,
@@ -147,7 +152,8 @@ export const CheckApprovalPhnxDaoAction = (web3context, contractPhnxDao) => {
 
 export const CheckApprovalPhnxStakingAction = (
   web3context,
-  contractUniswapPair
+  contractUniswapPair,
+  setAllowance
 ) => {
   return async (dispatch) => {
     try {
@@ -155,6 +161,7 @@ export const CheckApprovalPhnxStakingAction = (
         web3context,
         contractUniswapPair
       );
+      // setAllowance(response)
       console.log("CheckApprovalPhnxStakingAction response", response);
       dispatch({
         type: types.CHECK_APPROVAL_PHNX_STAKING_SUCCESS,

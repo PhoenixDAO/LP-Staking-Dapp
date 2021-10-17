@@ -362,8 +362,7 @@ export default function ConnectWallet({
             <div
               style={{
                 display: "flex",
-                alignItem: "center",
-                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               {" "}
@@ -400,6 +399,7 @@ export default function ConnectWallet({
             color="primary"
             sx={{ mt: 3, color:"#413AE2", fontWeight:"bolder"}}
             align="center"
+            className='connectWalletMsg'
           >
             Connect to your wallet
           </Typography>
@@ -415,12 +415,13 @@ export default function ConnectWallet({
               }
               }
             >
-              <img src={metamaskIcon} alt="logo" />
+              <img src={metamaskIcon} alt="logo" className="walletImg"/>
               <Typography
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
                 sx={{ ml: 3,textAlign: "left"  }}
+                className='connectWalletModalText'
               >
                 Metamask
               </Typography>
@@ -441,12 +442,14 @@ export default function ConnectWallet({
 
               }}
             >
-              <img src={walletConnectIcon} alt="logo" />
+              <img src={walletConnectIcon} alt="logo" className="walletImg"/>
               <Typography
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
                 sx={{ ml: 3 }}
+                className='connectWalletModalText'
+
               >
                 Wallet Connect
               </Typography>
@@ -466,12 +469,14 @@ export default function ConnectWallet({
                   window.localStorage.setItem('previousWallet','coinBase')
               }}
             >
-              <img src={coinbaseIcon} alt="logo" />
+              <img src={coinbaseIcon} alt="logo" className="walletImg"/>
               <Typography
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
                 sx={{ ml: 3 }}
+                className='connectWalletModalText'
+
               >
                 Coinbase Wallet
               </Typography>
@@ -484,12 +489,14 @@ export default function ConnectWallet({
             <Divider style={{marginTop:"5px"}} />
 
             <Item>
-              <img src={ledgerIcon} alt="logo" />
+              <img src={ledgerIcon} alt="logo" className="walletImg"/>
               <Typography
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
                 sx={{ ml: 3 }}
+                className='connectWalletModalText'
+
               >
                 Ledger
               </Typography>
@@ -503,6 +510,7 @@ export default function ConnectWallet({
                   py: "3px",
                   borderRadius: "30px",
                 }}
+                className='comingSoon'
               >
                 COMING SOON
               </Typography>
