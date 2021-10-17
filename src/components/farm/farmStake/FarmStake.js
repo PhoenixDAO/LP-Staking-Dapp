@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import ConnectWallet from "../../ConnectWallet";
 import { useWeb3React } from "@web3-react/core";
 import { useSelector } from "react-redux";
+import Web3 from "web3";
+
 
 function FarmStake({
   stakeModalOpen,
@@ -79,7 +81,7 @@ function FarmStake({
           <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
         </div>
         <div className="farm-details-txt-right">
-          {userInfo?.amount}
+          {userInfo.amount && Web3.utils.fromWei(userInfo.amount)}
         </div>
       </div>
       {web3context.active ? (

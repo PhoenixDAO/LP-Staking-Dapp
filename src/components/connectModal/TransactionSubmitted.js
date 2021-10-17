@@ -97,7 +97,7 @@ const TransactionSubmitted = ({ transactionSubmittedModal , hash}) => {
                   className="transactionSubmittedCheckIcon"
                 ></img>
               </div>
-              <div className="transactionSubmitted">Transaction Submitted</div>
+              <div className="transactionSubmitted" >Transaction Submitted</div>
 
               <div className="displayFlex bscScan">
                 <div className="cursorPointer">
@@ -105,9 +105,10 @@ const TransactionSubmitted = ({ transactionSubmittedModal , hash}) => {
                     href={TX_LINK_RINKEBY+hash}
                     rel="external nofollow noopener"
                     target="_blank"
+                    style={{textDecoration :'none',color:'#413AE2'}}
                   >
                     View on Etherscan
-                  </a>
+                  </a> 
                 </div>
                 <div className="openTabPadding  cursorPointer">
                   <svg

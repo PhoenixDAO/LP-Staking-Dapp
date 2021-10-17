@@ -102,7 +102,7 @@ function FarmHarvest({
         onClick={harvestPHNX}
         disabled={loading}
       >
-        {loading && <CircularProgress sx={{ color: "#fff" }} size={14} />}
+        {loading && "Harvesting..."}
         {!loading && "Harvest"}
       </button>
 

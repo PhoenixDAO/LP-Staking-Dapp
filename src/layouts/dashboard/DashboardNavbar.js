@@ -33,8 +33,8 @@ const Item = styled("div")(({ theme }) => ({
 
 const DashboardNavbar = ({ open, handleDrawerOpen }) => {
   return (
-    <AppBar position="fixed" open={open}>
-      <Toolbar>
+    <AppBar position="fixed" open={open} >
+      <Toolbar >
         <IconButton
           // color="inherit"
           aria-label="open drawer"
@@ -54,6 +54,7 @@ const DashboardNavbar = ({ open, handleDrawerOpen }) => {
           alignItems="center"
           justifyContent="space-between"
           width="100%"
+          className='appBarFlex'
         >
           <Item>
             <img src={Logo} alt="logo" />
