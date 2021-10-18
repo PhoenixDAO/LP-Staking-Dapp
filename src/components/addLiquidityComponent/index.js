@@ -151,10 +151,16 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       setPoolShare(0);
     }
   };
-
+  var reg = new RegExp("^[0-9]+$");
+ 
   const OnChangeHandler = (val, tokenName) => {
     if (tokenName === "phnx") {
       let v = parseFloat(val);
+      let test = reg.test(val);
+      if (!test && val.length != 0) return;
+      if (val < -1) {
+        return;
+      }
       let total = parseFloat(reserve1) + v;
       console.log("res" + reserve1);
       setPoolShare(((v / total) * 100).toFixed(3));
@@ -192,10 +198,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   };
   return (
     <Box sx={styles.containerStyle} className="modal-scroll">
-      <div>
+      <div style={{marginBottom:"10px"}}>
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>
-          <p className="subheading-modal" style={{ display: "flex" }}>
+          <p className="subheading-modal" style={{ display: "flex", marginBottom:"10px" }}>
             Add liquidity to the ETH/PHNX pool <br /> and receive LP tokens
             <img
               onClick={() => setSlippageModal(!slippageModal)}
@@ -208,7 +214,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               }}
             ></img>
           </p>
-          <br></br>
 
           {closeBtn ? (
             <button onClick={handleClose} className="icon-btn">
@@ -221,12 +226,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         style={{
           height: 1,
           background: "rgba(0, 0, 0, 0.15)",
-          marginLeft: 10,
-          marginRight: 10,
-          marginBottom: 9,
+          marginBottom:"10px"
         }}
       />
-      <div className="dialog-style">
+      <div className="dialog-style" >
         <div style={styles.containerTip}>
           <Typography style={styles.txtTipParagraph}>
             Tip: By adding liquidity, you'll earn 0.25% of all trades on this
