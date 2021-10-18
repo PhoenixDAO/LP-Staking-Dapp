@@ -152,7 +152,7 @@ function Farm() {
     ) {
       handleGetUserInfo();
     }
-  }, [poolPosition]);
+  }, [poolPosition, balancePhnx]);
 
   useEffect(() => {
     const getTotalLiquidity = async () => {
@@ -222,7 +222,7 @@ function Farm() {
     if (contractPhnxStake?.methods) {
       calculateAPR();
     }
-  }, [contractPhnxStake, web3context.active]);
+  }, [contractPhnxStake, web3context.active, balancePhnx]);
 
   // Check if phnx earned is less than contract balance for staking
   // for unstake if phnx earned + unstaked token < contract balance of staking
