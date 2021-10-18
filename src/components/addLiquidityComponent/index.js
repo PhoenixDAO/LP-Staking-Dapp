@@ -228,11 +228,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         style={{
           height: 1,
           background: "rgba(0, 0, 0, 0.15)",
-          marginBottom:"10px"
         }}
       />
-      {console.log("hello")}
-      <div className="dialog-style" >
+      <div className="dialog-style" style={{paddingTop:"10px"}}>
         <div style={styles.containerTip}>
           <Typography style={styles.txtTipParagraph}>
             Tip: By adding liquidity, you'll earn 0.25% of all trades on this
@@ -248,7 +246,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.containerImg}>
                 <Typography style={styles.txtInput}>Input</Typography>
                 <Typography style={styles.txtPhnx}>
-                  PHNX <img src={blueDownArrow} style={styles.downArrow}></img>
+                  PHNX
                 </Typography>
               </div>
             </div>
@@ -306,7 +304,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.containerImg}>
                 <Typography style={styles.txtInput}>Input</Typography>
                 <Typography style={{ ...styles.txtPhnx, color: "#454A75" }}>
-                  ETH <img src={downArrow} style={styles.downArrow}></img>
+                  ETH
                 </Typography>
               </div>
             </div>
