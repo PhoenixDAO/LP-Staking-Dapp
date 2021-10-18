@@ -14,7 +14,7 @@ import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
 import { Link } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 
-function StakeModal({ Close , calculateAPR , Roi}) {
+function StakeModal({ Close, calculateAPR, Roi }) {
   const [lpValue, setlpValue] = useState(0.0);
   const [maxlpValue, setmaxlpValue] = useState(0.0);
   const [loading, setLoading] = useState(false);
@@ -39,12 +39,12 @@ function StakeModal({ Close , calculateAPR , Roi}) {
     //   return;
     // } else {
     setlpValue(e.target.value);
-    
-    if(!isNaN(e.target.value) && e.target.value!=''){
-      console.log(parseFloat(e.target.value))
-      calculateAPR(parseFloat(e.target.value))
-    }else{
-      calculateAPR(parseFloat(0))
+
+    if (!isNaN(e.target.value) && e.target.value != "") {
+      console.log(parseFloat(e.target.value));
+      calculateAPR(parseFloat(e.target.value), true);
+    } else {
+      calculateAPR(parseFloat(0), true);
     }
     // }
   };
@@ -104,36 +104,43 @@ function StakeModal({ Close , calculateAPR , Roi}) {
         <div className="stakingModal-details">STAKE</div>
         <div style={{ marginLeft: "auto" }} className="stakingModal-details">
           <span>
-          Bal: {" "}<span style={{ color: "#000" }}>{maxlpValue} PHNX-ETH LP</span>
+            Bal: <span style={{ color: "#000" }}>{maxlpValue} PHNX-ETH LP</span>
           </span>
         </div>
       </div>
 
-      <div style={{ display: "flex", marginTop: "10px", alignItems: "center" , border:'solid 1px #E4E4E7' ,borderRadius:'5px',paddingRight:'5px'}}>
+      <div
+        style={{
+          display: "flex",
+          marginTop: "10px",
+          alignItems: "center",
+          border: "solid 1px #E4E4E7",
+          borderRadius: "5px",
+          paddingRight: "5px",
+        }}
+      >
         <input
           type="number"
           placeholder="0.0"
           className="stakingModalInput"
           onChange={(e) => LpChange(e)}
           value={lpValue}
-        >
-        </input>
+        ></input>
 
         <button
           className="stakingModalInputBtn"
           onClick={() => {
             setlpValue(maxlpValue);
-            if(!isNaN(maxlpValue) && maxlpValue!=''){
-              console.log(parseFloat(maxlpValue))
-              calculateAPR(parseFloat(maxlpValue))
-            }else{
-              calculateAPR(0)
+            if (!isNaN(maxlpValue) && maxlpValue != "") {
+              console.log(parseFloat(maxlpValue));
+              calculateAPR(parseFloat(maxlpValue));
+            } else {
+              calculateAPR(0);
             }
           }}
         >
           MAX
         </button>
-        
       </div>
 
       <div style={{ display: "flex", alignItems: "center", marginTop: "13px" }}>
@@ -144,16 +151,20 @@ function StakeModal({ Close , calculateAPR , Roi}) {
           className="stakingModal-details"
           style={{ marginLeft: "auto", marginTop: "0px" }}
         >
-          ${Roi} &nbsp;<img src={CalculatorLogo} style={{height:"15px",alignSelf:"center"}}></img>
+          ${Roi} &nbsp;
+          <img
+            src={CalculatorLogo}
+            style={{ height: "15px", alignSelf: "center" }}
+          ></img>
         </div>
       </div>
 
-      <div style={{ display: "flex", alignItems: "center",marginTop:"10px" }}>
+      <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
         <button
           className="farm-btn-stake-outline"
           style={{ marginTop: "25px" }}
           onClick={() => {
-            calculateAPR(0)
+            calculateAPR(0);
             Close();
           }}
         >
@@ -188,9 +199,12 @@ function StakeModal({ Close , calculateAPR , Roi}) {
         className="get-phnx-eth-lp"
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "14px" }}
       >
-        <Link to="/liquidity" style={{textDecoration:'none',color:'#413ae2'}}>
-          Get PHNX-ETH LP{" "} &nbsp;
-          <img src={ShareLogo} style={{height:"12px"}}></img>
+        <Link
+          to="/liquidity"
+          style={{ textDecoration: "none", color: "#413ae2" }}
+        >
+          Get PHNX-ETH LP &nbsp;
+          <img src={ShareLogo} style={{ height: "12px" }}></img>
         </Link>
       </div>
     </div>

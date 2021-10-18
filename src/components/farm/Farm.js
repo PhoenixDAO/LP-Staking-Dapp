@@ -278,10 +278,14 @@ function Farm() {
   };
 
   useEffect(() => {
-    if (poolPosition) {
+    if (
+      poolPosition &&
+      contractPhnxStake?.methods &&
+      contractUniswapPair?.methods
+    ) {
       calculateAPR(poolPosition.lp, true);
     }
-  }, [poolPosition, contractPhnxStake]);
+  }, [poolPosition, contractPhnxStake, contractUniswapPair]);
 
   // useEffect(() => {
 
