@@ -281,7 +281,7 @@ function Farm() {
     if (poolPosition) {
       calculateAPR(poolPosition.lp, true);
     }
-  }, [poolPosition]);
+  }, [poolPosition, contractPhnxStake]);
 
   // useEffect(() => {
 
