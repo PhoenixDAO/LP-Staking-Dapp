@@ -26,6 +26,34 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-bottom: 10px;
 }
 
+ 
+.modal-scroll, .makeStyles-hideScroll-7{
+  width: 20px;
+  
+  overflow-y: scroll;
+  scrollbar-color: rgba(56, 16, 255, 0.55) #fff;
+  scrollbar-width: thin;
+}
+
+.modal-scroll , .makeStyles-hideScroll-7{
+  width: 20px;
+  
+  overflow-y: scroll;
+  scrollbar-color: rgba(56, 16, 255, 0.55) #fff;
+  scrollbar-width: thin;
+}
+
+.modal-scroll , .makeStyles-hideScroll-7 {
+  width: 20px;
+  
+  overflow-y: scroll;
+  scrollbar-color: rgba(56, 16, 255, 0.55) #fff;
+  scrollbar-width: thin;
+  border-radius: 40px;
+
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
 .heading-modal {
   color: #413ae2;

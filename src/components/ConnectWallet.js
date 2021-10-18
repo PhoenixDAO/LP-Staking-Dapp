@@ -522,7 +522,13 @@ export default function ConnectWallet({
             variant="p"
             component="p"
             align="center"
-            sx={{ mt: 4}}
+            sx={{ mt: 4, fontSize:"small","@media (max-width:420px)":{
+              fontSize:"12px",
+            },
+            "@media (max-width:350px)":{
+              fontSize:"9px",
+            },
+          }}
           >
             By connecting, I accept PhoenixDAO’s{" "}
             <Link to="/terms" onClick={handleClose}>
