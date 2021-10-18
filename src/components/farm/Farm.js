@@ -275,7 +275,6 @@ function Farm() {
     if (f) {
       setAPR(parseInt(apr));
     }
-    // }, [contractPhnxStake, web3context.active, balancePhnx]);
   };
 
   useEffect(() => {
