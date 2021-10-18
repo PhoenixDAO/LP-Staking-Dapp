@@ -39,6 +39,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const [poolShare, setPoolShare] = useState(0);
 
+  const[approveStatus,setApproveStatus] = useState(false);
+
   // const [allowance, setAllowance] = useState(0);
 
   const dispatch = useDispatch();
@@ -451,13 +453,26 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             fullWidth={true}
             style={{
               ...styles.btnAddLiquidity,
-              backgroundColor: loading ? "#acacac" : "#413AE2",
+              backgroundColor: loading || approveStatus ? "#acacac" : "#413AE2",
               textTransform: "capitalize",
             }}
             disabled={loading}
-            onClick={handleGiveApprovalPhnxDao}
+            onClick={async()=>{
+              setApproveStatus(true);
+              await handleGiveApprovalPhnxDao();
+              setApproveStatus(false);
+              }
+            }
           >
-            Approve PHNX
+
+            {
+
+              approveStatus==false ?
+              'Approve PHNX' :
+              'Approving... PHNX'
+
+            }
+
           </Button>
         )}
       </div>
