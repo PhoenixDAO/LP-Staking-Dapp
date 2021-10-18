@@ -75,15 +75,16 @@ function MyLiquidity({ ChangeTab }) {
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
   
-  const handleGiveApprovalUniswapPair = async () => {
+  const handleGiveApprovalUniswapPair = async (setApproveStatus) => {
     await POOL_SERVICES.giveApprovalUniswapPair(
       web3context,
       contractUniswapPair,
       handleGetPoolPositionAction,
       handleGetEthBalanceAction,
       handleGetPhnxBalanceAction,
-      handleCheckApprovalUniswapPairAction.apply,
-      setAllowance
+      handleCheckApprovalUniswapPairAction,
+      setAllowance,
+      setApproveStatus
     );
   };
 
@@ -312,7 +313,7 @@ function MyLiquidity({ ChangeTab }) {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <RemoveLiquidityModal slippageValue={slippageValue} allowance={allowance} giveApproval={handleGiveApprovalUniswapPair}/>
+          <RemoveLiquidityModal slippageValue={slippageValue} allowance={allowance} giveApproval={handleGiveApprovalUniswapPair} handleClose={handleModalClose}/>
         </Modal>
       ) : null}
       <SlippingTolerance status={slippageModal} handleClose={setSlippageModal} setSlippageValue={setSlippageValue} />

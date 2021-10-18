@@ -31,15 +31,16 @@ export const giveApprovalPhnxStaking = async (
       .on("confirmation", async function (confirmationNumber, receipt) {
         if(confirmationNumber == 1){
           await handleCheckApprovalPhnxStakingAction();
+          await handleGetPoolPosition();
+          await handleGetEthBalance();
+          await handleGetPhnxBalance();
         }
         if (confirmationNumber === 2) {
           // tx confirmed
           console.log("confirmationNumber", confirmationNumber);
           // await handleCheckApprovalPhnxStakingAction();
         }
-        await handleGetPoolPosition();
-        await handleGetEthBalance();
-        await handleGetPhnxBalance();
+       
       })
       .on("error", function (err) {
         console.log("err", err);

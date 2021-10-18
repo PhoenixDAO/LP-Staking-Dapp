@@ -283,7 +283,7 @@ export const giveApprovalPhnxDao = async (
 export const checkApprovalUniswapPair = async (
   web3context,
   contractUniswapPair,
-  setAllowance
+  setApproveStatus
 ) => {
   if (contractUniswapPair) {
     // console.log("contractUniswapPair", contractUniswapPair);
@@ -294,7 +294,7 @@ export const checkApprovalUniswapPair = async (
       )
       .call();
     console.log("allowance11", allowance1);
-    setAllowance(allowance1)
+    setApproveStatus(false);
     return allowance1;
   } else {
     throw "contractUniswapPair not initialized!";
@@ -308,7 +308,9 @@ export const giveApprovalUniswapPair = async (
   handleGetPoolPosition,
   handleGetEthBalance,
   handleGetPhnxBalance,
-  handleCheckApprovalUniswapPairAction
+  handleCheckApprovalUniswapPairAction,
+  setAllowance,
+  setApproveStatus
 ) => {
   if (contractUniswapPair && web3context) {
     await contractUniswapPair.methods
@@ -322,8 +324,8 @@ export const giveApprovalUniswapPair = async (
         console.log("tx hash", hash);
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
-        if (confirmationNumber === 2) {
-          await handleCheckApprovalUniswapPairAction();
+        if (confirmationNumber === 1) {
+          await handleCheckApprovalUniswapPairAction(setApproveStatus);
           // tx confirmed
           // await checkApprovalUniswapPair(
           //   web3context,
@@ -333,13 +335,17 @@ export const giveApprovalUniswapPair = async (
           await handleGetPoolPosition();
           await handleGetEthBalance();
           await handleGetPhnxBalance();
+          // setApproveStatus(false);
         }
       })
       .on("error", function (err) {
         console.error(err);
+        setApproveStatus(false);
+
       });
   } else {
     throw "contractUniswapPair not initialized! @giveApprovalUniswapPair";
+    return;
   }
 };
 
