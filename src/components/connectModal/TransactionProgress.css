@@ -246,11 +246,7 @@ text-align:center;
   margin-bottom: 20px;
 }
 .transaction-liq-div::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    180deg,
-    rgba(56, 16, 255, 0.55) 0%,
-    rgba(255, 0, 245, 0.55) 143.12%
-  );
+  background: rgba(56, 16, 255, 0.55) 0%;
   border-radius: 40px;
   border: solid 5px white;
   margin-top: 10px;

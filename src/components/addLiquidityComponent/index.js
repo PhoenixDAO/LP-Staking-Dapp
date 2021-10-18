@@ -190,7 +190,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const setTxModalClose = () => {
     settransactionConfirmModal(false);
   };
-
   return (
     <Box sx={styles.containerStyle} className="modal-scroll">
       <div>
