@@ -19,7 +19,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .modal-scroll::-webkit-scrollbar-thumb ,.makeStyles-hideScroll-7::-webkit-scrollbar-thumb {
-  background: #413ae2;
+  background: rgba(56, 16, 255, 0.55);
   border-radius: 40px;
   border: solid 5px white;
   margin-top: 10px;

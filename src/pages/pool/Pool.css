@@ -20,7 +20,6 @@ div.gradient-div {
   box-sizing: border-box;
   backdrop-filter: blur(2px);
   /* -webkit-filter: ; */
-  z-index: 30000 !important;
   border-radius: 13px;
   position:relative;
 }
@@ -61,7 +60,7 @@ p.phnx-subheading {
 }
 img.img-landing-logo {
   position: absolute;
-  right: 15px;
+  right: 0px;
   margin-top: 60px;
   z-index: -100;
   width: 370px;

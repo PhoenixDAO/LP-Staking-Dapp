@@ -45,7 +45,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
   const [perPhnxVal, setPerPhnxValue] = useState(0);
 
   const [phnxethburn, setphnxethburn] = useState(0);
-  const [selectedPercentage, setSelectedPercentage] = useState('');
+  const [selectedPercentage, setSelectedPercentage] = useState("");
   // const [allowance, setAllowance] = useState(0);
 
   const [transactionConfirmModal, settransactionConfirmModal] = useState(false);
@@ -64,8 +64,6 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
   //   dispatch(CheckApprovalPhnxStakingAction(web3context, contractUniswapPair,setAllowance));
   // };
 
-  
-
   const handleGetPoolPositionAction = () => {
     dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
   };
@@ -76,23 +74,6 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
 
-  // const _handleCheckApproval = async () => {
-  //   try {
-  //     await SERVICES.checkApprovalUniswapPair(
-  //       web3context,
-  //       contractUniswapPair,
-  //       setAllowance
-  //     );
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
-  // useEffect(() => {
-  //   if (contractUniswapPair && web3context.active) {
-  //     handleCheckApprovalPhnxStakingAction();
-  //   }
-  // }, [contractUniswapPair, web3context.active]);
-
   const _handleRemoveLiquidity = async () => {
     settransactionProcessModal(true);
     try {
@@ -100,7 +81,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
         web3context,
         contractUniswapRouter,
         poolPosition,
-        selectedPercentage=='' ? 10 : selectedPercentage,
+        selectedPercentage == "" ? 10 : selectedPercentage,
         settransactionProcessModal,
         settransactionConfirmModal,
         settransactionSubmittedModal,
@@ -118,12 +99,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
     }
   };
 
-  // useEffect(() => {
-  //   handleCheckApprovalPhnxStakingAction();
-  // }, [contractUniswapPair]);
-
   const handlePercentageInput = (e) => {
-    
     if (e.target.value === "" || isNaN(e.target.value)) {
       setSelectedPercentage(parseInt(0));
     } else if (e.target.value > 100) {
@@ -159,41 +135,14 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
       return;
     }
     const ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
-    const phnxValue = parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();
-
-    
+    const phnxValue =
+      parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();
 
     setPerEthValue(ethValue);
     setPerPhnxValue(phnxValue);
 
-
     _handleCalculateLpToken(ethValue, phnxValue);
   }, [selectedPercentage, poolPosition]);
-
-  // const _handleGiveApprovalUniswapPair = async () => {
-  //   try {
-  //     await SERVICES.giveApprovalUniswapPair(
-  //       web3context,
-  //       contractUniswapPair,
-  //       setAllowance,
-  //       handleGetPoolPosition,
-  //       handleGetEthBalance,
-  //       handleGetPhnxBalance
-  //     );
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
-  // const handleGiveApprovalUniswapPair = async () => {
-  //   await POOL_SERVICES.giveApprovalUniswapPair(
-  //     web3context,
-  //     contractUniswapPair,
-  //     handleGetPoolPositionAction,
-  //     handleGetEthBalanceAction,
-  //     handleGetPhnxBalanceAction,
-  //     handleCheckApprovalUniswapPairAction
-  //   );
-  // };
 
   return (
     <div className="rm-liq-div">
@@ -389,7 +338,9 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
 
       <div className="rm-liq-phnx-eth-lp-div" style={{ marginTop: "7px" }}>
         <div className="rm-liq-phnx-eth-lp-sub">Pool Share</div>
-        <div className="rm-liq-phnx-eth-lp-sub-no">{poolPosition.poolPerc}%</div>
+        <div className="rm-liq-phnx-eth-lp-sub-no">
+          {poolPosition.poolPerc}%
+        </div>
       </div>
 
       <br></br>
