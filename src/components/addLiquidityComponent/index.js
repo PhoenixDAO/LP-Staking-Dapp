@@ -25,10 +25,8 @@ import ConnectWallet from "../ConnectWallet";
 import ConnectModal from "../connectModal/ConnectModal";
 import TransactionProgress from "../connectModal/TransactionProgress";
 import TransactionSubmitted from "../connectModal/TransactionSubmitted";
-// import VersionSwitch from "../versionSwitch/versionSwitch";
 import SlippingTolerance from "../connectModal/SlippingTolerance";
 import SettingsLogo from "../../assets/settings.png";
-// import { Check } from "@mui/icons-material";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [ethValue, setEthValue] = useState("");
@@ -108,17 +106,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const handleCheckApprovalPhnxDaoAction = async () => {
     dispatch(CheckApprovalPhnxDaoAction(web3context, contractPhnxDao));
   };
-  // const _handleCheckApproval = async () => {
-  //   try {
-  //     let result = await SERVICE.checkApprovalPhnxDao(
-  //       web3context,
-  //       contractPhnxDao
-  //     );
-  //     setAllowance(result);
-  //   } catch (e) {
-  //     console.error("_handleCheckApproval", e);
-  //   }
-  // };
 
   const handleGiveApprovalPhnxDao = async () => {
     try {
@@ -134,20 +121,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       console.error("Error handleGiveApprovalPhnxDao", e);
     }
   };
-
-  // const _handleGiveApproval = async () => {
-  //   try {
-  //     await SERVICE.giveApprovalPhnxDao(
-  //       web3context,
-  //       contractPhnxDao,
-  //       handleGetPoolPosition,
-  //       handleGetEthBalance,
-  //       handleGetPhnxBalance
-  //     );
-  //   } catch (e) {
-  //     console.error("Error _handleGiveApproval", e);
-  //   }
-  // };
 
   const _handleSupply = async () => {
     try {
@@ -181,19 +154,17 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const OnChangeHandler = (val, tokenName) => {
     if (tokenName === "phnx") {
-
       let v = parseFloat(val);
       let total = parseFloat(reserve1) + v;
-      console.log('res'+reserve1)
+      console.log("res" + reserve1);
       setPoolShare(((v / total) * 100).toFixed(3));
       setPhnxValue(v);
       setEthValue(parseFloat(ethPerPhnx) * v || num);
-      
     } else if (tokenName === "eth") {
       let v = parseFloat(val);
       let total = parseFloat(phnxPerEth) * v;
       total = total + parseFloat(reserve1);
-      console.log('v',poolShare)
+      console.log("v", poolShare);
 
       setPoolShare((((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(3));
       setEthValue(v);
@@ -385,9 +356,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
           <div className="pool-share">
             <Typography style={styles.txtConvDetails}>
-
-            {isNaN(poolShare) ? '0.00' : poolShare +'%'}
-
+              {isNaN(poolShare) ? "0.00" : poolShare + "%"}
             </Typography>
             <Typography style={styles.txtConvDetails}>pool share</Typography>
           </div>
