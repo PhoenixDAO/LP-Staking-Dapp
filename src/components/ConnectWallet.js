@@ -106,6 +106,23 @@ export default function ConnectWallet({
     dispatch(PhnxStakeContractInitAction(web3context));
   }, [web3context.activate]);
 
+  useEffect(()=>{
+
+    let preWallet=window.localStorage.getItem('previousWallet');
+    if(preWallet!=null){
+
+      if(preWallet=='metaMask'){
+        activateWallet(injected)
+      }else if(preWallet=='coinBase'){
+        activateWallet(walletlink);
+      }else if(preWallet == 'walletConnect'){
+        activateWallet(walletconnect);
+      }
+
+    }
+
+  },[])
+
   useEffect(() => {
     dispatch(GetEthBalanceAction(web3context));
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
@@ -165,6 +182,7 @@ export default function ConnectWallet({
           undefined,
           true
         );
+        
         handleClose();
         dispatch({ type: LOCAL_TYPES.CONNECT_USER });
         // ToastMsg("success", "You are connected to mainnet");
@@ -180,6 +198,8 @@ export default function ConnectWallet({
   );
 
   const deactivateWallet = async () => {
+    window.localStorage.setItem('previousWallet','');
+
     await deactivate();
     console.log(web3context, "deactivateWallet", active);
     if (connector instanceof WalletConnectConnector) {
@@ -188,6 +208,8 @@ export default function ConnectWallet({
     if (connector instanceof WalletLinkConnector) {
       await connector.close();
     }
+    
+
 
     // ToastMsg("warning", "Wallet disconnected");
     setTimeout(() => {
@@ -340,8 +362,7 @@ export default function ConnectWallet({
             <div
               style={{
                 display: "flex",
-                alignItem: "center",
-                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               {" "}
@@ -378,23 +399,29 @@ export default function ConnectWallet({
             color="primary"
             sx={{ mt: 3, color:"#413AE2", fontWeight:"bolder"}}
             align="center"
+            className='connectWalletMsg'
           >
             Connect to your wallet
           </Typography>
           <Stack spacing={2} sx={{ mt: 5 }}>
             <Item
-              onClick={() =>
+              onClick={() =>{
+                
                 !active &&
                 !(connector instanceof InjectedConnector) &&
                 activateWallet(injected)
+
+                window.localStorage.setItem('previousWallet','metaMask')
+              }
               }
             >
-              <img src={metamaskIcon} alt="logo" />
+              <img src={metamaskIcon} alt="logo" className="walletImg"/>
               <Typography
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
                 sx={{ ml: 3,textAlign: "left"  }}
+                className='connectWalletModalText'
               >
                 Metamask
               </Typography>
@@ -410,14 +437,19 @@ export default function ConnectWallet({
                 !active &&
                   !(connector instanceof WalletConnectConnector) &&
                   activateWallet(walletconnect);
+
+                  window.localStorage.setItem('previousWallet','walletConnect');
+
               }}
             >
-              <img src={walletConnectIcon} alt="logo" />
+              <img src={walletConnectIcon} alt="logo" className="walletImg"/>
               <Typography
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
                 sx={{ ml: 3 }}
+                className='connectWalletModalText'
+
               >
                 Wallet Connect
               </Typography>
@@ -433,14 +465,18 @@ export default function ConnectWallet({
                 !active &&
                   !(connector instanceof WalletLinkConnector) &&
                   activateWallet(walletlink);
+
+                  window.localStorage.setItem('previousWallet','coinBase')
               }}
             >
-              <img src={coinbaseIcon} alt="logo" />
+              <img src={coinbaseIcon} alt="logo" className="walletImg"/>
               <Typography
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
                 sx={{ ml: 3 }}
+                className='connectWalletModalText'
+
               >
                 Coinbase Wallet
               </Typography>
@@ -453,12 +489,14 @@ export default function ConnectWallet({
             <Divider style={{marginTop:"5px"}} />
 
             <Item>
-              <img src={ledgerIcon} alt="logo" />
+              <img src={ledgerIcon} alt="logo" className="walletImg"/>
               <Typography
                 id="modal-modal-title"
                 variant="h6"
                 component="h2"
                 sx={{ ml: 3 }}
+                className='connectWalletModalText'
+
               >
                 Ledger
               </Typography>
@@ -472,6 +510,7 @@ export default function ConnectWallet({
                   py: "3px",
                   borderRadius: "30px",
                 }}
+                className='comingSoon'
               >
                 COMING SOON
               </Typography>
@@ -483,7 +522,13 @@ export default function ConnectWallet({
             variant="p"
             component="p"
             align="center"
-            sx={{ mt: 4}}
+            sx={{ mt: 4, fontSize:"small","@media (max-width:420px)":{
+              fontSize:"12px",
+            },
+            "@media (max-width:350px)":{
+              fontSize:"9px",
+            },
+          }}
           >
             By connecting, I accept PhoenixDAO’s{" "}
             <Link to="/terms" onClick={handleClose}>

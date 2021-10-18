@@ -14,7 +14,7 @@ import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
 import { Link } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 
-function StakeModal({ Close }) {
+function StakeModal({ Close , calculateAPR , Roi}) {
   const [lpValue, setlpValue] = useState(0.0);
   const [maxlpValue, setmaxlpValue] = useState(0.0);
   const [loading, setLoading] = useState(false);
@@ -38,7 +38,14 @@ function StakeModal({ Close }) {
     // if (lpValue > maxlpValue) {
     //   return;
     // } else {
-    setlpValue(parseFloat(e.target.value));
+    setlpValue(e.target.value);
+    
+    if(!isNaN(e.target.value) && e.target.value!=''){
+      console.log(parseFloat(e.target.value))
+      calculateAPR(parseFloat(e.target.value))
+    }else{
+      calculateAPR(parseFloat(0))
+    }
     // }
   };
 
@@ -116,6 +123,12 @@ function StakeModal({ Close }) {
           className="stakingModalInputBtn"
           onClick={() => {
             setlpValue(maxlpValue);
+            if(!isNaN(maxlpValue) && maxlpValue!=''){
+              console.log(parseFloat(maxlpValue))
+              calculateAPR(parseFloat(maxlpValue))
+            }else{
+              calculateAPR(0)
+            }
           }}
         >
           MAX
@@ -131,7 +144,7 @@ function StakeModal({ Close }) {
           className="stakingModal-details"
           style={{ marginLeft: "auto", marginTop: "0px" }}
         >
-          $0.00 &nbsp;<img src={CalculatorLogo} style={{height:"15px",alignSelf:"center"}}></img>
+          ${Roi} &nbsp;<img src={CalculatorLogo} style={{height:"15px",alignSelf:"center"}}></img>
         </div>
       </div>
 
@@ -139,7 +152,10 @@ function StakeModal({ Close }) {
         <button
           className="farm-btn-stake-outline"
           style={{ marginTop: "25px" }}
-          onClick={() => Close()}
+          onClick={() => {
+            calculateAPR(0)
+            Close();
+          }}
         >
           Close
         </button>
@@ -163,7 +179,7 @@ function StakeModal({ Close }) {
           }}
           disabled={loading}
         >
-          {loading && <CircularProgress sx={{ color: "#fff" }} size={14} />}
+          {loading && "Confirming..."}
           {!loading && "Confirm"}
         </button>
       </div>
@@ -172,8 +188,8 @@ function StakeModal({ Close }) {
         className="get-phnx-eth-lp"
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "14px" }}
       >
-        <Link to="/liquidity">
-          Get PHNX-ETH LP{" "}
+        <Link to="/liquidity" style={{textDecoration:'none',color:'#413ae2'}}>
+          Get PHNX-ETH LP{" "} &nbsp;
           <img src={ShareLogo} style={{height:"12px"}}></img>
         </Link>
       </div>

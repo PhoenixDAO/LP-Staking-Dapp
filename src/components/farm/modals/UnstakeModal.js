@@ -163,7 +163,7 @@ function UnStakeModal({ Close, userInfo }) {
           }}
           disabled={loading}
         >
-          {loading && <CircularProgress sx={{ color: "#fff" }} size={14} />}
+          {loading && "Confirming..."}
           {!loading && "Confirm"}
         </button>
       </div>
@@ -172,8 +172,8 @@ function UnStakeModal({ Close, userInfo }) {
         className="get-phnx-eth-lp"
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "14px" }}
       >
-        <Link to="/liquidity">
-          Get PHNX-ETH LP{" "}
+        <Link to="/liquidity" style={{textDecoration:'none',color:'#413ae2'}}>
+          Get PHNX-ETH LP{" "} &nbsp;
           <img src={ShareLogo}  style={{height:"12px"}}></img>
         </Link>
       </div>

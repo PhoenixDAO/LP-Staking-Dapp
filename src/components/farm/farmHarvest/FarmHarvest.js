@@ -102,9 +102,11 @@ function FarmHarvest({
         onClick={harvestPHNX}
         disabled={loading}
       >
-        {loading && <CircularProgress sx={{ color: "#fff" }} size={14} />}
+        {loading && "Harvesting..."}
         {!loading && "Harvest"}
       </button>
+
+      <br></br> <br></br>
 
       <div className="get-phnx-eth-lp">
         <Link to="/liquidity" style={{textDecoration:'none' ,color:'#413ae2'}}>
