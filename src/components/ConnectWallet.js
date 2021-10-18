@@ -241,17 +241,6 @@ export default function ConnectWallet({
     getTotalLiquidity();
   }, []);
 
-  // useEffect(()=>{
-  //   if(poolPosition1==null) return;
-  //   setEthBalance(poolPosition1.eth);
-  //   setPhnxBalance(poolPosition1.phnx);
-  // },[poolPosition1])
-  // useEffect(() => {
-  //   if (contractUniswapPair && web3context.account) {
-  //     dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
-  //   }
-  // }, [balanceEth, balancePhnx, contractUniswapPair, web3context.account]);
-
   return (
     <div style={{ width: "fit-content" }}>
       {active && account && justModal != true ? (
