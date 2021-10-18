@@ -1,5 +1,7 @@
 import React from "react";
 import "./wallet.css";
+import ShareLogo from "../../assets/share.png";
+import copyIcon from "../../assets/copyIcon.svg";
 import {
   MenuItem,
   Menu,
@@ -27,6 +29,7 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Notify from "../Notify";
+import { Link } from "react-router-dom";
 
 const style = {
   greyBalance:{
@@ -110,7 +113,8 @@ export default function WalletSettings({
                     }}
                   >
                     <IconButton>
-                      <ContentCopyIcon sx={{color:"black"}} />
+                      {/* <ContentCopyIcon sx={{color:"black"}} />*/}
+                      <img src={copyIcon} />
                     </IconButton>
                   </CopyToClipboard>
                 </InputAdornment>
@@ -125,7 +129,7 @@ export default function WalletSettings({
             alignItems="center"
             mb={1.5}
           >
-            <Typography id="modal-modal-title" variant="body1" component="h2">
+            <Typography id="modal-modal-title" variant="body1" component="h2" style={{color:"#4E4E55"}}>
               PHNX BALANCE
             </Typography>
             <div className="rm-liq-phnx-eth-det">
@@ -139,7 +143,7 @@ export default function WalletSettings({
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography id="modal-modal-title" variant="body1" component="h2">
+            <Typography id="modal-modal-title" variant="body1" component="h2" style={{color:"#4E4E55"}}>
               ETH BALANCE
             </Typography>
             <div className="rm-liq-phnx-eth-det">
@@ -149,20 +153,12 @@ export default function WalletSettings({
         </div>
           </Stack>
           <br />
-          <Typography
-            variant="body2"
-            component="h2"
-            color="primary"
-            sx={{ color: "#413ae2", fontWeight: "bold" }}
-          >
-            <a
-              href={`https://etherscan.io/address/${web3context?.account}`}
-              rel="external nofollow noopener"
-              target="_blank"
-            >
-              View on Etherscan <img src={redirectIcon} style={{height:"12px"}} alt="redirectIcon" />
-            </a>
-          </Typography>
+          <div >
+        <Link to="/liquidity" style={{textDecoration:'none' ,color:'#413ae2'}}>
+          Get PHNX-ETH LP &nbsp;
+          <img src={ShareLogo}></img>
+        </Link>
+      </div>
           <br />
 
           <button
