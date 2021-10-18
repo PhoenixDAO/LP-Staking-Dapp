@@ -312,7 +312,7 @@ function MyLiquidity({ ChangeTab }) {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <RemoveLiquidityModal slippageValue={slippageValue} allowance={allowance} giveApproval={handleGiveApprovalUniswapPair}/>
+          <RemoveLiquidityModal slippageValue={slippageValue} allowance={allowance} giveApproval={handleGiveApprovalUniswapPair} handleClose={handleModalClose}/>
         </Modal>
       ) : null}
       <SlippingTolerance status={slippageModal} handleClose={setSlippageModal} setSlippageValue={setSlippageValue} />

@@ -10,7 +10,7 @@ import TransactionProgress from "../connectModal/TransactionProgress";
 import TransactionSubmitted from "../connectModal/TransactionSubmitted";
 import * as POOL_SERVICES from "../../services/pool.services";
 import * as STAKE_SERVICES from "../../services/stake.services";
-
+import CloseIcon from "@mui/icons-material/Close";
 import {
   GetPoolPositionAction,
   GetPhnxBalanceAction,
@@ -21,7 +21,7 @@ import { GetEthBalanceAction } from "../../redux/actions/local.actions";
 import { IconButton, InputAdornment, Modal, TextField } from "@mui/material";
 import percentage from "../../assets/percentage.svg";
 
-const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval }) => {
+const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handleClose}) => {
   console.log(allowance,'asdasdasd')
   console.log(slippageValue,'asdasdasd')
   const web3context = useWeb3React();
@@ -197,6 +197,12 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval }) => {
     <div className="rm-liq-div">
       <img className="rm-liq-Logo" src={Logo}></img>
       <div className="rm-liq-heading">Remove PHNX-ETH Liquidity</div>
+
+      <div style={{cursor:'pointer',position:'absolute',right:'25px',top:'25px',padding:'5px'}}>
+        <span >
+          <CloseIcon onClick={handleClose} />
+        </span>
+      </div>
 
       <div className="rm-liq-ps-div">
         <div
