@@ -469,7 +469,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
               approveStatus==false ?
               'Approve PHNX' :
-              'Approving... PHNX'
+              'Approving PHNX...'
 
             }
 

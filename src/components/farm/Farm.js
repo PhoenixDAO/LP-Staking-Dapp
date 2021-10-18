@@ -211,7 +211,7 @@ function Farm() {
 
   const calculateAPR = async (amt,f) => {
 
-    if(amt==0){
+    if(amt==0 && f){
       setRoi(0);
       return;
     }
@@ -283,7 +283,7 @@ function Farm() {
   useEffect(()=>{
     if(poolPosition!=null)
     calculateAPR(poolPosition.lp,true);
-  })
+  },[poolPosition])
 
   // useEffect(() => {
   

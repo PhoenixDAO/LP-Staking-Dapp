@@ -53,10 +53,12 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
   const [transactionSubmittedModal, settransactionSubmittedModal] =
     useState(false);
   const [tranHash, settranHash] = useState("");
+  const[approveStatus,setApproveStatus] = useState(false);
+
 
   const handleCheckApprovalUniswapPairAction = async () => {
     console.log("coming to handleCheckApprovalUniswapPairAction");
-    dispatch(CheckApprovalUniswapPairAction(web3context, contractUniswapPair));
+    dispatch(CheckApprovalUniswapPairAction(web3context, contractUniswapPair,setApproveStatus));
   };
   // const handleCheckApprovalPhnxStakingAction = () => {
   //   dispatch(CheckApprovalPhnxStakingAction(web3context, contractUniswapPair,setAllowance));
@@ -319,10 +321,22 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
       {allowance == 0 ? (
         <button
           className="rm-liq-btn"
-          onClick={giveApproval}
+          onClick={async()=>{
+            if(approveStatus)return;
+            setApproveStatus(true);
+            await giveApproval(setApproveStatus);
+            setApproveStatus(false);
+          }}
+        style={{backgroundColor: approveStatus ? "#acacac" : "#413AE2"}}
           // onClick={() => setTxModalOpen()}
         >
-          Approve ETH-PHNX LP
+          {
+
+              approveStatus==false ?
+              'Approve ETH-PHNX LP' :
+              'Approving ETH-PHNX LP...'
+
+          }
         </button>
       ) : selectedPercentage == 0 || selectedPercentage == "" ? (
         <button

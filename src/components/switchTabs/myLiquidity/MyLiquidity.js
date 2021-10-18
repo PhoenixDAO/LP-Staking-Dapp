@@ -75,15 +75,16 @@ function MyLiquidity({ ChangeTab }) {
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
   
-  const handleGiveApprovalUniswapPair = async () => {
+  const handleGiveApprovalUniswapPair = async (setApproveStatus) => {
     await POOL_SERVICES.giveApprovalUniswapPair(
       web3context,
       contractUniswapPair,
       handleGetPoolPositionAction,
       handleGetEthBalanceAction,
       handleGetPhnxBalanceAction,
-      handleCheckApprovalUniswapPairAction.apply,
-      setAllowance
+      handleCheckApprovalUniswapPairAction,
+      setAllowance,
+      setApproveStatus
     );
   };
 
