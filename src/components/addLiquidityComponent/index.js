@@ -231,6 +231,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           marginBottom:"10px"
         }}
       />
+      {console.log("hello")}
       <div className="dialog-style" >
         <div style={styles.containerTip}>
           <Typography style={styles.txtTipParagraph}>
