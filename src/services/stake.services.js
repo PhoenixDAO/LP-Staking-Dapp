@@ -7,14 +7,16 @@ import {
   UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY,
 } from "../contract/constant";
 
-export const giveApprovalFarming = async (
+export const giveApprovalPhnxStaking = async (
   web3context,
   contractUniswapPair,
   handleGetPoolPosition,
   handleGetEthBalance,
-  handleGetPhnxBalance
+  handleGetPhnxBalance,
+  handleCheckApprovalPhnxStakingAction
 ) => {
   //   const web3 = new Web3(web3context?.library?.currentProvider);
+  //farming approval
   if (web3context && contractUniswapPair) {
     await contractUniswapPair.methods
       .approve(
@@ -27,9 +29,13 @@ export const giveApprovalFarming = async (
         console.log("transactionHash", hash);
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
+        if(confirmationNumber == 1){
+          await handleCheckApprovalPhnxStakingAction();
+        }
         if (confirmationNumber === 2) {
           // tx confirmed
           console.log("confirmationNumber", confirmationNumber);
+          // await handleCheckApprovalPhnxStakingAction();
         }
         await handleGetPoolPosition();
         await handleGetEthBalance();
@@ -66,10 +72,11 @@ export const harvestPHNX = async (
     console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
     if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
+      setLoading(false);
       toast(
         <Notify
           text={
-            "We don't have enough Phnx to give you right now 😔, please try later."
+            "INSUFFICIENT PHNX FUNDS IN CONTRACT 😔, Please try later"
           }
           severity=""
         />,
@@ -130,17 +137,20 @@ export const harvestPHNX = async (
   }
 };
 
-export const checkApproval = async (
-  contractUniswapPair,
+export const checkApprovalPhnxStaking = async (
   web3context,
-  setAllowance
+  contractUniswapPair
+  // setAllowance
 ) => {
-  if (contractUniswapPair && web3context && setAllowance) {
+  if (contractUniswapPair && web3context) {
     const al = await contractUniswapPair.methods
       .allowance(web3context?.account, PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
       .call();
-    console.log("al", al);
-    setAllowance(al);
+      // setAllowance(al)
+      
+    console.log("al checkApprovalPhnxStaking", al);
+    return al;
+    // setAllowance(al);
   } else {
     throw "Invalid credentials of checkApproval STAKE-SERVICES";
   }
@@ -151,7 +161,12 @@ export const getUserInfo = async (
   web3context,
   setUserInfo
 ) => {
-  if (contractPhnxStake?.methods && web3context.active == true && setUserInfo) {
+  if (
+    contractPhnxStake?.methods &&
+    web3context.active &&
+    web3context.account &&
+    setUserInfo
+  ) {
     console.log(
       "contractPhnxStake.methods",
       contractPhnxStake.methods,
@@ -163,7 +178,7 @@ export const getUserInfo = async (
     const info = await contractPhnxStake?.methods
       ?.userInfo(web3context.account)
       .call();
-    console.log("info", info);
+    // console.log("infooo", info);
     setUserInfo(info);
   } else {
     throw "Invalid credentials of getUserInfo";
@@ -217,10 +232,11 @@ export const stakeLp = async (
   console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
   if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
+    setLoading(false);
     toast(
       <Notify
         text={
-          "We don't have enough Phnx to give you right now 😔, please try later."
+          "INSUFFICIENT PHNX FUNDS IN CONTRACT 😔, Please try later"
         }
         severity=""
       />,
@@ -305,10 +321,11 @@ export const unStakeLp = async (
   console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
   if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
+    setLoading(false)
     toast(
       <Notify
         text={
-          "We don't have enough Phnx to give you right now 😔, please try later."
+          "INSUFFICIENT PHNX FUNDS IN CONTRACT 😔, Please try later"
         }
         severity=""
       />,

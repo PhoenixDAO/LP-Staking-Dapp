@@ -105,7 +105,7 @@ function UnStakeModal({ Close, userInfo }) {
         </div>
       </div>
 
-      <div style={{ display: "flex", marginTop: "10px", alignItems: "center" }}>
+      <div style={{ display: "flex", marginTop: "10px", alignItems: "center" , border:'solid 1px #E4E4E7' ,borderRadius:'5px',paddingRight:'5px'}}>
         <input
           type="number"
           placeholder="0.0"
@@ -163,7 +163,7 @@ function UnStakeModal({ Close, userInfo }) {
           }}
           disabled={loading}
         >
-          {loading && <CircularProgress sx={{ color: "#fff" }} size={14} />}
+          {loading && "Confirming..."}
           {!loading && "Confirm"}
         </button>
       </div>
@@ -172,8 +172,8 @@ function UnStakeModal({ Close, userInfo }) {
         className="get-phnx-eth-lp"
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "14px" }}
       >
-        <Link to="/liquidity">
-          Get PHNX-ETH LP{" "}
+        <Link to="/liquidity" style={{textDecoration:'none',color:'#413ae2'}}>
+          Get PHNX-ETH LP{" "} &nbsp;
           <img src={ShareLogo}  style={{height:"12px"}}></img>
         </Link>
       </div>

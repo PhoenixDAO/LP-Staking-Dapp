@@ -37,6 +37,7 @@ const ConfirmModal = ({
     if (eth == 0 || phnx == 0) {
       return;
     }
+    console.log('asdasddsad')
     handleRemoveLiquidity();
   };
 

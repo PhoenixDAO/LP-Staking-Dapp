@@ -97,8 +97,8 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
   };
 
   return (
-    <Drawer variant="permanent" open={open}>
-      <DrawerHeader>
+    <Drawer variant="permanent" open={open} className={SocialIcon ? 'sideBarFullScreen' : ''}>
+      <DrawerHeader >
         <IconButton
           onClick={() => {
             handleDrawerClose();
@@ -111,9 +111,9 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
             <ChevronLeftIcon />
           )}
         </IconButton>
-      </DrawerHeader>
-      <Divider />
-      <List style={{marginTop:"60px"}}>
+      </DrawerHeader >
+      {/* <Divider /> */}
+      <List className='navIconsList'>
         {["home", "liquidity", "farm"].map((text, index) => (
           <ListItem
             button
@@ -122,6 +122,10 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
             to={`/${text}`}
             className={index === currentTab ? "current-tab" : "no-current-tab"}
             style={{color:"#73727D", fontWeight:"500"}}
+            onClick={() => {
+              handleDrawerClose();
+              setSocialIcon(false);
+            }}
           >
             <ListItemIcon>
               <img

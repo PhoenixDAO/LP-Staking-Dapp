@@ -52,7 +52,7 @@
     margin: 0 !important;
   }
 
-  .css-83xjzn-MuiStack-root {
+  .appBarFlex{
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
@@ -187,6 +187,9 @@ input{
   padding-right: 4px !important;
 }
 
+input[type=number] {
+  -moz-appearance:textfield;
+}
 
 .css-nz481w-MuiInputBase-input-MuiInput-input{
   font-weight: 900 !important;
@@ -202,22 +205,27 @@ input{
 }
 
 
-
-.css-kg848s-MuiTypography-root{
-  font-size: 20px !important;
-  text-align: left;
+.navIconsList{
+  margin-top: 80px !important;
 }
 
-.css-hd5gve>img{
-  /* height: 30px !important; */
-  width: 35px !important;
+@media ( max-width: 400px ){
+  .sideBarFullScreen{
+    width: 100% !important;
+    position : fixed !important;
+    z-index: 5000000000;
+  }
+
+  .sideBarFullScreen > div{
+    width: 100% !important;
+
+  }
+
+  
+
 }
 
-.css-hd5gve{
-  margin-top: 7px !important;
-
-}
-
+/* 
 .css-a4i7ew-MuiTypography-root{
   margin-bottom: 10px !important;
   margin-top: 20px !important;
@@ -225,16 +233,15 @@ input{
 
 .css-1jeep95-MuiTypography-root{
   margin-bottom: 0px !important;
-}
+} */
 
-.css-196kcza{
+/* .css-196kcza{
   max-height: 100% !important;
 }
 
 .css-tu9va8-MuiPaper-root-MuiAppBar-root,.css-tzpivs-MuiPaper-root-MuiAppBar-root{
   box-shadow: none !important;
-  /* text-shadow: none !important; */
-}
+} */
 
 *:focus{
   outline: none !important;

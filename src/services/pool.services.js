@@ -11,13 +11,7 @@ import {
   UNISWAP_CONTRACT_ADDRESS_RINEBY,
   URL_INFURA_RINKEBY,
 } from "../contract/constant";
-import {
-  ChainId,
-  //   Token,
-  WETH,
-  Fetcher,
-  Route,
-} from "@uniswap/sdk";
+import { ChainId, WETH, Fetcher, Route } from "@uniswap/sdk";
 import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../contract/constant";
 import { toast } from "react-toastify";
 import Notify from "../components/Notify";
@@ -28,6 +22,7 @@ const customHttpProvider = new ethers.providers.JsonRpcProvider(
 );
 
 export const getDataMain = async () => {
+  console.log('asdadasdaaaaaaaaaaa')
   const phnx = await Fetcher.fetchTokenData(
     chainId,
     PHNX_RINKEBY_TOKEN_ADDRESS,
@@ -36,6 +31,7 @@ export const getDataMain = async () => {
   const weth = WETH[chainId];
   const pair = await Fetcher.fetchPairData(phnx, weth, customHttpProvider);
   const route = new Route([pair], weth);
+  console.log(pair.reserve1.toFixed(2), 'pairrrrrrrgdfgdfgdfgr')
   return { weth, pair, route };
 };
 
@@ -177,7 +173,7 @@ export const phnxDaoContractInit = async (web3context) => {
 export const phnxStakeContractInit = async (web3context) => {
   let contract;
   if (web3context.active) {
-    const web3 = new Web3(web3context);
+    const web3 = new Web3(web3context?.library?.currentProvider);
     contract = new web3.eth.Contract(
       PhoenixStakeABI,
       PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY
@@ -190,16 +186,6 @@ export const phnxStakeContractInit = async (web3context) => {
     );
     console.log("phnxStakeContractInit service", contract);
   }
-  // if (web3context.active) {
-  //   let balance = await contract.methods
-  //     .balanceOf(PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
-  //     .call();
-  //   console.log(
-  //     web3.utils.fromWei(balance),
-  //     "phnxStakeContractInit Balance of"
-  //   );
-  // }
-
   return contract;
 };
 
@@ -224,11 +210,13 @@ export const uniswapV2PairInit = (web3context) => {
 export const getEthBalance = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   let WeiEthBalance = await web3.eth.getBalance(web3context.account);
+  // console.log(web3.utils.fromWei(WeiEthBalance, "ether"),'asdasdasd');
   let EthBalance = fixedWithoutRounding(
-    parseFloat(web3.utils.fromWei(WeiEthBalance, "ether")),
+    (web3.utils.fromWei(WeiEthBalance, "ether")),
     4
   );
-  return Number(EthBalance);
+  // console.log(EthBalance,'aaa')
+  return (EthBalance);
   // .toFixed(2);
 };
 
@@ -250,7 +238,7 @@ export const checkApprovalPhnxDao = async (web3context, contractPhnxDao) => {
   let allowance1 = await contractPhnxDao.methods
     .allowance(web3context.account, UNISWAP_CONTRACT_ADDRESS_RINEBY)
     .call();
-  console.log("allowance", allowance1);
+  // console.log("allowance", allowance1);
   return allowance1;
 };
 
@@ -259,7 +247,8 @@ export const giveApprovalPhnxDao = async (
   contractPhnxDao,
   handleGetPoolPosition,
   handleGetEthBalance,
-  handleGetPhnxBalance
+  handleGetPhnxBalance,
+  handleCheckApprovalPhnxDaoAction
 ) => {
   if (!web3context.account) {
     alert("Connect your wallet");
@@ -267,6 +256,7 @@ export const giveApprovalPhnxDao = async (
   }
   const web3 = new Web3(web3context?.library?.currentProvider);
 
+  //before add liquidity
   await contractPhnxDao.methods
     .approve(UNISWAP_CONTRACT_ADDRESS_RINEBY, web3.utils.toWei("10000000000"))
     .send({ from: web3context.account })
@@ -277,9 +267,9 @@ export const giveApprovalPhnxDao = async (
     .on("confirmation", async function (confirmationNumber, receipt) {
       if (confirmationNumber === 2) {
         // tx confirmed
-        checkApprovalPhnxDao(web3context, contractPhnxDao);
+        await handleCheckApprovalPhnxDaoAction(web3context, contractPhnxDao);
+        // checkApprovalPhnxDao(web3context, contractPhnxDao);
         // ToastMsg("success", "Approved successfully!");
-
         await handleGetPoolPosition();
         await handleGetEthBalance();
         await handleGetPhnxBalance();
@@ -303,22 +293,22 @@ export const checkApprovalUniswapPair = async (
         "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
       )
       .call();
-    console.log("allowance", allowance1);
-    if (setAllowance) {
-      setAllowance(allowance1);
-    }
+    console.log("allowance11", allowance1);
+    setAllowance(allowance1)
+    return allowance1;
   } else {
     throw "contractUniswapPair not initialized!";
   }
 };
 
+//give approval before remove liquidity
 export const giveApprovalUniswapPair = async (
   web3context,
   contractUniswapPair,
-  setAllowance,
   handleGetPoolPosition,
   handleGetEthBalance,
-  handleGetPhnxBalance
+  handleGetPhnxBalance,
+  handleCheckApprovalUniswapPairAction
 ) => {
   if (contractUniswapPair && web3context) {
     await contractUniswapPair.methods
@@ -333,12 +323,13 @@ export const giveApprovalUniswapPair = async (
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
         if (confirmationNumber === 2) {
+          await handleCheckApprovalUniswapPairAction();
           // tx confirmed
-          await checkApprovalUniswapPair(
-            web3context,
-            contractUniswapPair,
-            setAllowance
-          );
+          // await checkApprovalUniswapPair(
+          //   web3context,
+          //   contractUniswapPair,
+          //   setAllowance
+          // );
           await handleGetPoolPosition();
           await handleGetEthBalance();
           await handleGetPhnxBalance();
@@ -366,31 +357,19 @@ export const removeLiquidity = async (
   slippageValue,
   settranHash
 ) => {
+
   if (web3context && contractUniswapRouter && poolPosition) {
     let deadline = Date.now();
     deadline += 20 * 60;
 
-    // console.log(
-    //   "poolPosition",
-    //   poolPosition,
-    //   "selectedPercentage",
-    //   selectedPercentage
-    // );
-    let ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
-    let phnxValue = poolPosition.phnx * (selectedPercentage / 100).toString();
+    console.log(poolPosition.phnx,'dgf')
+
+    let ethValue = parseFloat(poolPosition.eth) * (selectedPercentage / 100).toString();
+    let phnxValue = parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();
     let phnxMin = phnxValue - phnxValue * (slippageValue / 100);
     let ethMin = ethValue - ethValue * (slippageValue / 100);
 
-    // console.log(
-    //   "ethValue ",
-    //   ethValue,
-    //   " phnxValue ",
-    //   phnxValue,
-    //   "phnxMin",
-    //   phnxMin,
-    //   "ethMin",
-    //   ethMin
-    // );
+    console.log(phnxMin,ethMin,'asdsadasd');
 
     await contractUniswapRouter.methods
       .removeLiquidityETH(

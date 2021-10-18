@@ -8,18 +8,22 @@ import { useWeb3React } from "@web3-react/core";
 import ConfirmModal from "../connectModal/ConfirmModal";
 import TransactionProgress from "../connectModal/TransactionProgress";
 import TransactionSubmitted from "../connectModal/TransactionSubmitted";
-import * as SERVICES from "../../services/pool.services";
+import * as POOL_SERVICES from "../../services/pool.services";
+import * as STAKE_SERVICES from "../../services/stake.services";
+
 import {
   GetPoolPositionAction,
   GetPhnxBalanceAction,
+  CheckApprovalPhnxStakingAction,
+  CheckApprovalUniswapPairAction,
 } from "../../redux/actions/contract.actions";
 import { GetEthBalanceAction } from "../../redux/actions/local.actions";
-import { Button, IconButton, InputAdornment, Modal, TextField } from "@mui/material";
+import { IconButton, InputAdornment, Modal, TextField } from "@mui/material";
 import percentage from "../../assets/percentage.svg";
 
-
-
-const RemoveLiquidityModaL = ({slippageValue}) => {
+const RemoveLiquidityModaL = ({ slippageValue, allowance, giveApproval }) => {
+  console.log(allowance, "asdasdasd");
+  console.log(slippageValue, "asdasdasd");
   const web3context = useWeb3React();
   const dispatch = useDispatch();
   const phnxPerEth = useSelector((state) => state.localReducer.phnxPerEth);
@@ -41,40 +45,47 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
   const [perPhnxVal, setPerPhnxValue] = useState(0);
 
   const [phnxethburn, setphnxethburn] = useState(0);
-  const [selectedPercentage, setSelectedPercentage] = useState(10);
-  const [allowance, setAllowance] = useState(0);
+  const [selectedPercentage, setSelectedPercentage] = useState("");
+  // const [allowance, setAllowance] = useState(0);
 
   const [transactionConfirmModal, settransactionConfirmModal] = useState(false);
   const [transactionProcessModal, settransactionProcessModal] = useState(false);
-  const [transactionSubmittedModal, settransactionSubmittedModal] = useState(false);
-  const [tranHash,settranHash] = useState('');
+  const [transactionSubmittedModal, settransactionSubmittedModal] =
+    useState(false);
+  const [tranHash, settranHash] = useState("");
 
-  const _handleCheckApproval = async () => {
-    try {
-      await SERVICES.checkApprovalUniswapPair(
-        web3context,
-        contractUniswapPair,
-        setAllowance
-      );
-    } catch (e) {
-      console.error(e);
-    }
+  const handleCheckApprovalUniswapPairAction = async () => {
+    console.log("coming to handleCheckApprovalUniswapPairAction");
+    dispatch(CheckApprovalUniswapPairAction(web3context, contractUniswapPair));
+  };
+  // const handleCheckApprovalPhnxStakingAction = () => {
+  //   dispatch(CheckApprovalPhnxStakingAction(web3context, contractUniswapPair,setAllowance));
+  // };
+
+  const handleGetPoolPositionAction = () => {
+    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  };
+  const handleGetEthBalanceAction = () => {
+    dispatch(GetEthBalanceAction(web3context));
+  };
+  const handleGetPhnxBalanceAction = () => {
+    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
 
   const _handleRemoveLiquidity = async () => {
     settransactionProcessModal(true);
     try {
-      await SERVICES.removeLiquidity(
+      await POOL_SERVICES.removeLiquidity(
         web3context,
         contractUniswapRouter,
         poolPosition,
-        selectedPercentage,
+        selectedPercentage == "" ? 10 : selectedPercentage,
         settransactionProcessModal,
         settransactionConfirmModal,
         settransactionSubmittedModal,
-        handleGetPoolPosition,
-        handleGetEthBalance,
-        handleGetPhnxBalance,
+        handleGetPoolPositionAction,
+        handleGetEthBalanceAction,
+        handleGetPhnxBalanceAction,
         slippageValue,
         settranHash
       );
@@ -85,10 +96,6 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
       console.error(e);
     }
   };
-
-  useEffect(() => {
-    _handleCheckApproval();
-  }, [contractUniswapPair]);
 
   const handlePercentageInput = (e) => {
     if (e.target.value === "" || isNaN(e.target.value)) {
@@ -110,7 +117,7 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
 
   const _handleCalculateLpToken = async (amount0, amount1) => {
     try {
-      await SERVICES.calculateLpToken(
+      await POOL_SERVICES.calculateLpToken(
         contractUniswapPair,
         amount0,
         amount1,
@@ -126,38 +133,14 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
       return;
     }
     const ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
-    const phnxValue = poolPosition.phnx * (selectedPercentage / 100).toString();
+    const phnxValue =
+      parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();
 
     setPerEthValue(ethValue);
     setPerPhnxValue(phnxValue);
 
     _handleCalculateLpToken(ethValue, phnxValue);
   }, [selectedPercentage, poolPosition]);
-
-  const handleGetPoolPosition = () => {
-    dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
-  };
-  const handleGetEthBalance = () => {
-    dispatch(GetEthBalanceAction(web3context));
-  };
-  const handleGetPhnxBalance = () => {
-    dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
-  };
-
-  const _handleGiveApprovalUniswapPair = async () => {
-    try {
-      await SERVICES.giveApprovalUniswapPair(
-        web3context,
-        contractUniswapPair,
-        setAllowance,
-        handleGetPoolPosition,
-        handleGetEthBalance,
-        handleGetPhnxBalance
-      );
-    } catch (e) {
-      console.error(e);
-    }
-  };
 
   return (
     <div className="rm-liq-div">
@@ -224,31 +207,32 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
             handlePercentageInput(e);
           }}
         ><img src={percentage} className="textFieldIcon"></img></input> */}
-          <TextField
-            sx={{
-              borderRadius:"6px",
-              marginBottom:"20px",
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment>
-                  <IconButton>
-                    <img src={percentage} className="textFieldIcon"></img>
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-              className="slippingLiq-ps-input"
-              placeholder="Enter a value"
-              value={selectedPercentage==0?"":selectedPercentage}
-              onChange={(e) => {
-                handlePercentageInput(e);
-            }}
-          ></TextField>
-      
+        <TextField
+          sx={{
+            borderRadius: "6px",
+            marginBottom: "20px",
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment>
+                <IconButton>
+                  <img src={percentage} className="textFieldIcon"></img>
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          className="slippingLiq-ps-input"
+          placeholder="Enter a value"
+          value={selectedPercentage == 0 ? "" : selectedPercentage}
+          onChange={(e) => {
+            handlePercentageInput(e);
+          }}
+        ></TextField>
       </div>
 
-      <div className="rm-liq-u-will-rec" style={{textTransform:"uppercase"}}>You will recieve</div>
+      <div className="rm-liq-u-will-rec" style={{ textTransform: "uppercase" }}>
+        You will recieve
+      </div>
 
       <div className="rm-liq-phnx-eth-det-div">
         <div className="rm-liq-phnx-eth-det">
@@ -278,7 +262,7 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
       {allowance == 0 ? (
         <button
           className="rm-liq-btn"
-          onClick={_handleGiveApprovalUniswapPair}
+          onClick={giveApproval}
           // onClick={() => setTxModalOpen()}
         >
           Approve ETH-PHNX LP
@@ -333,8 +317,10 @@ const RemoveLiquidityModaL = ({slippageValue}) => {
       </div>
 
       <div className="rm-liq-phnx-eth-lp-div" style={{ marginTop: "7px" }}>
-        <div className="rm-liq-phnx-eth-lp-sub">Pooled Share</div>
-        <div className="rm-liq-phnx-eth-lp-sub-no">{poolPosition.poolPerc}</div>
+        <div className="rm-liq-phnx-eth-lp-sub">Pool Share</div>
+        <div className="rm-liq-phnx-eth-lp-sub-no">
+          {poolPosition.poolPerc}%
+        </div>
       </div>
 
       <br></br>
