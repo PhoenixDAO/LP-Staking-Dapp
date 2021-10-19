@@ -22,6 +22,7 @@ const ConnectModal = ({
   poolShare,
   phnxPerEth,
   ethPerPhnx,
+  slippageValue
 }) => {
   // const [open, setOpen] = useState(transactionConfirmModal);
   // const handleClose = () => {setOpen(false)};
@@ -170,7 +171,7 @@ const ConnectModal = ({
             </div>
 
             <div className="add-liq-phnx-eth-det-div">
-              Output is estimated. if the price changes by more than 0.1% your
+              Output is estimated. if the price changes by more than {slippageValue}% your
               transaction will revert
             </div>
 

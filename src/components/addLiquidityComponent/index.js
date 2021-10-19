@@ -224,7 +224,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     settransactionConfirmModal(false);
   };
   return (
-    <Box sx={styles.containerStyle} className="modal-scroll">
+    <Box sx={styles.containerStyle} className="modal-scroll" style={{boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)"}}>
       <div>
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>
@@ -496,6 +496,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         poolShare={poolShare}
         phnxPerEth={phnxPerEth}
         ethPerPhnx={ethPerPhnx}
+        slippageValue={slippageValue}
       ></ConnectModal>
       <SlippingTolerance
         status={slippageModal}

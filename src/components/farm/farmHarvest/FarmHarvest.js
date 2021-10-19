@@ -24,13 +24,15 @@ function FarmHarvest({
   reserveUSD,
   loading,
   APR,
+  UsdRate,
+  TokenSupply
 }) {
   const [showMore, setShowMore] = useState(false);
   const web3context = useWeb3React();
 
 
   return (
-    <div>
+    <div >
       <div className="farm-heading">Farm</div>
       <div className="farm-sub-heading">Stake LP Tokens to earn</div>
 
@@ -68,9 +70,24 @@ function FarmHarvest({
         <div className="farm-details-txt-right">
           <span style={{fontWeight:"bolder", color:"#4E4E55"}}>
           {pendingPHX["0"] &&
-            fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)}
+            // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
+            parseFloat(Web3.utils.fromWei(pendingPHX["0"])).toFixed(6)
+
+          }
         </span>
 
+        </div>
+      </div>
+
+      <div className="farm-details-div" style={{marginTop:'1px'}}>
+        <div className="farm-details-txt-right">
+          <span style={{fontSize:'15px' ,fontWeight:"100", color:"#4E4E55"}}>
+          {pendingPHX["0"] &&
+            // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
+            (parseFloat(Web3.utils.fromWei(pendingPHX["0"]))*UsdRate).toFixed(3) + ' USD'
+
+          }
+          </span>
         </div>
       </div>
 
@@ -80,8 +97,19 @@ function FarmHarvest({
         </div>
         <div className="farm-details-txt-right">
           <span style={{fontWeight:"bolder", color:"#4E4E55"}}>
-          {userInfo.amount && Web3.utils.fromWei(userInfo.amount)}
+          {userInfo.amount && parseFloat(Web3.utils.fromWei(userInfo.amount)).toFixed(6)}
         </span>
+        </div>
+      </div>
+
+      <div className="farm-details-div" style={{marginTop:'1px'}}>
+        <div className="farm-details-txt-right">
+          <span style={{fontSize:'15px' ,fontWeight:"100", color:"#4E4E55"}}>
+            {
+              // (userInfo.amount && (parseFloat(Web3.utils.fromWei(userInfo.amount))*(reserveUSD/TokenSupply))).toFixed(4) + 'USD'
+              (parseFloat(reserveUSD/TokenSupply)*(userInfo.amount ? (parseFloat(Web3.utils.fromWei(userInfo.amount))): 0 )).toFixed(3) + ' USD'
+            }
+          </span>
         </div>
       </div>
 
@@ -103,7 +131,7 @@ function FarmHarvest({
 
       <button
         className="farm-btn-stake"
-        style={{ marginTop: "20px" }}
+        style={{ marginTop: "20px" , backgroundColor: loading ? '#acacac' : '#413ae2' }}
         onClick={harvestPHNX}
         disabled={loading}
       >

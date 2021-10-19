@@ -163,7 +163,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
         <div
           className="rm-liq-ps"
           style={{
-            backgroundColor: selectedPercentage === 25 ? "#413AE2" : "#eee",
+            backgroundColor: selectedPercentage === 25 ? "#413AE2" : "#f2f2fd",
             color: selectedPercentage === 25 ? "#fff" : "#000",
           }}
           onClick={() => {
@@ -175,7 +175,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
         <div
           className="rm-liq-ps"
           style={{
-            backgroundColor: selectedPercentage === 50 ? "#413AE2" : "#eee",
+            backgroundColor: selectedPercentage === 50 ? "#413AE2" : "#f2f2fd",
             color: selectedPercentage === 50 ? "#fff" : "#000",
           }}
           onClick={() => {
@@ -187,7 +187,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
         <div
           className="rm-liq-ps"
           style={{
-            backgroundColor: selectedPercentage === 75 ? "#413AE2" : "#eee",
+            backgroundColor: selectedPercentage === 75 ? "#413AE2" : "#f2f2fd",
             color: selectedPercentage === 75 ? "#fff" : "#000",
           }}
           onClick={() => {
@@ -199,7 +199,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
         <div
           className="rm-liq-ps"
           style={{
-            backgroundColor: selectedPercentage === 100 ? "#413AE2" : "#eee",
+            backgroundColor: selectedPercentage === 100 ? "#413AE2" : "#f2f2fd",
             color: selectedPercentage === 100 ? "#fff" : "#000",
           }}
           onClick={() => {
@@ -315,12 +315,12 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
         <img src={PhnxLogo}></img>
         <img src={EthLogo}></img>
         <div className="rm-liq-phnx-eth-lp-sub">PHNX/ETH LP</div>
-        <div className="rm-liq-phnx-eth-lp-sub-no">{poolPosition?.lp}</div>
+        <div className="rm-liq-phnx-eth-lp-sub-no" style={{fontWeight:'900',fontSize:'20px', color:'#1e1e22', fontFamily:'AeonikBold'}}>{poolPosition?.lp}</div>
       </div>
 
       <div className="rm-liq-phnx-eth-lp-div">
         <div className="rm-liq-phnx-eth-lp-sub">Pooled PHNX</div>
-        <img src={EthLogo} style={{ marginLeft: "auto" }}></img>
+        <img src={PhnxLogo} style={{ marginLeft: "auto" }}></img>
         <div
           className="rm-liq-phnx-eth-lp-sub-no"
           style={{ marginLeft: "4px" }}
@@ -331,7 +331,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
 
       <div className="rm-liq-phnx-eth-lp-div">
         <div className="rm-liq-phnx-eth-lp-sub">Pooled ETH</div>
-        <img src={PhnxLogo} style={{ marginLeft: "auto" }}></img>
+        <img src={EthLogo} style={{ marginLeft: "auto" }}></img>
         <div
           className="rm-liq-phnx-eth-lp-sub-no"
           style={{ marginLeft: "4px" }}
@@ -358,6 +358,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
         phnxPerEth={phnxPerEth}
         phnxethburn={phnxethburn}
         handleRemoveLiquidity={_handleRemoveLiquidity}
+        slippageValue={slippageValue}
       />
       <TransactionProgress transactionProcessModal={transactionProcessModal} />
       <TransactionSubmitted

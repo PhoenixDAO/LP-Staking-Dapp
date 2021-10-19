@@ -22,7 +22,7 @@ import { CircularProgress } from "@mui/material";
 
 function UnStakeModal({ Close, userInfo }) {
 
-  const [lpValue, setlpValue] = useState(0.0);
+  const [lpValue, setlpValue] = useState();
   const [maxlpValue, setmaxlpValue] = useState(0.0);
   const [loading, setLoading] = useState(false);
 

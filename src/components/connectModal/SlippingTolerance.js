@@ -53,6 +53,7 @@ const SlippingTolerance = ({status,handleClose,setSlippageValue}) => {
           }}
           onClick={() => {
             setSelectedPercentage(5);
+            setSlippageValue(5);
           }}
         >
           5%
@@ -65,6 +66,7 @@ const SlippingTolerance = ({status,handleClose,setSlippageValue}) => {
           }}
           onClick={() => {
             setSelectedPercentage(10);
+            setSlippageValue(10);
           }}
         >
           10%
@@ -77,6 +79,7 @@ const SlippingTolerance = ({status,handleClose,setSlippageValue}) => {
           }}
           onClick={() => {
             setSelectedPercentage(20);
+            setSlippageValue(20);
           }}
         >
           20%

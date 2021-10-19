@@ -40,7 +40,7 @@ function MyLiquidity({ ChangeTab }) {
 
 
   const [slippageModal,setSlippageModal]=useState(false);
-  const [slippageValue,setSlippageValue]=useState(10);
+  const [slippageValue,setSlippageValue]=useState(1);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -261,7 +261,7 @@ function MyLiquidity({ ChangeTab }) {
             <div className="pooled-item-txt">pooled phnx</div>
 
             <div style={{ display: "flex", marginLeft: "auto" }}>
-              <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
+              <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
               <div className="pooled-item-txt">{poolPosition.phnx}</div>
             </div>
           </div>
@@ -272,7 +272,7 @@ function MyLiquidity({ ChangeTab }) {
             <div className="pooled-item-txt">pooled eth</div>
 
             <div style={{ display: "flex", marginLeft: "auto" }}>
-              <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
+              <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
               <div className="pooled-item-txt">{poolPosition.eth}</div>
             </div>
           </div>

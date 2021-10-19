@@ -60,6 +60,8 @@ function Farm() {
 
   const [Roi, setRoi] = useState(0);
 
+  const[TokenSupply,setTokenSupply]=useState(0);
+
   const allowance = useSelector(
     (state) => state.contractReducer.allowancePhnxStaking
   );
@@ -173,6 +175,7 @@ function Farm() {
       })
         .then((response) => {
           if (response.data) {
+            console.log(response.data,'aaa')
             setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
           }
         })
@@ -214,7 +217,7 @@ function Farm() {
 
   const calculateAPR = async (amt, f) => {
    
-    if (amt.toFixed(4) == 0 || amt =='') {
+    if ((amt.toFixed(4) == 0 || amt =='') && f) {
       setRoi(0);
       return;
     }
@@ -268,6 +271,7 @@ function Farm() {
     if(f){
       setRoi(parseInt(dollarValue));
     }
+    console.log(apr,'123')
     setAPR(parseInt(apr));
     
   };
@@ -282,8 +286,22 @@ function Farm() {
       calculateAPR(poolPosition.lp, false);
     }
 
-    console.log(userInfo.amount);
+    console.log(userInfo.amount,'111');
   }, [poolPosition, contractPhnxStake, contractUniswapPair, PhoenixDAO_market]);
+
+
+  useEffect(()=>{
+    if(contractUniswapPair){
+      GetTokenSupply();
+    }
+  },[contractUniswapPair])
+
+  const GetTokenSupply = async () =>{
+    let ts= await contractUniswapPair.methods.totalSupply().call();
+    setTokenSupply(Web3.utils.fromWei(ts))
+    console.log(TokenSupply,'aaa')
+  }
+
 
   // useEffect(() => {
 
@@ -297,7 +315,7 @@ function Farm() {
 
   return (
     <div>
-      <div className="farm-div">
+      <div className="farm-div" style={{boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)"}}>
         {!web3context.active || poolPosition == null || userInfo == null ? (
           <FarmStake
             stakeModalOpen={handleStackOpen}
@@ -328,6 +346,8 @@ function Farm() {
             reserveUSD={reserveUSD}
             loading={loading}
             APR={APR}
+            UsdRate={PhoenixDAO_market ? PhoenixDAO_market.usd : 0}
+            TokenSupply={TokenSupply}
           />
         )}
       </div>

@@ -19,6 +19,7 @@ const ConfirmModal = ({
   eth,
   phnxethburn,
   handleRemoveLiquidity,
+  slippageValue
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -123,7 +124,7 @@ const ConfirmModal = ({
             </div>
 
             <div className="add-liq-phnx-eth-det-div">
-              Output is estimated. if the price changes by more than 0.1% your
+              Output is estimated. if the price changes by more than {slippageValue}% your
               transaction will revert
             </div>
             <div className="confirmModalAddPrice">

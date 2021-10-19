@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 
 function StakeModal({ Close, calculateAPR, Roi }) {
-  const [lpValue, setlpValue] = useState(0.0);
+  const [lpValue, setlpValue] = useState();
   const [maxlpValue, setmaxlpValue] = useState(0.0);
   const [loading, setLoading] = useState(false);
 
@@ -37,20 +37,21 @@ function StakeModal({ Close, calculateAPR, Roi }) {
   const LpChange = (e) => {
     // if (lpValue > maxlpValue) {
     //   return;
-    // } else {
+    // }
+
     setlpValue(e.target.value);
 
     if (!isNaN(e.target.value) && e.target.value != "") {
       console.log(parseFloat(e.target.value));
       calculateAPR(parseFloat(e.target.value), true);
     } else {
-      calculateAPR(parseFloat(0), true);
+      calculateAPR(0, true);
     }
     // }
   };
 
   useEffect(()=>{
-    calculateAPR(parseFloat(0), true);
+    calculateAPR(0, true);
   },[])
 
   // useEffect(() => {

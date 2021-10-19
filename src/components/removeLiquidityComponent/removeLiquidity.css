@@ -34,8 +34,8 @@
   color: #000;
   font-weight: bold;
   font-size: 17px;
-  background-color: #eee;
-  padding: 7px 10px;
+  background-color: #f2f2fd;
+  padding: 5px 10px;
   border-radius: 15px ;
   margin-right: 15px;
   cursor: pointer;
@@ -98,7 +98,7 @@
 
 .rm-liq-phnx-eth-con-div{
   width: 100%;
-  margin-top: 9px;
+  margin-top: 17px;
   margin-bottom:40px;
 }
 
@@ -107,7 +107,8 @@
   margin-left: auto;
   text-align: end;
   color: #4E4E55;
-  margin-bottom: 9px;
+  margin-bottom: 2px;
+  
 }
 
 .rm-liq-btn{

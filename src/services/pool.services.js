@@ -67,7 +67,7 @@ export const supply = async (
     )
     .send({
       from: web3context.account,
-      value: web3.utils.toWei(ethValue.toString()),
+      value: web3.utils.toWei(((ethValue).toFixed(16)).toString()),
       gas: 190809,
     })
     .on("transactionHash", (hash) => {
@@ -83,8 +83,7 @@ export const supply = async (
         }
       );
       settranHash(hash);
-      settransactionProcessModal(false);
-      settransactionSubmittedModal(true);
+      
       console.log("hash", hash);
     })
     .on("confirmation", async function (confirmationNumber, receipt) {
@@ -97,9 +96,15 @@ export const supply = async (
             position: "bottom-right",
           }
         );
+        
+        
+
         await handleGetPoolPosition();
         await handleGetEthBalance();
         await handleGetPhnxBalance();
+
+        settransactionProcessModal(false);
+        settransactionSubmittedModal(true);
 
         console.log("confirmationNumber", confirmationNumber);
         //   setLoading(false);
@@ -431,9 +436,9 @@ export const removeLiquidity = async (
           }
         );
         settranHash(hash);
-        settransactionProcessModal(false);
         settransactionConfirmModal(false);
-        settransactionSubmittedModal(true);
+
+        
         console.log("hash", hash);
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
@@ -450,6 +455,9 @@ export const removeLiquidity = async (
           await handleGetPoolPosition();
           await handleGetEthBalance();
           await handleGetPhnxBalance();
+          settransactionProcessModal(false);
+          settransactionSubmittedModal(true);
+          
           if (web3context.active && web3context.account) {
             // getPoolPosition();
           }
