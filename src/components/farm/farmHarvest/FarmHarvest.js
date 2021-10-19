@@ -11,6 +11,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { fixedWithoutRounding } from "../../../utils/formatters";
+import { useWeb3React } from "@web3-react/core";
+
+
 
 function FarmHarvest({
   stakeModalOpen,
@@ -23,6 +26,8 @@ function FarmHarvest({
   APR,
 }) {
   const [showMore, setShowMore] = useState(false);
+  const web3context = useWeb3React();
+
 
   return (
     <div>
@@ -47,7 +52,7 @@ function FarmHarvest({
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
         <div className="farm-details-txt-right">
-          {APR}% &nbsp;<img src={CalculatorLogo}></img>
+          {web3context.active ? APR : '--- '}% &nbsp;<img src={CalculatorLogo}></img>
         </div>
       </div>
 

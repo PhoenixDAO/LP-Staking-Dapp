@@ -58,14 +58,14 @@ const ConnectModal = ({
     const _reserve0 = getReserves._reserve0;
     const _reserve1 = getReserves._reserve1;
 
-    amount0 = Web3.utils.toWei(amount0.toString());
-    amount1 = Web3.utils.toWei(amount1.toString());
+    amount0 = Web3.utils.toWei(amount0.toFixed(4).toString());
+    amount1 = Web3.utils.toWei(amount1.toFixed(4).toString());
 
     const liquidity = Math.min(
       (amount0 * _totalSupply) / _reserve0,
       (amount1 * _totalSupply) / _reserve1
     );
-    setlp(Web3.utils.fromWei(liquidity.toString(), "ether"));
+    setlp(Web3.utils.fromWei(parseInt(liquidity).toString(), "ether"));
   };
 
   const style = {

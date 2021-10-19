@@ -91,14 +91,14 @@ function MyLiquidity({ ChangeTab }) {
   useEffect(() => {
     if (contractUniswapPair) {
       console.log('asdasdasdasdasdasdads')
-      handleCheckApprovalUniswapPairAction()
+      handleCheckApprovalUniswapPairAction(setAllowance)
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
     }
   }, [web3context.active, contractUniswapPair]);
 
-  const handleCheckApprovalUniswapPairAction = async () => {
+  const handleCheckApprovalUniswapPairAction = async (setAllowance,setApproveStatus) => {
     console.log("coming to handleCheckApprovalUniswapPairAction");
-    POOL_SERVICES.checkApprovalUniswapPair(web3context, contractUniswapPair,setAllowance);
+    POOL_SERVICES.checkApprovalUniswapPair(web3context, contractUniswapPair,setAllowance,setApproveStatus);
     console.log(allowance,'999999999');
   };
 

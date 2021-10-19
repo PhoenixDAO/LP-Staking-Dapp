@@ -49,6 +49,10 @@ function StakeModal({ Close, calculateAPR, Roi }) {
     // }
   };
 
+  useEffect(()=>{
+    calculateAPR(parseFloat(0), true);
+  },[])
+
   // useEffect(() => {
   // if (!poolPosition) {
   // dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
@@ -133,9 +137,9 @@ function StakeModal({ Close, calculateAPR, Roi }) {
             setlpValue(maxlpValue);
             if (!isNaN(maxlpValue) && maxlpValue != "") {
               console.log(parseFloat(maxlpValue));
-              calculateAPR(parseFloat(maxlpValue));
+              calculateAPR(parseFloat(maxlpValue),true);
             } else {
-              calculateAPR(0);
+              calculateAPR(parseFloat(0),true);
             }
           }}
         >
@@ -143,7 +147,17 @@ function StakeModal({ Close, calculateAPR, Roi }) {
         </button>
       </div>
 
+      <>
+      {
+        lpValue>0 && lpValue <= 0.00000000000000001 ? 
+        <div style={{color:'red',paddingTop:'5px'}}>The entered value is too low.</div> : null
+      }
+      </>
+
       <div style={{ display: "flex", alignItems: "center", marginTop: "13px" }}>
+
+        
+
         <div className="stakingModal-details" style={{ marginTop: "0px" }}>
           Annual ROI at current rates:
         </div>
@@ -176,19 +190,20 @@ function StakeModal({ Close, calculateAPR, Roi }) {
             marginLeft: "auto",
             marginTop: "25px",
             background:
-              (lpValue > maxlpValue) | (lpValue === 0) | isNaN(lpValue)
+            loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue) 
                 ? "#ACACAC"
                 : "#413AE2",
             color: "#fff",
             borderColor:
-              (lpValue > maxlpValue) | (lpValue === 0) | isNaN(lpValue)
+            loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)
                 ? "#ACACAC"
                 : "#413AE2",
           }}
           onClick={() => {
+              // if((lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)) return;
             _handleStakeLp();
           }}
-          disabled={loading}
+          disabled={loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)}
         >
           {loading && "Confirming..."}
           {!loading && "Confirm"}

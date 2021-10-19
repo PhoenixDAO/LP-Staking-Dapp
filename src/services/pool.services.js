@@ -59,9 +59,9 @@ export const supply = async (
   await contractUniswapRouter.methods
     .addLiquidityETH(
       PHNX_RINKEBY_TOKEN_ADDRESS, // address token,
-      web3.utils.toWei(phnxValue.toString()), // uint amountTokenDesired,
-      web3.utils.toWei(phnxMin.toString()), //uint amountTokenMin,
-      web3.utils.toWei(ethMin.toString()), // uint amountETHMin
+      web3.utils.toWei(phnxValue.toFixed(5).toString()), // uint amountTokenDesired,
+      web3.utils.toWei(phnxMin.toFixed(5).toString()), //uint amountTokenMin,
+      web3.utils.toWei(ethMin.toFixed(5).toString()), // uint amountETHMin
       web3context.account, //address to,
       deadline //deadline
     )
@@ -234,11 +234,19 @@ export const getPhnxBalance = async (web3context, contractPhnxDao) => {
   }
 };
 
-export const checkApprovalPhnxDao = async (web3context, contractPhnxDao) => {
+export const checkApprovalPhnxDao = async (web3context, contractPhnxDao
+  ,setApproveStatus
+  ) => {
   let allowance1 = await contractPhnxDao.methods
     .allowance(web3context.account, UNISWAP_CONTRACT_ADDRESS_RINEBY)
     .call();
-  // console.log("allowance", allowance1);
+    console.log('preworking',setApproveStatus);
+
+    if(setApproveStatus){
+      console.log('working',setApproveStatus);
+      setApproveStatus(false);
+    }
+  console.log("allowance checkApprovalPhnxDao", allowance1);
   return allowance1;
 };
 
@@ -248,8 +256,11 @@ export const giveApprovalPhnxDao = async (
   handleGetPoolPosition,
   handleGetEthBalance,
   handleGetPhnxBalance,
-  handleCheckApprovalPhnxDaoAction
+  handleCheckApprovalPhnxDaoAction,
+  setApproveStatus
 ) => {
+
+  console.log(setApproveStatus,'aaa1')
   if (!web3context.account) {
     alert("Connect your wallet");
     return;
@@ -265,24 +276,29 @@ export const giveApprovalPhnxDao = async (
       console.log("tx hash", hash);
     })
     .on("confirmation", async function (confirmationNumber, receipt) {
-      if (confirmationNumber === 2) {
+      if (confirmationNumber === 1) {
         // tx confirmed
-        await handleCheckApprovalPhnxDaoAction(web3context, contractPhnxDao);
+        
         // checkApprovalPhnxDao(web3context, contractPhnxDao);
         // ToastMsg("success", "Approved successfully!");
         await handleGetPoolPosition();
         await handleGetEthBalance();
         await handleGetPhnxBalance();
+        await handleCheckApprovalPhnxDaoAction(
+           setApproveStatus
+          );
       }
     })
     .on("error", function (err) {
       console.error(err);
+      setApproveStatus(false);
     });
 };
 
 export const checkApprovalUniswapPair = async (
   web3context,
   contractUniswapPair,
+  setAllowance,
   setApproveStatus
 ) => {
   if (contractUniswapPair) {
@@ -294,9 +310,19 @@ export const checkApprovalUniswapPair = async (
       )
       .call();
     console.log("allowance11", allowance1);
-    setApproveStatus(false);
+
+    setAllowance(allowance1);
+
+    if(setApproveStatus){
+      setApproveStatus(false);
+    }
+
     return allowance1;
+    
   } else {
+    if(setApproveStatus){
+      setApproveStatus(false);
+    }
     throw "contractUniswapPair not initialized!";
   }
 };
@@ -325,7 +351,7 @@ export const giveApprovalUniswapPair = async (
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
         if (confirmationNumber === 1) {
-          await handleCheckApprovalUniswapPairAction(setApproveStatus);
+          await handleCheckApprovalUniswapPairAction(setAllowance,setApproveStatus);
           // tx confirmed
           // await checkApprovalUniswapPair(
           //   web3context,
@@ -384,8 +410,8 @@ export const removeLiquidity = async (
           (poolPosition.lp * (selectedPercentage / 100)).toString(),
           "ether"
         ), //LP token
-        Web3.utils.toWei(phnxMin.toString()), //uint amountTokenMin,
-        Web3.utils.toWei(ethMin.toString()), // uint amountETHMin
+        Web3.utils.toWei(parseFloat(phnxMin).toFixed(4).toString()), //uint amountTokenMin,
+        Web3.utils.toWei(parseFloat(ethMin).toFixed(4).toString()), // uint amountETHMin
         web3context.account, //address to,
         deadline //deadline
       )

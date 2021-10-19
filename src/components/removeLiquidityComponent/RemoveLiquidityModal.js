@@ -56,6 +56,10 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
   const[approveStatus,setApproveStatus] = useState(false);
 
 
+  useEffect(()=>{
+    console.log(allowance,'aaaaa')
+  })
+
   const handleCheckApprovalUniswapPairAction = async () => {
     console.log("coming to handleCheckApprovalUniswapPairAction");
     dispatch(CheckApprovalUniswapPairAction(web3context, contractUniswapPair,setApproveStatus));
@@ -274,7 +278,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
             if(approveStatus)return;
             setApproveStatus(true);
             await giveApproval(setApproveStatus);
-            setApproveStatus(false);
+            // setApproveStatus(false);
           }}
         style={{backgroundColor: approveStatus ? "#acacac" : "#413AE2"}}
           // onClick={() => setTxModalOpen()}

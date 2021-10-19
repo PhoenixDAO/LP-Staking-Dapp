@@ -14,7 +14,7 @@ const SlippingTolerance = ({status,handleClose,setSlippageValue}) => {
 
   const handlePercentageInput = (e) => {
     if (e.target.value === "" || isNaN(e.target.value)) {
-      setSelectedPercentage(parseInt(1));
+      setSelectedPercentage('');
       setSlippageValue(parseInt(1));
     } else if (e.target.value > 50) {
       setSelectedPercentage(50);

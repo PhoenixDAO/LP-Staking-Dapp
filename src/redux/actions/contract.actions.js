@@ -132,10 +132,14 @@ export const CheckApprovalUniswapPairAction = (
   };
 };
 
-export const CheckApprovalPhnxDaoAction = (web3context, contractPhnxDao) => {
+export const CheckApprovalPhnxDaoAction = (web3context, contractPhnxDao
+  ,setApproveStatus
+  ) => {
   return async (dispatch) => {
     try {
-      let response = await checkApprovalPhnxDao(web3context, contractPhnxDao);
+      let response = await checkApprovalPhnxDao(web3context, contractPhnxDao
+        ,setApproveStatus
+        );
       console.log("CheckApprovalPhnxDaoAction response", response);
       dispatch({
         type: types.CHECK_APPROVAL_PHNXDAO_SUCCESS,
@@ -153,13 +157,14 @@ export const CheckApprovalPhnxDaoAction = (web3context, contractPhnxDao) => {
 export const CheckApprovalPhnxStakingAction = (
   web3context,
   contractUniswapPair,
-  setAllowance
+  setApproveStatus
 ) => {
   return async (dispatch) => {
     try {
       let response = await checkApprovalPhnxStaking(
         web3context,
-        contractUniswapPair
+        contractUniswapPair,
+        setApproveStatus
       );
       // setAllowance(response)
       console.log("CheckApprovalPhnxStakingAction response", response);
