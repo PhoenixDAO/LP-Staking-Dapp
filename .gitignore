@@ -4,12 +4,15 @@
 /node_modules
 /.pnp
 .pnp.js
+/.github
 
 # testing
 /coverage
 
 # production
 /build
+
+/.github
 
 # misc
 .DS_Store
@@ -22,3 +25,4 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 package-lock.json
+yarn.lock

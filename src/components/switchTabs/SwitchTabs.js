@@ -4,6 +4,7 @@ import { useState } from "react";
 import "./SwitchTabs.css";
 import LiquidityModal from "../addLiquidityComponent";
 import MyLiquidity from "./myLiquidity/MyLiquidity";
+import VersionSwitch from "../versionSwitch/versionSwitch";
 
 function SwitchTabs() {
   const [currentTab, setCurrentTab] = useState("addLiquidity");
@@ -17,6 +18,7 @@ function SwitchTabs() {
   };
 
   return (
+    <div>
     <div style={{ paddingBottom: "50px" }}>
       <div className="switch-tabs-div">
         <div
@@ -50,6 +52,8 @@ function SwitchTabs() {
       ) : (
         <MyLiquidity ChangeTab={ChangeTab} />
       )}
+    </div>
+    <VersionSwitch/>
     </div>
   );
 }

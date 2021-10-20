@@ -9,3 +9,9 @@ export const conciseAddress = (address) => {
   }
   return "-";
 };
+
+export const fixedWithoutRounding = (num,decPlaces) =>{
+  num = num.toString(); 
+  num = num.slice(0, (num.indexOf("."))+decPlaces); 
+  return(Number(num));
+}

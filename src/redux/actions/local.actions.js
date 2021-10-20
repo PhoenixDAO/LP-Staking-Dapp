@@ -1,14 +1,5 @@
 import * as types from "../types/local.types";
-import {
-  getDataMain,
-  getPoolPosition,
-  checkApproval,
-  giveApproval,
-  // Web3Init,
-  phnxContractInit,
-  getEthBalance,
-} from "../../services/pool.services";
-// import {} from '../../services/stake.services'
+import { getDataMain, getEthBalance } from "../../services/pool.services";
 
 export const GetMainDataAction = () => {
   return async (dispatch) => {
@@ -36,7 +27,9 @@ export const GetEthBalanceAction = (web3context) => {
   return async (dispatch) => {
     try {
       let response = await getEthBalance(web3context);
-      console.log("GetEthBalaceAction response", response);
+      console.log(response)
+
+      // console.log("GetEthBalaceAction response", response);
       dispatch({
         type: types.ETH_BALANCE_SUCCESS,
         payload: response,
@@ -49,4 +42,3 @@ export const GetEthBalanceAction = (web3context) => {
     }
   };
 };
-

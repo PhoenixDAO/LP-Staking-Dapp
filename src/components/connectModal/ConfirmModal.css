@@ -1,0 +1,310 @@
+.add-liq-div{
+  width: 500px;
+  max-height: 600px;
+  overflow-y: auto;
+  background-color: #fff;
+  border-radius: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 25px;
+}
+
+.add-liq-Logo{
+  width: 125px;
+}
+
+.cursorPointer{
+  cursor: pointer;
+}
+
+.add-liq-heading{
+  color: #73727D;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.add-liq-ps-div{
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 26px;
+  font-weight: bolder;
+}
+
+.add-liq-ps{
+  color: #000;
+  font-weight: bold;
+  font-size: 17px;
+  background-color: #eee;
+  padding: 7px 10px;
+  border-radius: 15px ;
+  margin-right: 15px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cursorPointer{
+  cursor: pointer;
+}
+
+.add-liq-ps-input{
+  width: 100%;
+  background-color: #fff;
+  border: solid 1px #eee;
+  border-radius: 5px;
+  font-size: 15px;
+  padding: 13px;
+}
+.priceContainer{
+  margin-top:22px;
+  margin-bottom:25px;
+}
+.confirmModalAddPrice{
+  margin-bottom:18px;
+}
+.confirmPhnxDepositePriceImageDiv{
+  height:24px;
+}
+
+.add-liq-u-will-rec{
+  margin-top: 15px;
+  margin-left: 5px;
+  font-size: 15px;
+  margin-bottom: 9px;
+  font-weight: bold;
+  color: #73727D;
+}
+
+.add-liq-phnx-eth-det-div{
+  background: #FFFCE2;
+  border :solid 1px #FFE817;
+  border-radius: 16px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-inline: 35px;
+  font-size: 14px;
+text-align:center;
+  margin-bottom:18px;
+  color:#4E4E55;
+
+}
+.iconMargin{
+  margin-left:10px;
+}
+
+.add-liq-phnx-eth-det{
+  display: flex;
+  align-items: center;
+}
+
+.add-liq-phnx-eth-img{
+  height: 24px;
+  width: 24px;
+}
+.iconLeftMargin{
+  margin-left:5px;
+}
+.textRecieve{
+  font-size: 16px;
+  color: #1E1E22;
+}
+
+.add-liq-phnx-eth-name{
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.add-liq-phnx-eth-number{
+  font-size: 18px;
+  margin-left: auto;
+  color: #4E4E55;
+  
+}
+
+.add-liq-phnx-eth-con-div{
+  width: 100%;
+  margin-top: 9px;
+}
+
+.add-liq-phnx-eth-con{
+
+  margin-left: auto;
+  text-align: end;
+  color: #4E4E55;
+  margin-bottom: 9px;
+}
+
+.add-liq-btn{
+  width: 100%;
+  background-color: #413AE2;
+  color: #fff;
+  font-size: 15px;
+   font-weight: bolder;
+  text-align: center;
+  border: none;
+  border-radius: 9px;
+  padding: 15px;
+  margin: 13px 0px;
+  margin-top: 0px;
+}
+
+.add-liq-divider{
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+  opacity: 0.6;
+  margin: 7px 0px;
+  height: 2px;
+}
+.fontWeight500{
+  font-weight: 500;
+}
+
+.fontWeight400{
+  font-weight: 400;
+}
+.confirmPhnxDepositePrice{
+  align-items: center;
+  color:#4E4E55;
+    width: 50%;
+    font-size: 16px;
+}
+@media (max-width:400px){
+  .confirmPhnxDepositePrice{
+    align-items: center;
+    color:#4E4E55;
+      width: 60%;
+      font-size: 13px;
+
+  }
+}
+.ratesFontColor{
+  color: #5f5f5f;
+  font-weight: 400px;
+
+}
+.justifySelfEnd{
+  justify-self: self-end;
+}
+.displayInlineGrid{
+  display: inline-grid;
+}
+.confirmPrice{
+  font-size: 26px;
+  font-weight: bolder;
+  color:#1E1E22;
+}
+.confirmPhnxDepositeLogo{
+  display: flex;
+  width: 50%;
+}
+.burnedCurrencyImages{
+  display: flex;
+}
+.confirmPhnxDepositeFontSize{
+  font-size: 16px;
+  color: #4E4E55;
+}
+.confirmPhnxDeposite{
+  display: flex;
+  width: 50%;
+  text-transform: uppercase;
+  justify-content: end;
+}
+.closeModalIcon{
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: 900;
+  text-align: end;
+  width: 50%;
+}
+.CurrencyIcon{
+  height: 32px;
+  width: 32px;
+  margin-right: 5px;
+}
+.currencyIconDivHeight{
+  height:32px;
+}
+@media (max-width:400px){
+  .confirmPhnxDeposite{
+    font-size: 12px;
+    display: flex;
+    width: 50%;;
+    color:#4E4E55;
+    text-transform: uppercase;
+    justify-content: end;
+  }
+}
+.add-liq-phnx-eth-lp-div{
+  display: flex;
+  align-items: center;
+}
+.confirmPhnxDepositePriceImage{
+  height: 24px;
+  width: 50%;;
+  width: 24px;
+  margin-right:5px;
+}
+.displayFlex{
+  display: flex;
+}
+.add-liq-phnx-eth-lp-div > img {
+  height: 25px;
+  width: 25px;
+  margin: 5px 3px;
+}
+
+.add-liq-phnx-eth-lp-sub{
+  margin-left: 7px;
+  color: #4E4E55;
+  
+}
+
+.add-liq-phnx-eth-lp-sub-no{
+  margin-left: auto;
+  color: #4E4E55;
+  font-weight: 900;
+}
+
+
+
+
+
+
+
+
+.add-liq-div::-webkit-scrollbar {
+  width: 20px;
+}
+
+.add-liq-div::-webkit-scrollbar-track{
+  background-color: transparent;
+  height: 300px !important;
+  margin: 15px 0px;
+}
+
+.add-liq-div::-webkit-scrollbar-thumb {
+  background: rgba(56, 16, 255, 0.55) 0%;
+  border-radius: 40px;
+  border: solid 5px white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+
+
+@media (max-width: 600px) {
+ 
+  .add-liq-div{
+    width: 95%;
+    padding-left: 25px 15px;
+    max-height: 500px;
+  }
+  
+  .add-liq-ps{
+   font-size: 15px;
+  }
+
+}

@@ -6,10 +6,17 @@ import landingImg from "../../assets/landingScreenLogo.svg";
 import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 // import { Web3InitAction } from "../../redux/actions/local.actions";
-import { ToastMsg } from "../../components/Toast";
+// import { ToastMsg } from "../../components/Toast";
 import Notify from "../../components/Notify";
 import ConnectWallet from "../../components/ConnectWallet";
 import { Link } from "react-router-dom";
+import ConnectModal from "../../components/connectModal/ConnectModal";
+import TransactionSubmitted from "../../components/connectModal/TransactionSubmitted";
+import TransactionProgress from "../../components/connectModal/TransactionProgress";
+import ConfirmModal from "../../components/connectModal/ConfirmModal";
+import SlippingTolerance from "../../components/connectModal/SlippingTolerance";
+import VersionModal from "../../components/connectModal/VersionModal";
+import VersionSwitch from "../../components/versionSwitch/versionSwitch";
 
 const Pool = () => {
   const { account, active } = useWeb3React();
@@ -19,11 +26,17 @@ const Pool = () => {
   return (
     <div>
       <div className="container-div">
-        <div className="gradient-div">
+        <div className="gradient-div" style={{fontWeight:'bold'}}>
+          {
+            account?<p className="connect-wallet-txt">
+            You currently do not have any LP Token, <Link to='/liquidity' style={{textDecoration:'none',color:'#413AE2'}}>add</Link> liquidity to the ETH/PHNX pool on Uniswap to get some.
+          </p>:
           <p className="connect-wallet-txt">
-            Connect your wallet to provide liquidity <br /> and start earning
-            PHNX tokens
-          </p>
+          Connect your wallet to provide liquidity and start earning
+          PHNX tokens
+        </p>
+          }
+          
           <img src={handsImg} className="img-hands" />
         </div>
         {/* <p>{balanceEth}</p> */}
@@ -58,6 +71,7 @@ const Pool = () => {
 
           <img className="img-landing-logo" src={landingImg} />
         </div>
+        
       </div>
     </div>
   );
@@ -69,6 +83,6 @@ const styles = {
   btnCollectWallet: {
     backgroundColor: "#413AE2",
     marginTop: 10,
-    fontSize: 12,
+    fontSize: 15,
   },
 };

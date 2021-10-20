@@ -15,6 +15,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import HomeLogo from "../../assets/home.png";
 import DropLogo from "../../assets/drop.png";
 import FarmLogo from "../../assets/farm.png";
+import TelegramLogo from "../../assets/telegram.png";
+import TwitterLogo from "../../assets/twitter.png";
+import GithubLogo from "../../assets/github.png";
 
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import { drawerWidth } from "./constants";
@@ -72,6 +75,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
 
   const [currentTab, setCurrentTab] = useState(0);
   let cT;
+  const [SocialIcon, setSocialIcon] = useState(false);
 
   useEffect(() => {
     cT = window.location.href.split("/")[3];
@@ -84,35 +88,49 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
     }
   });
 
+  useEffect(() => {
+    setSocialIcon(open);
+  }, [open]);
+
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   return (
-    <Drawer variant="permanent" open={open}>
-      <DrawerHeader>
-        <IconButton onClick={handleDrawerClose}>
+    <Drawer variant="permanent" open={open} className={SocialIcon ? 'sideBarFullScreen' : ''}>
+      <DrawerHeader >
+        <IconButton
+          onClick={() => {
+            handleDrawerClose();
+            setSocialIcon(false);
+          }}
+        >
           {theme.direction === "rtl" ? (
             <ChevronRightIcon />
           ) : (
             <ChevronLeftIcon />
           )}
         </IconButton>
-      </DrawerHeader>
-      <Divider />
-      <List>
+      </DrawerHeader >
+      {/* <Divider /> */}
+      <List className='navIconsList'>
         {["home", "liquidity", "farm"].map((text, index) => (
           <ListItem
             button
             key={text}
             component={Link}
             to={`/${text}`}
-            className={index === currentTab ? "current-tab" : null}
+            className={index === currentTab ? "current-tab" : "no-current-tab"}
+            style={{color:"#73727D", fontWeight:"500"}}
+            onClick={() => {
+              handleDrawerClose();
+              setSocialIcon(false);
+            }}
           >
             <ListItemIcon>
               <img
                 src={index === 0 ? HomeLogo : index === 1 ? DropLogo : FarmLogo}
-                style={{ height: "18px", marginLeft: "5px" }}
+                style={{ height: "20px", marginLeft: "5px"}}
                 alt="icon"
               ></img>
             </ListItemIcon>
@@ -120,6 +138,35 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
           </ListItem>
         ))}
       </List>
+
+      {SocialIcon ? (
+        <div
+          style={{
+            position: "absolute",
+            bottom: "100px",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItem: "baseline",
+            width: "100%",
+            padding: "0px 30px",
+          }}
+        >
+          <a href="https://t.me/PHNXDAO" target="_blank">
+            <img src={TelegramLogo}></img>
+          </a>
+
+          <a href="https://twitter.com/phnxdao" target="_blank">
+            <img src={TwitterLogo}></img>
+          </a>
+
+          <a
+            href="https://github.com/XORD-one/phoenixdao-lp-staking-dapp"
+            target="_blank"
+          >
+            <img src={GithubLogo}></img>
+          </a>
+        </div>
+      ) : null}
     </Drawer>
   );
 };

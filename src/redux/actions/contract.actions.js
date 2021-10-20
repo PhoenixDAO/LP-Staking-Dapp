@@ -1,14 +1,15 @@
 import * as types from "../types/contract.types";
 import {
   getPoolPosition,
-  checkApproval,
-  giveApproval,
   getPhnxBalance,
   phnxDaoContractInit,
   phnxStakeContractInit,
   uniswapV2PairInit,
   uniswapV2RouterInit,
+  checkApprovalUniswapPair,
+  checkApprovalPhnxDao,
 } from "../../services/pool.services";
+import { checkApprovalPhnxStaking } from "../../services/stake.services";
 
 export const PhnxDaoContractInitAction = (web3context) => {
   return async (dispatch) => {
@@ -84,21 +85,10 @@ export const UniswapContractRouterInitAction = (web3context) => {
   };
 };
 
-export const GetPoolPositionAction = (
-  web3context,
-  setPoolPosition,
-  contractUniswapPair
-) => {
+export const GetPoolPositionAction = (web3context, contractUniswapPair) => {
   return async (dispatch) => {
-    dispatch({
-      type: types.GET_POOL_POSITION_LOADING,
-    });
     try {
-      let response = await getPoolPosition(
-        web3context,
-        setPoolPosition,
-        contractUniswapPair
-      );
+      let response = await getPoolPosition(web3context, contractUniswapPair);
       console.log("GetPoolPositionAction response", response);
       dispatch({
         type: types.GET_POOL_POSITION_SUCCESS,
@@ -113,33 +103,88 @@ export const GetPoolPositionAction = (
   };
 };
 
-export const CheckApprovalAction = () => {
+export const CheckApprovalUniswapPairAction = (
+  web3context,
+  contractUniswapPair,
+  setAllowance
+) => {
+
   return async (dispatch) => {
-    dispatch({
-      type: types.CHECK_APPROVAL_LOADING,
-      // payload: response?.data,
-    });
+
     try {
-      let response = await checkApproval();
-      console.log("CheckApprovalAction response", response);
+      let response = await checkApprovalUniswapPair(
+        web3context,
+        contractUniswapPair
+      );
+      console.log(response,'555555555')
+      setAllowance(response)
+      console.log("CheckApprovalUniswapPairAction response", response);
       dispatch({
-        type: types.CHECK_APPROVAL_SUCCESS,
+        type: types.CHECK_APPROVAL_UNISWAP_PAIR_SUCCESS,
         payload: response,
       });
     } catch (e) {
       dispatch({
-        type: types.CHECK_APPROVAL_ERROR,
+        type: types.CHECK_APPROVAL_UNISWAP_PAIR_ERROR,
         payload: e?.response?.data?.message || e.message,
       });
     }
   };
 };
 
-export const GetPhnxBalanceAction = (web3context, contractPhnx) => {
-  console.log("contractPhnx GetPhnxBalanceAction", contractPhnx);
+export const CheckApprovalPhnxDaoAction = (web3context, contractPhnxDao
+  ,setApproveStatus
+  ) => {
   return async (dispatch) => {
     try {
-      let response = await getPhnxBalance(web3context, contractPhnx);
+      let response = await checkApprovalPhnxDao(web3context, contractPhnxDao
+        ,setApproveStatus
+        );
+      console.log("CheckApprovalPhnxDaoAction response", response);
+      dispatch({
+        type: types.CHECK_APPROVAL_PHNXDAO_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: types.CHECK_APPROVAL_PHNXDAO_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
+
+export const CheckApprovalPhnxStakingAction = (
+  web3context,
+  contractUniswapPair,
+  setApproveStatus
+) => {
+  return async (dispatch) => {
+    try {
+      let response = await checkApprovalPhnxStaking(
+        web3context,
+        contractUniswapPair,
+        setApproveStatus
+      );
+      // setAllowance(response)
+      console.log("CheckApprovalPhnxStakingAction response", response);
+      dispatch({
+        type: types.CHECK_APPROVAL_PHNX_STAKING_SUCCESS,
+        payload: response,
+      });
+    } catch (e) {
+      dispatch({
+        type: types.CHECK_APPROVAL_PHNX_STAKING_ERROR,
+        payload: e?.response?.data?.message || e.message,
+      });
+    }
+  };
+};
+
+export const GetPhnxBalanceAction = (web3context, contractPhnxDao) => {
+  return async (dispatch) => {
+    try {
+      let response = await getPhnxBalance(web3context, contractPhnxDao);
       console.log("GetPhnxBalaceAction response", response);
       dispatch({
         type: types.PHNX_BALANCE_SUCCESS,

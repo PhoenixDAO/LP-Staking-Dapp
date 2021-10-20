@@ -1,32 +1,34 @@
-.stakingModal{
-    width: 400px;
-    height: fit-content;
-    background-color: #fff;
-    border-radius: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 25px;
+.stakingModal {
+  width: 400px;
+  height: fit-content;
+  background-color: #fff;
+  border-radius: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 25px;
 }
 
-.stakingModalLogo{
-    width: 100px;
+.stakingModalLogo {
+  width: 100px;
 }
 
-.stakingModalHeading{
-    color: #413AE2;
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 7px;
+.stakingModalHeading {
+  color: #413ae2;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 7px;
 }
 
 .stakingModal-details{
-    font-size: 12px;
+    font-size: 15px;
     margin-top: 30px;
     color: #4E4E55;
-    font-weight: bold;
+    /* font-weight: bold; */
+    display: flex;
+    justify-content: center;
 }
 
 .stakingModalInput{
@@ -35,42 +37,39 @@
     padding: 7px;
     flex-grow: 1;
     margin-right: 9px;
-    color:#4E4E4E;
+    color:#000000;
     border-radius: 3px;
-    border: solid 1px #4E4E4E;
-
-}
-
-.stakingModalInput:focus{
-    outline: none;
-}
-
-.stakingModalInputBtn{
-    background-color:#C3B7FF;
-    color: #413AE2;
-    border-radius: 9px;
     border: none;
-    font-weight: bold;
-    height: fit-content;
-    padding: 7px;
+    padding:13px;
+    color: #4E4E4E;
+
 }
 
-
-.stakingModalConfirm{
-    background-color: #413AE2;
-    color: #fff;
+.stakingModalInput:focus {
+  outline: none;
 }
 
-@media only screen and (max-width: 700px){
+.stakingModalInputBtn {
+  background-color: #c3b7ff;
+  color: #413ae2;
+  border-radius: 9px;
+  border: none;
+  font-weight: bold;
+  height: fit-content;
+  padding: 7px;
+}
 
-    .stakingModal{
-        
-        width: 90%;
+.stakingModalConfirm {
+  background-color: #413ae2;
+  color: #fff;
+}
 
-    }
+@media only screen and (max-width: 700px) {
+  .stakingModal {
+    width: 90%;
+  }
 
-    .stakingModalInput{
-        width: 50%;
-    }
-
+  .stakingModalInput {
+    width: 50%;
+  }
 }
