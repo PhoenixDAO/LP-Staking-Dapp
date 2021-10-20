@@ -98,6 +98,16 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
       variant="permanent"
       open={open}
       className={SocialIcon ? "sideBarFullScreen" : ""}
+      sx={{
+        "@media (min-width:500px)": {
+          "& .MuiPaper-root": {
+            maxWidth: "150px",
+          },
+          "& .MuiDrawer-docked .MuiDrawer-paper": {
+            maxWidth: "150px",
+          },
+        },
+      }}
     >
       <DrawerHeader>
         <IconButton
@@ -149,7 +159,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
             justifyContent: "space-around",
             alignItem: "baseline",
             width: "100%",
-            padding: "0px 30px",
+            padding: "0px 10px",
           }}
         >
           <a href="https://t.me/PHNXDAO" target="_blank">
