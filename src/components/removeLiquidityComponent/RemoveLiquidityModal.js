@@ -223,8 +223,17 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
           sx={{
             borderRadius: "6px",
             marginBottom: "20px",
+            border: "1px solid #fff",
           }}
           InputProps={{
+            classes: {
+              root: {  '&$cssFocused $notchedOutline': {
+                borderColor: `1px solid rgb(0,0,0,0.5)`,
+              },},
+              focused: {},
+              notchedOutline: {    borderWidth: '1px',
+              borderColor: 'green !important',},
+            },
             endAdornment: (
               <InputAdornment>
                 <IconButton>

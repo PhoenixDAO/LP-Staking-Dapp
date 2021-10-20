@@ -9,6 +9,7 @@ import CalculatorLogo from "../../../assets/calculator.png";
 import Web3 from "web3";
 import { Link } from "react-router-dom";
 import { useWeb3React } from "@web3-react/core";
+import { Button } from "@mui/material";
 
 function FarmHarvest({
   stakeModalOpen,

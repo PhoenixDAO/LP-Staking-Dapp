@@ -39,6 +39,7 @@
 
 .css-1u2mxbp {
   height: 63px;
+  justify-content: flex-start;
 }
 
 @media only screen and (max-width: 650px) {
