@@ -104,7 +104,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
         <div className="stakingModal-details">STAKE</div>
         <div style={{ marginLeft: "auto" }} className="stakingModal-details">
           <span>
-            Bal: <span style={{ color: "#000" }}>{maxlpValue} PHNX-ETH LP</span>
+            Bal: <span style={{ color: "#000", fontWeight:"600" }}>{maxlpValue} PHNX-ETH LP</span>
           </span>
         </div>
       </div>
@@ -162,7 +162,8 @@ function StakeModal({ Close, calculateAPR, Roi }) {
       <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
         <button
           className="farm-btn-stake-outline"
-          style={{ marginTop: "25px" }}
+          style={{ marginTop: "25px",
+        fontSize:"16px" }}
           onClick={() => {
             calculateAPR(0);
             Close();
@@ -175,6 +176,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           style={{
             marginLeft: "auto",
             marginTop: "25px",
+            fontSize:"16px",
             background:
               (lpValue > maxlpValue) | (lpValue === 0) | isNaN(lpValue)
                 ? "#ACACAC"

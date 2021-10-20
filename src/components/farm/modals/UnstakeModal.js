@@ -138,7 +138,8 @@ function UnStakeModal({ Close, userInfo }) {
       <div style={{ display: "flex", alignItems: "center" ,marginTop:"20px"}}>
         <button
           className="farm-btn-stake-outline"
-          style={{ marginTop: "25px" }}
+          style={{ marginTop: "25px",
+        fontSize:"16px" }}
           onClick={() => Close()}
         >
           Close
@@ -148,6 +149,7 @@ function UnStakeModal({ Close, userInfo }) {
           style={{
             marginLeft: "auto",
             marginTop: "25px",
+            fontSize:"16px",
             background:
               (lpValue > maxlpValue) | (lpValue === 0) | isNaN(lpValue)
                 ? "#ACACAC"

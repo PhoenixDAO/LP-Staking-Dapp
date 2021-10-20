@@ -200,6 +200,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   };
   return (
     <Box sx={styles.containerStyle} className="modal-scroll">
+      <div className="addLiquidityBox">
       <div style={{marginBottom:"10px"}}>
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>
@@ -234,7 +235,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       <div className="dialog-style" >
         <div style={styles.containerTip}>
           <Typography style={styles.txtTipParagraph}>
-            Tip: By adding liquidity, you'll earn 0.25% of all trades on this
+            <b>Tip:</b> By adding liquidity, you'll earn 0.25% of all trades on this
             pair proportional to your share of the pool. Fees are added to the
             pool, accrue in real time and can be claimed by withdrawing your
             liquidity.
@@ -313,7 +314,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available ETH:</Typography>
                 <Typography style={styles.txtAmount}>
-                  {balanceEth} ETH
+                  {balanceEth ? `${balanceEth}` : "0.0"} ETH
                 </Typography>
               </div>
               <div className="wrapper-input">
@@ -475,6 +476,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         transactionSubmittedModal={transactionSubmittedModal}
         hash={tranHash}
       ></TransactionSubmitted>
+      </div>
     </Box>
   );
 };
@@ -491,16 +493,15 @@ const styles = {
     transform: "translate(-50%, -50%)",
     width: 600,
     bgcolor: "#fff",
-    padding: 20,
+    padding: 0,
     
     // border: "2px solid #000",
     borderRadius: 4,
     boxShadow: 0,
-    p: 4,
     ["@media (max-width: 650px)"]: {
-      width: "98%",
-      padding: 2,
-      overflowY: "auto",
+      width:" 98%",
+      padding: "0px",
+      overflowY: "hidden",
     },
   },
   downArrow: {
@@ -588,6 +589,14 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
+  },
+  modalBox:{
+    padding: 40,
+    "@media (max-width: 650px)": {
+      overflow: "auto",
+      height: "85vh",
+      padding: "16px",
+    },
   },
   txtAmount: {
     fontSize: 18,
