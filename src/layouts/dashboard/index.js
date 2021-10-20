@@ -58,26 +58,13 @@ export default function DashboardLayout() {
       dispatch(GetEthBalanceAction(web3context));
       dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
     }
-  }, [contractPhnxDao, web3context.active, web3context.account]);
+  }, [contractPhnxDao, web3context.active, web3context.account, poolPosition]);
 
   useEffect(() => {
     if (contractUniswapPair && web3context.account) {
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
     }
   }, [balanceEth, balancePhnx, contractUniswapPair, web3context.account]);
-
-  // useEffect(() => {
-  //   dispatch(PhnxStakeContractInitAction(web3context));
-  // }, [web3context.activate]);
-  // React.useEffect(() => {
-  //   if (web3context.active && web3context.account) {
-  //     console.log("web3contrext,", web3context);
-  //     dispatch(Web3InitAction(web3context));
-  //   }
-  // }, [web3context]);
-  // React.useEffect(() => {
-  //   console.log("web3 ==>", web3);
-  // }, [web3context]);
 
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
@@ -88,7 +75,7 @@ export default function DashboardLayout() {
   };
 
   return (
-    <Box sx={{ display: "flex"}} >
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <DashboardNavbar open={open} handleDrawerOpen={handleDrawerOpen} />
 

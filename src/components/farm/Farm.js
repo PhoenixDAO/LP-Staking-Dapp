@@ -60,7 +60,7 @@ function Farm() {
 
   const [Roi, setRoi] = useState(0);
 
-  const[TokenSupply,setTokenSupply]=useState(0);
+  const [TokenSupply, setTokenSupply] = useState(0);
 
   const allowance = useSelector(
     (state) => state.contractReducer.allowancePhnxStaking
@@ -96,7 +96,13 @@ function Farm() {
   };
   const handleCheckApprovalPhnxStakingAction = (setApproveStatus) => {
     console.log("handleCheckApprovalPhnxStakingAction iiii");
-    dispatch(CheckApprovalPhnxStakingAction(web3context, contractUniswapPair,setApproveStatus));
+    dispatch(
+      CheckApprovalPhnxStakingAction(
+        web3context,
+        contractUniswapPair,
+        setApproveStatus
+      )
+    );
   };
 
   useEffect(() => {
@@ -175,7 +181,7 @@ function Farm() {
       })
         .then((response) => {
           if (response.data) {
-            console.log(response.data,'aaa')
+            console.log(response.data, "aaa");
             setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
           }
         })
@@ -216,8 +222,7 @@ function Farm() {
   }, []);
 
   const calculateAPR = async (amt, f) => {
-   
-    if ((amt.toFixed(4) == 0 || amt =='') && f) {
+    if ((amt.toFixed(4) == 0 || amt == "") && f) {
       setRoi(0);
       return;
     }
@@ -228,11 +233,11 @@ function Farm() {
       ?.lpTokenSupply()
       ?.call();
 
-      
-
     const apr =
       (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
       Web3.utils.fromWei(lpTokenSupply);
+
+    console.log(apr, "apr.");
 
     let amount = amt; //will get from user onChange
 
@@ -241,7 +246,20 @@ function Farm() {
 
     const getReserves = await contractUniswapPair.methods.getReserves().call();
 
-    let _balance = new BigNumber(Web3.utils.toWei(amount.toFixed(4).toString()));
+    // let _balance = new BigNumber(
+    //   Web3.utils.toWei(amount.toFixed(4).toString())
+    // );
+    // console.log(BigNumber(userInfo.amount), "userInfo.amount");
+    // _balance += BigNumber(userInfo.amount);
+
+    let _balance =
+      Number(Web3.utils.toWei(amount.toFixed(4).toString())) +
+      Number(userInfo.amount);
+    console.log(_balance, "_balance 111111111");
+
+    _balance = new BigNumber(_balance);
+    console.log(_balance, "_balance 222222222");
+
     const _reserve0 = new BigNumber(getReserves._reserve0);
     const _reserve1 = new BigNumber(getReserves._reserve1);
     const _ratio = _reserve0.dividedBy(_reserve1);
@@ -253,27 +271,28 @@ function Farm() {
     _token0 = _token0.dividedBy(conv).toString(); //phnx
 
     let reward = apr * amount - rewardDebt;
-    
+
     let netProfit = reward - _token0;
+    console.log(netProfit, "netprofit");
     let roi = (netProfit / _token0) * 100;
+    console.log(roi, "roi");
 
     // let usd = PhoenixDAO_market ? PhoenixDAO_market.usd : 0;
-    
+
     let usd = PhoenixDAO_market.usd;
 
-    console.log(usd,'usd')
-    console.log(roi,'roi')
+    console.log(usd, "usd");
+    console.log(roi, "roi");
 
     let dollarValue = roi * usd;
 
     console.log("dollarValue", dollarValue);
 
-    if(f){
+    if (f) {
       setRoi(parseInt(dollarValue));
     }
-    console.log(apr,'123')
+    console.log(apr, "123");
     setAPR(parseInt(apr));
-    
   };
 
   useEffect(() => {
@@ -286,22 +305,20 @@ function Farm() {
       calculateAPR(poolPosition.lp, false);
     }
 
-    console.log(userInfo.amount,'111');
+    console.log(userInfo.amount, "111");
   }, [poolPosition, contractPhnxStake, contractUniswapPair, PhoenixDAO_market]);
 
-
-  useEffect(()=>{
-    if(contractUniswapPair){
+  useEffect(() => {
+    if (contractUniswapPair) {
       GetTokenSupply();
     }
-  },[contractUniswapPair])
+  }, [contractUniswapPair]);
 
-  const GetTokenSupply = async () =>{
-    let ts= await contractUniswapPair.methods.totalSupply().call();
-    setTokenSupply(Web3.utils.fromWei(ts))
-    console.log(TokenSupply,'aaa')
-  }
-
+  const GetTokenSupply = async () => {
+    let ts = await contractUniswapPair.methods.totalSupply().call();
+    setTokenSupply(Web3.utils.fromWei(ts));
+    console.log(TokenSupply, "aaa");
+  };
 
   // useEffect(() => {
 
@@ -315,7 +332,10 @@ function Farm() {
 
   return (
     <div>
-      <div className="farm-div" style={{boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)"}}>
+      <div
+        className="farm-div"
+        style={{ boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)" }}
+      >
         {!web3context.active || poolPosition == null || userInfo == null ? (
           <FarmStake
             stakeModalOpen={handleStackOpen}
