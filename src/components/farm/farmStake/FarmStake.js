@@ -23,10 +23,11 @@ function FarmStake({
 }) {
 
   const [approveStatus,setApproveStatus] = useState(false);
+  
   const handleApproval = async () =>{
       setApproveStatus(true);
-      await giveApproval();
-      setApproveStatus(false);
+      await giveApproval(setApproveStatus);
+      // setApproveStatus(false);
   }
 
   console.log('allowance1:',allowance);
@@ -37,6 +38,10 @@ function FarmStake({
   const [showMore, setShowMore] = useState(false);
   const [ConnectWalletModalStatus, setConnectWalletModalStatus] =
     useState(false);
+
+
+
+
   return (
     <div>
       <div className="farm-heading">Farm</div>
@@ -60,7 +65,7 @@ function FarmStake({
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
         <div className="farm-details-txt-right">
-          {APR}% &nbsp;
+          {web3context.active ? APR : '--- '}% &nbsp;
           <img style={{ height: "16px" }} src={CalculatorLogo} />
         </div>
       </div>
@@ -81,7 +86,8 @@ function FarmStake({
           <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
         </div>
         <div className="farm-details-txt-right">
-          {userInfo.amount && Web3.utils.fromWei(userInfo.amount)}
+          {/* {userInfo.amount && Web3.utils.fromWei(userInfo.amount)} */}
+          0.000
         </div>
       </div>
       {web3context.active ? (

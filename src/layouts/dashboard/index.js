@@ -45,6 +45,7 @@ export default function DashboardLayout() {
 
   useEffect(() => {
     dispatch(PhnxStakeContractInitAction(web3context));
+
     if (web3context.account && web3context.active) {
       dispatch(PhnxDaoContractInitAction(web3context));
       dispatch(UniswapContractPairInitAction(web3context));
@@ -74,7 +75,7 @@ export default function DashboardLayout() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex"}} >
       <CssBaseline />
       <DashboardNavbar open={open} handleDrawerOpen={handleDrawerOpen} />
 

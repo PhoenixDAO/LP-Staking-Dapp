@@ -22,7 +22,7 @@ import { CircularProgress } from "@mui/material";
 
 function UnStakeModal({ Close, userInfo }) {
 
-  const [lpValue, setlpValue] = useState(0.0);
+  const [lpValue, setlpValue] = useState();
   const [maxlpValue, setmaxlpValue] = useState(0.0);
   const [loading, setLoading] = useState(false);
 
@@ -42,7 +42,7 @@ function UnStakeModal({ Close, userInfo }) {
   );
 
   const LpChange = (e) => {
-    setlpValue(parseFloat(e.target.value));
+    setlpValue(e.target.value);
   };
 
   useEffect(() => {
@@ -123,6 +123,16 @@ function UnStakeModal({ Close, userInfo }) {
         </button>
       </div>
 
+
+      <>
+      {
+        lpValue>0 && lpValue <= 0.00000000000000001 ? 
+        <div style={{color:'red',paddingTop:'5px'}}>The entered value is too low.</div> : null
+      }
+      </>
+
+
+
       {/* <div style={{ display: "flex", alignItems: "center", marginTop: "13px" }}>
         <div className="stakingModal-details" style={{ marginTop: "0px" }}>
           Annual ROI at current rates:
@@ -149,19 +159,19 @@ function UnStakeModal({ Close, userInfo }) {
             marginLeft: "auto",
             marginTop: "25px",
             background:
-              (lpValue > maxlpValue) | (lpValue === 0) | isNaN(lpValue)
+            loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)
                 ? "#ACACAC"
                 : "#413AE2",
             color: "#fff",
             borderColor:
-              (lpValue > maxlpValue) | (lpValue === 0) | isNaN(lpValue)
+            loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)
                 ? "#ACACAC"
                 : "#413AE2",
           }}
           onClick={() => {
             _handleUnstakeLp();
           }}
-          disabled={loading}
+          disabled={loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)}
         >
           {loading && "Confirming..."}
           {!loading && "Confirm"}

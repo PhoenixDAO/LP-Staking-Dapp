@@ -6,6 +6,7 @@ import {
   PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY,
   UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY,
 } from "../contract/constant";
+import BigNumber from "bignumber.js";
 
 export const giveApprovalPhnxStaking = async (
   web3context,
@@ -13,7 +14,8 @@ export const giveApprovalPhnxStaking = async (
   handleGetPoolPosition,
   handleGetEthBalance,
   handleGetPhnxBalance,
-  handleCheckApprovalPhnxStakingAction
+  handleCheckApprovalPhnxStakingAction,
+  setApproveStatus
 ) => {
   //   const web3 = new Web3(web3context?.library?.currentProvider);
   //farming approval
@@ -30,7 +32,7 @@ export const giveApprovalPhnxStaking = async (
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
         if(confirmationNumber == 1){
-          await handleCheckApprovalPhnxStakingAction();
+          await handleCheckApprovalPhnxStakingAction(setApproveStatus);
           await handleGetPoolPosition();
           await handleGetEthBalance();
           await handleGetPhnxBalance();
@@ -43,6 +45,7 @@ export const giveApprovalPhnxStaking = async (
        
       })
       .on("error", function (err) {
+        setApproveStatus(false)
         console.log("err", err);
       });
   } else {
@@ -140,7 +143,8 @@ export const harvestPHNX = async (
 
 export const checkApprovalPhnxStaking = async (
   web3context,
-  contractUniswapPair
+  contractUniswapPair,
+  setApproveStatus
   // setAllowance
 ) => {
   if (contractUniswapPair && web3context) {
@@ -149,6 +153,11 @@ export const checkApprovalPhnxStaking = async (
       .call();
       // setAllowance(al)
       
+      if(setApproveStatus){
+        setApproveStatus(false)
+      }
+
+
     console.log("al checkApprovalPhnxStaking", al);
     return al;
     // setAllowance(al);
@@ -249,6 +258,9 @@ export const stakeLp = async (
     return;
   }
 
+  console.log(lpValue)
+
+
   await contractPhnxStake.methods
     .deposit(web3.utils.toWei(lpValue.toString()))
     .send({ from: web3context.account })
@@ -337,9 +349,10 @@ export const unStakeLp = async (
 
     return;
   }
+  console.log(lpValue)
 
   await contractPhnxStake.methods
-    .withdraw(web3.utils.toWei(lpValue.toString()))
+    .withdraw(web3.utils.toWei((lpValue).toString()))
     .send({ from: web3context.account })
     .on("transactionHash", (hash) => {
       // hash of tx

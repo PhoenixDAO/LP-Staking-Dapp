@@ -40,7 +40,7 @@ function MyLiquidity({ ChangeTab }) {
 
 
   const [slippageModal,setSlippageModal]=useState(false);
-  const [slippageValue,setSlippageValue]=useState(10);
+  const [slippageValue,setSlippageValue]=useState(1);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -91,14 +91,14 @@ function MyLiquidity({ ChangeTab }) {
   useEffect(() => {
     if (contractUniswapPair) {
       console.log('asdasdasdasdasdasdads')
-      handleCheckApprovalUniswapPairAction()
+      handleCheckApprovalUniswapPairAction(setAllowance)
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
     }
   }, [web3context.active, contractUniswapPair]);
 
-  const handleCheckApprovalUniswapPairAction = async () => {
+  const handleCheckApprovalUniswapPairAction = async (setAllowance,setApproveStatus) => {
     console.log("coming to handleCheckApprovalUniswapPairAction");
-    POOL_SERVICES.checkApprovalUniswapPair(web3context, contractUniswapPair,setAllowance);
+    POOL_SERVICES.checkApprovalUniswapPair(web3context, contractUniswapPair,setAllowance,setApproveStatus);
     console.log(allowance,'999999999');
   };
 
@@ -261,7 +261,7 @@ function MyLiquidity({ ChangeTab }) {
             <div className="pooled-item-txt">pooled phnx</div>
 
             <div style={{ display: "flex", marginLeft: "auto" }}>
-              <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
+              <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
               <div className="pooled-item-txt">{poolPosition.phnx}</div>
             </div>
           </div>
@@ -272,7 +272,7 @@ function MyLiquidity({ ChangeTab }) {
             <div className="pooled-item-txt">pooled eth</div>
 
             <div style={{ display: "flex", marginLeft: "auto" }}>
-              <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
+              <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
               <div className="pooled-item-txt">{poolPosition.eth}</div>
             </div>
           </div>
