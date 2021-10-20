@@ -28,11 +28,12 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "24px",
 		fontWeight: "600",
 		marginBottom: "24px",
+		marginTop:"0px",
 	},
 	menuHeading: {
 		fontSize: "20px",
 		fontWeight: "600",
-		marginTop: "20px",
+		marginTop: "0px",
 		marginBottom: "20px",
 		"@media (min-width:950px)":{
 			fontSize:"18px",
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 	menuSubHeading: {
 		fontSize: "17px",
 		color: "#4E4E55",
+		margin:"0px"
 	},
 	hideScroll: {
 		"&::-webkit-scrollbar": {
@@ -48,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
 		},
 		overflowY: "scroll",
 		padding: "20px",
-		background: "#fff",
 		
 	},
 	leftColumn:{
@@ -84,11 +85,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 	definition:{
 		textAlign:"justify",
-		lineHeight:"1.6rem"
+		lineHeight:"1.6rem",
+		fontSize:"15px"
 	},
 	gridContainer: {
 		marginTop: "20px",
 	},
+	termsPage:{
+		paddingInline:"10px",
+	}
 }));
 const Terms = (props) => {
 	const classes = useStyles();
@@ -115,7 +120,7 @@ const Terms = (props) => {
 				<Grid
 					item
 					className={`${classes.hideScroll} ${classes.hideScroll1}`}
-					style={{ height: '100vh' }}
+					style={{ height: '90vh', marginBottom:"10px" }}
 					lg={8}
 					md={8}
 					sm={12}
@@ -526,7 +531,7 @@ const Terms = (props) => {
 				<Grid
 					item
 					className={`${classes.hideScroll} ${classes.hideScroll2}`}
-					style={{ height: "99vh" }}
+					style={{ height: "90vh" }}
 					lg={4}
 					md={4}
 					sm={12}
