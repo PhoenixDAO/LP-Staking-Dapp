@@ -129,9 +129,11 @@ const SlippingTolerance = ({ status, handleClose, setSlippageValue }) => {
 
           <button
             className="slippingLiq-btn"
+            disabled={selectedPercentage == ""}
             onClick={() => handleClose(false)}
             style={{
               backgroundColor: selectedPercentage == "" ? "#afafaf" : "#413ae2",
+              cursor: selectedPercentage == "" ? "inherit !important" : "pointer"
             }}
           >
             Set Slippage
