@@ -240,21 +240,24 @@ function Farm() {
     console.log(apr, "apr.");
 
     let amount = amt; //will get from user onChange
+    console.log(amount, "amount1111");
 
     let rewardDebt = userInfo.rewardDebt;
-    rewardDebt = Web3.utils.fromWei(rewardDebt.toString());
+    rewardDebt = Number(Web3.utils.fromWei(rewardDebt.toString()));
+    console.log(rewardDebt, "rewardDebt1111");
 
     const getReserves = await contractUniswapPair.methods.getReserves().call();
-
-    // let _balance = new BigNumber(
-    //   Web3.utils.toWei(amount.toFixed(4).toString())
-    // );
-    // console.log(BigNumber(userInfo.amount), "userInfo.amount");
-    // _balance += BigNumber(userInfo.amount);
+    console.log(getReserves, "getReserves getReserves");
 
     let _balance =
       Number(Web3.utils.toWei(amount.toFixed(4).toString())) +
       Number(userInfo.amount);
+    console.log(
+      "_balance _balance",
+      Number(Web3.utils.toWei(amount.toFixed(4).toString())),
+      "userInfo.amount userInfo.amount",
+      Number(userInfo.amount)
+    );
     console.log(_balance, "_balance 111111111");
 
     _balance = new BigNumber(_balance);
@@ -272,9 +275,9 @@ function Farm() {
 
     let reward = apr * amount - rewardDebt;
 
-    let netProfit = reward - _token0;
+    let netProfit = Number(reward - _token0);
     console.log(netProfit, "netprofit");
-    let roi = (netProfit / _token0) * 100;
+    let roi = Number((netProfit / _token0) * 100);
     console.log(roi, "roi");
 
     // let usd = PhoenixDAO_market ? PhoenixDAO_market.usd : 0;
@@ -284,7 +287,7 @@ function Farm() {
     console.log(usd, "usd");
     console.log(roi, "roi");
 
-    let dollarValue = roi * usd;
+    let dollarValue = Number(roi * usd);
 
     console.log("dollarValue", dollarValue);
 
