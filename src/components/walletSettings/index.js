@@ -154,7 +154,7 @@ export default function WalletSettings({
           </Stack>
           <br />
           <div >
-        <Link to="/liquidity" style={{textDecoration:'none' ,color:'#413ae2'}}>
+        <Link to="/liquidity" style={{textDecoration:'none' ,color:'#413ae2'}} onClick={handleClose}>
           Get PHNX-ETH LP &nbsp;
           <img src={ShareLogo}></img>
         </Link>

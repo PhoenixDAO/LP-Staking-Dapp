@@ -4,6 +4,7 @@ import Logo from "../../../assets/Logo.png";
 import { useWeb3React } from "@web3-react/core";
 import CalculatorLogo from "../../../assets/calculator.png";
 import ShareLogo from "../../../assets/share.png";
+import CloseIcon from "@mui/icons-material/Close";
 import { useSelector, useDispatch } from "react-redux";
 import * as STAKE_SERVICES from "../../../services/stake.services";
 import {
@@ -102,7 +103,16 @@ function StakeModal({ Close, calculateAPR, Roi }) {
 
   return (
     <div className="stakingModal">
-      <img className="stakingModalLogo" src={Logo} alt="Logo"></img>
+        <div className="displayFlex">
+              <div className="confirmPhnxDepositeLogo">
+                <img style={{height:"32px"}} src={Logo}></img>
+              </div>
+              <div className="closeModalIcon">
+                <span className="cursorPointer">
+                  <CloseIcon onClick={() => Close()} />
+                </span>
+              </div>
+            </div>
       <div className="stakingModalHeading">Stake LP Tokens</div>
 
       <div style={{ display: "flex", alignItem: "center" }}>

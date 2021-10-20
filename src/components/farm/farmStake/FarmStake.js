@@ -79,15 +79,17 @@ function FarmStake({
         <div className="farm-details-txt">
           <span style={{ color: "#413AE2" }}>PHNX</span> EARNED
         </div>
-        <div className="farm-details-txt-right">0.000</div>
+        <div className="farm-details-txt-right">  <span style={{fontWeight:"bolder", color:"#4E4E55"}}>0.000</span></div>
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">
           <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
         </div>
         <div className="farm-details-txt-right">
+        <span style={{fontWeight:"bolder", color:"#4E4E55"}}>
           {/* {userInfo.amount && Web3.utils.fromWei(userInfo.amount)} */}
           0.000
+          </span>
         </div>
       </div>
       {web3context.active ? (

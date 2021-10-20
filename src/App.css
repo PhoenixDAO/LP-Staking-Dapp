@@ -157,7 +157,7 @@
   position:fixed;
   display:flex;
   bottom:20px;
-  left:100px;
+  left:110px;
   background-color:#fff;
   border-radius:7px;
   padding:2px
@@ -348,6 +348,12 @@ html {
   overflow: hidden;
   padding: 40px;
   }
+
+*{
+  scrollbar-color: #9391ff;
+  scrollbar-width: thin;
+
+}
   
   @media (max-width: 650px) {
       .addLiquidityBox{
