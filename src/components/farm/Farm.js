@@ -58,7 +58,9 @@ function Farm() {
   const [APR, setAPR] = useState(0);
   const [PhoenixDAO_market, setPhoenixDAO_market] = useState(null);
 
-  const [Roi, setRoi] = useState(0.0);
+  const [Roi, setRoi] = useState(0);
+
+  const[TokenSupply,setTokenSupply]=useState(0);
 
   const allowance = useSelector(
     (state) => state.contractReducer.allowancePhnxStaking
@@ -92,9 +94,9 @@ function Farm() {
     console.log("coming to handleCheckApprovalUniswapPairAction");
     dispatch(CheckApprovalUniswapPairAction(web3context, contractUniswapPair));
   };
-  const handleCheckApprovalPhnxStakingAction = () => {
+  const handleCheckApprovalPhnxStakingAction = (setApproveStatus) => {
     console.log("handleCheckApprovalPhnxStakingAction iiii");
-    dispatch(CheckApprovalPhnxStakingAction(web3context, contractUniswapPair));
+    dispatch(CheckApprovalPhnxStakingAction(web3context, contractUniswapPair,setApproveStatus));
   };
 
   useEffect(() => {
@@ -106,7 +108,7 @@ function Farm() {
   // This f() to be called on give approval button
 
   // have to put on a button handleGiveApprovalPhnxStakingAction
-  const handleGiveApprovalPhnxStakingAction = async () => {
+  const handleGiveApprovalPhnxStakingAction = async (setApproveStatus) => {
     try {
       await giveApprovalPhnxStaking(
         web3context,
@@ -114,7 +116,8 @@ function Farm() {
         handleGetPoolPositionAction,
         handleGetEthBalanceAction,
         handleGetPhnxBalanceAction,
-        handleCheckApprovalPhnxStakingAction
+        handleCheckApprovalPhnxStakingAction,
+        setApproveStatus
       );
     } catch (e) {
       console.error(e, "err in handleGiveApprovalPhnxStakingAction");
@@ -172,6 +175,7 @@ function Farm() {
       })
         .then((response) => {
           if (response.data) {
+            console.log(response.data,'aaa')
             setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
           }
         })
@@ -212,7 +216,8 @@ function Farm() {
   }, []);
 
   const calculateAPR = async (amt, f) => {
-    if (amt == 0) {
+   
+    if ((amt.toFixed(4) == 0 || amt =='') && f) {
       setRoi(0);
       return;
     }
@@ -222,6 +227,8 @@ function Farm() {
     const lpTokenSupply = await contractPhnxStake?.methods
       ?.lpTokenSupply()
       ?.call();
+
+      
 
     const apr =
       (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
@@ -234,7 +241,7 @@ function Farm() {
 
     const getReserves = await contractUniswapPair.methods.getReserves().call();
 
-    let _balance = new BigNumber(Web3.utils.toWei(amount.toString()));
+    let _balance = new BigNumber(Web3.utils.toWei(amount.toFixed(4).toString()));
     const _reserve0 = new BigNumber(getReserves._reserve0);
     const _reserve1 = new BigNumber(getReserves._reserve1);
     const _ratio = _reserve0.dividedBy(_reserve1);
@@ -244,48 +251,57 @@ function Farm() {
     const conv = new BigNumber("1e+18");
 
     _token0 = _token0.dividedBy(conv).toString(); //phnx
-    // _token1 = _token1.dividedBy(conv);
 
     let reward = apr * amount - rewardDebt;
+    
     let netProfit = reward - _token0;
     let roi = (netProfit / _token0) * 100;
 
-    // let usd = PhoenixDAO_market.usd ?PhoenixDAO_market.usd:0 ;
-    let usd = PhoenixDAO_market ? PhoenixDAO_market.usd : 0;
+    // let usd = PhoenixDAO_market ? PhoenixDAO_market.usd : 0;
+    
+    let usd = PhoenixDAO_market.usd;
+
+    console.log(usd,'usd')
+    console.log(roi,'roi')
 
     let dollarValue = roi * usd;
 
     console.log("dollarValue", dollarValue);
 
-    // console.log(
-    //   "apr",
-    //   apr,
-    //   "amount",
-    //   amount,
-    //   "rewardDebt",
-    //   rewardDebt,
-    //   "netProfit",
-    //   netProfit,
-    //   "_token0",
-    //   _token0,
-    //   "roi",
-    //   roi
-    // );
-    setRoi(parseInt(dollarValue));
-    if (f) {
-      setAPR(parseInt(apr));
+    if(f){
+      setRoi(parseInt(dollarValue));
     }
+    console.log(apr,'123')
+    setAPR(parseInt(apr));
+    
   };
 
   useEffect(() => {
     if (
       poolPosition &&
       contractPhnxStake?.methods &&
-      contractUniswapPair?.methods
+      contractUniswapPair?.methods &&
+      PhoenixDAO_market
     ) {
-      calculateAPR(poolPosition.lp, true);
+      calculateAPR(poolPosition.lp, false);
     }
-  }, [poolPosition, contractPhnxStake, contractUniswapPair]);
+
+    console.log(userInfo.amount,'111');
+  }, [poolPosition, contractPhnxStake, contractUniswapPair, PhoenixDAO_market]);
+
+
+  useEffect(()=>{
+    if(contractUniswapPair){
+      GetTokenSupply();
+    }
+  },[contractUniswapPair])
+
+  const GetTokenSupply = async () =>{
+    let ts= await contractUniswapPair.methods.totalSupply().call();
+    setTokenSupply(Web3.utils.fromWei(ts))
+    console.log(TokenSupply,'aaa')
+  }
+
 
   // useEffect(() => {
 
@@ -299,8 +315,8 @@ function Farm() {
 
   return (
     <div>
-      <div className="farm-div">
-        {!web3context.active || poolPosition == null ? (
+      <div className="farm-div" style={{boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)"}}>
+        {!web3context.active || poolPosition == null || userInfo == null ? (
           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
@@ -310,7 +326,7 @@ function Farm() {
             loading={loading}
             APR={APR}
           />
-        ) : poolPosition.lp == 0 ? (
+        ) : userInfo.amount == 0 ? (
           <FarmStake
             stakeModalOpen={handleStackOpen}
             allowance={allowance}
@@ -330,6 +346,8 @@ function Farm() {
             reserveUSD={reserveUSD}
             loading={loading}
             APR={APR}
+            UsdRate={PhoenixDAO_market ? PhoenixDAO_market.usd : 0}
+            TokenSupply={TokenSupply}
           />
         )}
       </div>

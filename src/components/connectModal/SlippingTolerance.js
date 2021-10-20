@@ -14,7 +14,7 @@ const SlippingTolerance = ({status,handleClose,setSlippageValue}) => {
 
   const handlePercentageInput = (e) => {
     if (e.target.value === "" || isNaN(e.target.value)) {
-      setSelectedPercentage(parseInt(1));
+      setSelectedPercentage('');
       setSlippageValue(parseInt(1));
     } else if (e.target.value > 50) {
       setSelectedPercentage(50);
@@ -53,6 +53,7 @@ const SlippingTolerance = ({status,handleClose,setSlippageValue}) => {
           }}
           onClick={() => {
             setSelectedPercentage(5);
+            setSlippageValue(5);
           }}
         >
           5%
@@ -65,6 +66,7 @@ const SlippingTolerance = ({status,handleClose,setSlippageValue}) => {
           }}
           onClick={() => {
             setSelectedPercentage(10);
+            setSlippageValue(10);
           }}
         >
           10%
@@ -77,6 +79,7 @@ const SlippingTolerance = ({status,handleClose,setSlippageValue}) => {
           }}
           onClick={() => {
             setSelectedPercentage(20);
+            setSlippageValue(20);
           }}
         >
           20%

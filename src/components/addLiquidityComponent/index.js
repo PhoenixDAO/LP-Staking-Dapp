@@ -32,6 +32,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [ethValue, setEthValue] = useState("");
   const [phnxValue, setPhnxValue] = useState("");
 
+
+  const [lowValue, setLowValue] = useState(false);
+
+
   const [slippageModal, setSlippageModal] = useState(false);
   const [slippageValue, setSlippageValue] = useState(1);
 
@@ -44,7 +48,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   const phnxPerEth = useSelector((state) => state.localReducer.phnxPerEth);
-  const allowance = useSelector((state) => state.contractReducer.allowancePhnxDao);
+  const allowancePhnxDao = useSelector((state) => state.contractReducer.allowancePhnxDao);
 
   const ethPerPhnx = useSelector((state) => state.localReducer.ethPerPhnx);
   const reserve0 = useSelector((state) => state.localReducer.reserve0);
@@ -105,11 +109,18 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
   // This will be replaced with allowance state
-  const handleCheckApprovalPhnxDaoAction = async () => {
-    dispatch(CheckApprovalPhnxDaoAction(web3context, contractPhnxDao));
+  const handleCheckApprovalPhnxDaoAction = async (
+    setApproveStatus
+    ) => {
+      console.log(setApproveStatus,'aaa2');
+    dispatch(CheckApprovalPhnxDaoAction(web3context, contractPhnxDao
+      ,setApproveStatus
+      ));
   };
 
-  const handleGiveApprovalPhnxDao = async () => {
+  const handleGiveApprovalPhnxDao = async (
+    setApproveStatus
+    ) => {
     try {
       await SERVICE.giveApprovalPhnxDao(
         web3context,
@@ -117,7 +128,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         handleGetPoolPosition,
         handleGetEthBalance,
         handleGetPhnxBalance,
-        handleCheckApprovalPhnxDaoAction
+        handleCheckApprovalPhnxDaoAction,
+        setApproveStatus
       );
     } catch (e) {
       console.error("Error handleGiveApprovalPhnxDao", e);
@@ -168,6 +180,15 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       setPoolShare(((v / total) * 100).toFixed(3));
       setPhnxValue(v);
       setEthValue(parseFloat(ethPerPhnx) * v || num);
+
+      if(v>0 && v<0.001){
+        setLowValue(true);
+        return
+      }else{
+        setLowValue(false);
+        return
+      }
+
     } else if (tokenName === "eth") {
       let v = parseFloat(val);
       let total = parseFloat(phnxPerEth) * v;
@@ -177,6 +198,16 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       setPoolShare((((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(3));
       setEthValue(v);
       setPhnxValue(parseFloat(phnxPerEth) * v || num);
+
+      if((parseFloat(phnxPerEth) * v || num)>0 && (parseFloat(phnxPerEth) * v || num)<0.001){
+        setLowValue(true);
+        return
+      }else{
+        setLowValue(false);
+        return
+      }
+      
+
     } else {
       return;
     }
@@ -202,6 +233,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     <Box sx={styles.containerStyle} className="modal-scroll">
       <div className="addLiquidityBox">
       <div style={{marginBottom:"10px"}}>
+
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>
           <p className="subheading-modal" style={{ display: "flex", marginBottom:"10px" }}>
@@ -380,7 +412,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           >
             {"Connect Wallet"}
           </Button>
-        ) : allowance != 0 ? (
+        ) : allowancePhnxDao != 0 ? (
           <Button
             variant="contained"
             size="small"
@@ -391,6 +423,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                 loading ||
                 phnxValue > balancePhnx ||
                 ethValue > balanceEth ||
+                lowValue ||
                 phnxValue === 0 ||
                 ethValue === 0 ||
                 phnxValue == "" ||
@@ -402,6 +435,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               loading ||
               phnxValue > balancePhnx ||
               ethValue > balanceEth ||
+              lowValue ||
               phnxValue === 0 ||
               ethValue === 0 ||
               phnxValue == "" ||
@@ -416,6 +450,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               ? "Enter an amount"
               : phnxValue > balancePhnx || ethValue > balanceEth
               ? "Insufficient Balance"
+              : lowValue
+              ? "Low Value"
               : "Add Liquidity"}
           </Button>
         ) : (
@@ -425,21 +461,24 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             fullWidth={true}
             style={{
               ...styles.btnAddLiquidity,
-              backgroundColor: loading || approveStatus ? "#acacac" : "#413AE2",
+              backgroundColor: loading || approveStatus != 0 ? "#acacac" : "#413AE2",
               textTransform: "capitalize",
             }}
             disabled={loading}
-            onClick={async()=>{
+            onClick={
+              // handleGiveApprovalPhnxDao
+              async()=>{
+              if(approveStatus)return;
               setApproveStatus(true);
-              await handleGiveApprovalPhnxDao();
-              setApproveStatus(false);
+              await handleGiveApprovalPhnxDao(setApproveStatus);
+              // setApproveStatus(false);
               }
             }
           >
 
             {
 
-              approveStatus==false ?
+              approveStatus == 0 ?
               'Approve PHNX' :
               'Approving PHNX...'
 
@@ -462,6 +501,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         poolShare={poolShare}
         phnxPerEth={phnxPerEth}
         ethPerPhnx={ethPerPhnx}
+        slippageValue={slippageValue}
       ></ConnectModal>
       <SlippingTolerance
         status={slippageModal}
