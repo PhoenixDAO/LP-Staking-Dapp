@@ -45,8 +45,11 @@ function FarmHarvest({
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
         <div className="farm-details-txt-right">
-          {web3context.active ? APR : "--- "}% &nbsp;
+
+<span style={{color:"#73727D"}}>
+          {web3context.active ? APR : "--- "}% </span> &nbsp;
           <img src={CalculatorLogo}></img>
+
         </div>
       </div>
       <div className="farm-details-div">
@@ -58,11 +61,13 @@ function FarmHarvest({
           <span style={{ color: "#413AE2" }}>PHNX</span> EARNED
         </div>
         <div className="farm-details-txt-right">
+
           <span style={{ fontWeight: "bolder", color: "#4E4E55" }}>
             {pendingPHX["0"] &&
               // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
               parseFloat(Web3.utils.fromWei(pendingPHX["0"])).toFixed(6)}
           </span>
+
         </div>
       </div>
       <div className="farm-details-div" style={{ marginTop: "1px" }}>
@@ -123,10 +128,9 @@ function FarmHarvest({
       </div>
       <button
         className="farm-btn-stake"
-        style={{
-          marginTop: "20px",
-          backgroundColor: loading ? "#acacac" : "#413ae2",
-        }}
+
+        style={{ marginTop: "20px" , backgroundColor: loading ? '#acacac' : '#413ae2', fontSize:"18px" }}
+
         onClick={harvestPHNX}
         disabled={loading}
       >
