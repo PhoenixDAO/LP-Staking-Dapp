@@ -4,13 +4,8 @@ import Logo from "../../assets/Logo.png";
 import CloseIcon from "@mui/icons-material/Close";
 import PhnxLogo from "../../assets/PhnxLogo1.png";
 import EthLogo from "../../assets/ETH1.png";
-
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useSelector, useDispatch } from "react-redux";
-import Web3 from "web3";
 
 const ConfirmModal = ({
   transactionConfirmModal,
@@ -19,7 +14,7 @@ const ConfirmModal = ({
   eth,
   phnxethburn,
   handleRemoveLiquidity,
-  slippageValue
+  slippageValue,
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -38,7 +33,7 @@ const ConfirmModal = ({
     if (eth == 0 || phnx == 0) {
       return;
     }
-    console.log('asdasddsad')
+    console.log("asdasddsad");
     handleRemoveLiquidity();
   };
 
@@ -124,8 +119,8 @@ const ConfirmModal = ({
             </div>
 
             <div className="add-liq-phnx-eth-det-div">
-              Output is estimated. if the price changes by more than {slippageValue}% your
-              transaction will revert
+              Output is estimated. if the price changes by more than{" "}
+              {slippageValue}% your transaction will revert
             </div>
             <div className="confirmModalAddPrice">
               <div className="displayFlex">

@@ -4,18 +4,12 @@ import Logo from "../../assets/Logo.png";
 import metamask from "../../assets/metamask.svg";
 import transactionSumittedCheck from "../../assets/transactionSumittedCheck.svg";
 import CloseIcon from "@mui/icons-material/Close";
-import PhnxLogo from "../../assets/PhnxLogo1.png";
-import EthLogo from "../../assets/ETH1.png";
 
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY } from "../../contract/constant";
-import { TX_LINK_MAINNET , TX_LINK_RINKEBY } from "../../contract/constant";
+import { TX_LINK_MAINNET, TX_LINK_RINKEBY } from "../../contract/constant";
 
-
-const TransactionSubmitted = ({ transactionSubmittedModal , hash}) => {
+const TransactionSubmitted = ({ transactionSubmittedModal, hash }) => {
   const [selectedPercentage, setSelectedPercentage] = useState(0);
   const [allowance, setAllowance] = useState(0);
 
@@ -97,18 +91,18 @@ const TransactionSubmitted = ({ transactionSubmittedModal , hash}) => {
                   className="transactionSubmittedCheckIcon"
                 ></img>
               </div>
-              <div className="transactionSubmitted" >Transaction Submitted</div>
+              <div className="transactionSubmitted">Transaction Submitted</div>
 
               <div className="displayFlex bscScan">
                 <div className="cursorPointer">
                   <a
-                    href={TX_LINK_RINKEBY+hash}
+                    href={TX_LINK_RINKEBY + hash}
                     rel="external nofollow noopener"
                     target="_blank"
-                    style={{textDecoration :'none',color:'#413AE2'}}
+                    style={{ textDecoration: "none", color: "#413AE2" }}
                   >
                     View on Etherscan
-                  </a> 
+                  </a>
                 </div>
                 <div className="openTabPadding  cursorPointer">
                   <svg
