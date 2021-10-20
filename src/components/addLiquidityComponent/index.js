@@ -165,10 +165,16 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       setPoolShare(0);
     }
   };
-
+  var reg = new RegExp("^[0-9]+$");
+ 
   const OnChangeHandler = (val, tokenName) => {
     if (tokenName === "phnx") {
       let v = parseFloat(val);
+      let test = reg.test(val);
+      if (!test && val.length != 0) return;
+      if (val < -1) {
+        return;
+      }
       let total = parseFloat(reserve1) + v;
       console.log("res" + reserve1);
       setPoolShare(((v / total) * 100).toFixed(3));
@@ -224,11 +230,13 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     settransactionConfirmModal(false);
   };
   return (
-    <Box sx={styles.containerStyle} className="modal-scroll" style={{boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)"}}>
-      <div>
+    <Box sx={styles.containerStyle} className="modal-scroll">
+      <div className="addLiquidityBox">
+      <div style={{marginBottom:"10px"}}>
+
         <div style={styles.divTopHeading}>
           <p className="heading-modal">Add Liquidity</p>
-          <p className="subheading-modal" style={{ display: "flex" }}>
+          <p className="subheading-modal" style={{ display: "flex", marginBottom:"10px" }}>
             Add liquidity to the ETH/PHNX pool <br /> and receive LP tokens
             <img
               onClick={() => setSlippageModal(!slippageModal)}
@@ -241,7 +249,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               }}
             ></img>
           </p>
-          <br></br>
 
           {closeBtn ? (
             <button onClick={handleClose} className="icon-btn">
@@ -254,15 +261,13 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         style={{
           height: 1,
           background: "rgba(0, 0, 0, 0.15)",
-          marginLeft: 10,
-          marginRight: 10,
-          marginBottom: 9,
+          marginBottom:"10px"
         }}
       />
-      <div className="dialog-style">
+      <div className="dialog-style" >
         <div style={styles.containerTip}>
           <Typography style={styles.txtTipParagraph}>
-            Tip: By adding liquidity, you'll earn 0.25% of all trades on this
+            <b>Tip:</b> By adding liquidity, you'll earn 0.25% of all trades on this
             pair proportional to your share of the pool. Fees are added to the
             pool, accrue in real time and can be claimed by withdrawing your
             liquidity.
@@ -341,7 +346,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available ETH:</Typography>
                 <Typography style={styles.txtAmount}>
-                  {balanceEth} ETH
+                  {balanceEth ? `${balanceEth}` : "0.0"} ETH
                 </Typography>
               </div>
               <div className="wrapper-input">
@@ -511,6 +516,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         transactionSubmittedModal={transactionSubmittedModal}
         hash={tranHash}
       ></TransactionSubmitted>
+      </div>
     </Box>
   );
 };
@@ -527,16 +533,15 @@ const styles = {
     transform: "translate(-50%, -50%)",
     width: 600,
     bgcolor: "#fff",
-    padding: 20,
+    padding: 0,
     
     // border: "2px solid #000",
     borderRadius: 4,
     boxShadow: 0,
-    p: 4,
     ["@media (max-width: 650px)"]: {
-      width: "98%",
-      padding: 2,
-      overflowY: "auto",
+      width:" 98%",
+      padding: "0px",
+      overflowY: "hidden",
     },
   },
   downArrow: {
@@ -624,6 +629,14 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
+  },
+  modalBox:{
+    padding: 40,
+    "@media (max-width: 650px)": {
+      overflow: "auto",
+      height: "85vh",
+      padding: "16px",
+    },
   },
   txtAmount: {
     fontSize: 18,

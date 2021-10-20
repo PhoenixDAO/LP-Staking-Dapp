@@ -51,14 +51,14 @@ export default function DashboardLayout() {
       dispatch(UniswapContractPairInitAction(web3context));
       dispatch(UniswapContractRouterInitAction(web3context));
     }
-  }, [web3context.active, web3context.account]);
+  }, [web3context.active, web3context.account, web3context]);
 
   useEffect(() => {
     if ((contractPhnxDao, web3context.active, web3context.account)) {
       dispatch(GetEthBalanceAction(web3context));
       dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
     }
-  }, [contractPhnxDao, web3context.active, web3context.account, poolPosition]);
+  }, [contractPhnxDao, web3context.active, web3context.account, web3context]);
 
   useEffect(() => {
     if (contractUniswapPair && web3context.account) {
@@ -85,11 +85,7 @@ export default function DashboardLayout() {
         handleDrawerOpen={handleDrawerOpen}
         className="sideBarFullScreen"
       />
-      <Box
-        // component="main"
-        // sx={{ flexGrow: 1, p: 3, background: "#E5E5E5", height: "100vh" }}
-        className="main-div"
-      >
+      <Box className="main-div">
         <DrawerHeader />
         <Outlet />
       </Box>

@@ -34,9 +34,16 @@ import { toast } from "react-toastify";
 import Notify from "./Notify";
 
 const style = {
+  modalBox:{
+overflowY:"auto",
+borderRadius:"20px",
+padding: "40px",
+},
+modal:{
   position: "absolute",
   maxHeight: "90%",
-  overflowY: "auto",
+  padding: "0px",
+  overflowY: "hidden",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
@@ -44,16 +51,14 @@ const style = {
   bgcolor: "background.paper",
   // border: "2px solid #000",
   boxShadow: 24,
-  p: 5,
   display: "flex",
   flexDirection: "column",
   // alignItems: "center",
   borderRadius: 5,
   ["@media (max-width: 650px)"]: {
     width: "90%",
-    padding: 2,
   },
-};
+}};
 
 const Item = styled("button")(({ theme }) => ({
   ...theme.typography.body2,
@@ -241,17 +246,6 @@ export default function ConnectWallet({
     getTotalLiquidity();
   }, []);
 
-  // useEffect(()=>{
-  //   if(poolPosition1==null) return;
-  //   setEthBalance(poolPosition1.eth);
-  //   setPhnxBalance(poolPosition1.phnx);
-  // },[poolPosition1])
-  // useEffect(() => {
-  //   if (contractUniswapPair && web3context.account) {
-  //     dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
-  //   }
-  // }, [balanceEth, balancePhnx, contractUniswapPair, web3context.account]);
-
   return (
     <div style={{ width: "fit-content" }}>
       {active && account && justModal != true ? (
@@ -351,7 +345,8 @@ export default function ConnectWallet({
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} className="modal-scroll">
+        <Box sx={style.modal} className="modal-scroll">
+          <div style={style.modalBox}>
           <button onClick={handleClose} className="icon-btn">
             <CloseIcon />
           </button>
@@ -397,6 +392,7 @@ export default function ConnectWallet({
             </Item>
             <Divider style={{ marginTop: "5px" }} />
             <Item
+            style={{marginTop:"5px"}}
               onClick={() => {
                 !active &&
                   !(connector instanceof WalletConnectConnector) &&
@@ -423,6 +419,7 @@ export default function ConnectWallet({
             </Item>
             <Divider style={{ marginTop: "5px" }} />
             <Item
+              style={{marginTop:"5px"}}
               onClick={() => {
                 !active &&
                   !(connector instanceof WalletLinkConnector) &&
@@ -449,7 +446,7 @@ export default function ConnectWallet({
             </Item>
             <Divider style={{ marginTop: "5px" }} />
 
-            <Item>
+            <Item style={{marginTop:"5px"}}>
               <img src={ledgerIcon} alt="logo" className="walletImg" />
               <Typography
                 id="modal-modal-title"
@@ -499,6 +496,7 @@ export default function ConnectWallet({
               Terms of service{" "}
             </Link>
           </Typography>
+          </div>
         </Box>
       </Modal>
       <WalletSettings

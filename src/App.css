@@ -291,3 +291,68 @@ input:hover{
 input[type=number] {
   -moz-appearance:textfield;
 }
+
+/* ::-webkit-scrollbar {
+  width: 10px;
+  background: rgba(56, 16, 255, 0.55);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  background: rgba(56, 16, 255, 0.55);
+
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(56, 16, 255, 0.55);
+  border-radius: 40px;
+  border: solid 5px white;
+} */
+
+
+::-webkit-scrollbar {
+	width: 8px;
+  
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+
+}
+
+::-webkit-scrollbar-track {
+	border-radius: 10px;
+  background: #fafafa;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+	background: #9391ff;
+	border-radius: 8px;
+}
+
+html {
+  
+  overflow-y: scroll;
+  scrollbar-color: rgba(56, 16, 255, 0.55) #fff;
+  scrollbar-width: thin;
+  border-radius: 40px;
+
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.addLiquidityBox{
+  overflow: hidden;
+  padding: 40px;
+  }
+  
+  @media (max-width: 650px) {
+      .addLiquidityBox{
+          overflow: auto;
+          height: 85vh;
+          padding: 16px;
+          }
+   }

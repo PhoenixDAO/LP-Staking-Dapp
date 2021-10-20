@@ -213,12 +213,16 @@ export default function WalletSettings({
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem onClick={handleOpen} style={{margin:'7px 5px',fontSize:'18px'}}>
-          <AccountBalanceWalletIcon sx={{ mr: 1 }}/>
+          <AccountBalanceWalletIcon sx={{ mr: 1, color:"#73727D" }}/>
+          <span style={{color:"#4E4E55"}}>
           Wallet
+          </span>
         </MenuItem>
         <MenuItem style={{margin:'7px 5px',fontSize:'18px'}}>
-          <CompareArrowsIcon sx={{ mr: 1 }} />
+          <CompareArrowsIcon sx={{ mr: 1 , color:"#73727D"}} />
+          <span style={{color:"#4E4E55"}}>
           Transactions
+          </span>
         </MenuItem>
         <MenuItem sx={{ color: "#F43C3C" }} onClick={deactivateWallet} style={{margin:'7px 5px',fontSize:'18px'}}>
           <LogoutIcon sx={{ mr: 1 }} />
