@@ -12,15 +12,14 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
-const TransactionProgress = ({transactionProcessModal}) => {
-
+const TransactionProgress = ({ transactionProcessModal }) => {
   const [open, setOpen] = useState(transactionProcessModal);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(()=>{
-    setOpen(transactionProcessModal)
-  },[transactionProcessModal]);
+  useEffect(() => {
+    setOpen(transactionProcessModal);
+  }, [transactionProcessModal]);
 
   const style = {
     position: "absolute",
@@ -51,25 +50,22 @@ const TransactionProgress = ({transactionProcessModal}) => {
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
-                <CloseIcon onClick={handleClose} />
+                  <CloseIcon onClick={handleClose} />
                 </span>
               </div>
             </div>
             <div className="transactionProgressMarginBottom">
               <div className="transactionSubmittedCheck">
-                <img
-                  src={fire}
-                  className="transactionFireCheckIcon"
-                ></img>
+                <img src={fire} className="transactionFireCheckIcon"></img>
               </div>
-              <div className="transactionSubmitted">Transaction in progress
+              <div className="transactionSubmitted">
+                Transaction in progress
               </div>
 
               <div className=" transactionProgress">
                 <div>Confirm this transaction on your wallet</div>
               </div>
             </div>
-
           </div>
         </Modal>
       </div>
