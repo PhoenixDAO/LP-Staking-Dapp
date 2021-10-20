@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import { Box, CssBaseline } from "@mui/material";
+import { Box, CssBaseline, Grid } from "@mui/material";
 
 import DashboardNavbar from "./DashboardNavbar";
 import DashboardSidebar from "./DashboardSidebar";

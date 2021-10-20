@@ -37,7 +37,11 @@ const DashboardNavbar = ({ open, handleDrawerOpen }) => {
     <AppBar
       position="fixed"
       open={open}
-      style={{ boxShadow: "0px 0px 7px 2px rgb(0, 0, 0, 0.1)" }}
+      className="hello"
+      style={{ boxShadow: "10px 0px 7px 2px rgb(0, 0, 0, 0.1)" }}
+      sx={{
+        width:open?"calc(100% - 150px) !important":"100%",
+      }}
     >
       <Toolbar>
         <IconButton
