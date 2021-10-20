@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { fixedWithoutRounding } from "../../../utils/formatters";
 import { useWeb3React } from "@web3-react/core";
+import { Button } from "@mui/material";
 
 
 
@@ -129,7 +130,7 @@ function FarmHarvest({
         </button>
       </div>
 
-      <button
+      {/* <button
         className="farm-btn-stake"
         style={{ marginTop: "20px" , backgroundColor: loading ? '#acacac' : '#413ae2', fontSize:"18px" }}
         onClick={harvestPHNX}
@@ -137,7 +138,42 @@ function FarmHarvest({
       >
         {loading && "Harvesting..."}
         {!loading && "Harvest"}
-      </button>
+      </button> */}
+      <Button
+            disabled={loading}
+              sx={{
+                backgroundColor: "#FFFFFF",
+                border:"1px solid #413AE2",
+                color:"#413AE2",
+                fontWeight:"bold",
+                fontSize:"16px",
+                padding:"8px",
+                marginTop:"10px",
+                textTransform:"inherit",
+                marginBottom:"30px",
+                borderRadius:"9px",
+                backgroundColor: "#413AE2",
+                borderColor: "#413AE2",
+                color:"#FFFFFF",
+                "&:hover": {
+                  backgroundColor: "#413AE2",
+                border:"1px solid #413AE2",
+                color:"#FFFFFF",
+                  boxShadow: "none",
+                },
+                "&:disabled":{
+                  boxShadow: "none",
+                  backgroundColor: "#AAAAAA",
+                  borderColor: "#AAAAAA",
+                  color:"#FFFFFF",
+                },
+              }}
+              className="version-btn cursorPointer"
+              onClick={harvestPHNX}
+            >
+              {loading && "Harvesting..."}
+        {!loading && "Harvest"}
+            </Button>
 
       <br></br> <br></br>
 

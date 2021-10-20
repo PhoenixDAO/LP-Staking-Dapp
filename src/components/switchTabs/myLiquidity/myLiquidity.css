@@ -64,7 +64,8 @@
 .pooled-item-txt {
   text-transform: uppercase;
   font-size: medium;
-  font-weight: 500;
+  font-weight: 800;
+  color:#4E4E55;
 }
 
 .remove-btn {
@@ -72,7 +73,7 @@
   background-color: #413ae2;
   text-align: center;
   font-size: medium;
-  font-weight: bold;
+  font-weight: 500;
   color: #fff;
   border-radius: 9px;
   border: 0;
