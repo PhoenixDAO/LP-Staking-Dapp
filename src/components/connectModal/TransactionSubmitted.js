@@ -9,8 +9,12 @@ import Modal from "@mui/material/Modal";
 import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY } from "../../contract/constant";
 import { TX_LINK_MAINNET, TX_LINK_RINKEBY } from "../../contract/constant";
 
-const TransactionSubmitted = ({ transactionSubmittedModal, hash , handleMainClose, removeLiquidity }) => {
-
+const TransactionSubmitted = ({
+  transactionSubmittedModal,
+  hash,
+  handleMainClose,
+  removeLiquidity,
+}) => {
   const [selectedPercentage, setSelectedPercentage] = useState(0);
   const [allowance, setAllowance] = useState(0);
 
@@ -94,7 +98,15 @@ const TransactionSubmitted = ({ transactionSubmittedModal, hash , handleMainClos
               </div>
               <div className="transactionSubmitted">Transaction Submitted</div>
 
-              <div className="displayFlex bscScan">
+              <div
+                className="displayFlex bscScan"
+                style={{
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  textAlign: "center",
+                  width: "fit-content",
+                }}
+              >
                 <div className="cursorPointer">
                   <a
                     href={TX_LINK_RINKEBY + hash}
@@ -121,18 +133,19 @@ const TransactionSubmitted = ({ transactionSubmittedModal, hash , handleMainClos
                 </div>
               </div>
             </div>
-      {!removeLiquidity&&
-            <div
-              className="transaction-liq-phnx-eth-det-div cursorPointer"
-              onClick={registerToken}
-            >
-              <div className="displayFlex metamaskIconCenter">
-                <div>Add PHNX-LP to Metamask </div>
-                <div>
-                  <img src={metamask} className="metamaskIcon"></img>
+            {!removeLiquidity && (
+              <div
+                className="transaction-liq-phnx-eth-det-div cursorPointer"
+                onClick={registerToken}
+              >
+                <div className="displayFlex metamaskIconCenter">
+                  <div>Add PHNX-LP to Metamask </div>
+                  <div>
+                    <img src={metamask} className="metamaskIcon"></img>
+                  </div>
                 </div>
               </div>
-            </div>}
+            )}
 
             {/* <div className="transaction-liq-phnx-eth-con-div">
         <div className="transaction-liq-phnx-eth-con">1 PHNX = 0.2335 ETH</div>
@@ -141,13 +154,12 @@ const TransactionSubmitted = ({ transactionSubmittedModal, hash , handleMainClos
             <div className="transactionCloseButton">
               <button
                 className="transaction-liq-btn cursorPointer"
-                onClick={()=>{
+                onClick={() => {
                   handleMainClose(false);
-                  if(handleClose){
+                  if (handleClose) {
                     handleClose();
                   }
-                }
-              }
+                }}
               >
                 Close
               </button>

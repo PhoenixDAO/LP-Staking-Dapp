@@ -15,7 +15,7 @@ const ConfirmModal = ({
   phnxethburn,
   handleRemoveLiquidity,
   slippageValue,
-  handleMainClose
+  handleMainClose,
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -23,8 +23,10 @@ const ConfirmModal = ({
   // const[phnxethburn,setphnxethburn] = useState(0);
 
   const phnxpereth = useSelector((state) => state.localReducer.phnxPerEth);
-
   const ethperphnx = useSelector((state) => state.localReducer.ethPerPhnx);
+  // const slippageTolerance = useSelector(
+  //   (state) => state.localReducer.slippageTolerance
+  // );
 
   useEffect(() => {
     setOpen(transactionConfirmModal);

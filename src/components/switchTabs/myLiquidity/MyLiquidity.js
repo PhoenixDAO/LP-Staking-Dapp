@@ -32,6 +32,9 @@ function MyLiquidity({ ChangeTab }) {
   const contractUniswapPair = useSelector(
     (state) => state.contractReducer.contractUniswapPair
   );
+  const slippageRemoveLiquidity = useSelector(
+    (state) => state.localReducer.slippageRemoveLiquidity
+  );
 
   const [allowance, setAllowance] = useState(0);
 
@@ -280,9 +283,19 @@ function MyLiquidity({ ChangeTab }) {
           <div className="pooled-item">
             <div className="pooled-item-txt">pooled phnx</div>
 
-            <div style={{ display: "flex", marginLeft: "auto", alignItems:"center" }}>
+            <div
+              style={{
+                display: "flex",
+                marginLeft: "auto",
+                alignItems: "center",
+              }}
+            >
               <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
-              <div className="pooled-item-txt"><span style={{fontSize:"20px"}}>{poolPosition.phnx}</span></div>
+
+              <div className="pooled-item-txt">
+                <span style={{ fontSize: "18px" }}>{poolPosition.phnx}</span>
+              </div>
+
             </div>
           </div>
 
@@ -291,9 +304,19 @@ function MyLiquidity({ ChangeTab }) {
           <div className="pooled-item">
             <div className="pooled-item-txt">pooled eth</div>
 
-            <div style={{ display: "flex", marginLeft: "auto", alignItems:"center" }}>
+            <div
+              style={{
+                display: "flex",
+                marginLeft: "auto",
+                alignItems: "center",
+              }}
+            >
               <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
-              <div className="pooled-item-txt"><span style={{fontSize:"20px"}}>{poolPosition.eth}</span></div>
+
+              <div className="pooled-item-txt">
+                <span style={{ fontSize: "18px" }}>{poolPosition.eth}</span>
+              </div>
+
             </div>
           </div>
 
@@ -302,8 +325,19 @@ function MyLiquidity({ ChangeTab }) {
           <div className="pooled-item">
             <div className="pooled-item-txt">pool share</div>
 
-            <div style={{ display: "flex", marginLeft: "auto", alignItems:"center" }}>
-              <div className="pooled-item-txt"><span style={{fontSize:"20px"}}>{poolPosition.poolPerc}%</span></div>
+            <div
+              style={{
+                display: "flex",
+                marginLeft: "auto",
+                alignItems: "center",
+              }}
+            >
+              <div className="pooled-item-txt">
+                <span style={{ fontSize: "18px" }}>
+                  {poolPosition.poolPerc}%
+                </span>
+              </div>
+
             </div>
           </div>
 
@@ -334,7 +368,7 @@ function MyLiquidity({ ChangeTab }) {
           aria-describedby="modal-modal-description"
         >
           <RemoveLiquidityModal
-            slippageValue={slippageValue}
+            slippageValue={slippageRemoveLiquidity}
             allowance={allowance}
             giveApproval={handleGiveApprovalUniswapPair}
             handleClose={handleModalClose}
@@ -344,7 +378,8 @@ function MyLiquidity({ ChangeTab }) {
       <SlippingTolerance
         status={slippageModal}
         handleClose={setSlippageModal}
-        setSlippageValue={setSlippageValue}
+        slippageValue={slippageRemoveLiquidity}
+        slippageType="remove"
       />
     </div>
   );
