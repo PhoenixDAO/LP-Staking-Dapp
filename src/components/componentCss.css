@@ -1,0 +1,432 @@
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.main-div{
+  width: 100%;
+}
+
+/* .modal-scroll::-webkit-scrollbar ,  .makeStyles-hideScroll-7::-webkit-scrollbar {
+  width: 20px;
+}
+
+.modal-scroll::-webkit-scrollbar-track , .makeStyles-hideScroll-7::-webkit-scrollbar-track{
+  background-color: transparent;
+  height: 300px !important;
+  margin: 15px 0px;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb ,.makeStyles-hideScroll-7::-webkit-scrollbar-thumb {
+  background: rgba(56, 16, 255, 0.55);
+  border-radius: 40px;
+  border: solid 5px white;
+  margin-top: 10px;
+  margin-bottom: 10px;
+} */
+
+ 
+/* .modal-scroll, .makeStyles-hideScroll-7{
+  width: 20px;
+  
+  overflow-y: scroll;
+  scrollbar-color: rgba(56, 16, 255, 0.55) #fff;
+  scrollbar-width: thin;
+}
+
+.modal-scroll , .makeStyles-hideScroll-7{
+  width: 20px;
+  
+  overflow-y: scroll;
+  scrollbar-color: rgba(56, 16, 255, 0.55) #fff;
+  scrollbar-width: thin;
+}
+
+.modal-scroll , .makeStyles-hideScroll-7 {
+  width: 20px;
+  
+  overflow-y: scroll;
+  scrollbar-color: rgba(56, 16, 255, 0.55) #fff;
+  scrollbar-width: thin;
+  border-radius: 40px;
+
+  margin-top: 10px;
+  margin-bottom: 10px;
+} */
+
+.heading-modal {
+  color: #413ae2;
+  font-weight: 700;
+  font-size: 22px;
+  margin: 0;
+}
+
+.subheading-modal {
+  color: #5f5f5f;
+  font-size: 16px;
+  margin: 0;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+div.token-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(195, 183, 255, 0.17);
+  border: 1px solid #e2e1ff;
+  border-radius: 20px;
+  margin: 20px 0px;
+}
+
+div.wrapper-input {
+  display: "flex";
+  width: 160px;
+}
+div.add-div {
+  width: 45px;
+  height: 45px;
+  border-radius: 25px;
+  left: 0;
+  right: 0;
+  
+  /* display: flex; */
+  
+  background-color: #f5f3ff;
+  border: 3px solid #e2e1ff;
+  align-self: center;
+  font-size: 35px;
+  color: #413ae2;
+  font-weight: "200";
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  /* padding-bottom: 7px; */
+}
+.icon-btn {
+  right: 20px;
+  top: 30px;
+  position: absolute;
+  border: 0px;
+  border-radius: 20px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+div.container-pool-share {
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 10px 10px 15px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  border: 1px solid #e2e1ff;
+}
+div.pool-share {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+div.dialog-style {
+  padding: "30px 30px 30px 10px";
+  margin-top: 15px;
+}
+
+.css-196kcza{
+  overflow-y: auto !important;
+}
+
+.css-5apcje {
+  padding: 50px !important;
+}
+.css-19qh8xo-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 10px !important;
+}
+
+.css-189e9pj-MuiButtonBase-root-MuiButton-root{
+  margin-bottom: 0px !important;
+  margin-top: 10px  !important;
+}
+
+.css-ahj2mt-MuiTypography-root{
+  margin-bottom: 0px !important;
+}
+
+.makeStyles-gridContainer-15,.makeStyles-hideScroll-7{
+  margin-top: 0px !important;
+}
+
+.makeStyles-hideScroll-7{
+  padding-bottom: 100px !important;
+}
+
+.makeStyles-menuHeading-5,.makeStyles-menuSubHeading-6{
+  user-select: none;
+  cursor: pointer;
+}
+
+.css-h4y409-MuiList-root{
+  padding-top: 0 !important;
+}
+
+@media (max-width: 650px) {
+  .heading-modal {
+    font-weight: 700;
+    font-size: 20px;
+  }
+  .subheading-modal {
+    color: #5f5f5f;
+    font-size: 14px;
+  }
+  div.token-container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+    margin-top: 15px;
+  }
+  div.token-container > div{
+    width: 100%;
+  }
+  div.token-container > div > div > div{
+    width: 100%;
+  }
+  div.wrapper-input {
+    width: 100%;
+    /* background-color: yellow; */
+  }
+  div.add-div {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    font-size: 30px;
+    text-align: center;
+  }
+  .icon-btn {
+    right: 15px;
+    top: 20px;
+    width: 35px;
+    height: 35px;
+  }
+  div.container-pool-share {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  div.pool-share {
+    align-items: flex-start;
+  }
+  /* div.dialog-style {
+    padding: "0px 0px 0px 0px";
+  } */
+  .css-5apcje {
+    padding: 10px !important;
+    padding-top: 25px !important;
+    padding-left: 18px !important;
+  }
+  .css-19qh8xo-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 8px !important;
+  }
+  
+  
+
+}
+
+
+/* .makeStyles-hideScroll-7::-webkit-scrollbar{
+    display: contents !important;
+} */
+
+div.liq-modal-res{
+
+  width: 600px;
+  position:relative;
+  height: 710px;
+  padding: 0 !important;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+
+
+
+div.liq-modal-res > div > .css-196kcza{
+
+  top: 0 !important;
+  left: 0 !important;
+
+  right: auto !important;
+  transform: none !important;
+  
+  
+}
+
+
+@media (max-width: 685px) {
+
+  div.liq-modal-res{
+    width: 90%;
+  }  
+
+  div.liq-modal-res > div > .css-196kcza{
+
+    width: 100%;
+    height: fit-content;
+
+  }
+
+}
+
+.balance-btn{
+  color: #000 !important;
+}
+
+.balance-btn:hover{
+  color: #fff !important;
+}
+
+
+@media(max-width: 900px){
+  .balance-btn{
+    display: none;
+  }
+}
+
+
+.connectWalletMsg{
+  margin-bottom: 18px !important;
+}
+
+.walletImg{
+  max-width: 38px !important;
+}
+
+@media(max-width: 340px){
+  .connect-wallet-btn{
+    font-size: 8px !important;
+    padding: 3px !important;
+    max-width: 90px;
+  }
+
+
+  .connectWalletModalText{
+    font-size: 15px !important;
+  }
+
+  .walletImg{
+    max-width: 25px !important;
+  }
+
+  .connectWalletMsg{
+    font-size: 15px !important;
+    margin-bottom: 18px !important;
+  }
+  
+  .comingSoon{
+    font-size: 10px !important;
+    padding: 5px !important;
+  }
+ 
+  img.img-hands{
+    margin-top: 60px !important;
+  }
+  
+
+}
+
+@media (max-width : 400px) {
+  img.img-hands{
+    margin-top: 40px !important;
+  }
+  .walletImg{
+    max-width: 25px !important;
+  }
+}
+
+@media (max-width : 760px) {
+  img.img-hands{
+    margin-top: 30px !important;
+  }
+}
+
+.css-bshv44-MuiButtonBase-root-MuiListItem-root{
+  border-left: solid 5px #fff !important;
+  /* background-color: none !important; */
+  /* background: linear-gradient(-270.37deg, rgba(65, 58, 226, 0.3) -144.64%, rgba(65, 58, 226, 0) 99.7%); */
+
+}
+
+.css-bshv44-MuiButtonBase-root-MuiListItem-root:hover{
+  border-left: solid 5px #413AE2 !important;
+  /* background-color: none !important; */
+  background: linear-gradient(-270.37deg, rgba(65, 58, 226, 0.3) -144.64%, rgba(65, 58, 226, 0) 99.7%);
+
+}
+
+.css-bshv44-MuiButtonBase-root-MuiListItem-root :hover{
+  filter: brightness(0) saturate(100%) invert(16%) sepia(100%) saturate(3774%) hue-rotate(244deg) brightness(91%) contrast(93%);
+}
+
+/* .css-i4bv87-MuiSvgIcon-root:hover{
+  filter: brightness(0) saturate(100%) invert(16%) sepia(100%) saturate(3774%) hue-rotate(244deg) brightness(91%) contrast(93%);} */
+
+
+
+  .current-tab{
+    filter: brightness(0) saturate(100%) invert(16%) sepia(100%) saturate(3774%) hue-rotate(244deg) brightness(91%) contrast(93%);
+    border-left: solid 5px #413AE2 !important;
+    background: linear-gradient(-270.37deg, rgba(65, 58, 226, 0.3) -144.64%, rgba(65, 58, 226, 0) 99.7%);
+
+  }
+  .no-current-tab{
+    border-left: solid 5px #fff !important;
+  }
+
+
+  .connect-wallet-btn{
+    font-size: 16px;
+    font-weight: 500;
+    padding: 9px 20px;
+    background-color: #fff;
+    color: #413AE2;
+    border: solid 1px #413ae2;
+    border-radius: 5px;
+    
+  }
+
+  .connect-wallet-btn-reverse{
+    background-color: #413AE2;
+    color: #fff;
+    font-weight: 500;
+    padding-inline:30px;
+  }
+
+  .connect-wallet-btn-img{
+    margin-right: 5px;
+    height: 20px;
+    width: 20px;
+    border-radius: 15px;
+    background-color: #e2e1ff;
+
+  }
+
+  .connect-wallet-btn:hover{
+    background-color: #413ae2;
+    color: #fff;
+  }
+
+  .connect-wallet-btn-reverse:hover{
+    background-color: #fff;
+    color: #413ae2;
+  }

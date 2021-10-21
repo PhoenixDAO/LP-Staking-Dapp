@@ -1,0 +1,371 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.css-1u2mxbp {
+  height: 63px;
+  justify-content: flex-start !important;
+}
+@media only screen and (max-width: 650px) {
+  .css-1u2mxbp {
+    height: 45px;
+  }
+}
+
+@media (max-width: 600px) {
+  .css-1k29mp9 {
+    margin: 0 !important;
+  }
+
+  .appBarFlex{
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    margin: 0;
+  }
+}
+
+@media (max-width: 500px) {
+  .css-1k29mp9 > img {
+    width: 100px !important;
+    margin-left: -30px;
+  }
+  .css-1rwt2y5-MuiButtonBase-root-MuiButton-root {
+    font-size: 11px !important;
+    padding: 5px !important;
+  }
+}
+
+*{
+  font-family: 'Aeonik' !important;
+}
+
+.css-tzssek-MuiSvgIcon-root {
+  margin-top: -20px !important;
+  background-color: none !important;
+}
+
+.css-tzssek-MuiSvgIcon-root:hover {
+  background-color: none !important;
+}
+
+.css-1duvn0l > img {
+  width: 25px;
+}
+
+.css-1duvn0l > h2 {
+  font-size: medium;
+}
+
+.css-a4i7ew-MuiTypography-root {
+  font-size: 17px !important;
+  font-weight: bold !important;
+  margin-bottom: 20px !important;
+}
+
+.css-tzssek-MuiSvgIcon-root > path {
+  height: 10px !important;
+  width: 10px !important;
+}
+
+.css-1jeep95-MuiTypography-root {
+  font-size: small;
+  margin-top: 40px !important;
+  margin-bottom: 20px !important;
+}
+
+@media (max-width:400px){
+  .css-1jeep95-MuiTypography-root {
+    font-size: 10px;
+    margin-top: 40px !important;
+    margin-bottom: 20px !important;
+  }
+}
+@media (max-width:330px){
+  .css-1jeep95-MuiTypography-root {
+    font-size: 9px;
+    margin-top: 40px !important;
+    margin-bottom: 20px !important;
+  }
+}
+
+.css-1duvn0l {
+  padding: 7px !important;
+  margin-top: 5px !important;
+}
+.css-9mgopn-MuiDivider-root {
+  /* margin-top: 5px !important; */
+}
+
+.css-usdyv8-MuiStack-root {
+  margin: 4px !important;
+}
+
+.css-1duvn0l:hover {
+  background-color: rgba(128, 128, 128, 0.1) !important;
+  border: none !important;
+}
+
+.css-h4y409-MuiList-root,
+.MuiList-root,
+.MuiList-padding,
+.css-1ontqvh {
+  /* margin-top: 60px !important; */
+}
+
+.css-bshv44-MuiButtonBase-root-MuiListItem-root {
+  height: 50px !important;
+}
+
+.versionButtons{
+  cursor:pointer;
+  position:fixed;
+  display:flex;
+  bottom:20px;
+  left:110px;
+  background-color:#fff;
+  border-radius:7px;
+  padding:2px
+}
+@media(max-width: 900px){
+  .versionButtons{
+    cursor:pointer;
+    position:inherit;
+    display:flex;
+    bottom:20px;
+    margin-left: 20px;
+    margin-bottom: 50px;
+    width: max-content;
+    left:100px;
+    background-color:#fff;
+    border-radius:7px;
+    padding:2px
+  }
+}
+button{
+  font-family: 'Aeonik' !important;
+  cursor: pointer !important;
+}
+
+input{
+  font-family: 'Aeonik' !important;
+  padding-right: 4px !important;
+}
+
+input[type=number] {
+  -moz-appearance:textfield;
+}
+
+.css-nz481w-MuiInputBase-input-MuiInput-input{
+  font-weight: 900 !important;
+  font-size: 17px !important;
+}
+
+.css-9mgopn-MuiDivider-root{
+  /* display: none !important; */
+}
+
+.css-11o2879-MuiDrawer-docked, .MuiDrawer-paper{
+ border: none !important;
+}
+
+
+.navIconsList{
+  margin-top: 80px !important;
+}
+
+@media ( max-width: 400px ){
+  .sideBarFullScreen{
+    width: 100% !important;
+    position : fixed !important;
+    z-index: 5000000000;
+  }
+
+  .sideBarFullScreen > div{
+    width: 100% !important;
+
+  }
+
+  
+
+}
+
+/* 
+.css-a4i7ew-MuiTypography-root{
+  margin-bottom: 10px !important;
+  margin-top: 20px !important;
+}
+
+.css-1jeep95-MuiTypography-root{
+  margin-bottom: 0px !important;
+} */
+
+/* .css-196kcza{
+  max-height: 100% !important;
+}
+
+.css-tu9va8-MuiPaper-root-MuiAppBar-root,.css-tzpivs-MuiPaper-root-MuiAppBar-root{
+  box-shadow: none !important;
+} */
+
+*:focus{
+  outline: none !important;
+}
+
+input:hover{
+  outline: none !important;
+}
+
+.notify {
+	font-size: 90%;
+}
+​
+.notify2 {
+	font-size: 90%;
+	justify-content: center;
+	text-align: center;
+	color: #4e4e55;
+}
+​
+.notify2 a {
+	color: #4e4e55;
+}
+​
+.Toastify__toast--default {
+	background: rgb(243, 243, 243);
+	border: 1px solid rgb(10, 53, 88);
+	border-radius: 10px;
+}
+​
+.notify2 i {
+	margin-bottom: 10px;
+}
+​
+.notify p {
+	color: black;
+	text-align: center;
+}
+​
+.notify img {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+
+input[type=number] {
+  -moz-appearance:textfield;
+}
+
+/* ::-webkit-scrollbar {
+  width: 10px;
+  background: rgba(56, 16, 255, 0.55);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  background: rgba(56, 16, 255, 0.55);
+
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(56, 16, 255, 0.55);
+  border-radius: 40px;
+  border: solid 5px white;
+} */
+
+
+::-webkit-scrollbar {
+	width: 8px;
+  
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+
+}
+
+::-webkit-scrollbar-track {
+	border-radius: 10px;
+  background: #fafafa;
+}
+
+.modal-scroll::-webkit-scrollbar-track{
+  margin: 15px 0px;
+
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+	background: #9391ff;
+	border-radius: 8px;
+}
+
+html {
+  
+  overflow-y: scroll;
+  scrollbar-color: rgba(56, 16, 255, 0.55) #fff;
+  scrollbar-width: thin;
+  border-radius: 40px;
+
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.addLiquidityBox{
+  overflow: hidden;
+  }
+
+*{
+  scrollbar-color: #9391ff;
+  scrollbar-width: thin;
+
+}
+  
+  @media (max-width: 650px) {
+      .addLiquidityBox{
+          overflow: auto;
+          padding: 16px;
+          }
+
+          .modal-scroll{
+            overflow-y: scroll !important;
+          }
+   }

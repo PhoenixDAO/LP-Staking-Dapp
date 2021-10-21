@@ -1,0 +1,114 @@
+.my-liquidity-div {
+  margin-left: auto;
+  margin-right: auto;
+  width: 500px;
+  background-color: #fff;
+  border-radius: 13px;
+  height: fit-content;
+  padding: 32px 42px;
+  margin-top: 20px;
+  box-shadow: 0px 10px 80px 10px rgb(0, 0, 0, 0.06);
+}
+
+.my-liq-head {
+  font-size: 22px;
+  font-style: normal;
+  font-weight: bolder;
+  text-align: left;
+  color: #413ae2;
+}
+
+.my-liq-sub-head {
+  font-size: 16px;
+  font-style: normal;
+  text-align: left;
+  color: #5f5f5f;
+  margin-top: 8px;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+  margin-top: 30px;
+}
+
+.phnx-eth {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.phnx-eth-no {
+  font-weight: bold;
+  font-size: 25px;
+  margin-bottom: 0;
+  margin: 0;
+  margin-right: 5px;
+}
+
+.phnx-eth-logo {
+  height: 20px;
+  width: 20px;
+  margin: 0px 3px;
+}
+
+.phnx-eth-txt {
+ color:#4E4E55;
+}
+
+.pooled-item {
+  display: flex;
+}
+
+.pooled-item-txt {
+  text-transform: uppercase;
+  font-size: medium;
+  font-weight: 800;
+  color:#4E4E55;
+}
+
+.remove-btn {
+  width: 100%;
+  background-color: #413ae2;
+  text-align: center;
+  font-size: medium;
+  font-weight: 500;
+  color: #fff;
+  border-radius: 9px;
+  border: 0;
+  padding: 13px;
+  margin-top: 30px;
+  cursor: pointer;
+}
+
+.add-liquidity-btn {
+  width: 100%;
+  background-color: #413ae2;
+  text-align: center;
+  font-size: medium;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 9px;
+  border: 0;
+  padding: 11px;
+  margin-top: 20px;
+  border: solid 1px #413ae2;
+  background-color: #fff;
+  color: #413ae2;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 650px) {
+  .my-liquidity-div {
+    width: 90%;
+    padding: 16px;
+    margin-top: 20px;
+  }
+  .my-liq-head {
+    font-size: 20px;
+  }
+  .my-liq-sub-head {
+    font-size: 14px;
+  }
+}
