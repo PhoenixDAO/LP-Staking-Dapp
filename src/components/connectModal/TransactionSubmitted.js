@@ -9,7 +9,7 @@ import Modal from "@mui/material/Modal";
 import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY } from "../../contract/constant";
 import { TX_LINK_MAINNET, TX_LINK_RINKEBY } from "../../contract/constant";
 
-const TransactionSubmitted = ({ transactionSubmittedModal, hash , handleMainClose }) => {
+const TransactionSubmitted = ({ transactionSubmittedModal, hash , handleMainClose, removeLiquidity }) => {
 
   const [selectedPercentage, setSelectedPercentage] = useState(0);
   const [allowance, setAllowance] = useState(0);
