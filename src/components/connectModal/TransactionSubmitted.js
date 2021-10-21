@@ -9,7 +9,8 @@ import Modal from "@mui/material/Modal";
 import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY } from "../../contract/constant";
 import { TX_LINK_MAINNET, TX_LINK_RINKEBY } from "../../contract/constant";
 
-const TransactionSubmitted = ({ transactionSubmittedModal, hash }) => {
+const TransactionSubmitted = ({ transactionSubmittedModal, hash , handleMainClose }) => {
+
   const [selectedPercentage, setSelectedPercentage] = useState(0);
   const [allowance, setAllowance] = useState(0);
 
@@ -120,7 +121,7 @@ const TransactionSubmitted = ({ transactionSubmittedModal, hash }) => {
                 </div>
               </div>
             </div>
-
+      {!removeLiquidity&&
             <div
               className="transaction-liq-phnx-eth-det-div cursorPointer"
               onClick={registerToken}
@@ -131,7 +132,7 @@ const TransactionSubmitted = ({ transactionSubmittedModal, hash }) => {
                   <img src={metamask} className="metamaskIcon"></img>
                 </div>
               </div>
-            </div>
+            </div>}
 
             {/* <div className="transaction-liq-phnx-eth-con-div">
         <div className="transaction-liq-phnx-eth-con">1 PHNX = 0.2335 ETH</div>
@@ -140,7 +141,13 @@ const TransactionSubmitted = ({ transactionSubmittedModal, hash }) => {
             <div className="transactionCloseButton">
               <button
                 className="transaction-liq-btn cursorPointer"
-                onClick={handleClose}
+                onClick={()=>{
+                  handleMainClose(false);
+                  if(handleClose){
+                    handleClose();
+                  }
+                }
+              }
               >
                 Close
               </button>

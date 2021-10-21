@@ -59,12 +59,12 @@ function FarmStake({
             alt="PhnxLogo"
           ></img>
         </div>
-        <div style={{ marginLeft: "auto", fontWeight: "bold" }}>PHNX/ETH</div>
+        <div style={{ marginLeft: "auto", fontWeight: "bolder", fontSize:"17px" }}>PHNX/ETH</div>
       </div>
 
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
-        <div className="farm-details-txt-right">
+        <div className="farm-details-txt-right" style={{color:"#73727D"}}>
           {web3context.active ? APR : '--- '}% &nbsp;
           <img style={{ height: "16px" }} src={CalculatorLogo} />
         </div>
@@ -72,7 +72,7 @@ function FarmStake({
 
       <div className="farm-details-div">
         <div className="farm-details-txt">EARN</div>
-        <div className="farm-details-txt-right">PHNX + fees</div>
+        <div className="farm-details-txt-right"  style={{color:"#73727D"}}>PHNX + fees</div>
       </div>
 
       <div className="farm-details-div">

@@ -155,6 +155,8 @@ function MyLiquidity({ ChangeTab }) {
               margin: "25px 0px 30px 0px",
               height: 45,
               borderRadius: 12,
+              textTransform:"capitalize",
+              fontSize:"18px",
             }}
             onClick={() =>
               setConnectWalletModalStatus(!ConnectWalletModalStatus)

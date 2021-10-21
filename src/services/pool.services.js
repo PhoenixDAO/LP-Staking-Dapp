@@ -87,19 +87,31 @@ export const supply = async (
       console.log("hash", hash);
     })
     .on("confirmation", async function (confirmationNumber, receipt) {
-      settransactionProcessModal(false);
-      settransactionSubmittedModal(true);
+      if (confirmationNumber === 1) {
+        // settransactionProcessModal(false);
+        // settransactionSubmittedModal(true);
+        toast(
+          <Notify text={"Transaction Successful 🚀"} severity="success" />,
+          {
+            position: "bottom-right",
+          }
+        );
 
-      if (confirmationNumber === 0) {
-        // toast(
-        //   <Notify text={"Transaction Successful 🚀"} severity="success" />,
-        //   {
-        //     position: "bottom-right",
-        //   }
-        // );
         await handleGetPoolPosition();
         await handleGetEthBalance();
         await handleGetPhnxBalance();
+
+        settransactionProcessModal(false);
+        settransactionSubmittedModal(true);
+
+        console.log("confirmationNumber", confirmationNumber);
+        //   setLoading(false);
+        //   setPhnxValue("");
+        //   setEthValue("");
+        //   setPoolShare(0);
+        if (web3context.active && web3context.account) {
+          // getPoolPosition();
+        }
       }
     })
     .on("error", function (err) {
@@ -268,7 +280,7 @@ export const giveApprovalPhnxDao = async (
       console.log("tx hash", hash);
     })
     .on("confirmation", async function (confirmationNumber, receipt) {
-      if (confirmationNumber === 0) {
+      if (confirmationNumber === 1) {
         // tx confirmed
 
         // checkApprovalPhnxDao(web3context, contractPhnxDao);
@@ -339,11 +351,17 @@ export const giveApprovalUniswapPair = async (
         console.log("tx hash", hash);
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
-        if (confirmationNumber === 0) {
+        if (confirmationNumber === 1) {
           await handleCheckApprovalUniswapPairAction(
             setAllowance,
             setApproveStatus
           );
+          // tx confirmed
+          // await checkApprovalUniswapPair(
+          //   web3context,
+          //   contractUniswapPair,
+          //   setAllowance
+          // );
           await handleGetPoolPosition();
           await handleGetEthBalance();
           await handleGetPhnxBalance();
@@ -356,6 +374,7 @@ export const giveApprovalUniswapPair = async (
       });
   } else {
     throw "contractUniswapPair not initialized! @giveApprovalUniswapPair";
+    return;
   }
 };
 
@@ -407,41 +426,42 @@ export const removeLiquidity = async (
       .on("transactionHash", (hash) => {
         // hash of tx
 
-        // toast(
-        //   <Notify
-        //     text={"Transaction in Progress 😃, you'll be notified soon."}
-        //     severity="success"
-        //   />,
-        //   {
-        //     position: "bottom-right",
-        //   }
-        // );
+        toast(
+          <Notify
+            text={"Transaction in Progress 😃, you'll be notified soon."}
+            severity="success"
+          />,
+          {
+            position: "bottom-right",
+          }
+        );
         settranHash(hash);
         settransactionConfirmModal(false);
+
         console.log("hash", hash);
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
-        settransactionProcessModal(false);
-        settransactionSubmittedModal(true);
-        if (confirmationNumber === 0) {
+        if (confirmationNumber === 1) {
           toast(
             <Notify text={"Transaction Successful 🚀"} severity="success" />,
             {
               position: "bottom-right",
             }
           );
+
+          console.log("confirmationNumber", confirmationNumber);
+
           await handleGetPoolPosition();
           await handleGetEthBalance();
           await handleGetPhnxBalance();
           settransactionProcessModal(false);
           settransactionSubmittedModal(true);
-          handleMainClose(false);
+          // handleMainClose(false);
 
           if (web3context.active && web3context.account) {
             // getPoolPosition();
           }
         }
-        console.log("confirmationNumber", confirmationNumber);
       })
       .on("error", function (err) {
         settransactionProcessModal(false);

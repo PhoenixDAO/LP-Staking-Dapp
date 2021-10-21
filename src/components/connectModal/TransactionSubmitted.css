@@ -81,9 +81,12 @@
   font-size: 16px;
   padding-top:15px;
   padding-bottom: 15px;
-  justify-content: center;
 }
-
+.etherScan{
+  color: #413AE2;
+  font-weight: 500;
+  font-size: 14px;
+}
 .openTabPadding{
   padding-left: 5px;
 }
