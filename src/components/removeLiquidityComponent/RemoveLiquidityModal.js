@@ -85,7 +85,7 @@ const RemoveLiquidityModaL = ({
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
 
-  const _handleRemoveLiquidity = async () => {
+  const _handleRemoveLiquidity = async (handleMainClose) => {
     settransactionProcessModal(true);
     try {
       await POOL_SERVICES.removeLiquidity(
@@ -100,7 +100,8 @@ const RemoveLiquidityModaL = ({
         handleGetEthBalanceAction,
         handleGetPhnxBalanceAction,
         slippageValue,
-        settranHash
+        settranHash,
+        handleMainClose
       );
     } catch (e) {
       console.error(e);
@@ -390,6 +391,7 @@ const RemoveLiquidityModaL = ({
         phnxethburn={phnxethburn}
         handleRemoveLiquidity={_handleRemoveLiquidity}
         slippageValue={slippageValue}
+        handleMainClose={handleClose}
       />
       <TransactionProgress transactionProcessModal={transactionProcessModal} />
       <TransactionSubmitted

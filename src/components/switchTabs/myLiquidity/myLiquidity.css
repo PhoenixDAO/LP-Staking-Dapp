@@ -99,10 +99,10 @@
   cursor: pointer;
 }
 
-@media only screen and (max-width: 630px) {
+@media only screen and (max-width: 650px) {
   .my-liquidity-div {
     width: 90%;
-    padding: 16px 26px;
+    padding: 16px;
     margin-top: 20px;
   }
   .my-liq-head {

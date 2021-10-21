@@ -32,23 +32,23 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [ethValue, setEthValue] = useState("");
   const [phnxValue, setPhnxValue] = useState("");
 
+
   const [lowValue, setLowValue] = useState(false);
+
 
   const [slippageModal, setSlippageModal] = useState(false);
   const [slippageValue, setSlippageValue] = useState(1);
 
   const [poolShare, setPoolShare] = useState(0);
 
-  const [approveStatus, setApproveStatus] = useState(false);
+  const[approveStatus,setApproveStatus] = useState(false);
 
   // const [allowance, setAllowance] = useState(0);
 
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   const phnxPerEth = useSelector((state) => state.localReducer.phnxPerEth);
-  const allowancePhnxDao = useSelector(
-    (state) => state.contractReducer.allowancePhnxDao
-  );
+  const allowancePhnxDao = useSelector((state) => state.contractReducer.allowancePhnxDao);
 
   const ethPerPhnx = useSelector((state) => state.localReducer.ethPerPhnx);
   const reserve0 = useSelector((state) => state.localReducer.reserve0);
@@ -109,14 +109,18 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
   // This will be replaced with allowance state
-  const handleCheckApprovalPhnxDaoAction = async (setApproveStatus) => {
-    console.log(setApproveStatus, "aaa2");
-    dispatch(
-      CheckApprovalPhnxDaoAction(web3context, contractPhnxDao, setApproveStatus)
-    );
+  const handleCheckApprovalPhnxDaoAction = async (
+    setApproveStatus
+    ) => {
+      console.log(setApproveStatus,'aaa2');
+    dispatch(CheckApprovalPhnxDaoAction(web3context, contractPhnxDao
+      ,setApproveStatus
+      ));
   };
 
-  const handleGiveApprovalPhnxDao = async (setApproveStatus) => {
+  const handleGiveApprovalPhnxDao = async (
+    setApproveStatus
+    ) => {
     try {
       await SERVICE.giveApprovalPhnxDao(
         web3context,
@@ -161,7 +165,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       setPoolShare(0);
     }
   };
-  var reg = new RegExp("^[0-9]+$");
 
   const OnChangeHandler = (val, tokenName) => {
     if (tokenName === "phnx") {
@@ -172,13 +175,14 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       setPhnxValue(v);
       setEthValue(parseFloat(ethPerPhnx) * v || num);
 
-      if (v > 0 && v < 0.001) {
+      if(v>0 && v<0.001){
         setLowValue(true);
-        return;
-      } else {
+        return
+      }else{
         setLowValue(false);
-        return;
+        return
       }
+
     } else if (tokenName === "eth") {
       let v = parseFloat(val);
       let total = parseFloat(phnxPerEth) * v;
@@ -189,16 +193,15 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       setEthValue(v);
       setPhnxValue(parseFloat(phnxPerEth) * v || num);
 
-      if (
-        (parseFloat(phnxPerEth) * v || num) > 0 &&
-        (parseFloat(phnxPerEth) * v || num) < 0.001
-      ) {
+      if((parseFloat(phnxPerEth) * v || num)>0 && (parseFloat(phnxPerEth) * v || num)<0.001){
         setLowValue(true);
-        return;
-      } else {
+        return
+      }else{
         setLowValue(false);
-        return;
+        return
       }
+      
+
     } else {
       return;
     }
@@ -224,7 +227,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     <Box
       sx={styles.containerStyle}
       className="modal-scroll"
-      style={{ boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)" }}
+      style={{ boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)"  }}
     >
       <div className="addLiquidityBox">
         <div style={{ marginBottom: "10px" }}>
@@ -254,182 +257,172 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             ) : null}
           </div>
         </div>
-        <div
-          style={{
-            height: 1,
-            background: "rgba(0, 0, 0, 0.15)",
-          }}
-        />
-        <div className="dialog-style" style={{ paddingTop: "10px" }}>
-          <div style={styles.containerTip}>
-            <Typography style={styles.txtTipParagraph}>
-              <b>Tip:</b> By adding liquidity, you'll earn 0.25% of all trades
-              on this pair proportional to your share of the pool. Fees are
-              added to the pool, accrue in real time and can be claimed by
-              withdrawing your liquidity.
+      </div>
+      <div
+        style={{
+          height: 1,
+          background: "rgba(0, 0, 0, 0.15)",
+          marginLeft: 10,
+          marginRight: 10,
+          marginBottom: 9,
+        }}
+      />
+      <div className="dialog-style">
+        <div style={styles.containerTip}>
+          <Typography style={styles.txtTipParagraph}>
+            Tip: By adding liquidity, you'll earn 0.25% of all trades on this
+            pair proportional to your share of the pool. Fees are added to the
+            pool, accrue in real time and can be claimed by withdrawing your
+            liquidity.
+          </Typography>
+        </div>
+        <div style={{ position: "relative" }}>
+          <div className="token-container">
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <img alt="logo" style={styles.imgLogoPhnx} src={PhnxLogo} />
+              <div style={styles.containerImg}>
+                <Typography style={styles.txtInput}>Input</Typography>
+                <Typography style={styles.txtPhnx}>
+                  PHNX <img src={blueDownArrow} style={styles.downArrow}></img>
+                </Typography>
+              </div>
+            </div>
+            <div style={styles.containerInput}>
+              <div style={styles.divPhnxAmount}>
+                <Typography style={styles.txtInput}>Available PHNX:</Typography>
+                <Typography style={styles.txtAmount}>
+                  {balancePhnx ? `${balancePhnx}` : "0.0"} PHNX
+                </Typography>
+              </div>
+              <div className="wrapper-input">
+                <TextField
+                  hiddenLabel
+                  id="standard-adornment-weight"
+                  size="small"
+                  placeholder="0.0"
+                  background="rgba(195, 183, 255, 0.17);"
+                  value={phnxValue}
+                  type="number"
+                  onChange={(event) => {
+                    OnChangeHandler(event.target.value, "phnx");
+                  }}
+                  style={styles.inputStyle}
+                  variant="standard"
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        style={styles.iconBtn}
+                        onClick={() => {
+                          OnChangeHandler(balancePhnx, "phnx");
+                        }}
+                      >
+                        MAX
+                      </IconButton>
+                    ),
+                    inputProps: {
+                      min: 0,
+                    },
+                    disableUnderline: true,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div style={styles.containerAddDiv}>
+            <div className="add-div">
+              <img src={plusLiquidity}></img>
+            </div>
+          </div>
+
+          <div className="token-container">
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <img alt="logo" style={styles.imgLogoPhnx} src={EthLogo} />
+              <div style={styles.containerImg}>
+                <Typography style={styles.txtInput}>Input</Typography>
+                <Typography style={{ ...styles.txtPhnx, color: "#454A75" }}>
+                  ETH <img src={downArrow} style={styles.downArrow}></img>
+                </Typography>
+              </div>
+            </div>
+            <div style={styles.containerInput}>
+              <div style={styles.divPhnxAmount}>
+                <Typography style={styles.txtInput}>Available ETH:</Typography>
+                <Typography style={styles.txtAmount}>
+                  {balanceEth} ETH
+                </Typography>
+              </div>
+              <div className="wrapper-input">
+                <TextField
+                  hiddenLabel
+                  id="standard-adornment-weight"
+                  size="small"
+                  placeholder="0.0"
+                  background="rgba(195, 183, 255, 0.17)"
+                  value={ethValue}
+                  type="number"
+                  onChange={(event) => {
+                    OnChangeHandler(event.target.value, "eth");
+                  }}
+                  style={styles.inputStyle}
+                  className="liq-tab-inputs"
+                  variant="standard"
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        style={styles.iconBtn}
+                        onClick={() => {
+                          OnChangeHandler(balanceEth, "eth");
+                        }}
+                      >
+                        MAX
+                      </IconButton>
+                    ),
+                    disableUnderline: true,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="container-pool-share">
+          <div style={styles.txtDivPhEth}>
+            <Typography style={styles.txtConvDetails}>
+              {phnxPerEth ? phnxPerEth : "0.0"} PHNX / ETH
+            </Typography>
+            <Typography style={styles.txtConvDetails}>
+              {ethPerPhnx ? ethPerPhnx : "0.0"} ETH / PHNX
             </Typography>
           </div>
-          <div style={{ position: "relative" }}>
-            <div className="token-container">
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <img alt="logo" style={styles.imgLogoPhnx} src={PhnxLogo} />
-                <div style={styles.containerImg}>
-                  <Typography style={styles.txtInput}>Input</Typography>
-                  <Typography style={styles.txtPhnx}>PHNX</Typography>
-                </div>
-              </div>
-              <div style={styles.containerInput}>
-                <div style={styles.divPhnxAmount}>
-                  <Typography style={styles.txtInput}>
-                    Available PHNX:
-                  </Typography>
-                  <Typography style={styles.txtAmount}>
-                    {balancePhnx ? `${balancePhnx}` : "0.0"} PHNX
-                  </Typography>
-                </div>
-                <div className="wrapper-input">
-                  <TextField
-                    hiddenLabel
-                    id="standard-adornment-weight"
-                    size="small"
-                    placeholder="0.0"
-                    background="rgba(195, 183, 255, 0.17);"
-                    value={phnxValue}
-                    type="number"
-                    onChange={(event) => {
-                      OnChangeHandler(event.target.value, "phnx");
-                    }}
-                    style={styles.inputStyle}
-                    variant="standard"
-                    InputProps={{
-                      endAdornment: (
-                        <IconButton
-                          style={styles.iconBtn}
-                          onClick={() => {
-                            OnChangeHandler(balancePhnx, "phnx");
-                          }}
-                        >
-                          MAX
-                        </IconButton>
-                      ),
-                      inputProps: {
-                        min: 0,
-                      },
-                      disableUnderline: true,
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div style={styles.containerAddDiv}>
-              <div className="add-div">
-                <img src={plusLiquidity}></img>
-              </div>
-            </div>
-
-            <div className="token-container">
-              <div style={{ display: "flex", flexDirection: "row" }}>
-                <img alt="logo" style={styles.imgLogoPhnx} src={EthLogo} />
-                <div style={styles.containerImg}>
-                  <Typography style={styles.txtInput}>Input</Typography>
-                  <Typography style={{ ...styles.txtPhnx, color: "#454A75" }}>
-                    ETH
-                  </Typography>
-                </div>
-              </div>
-              <div style={styles.containerInput}>
-                <div style={styles.divPhnxAmount}>
-                  <Typography style={styles.txtInput}>
-                    Available ETH:
-                  </Typography>
-                  <Typography style={styles.txtAmount}>
-                    {balanceEth ? `${balanceEth}` : "0.0"} ETH
-                  </Typography>
-                </div>
-                <div className="wrapper-input">
-                  <TextField
-                    hiddenLabel
-                    id="standard-adornment-weight"
-                    size="small"
-                    placeholder="0.0"
-                    background="rgba(195, 183, 255, 0.17)"
-                    value={ethValue}
-                    type="number"
-                    onChange={(event) => {
-                      OnChangeHandler(event.target.value, "eth");
-                    }}
-                    style={styles.inputStyle}
-                    className="liq-tab-inputs"
-                    variant="standard"
-                    InputProps={{
-                      endAdornment: (
-                        <IconButton
-                          style={styles.iconBtn}
-                          onClick={() => {
-                            OnChangeHandler(balanceEth, "eth");
-                          }}
-                        >
-                          MAX
-                        </IconButton>
-                      ),
-                      disableUnderline: true,
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
+          <div className="pool-share">
+            <Typography style={styles.txtConvDetails}>
+              {isNaN(poolShare) ? "0.00" : poolShare + "%"}
+            </Typography>
+            <Typography style={styles.txtConvDetails}>pool share</Typography>
           </div>
-          <div className="container-pool-share">
-            <div style={styles.txtDivPhEth}>
-              <Typography style={styles.txtConvDetails}>
-                {phnxPerEth ? phnxPerEth : "0.0"} PHNX / ETH
-              </Typography>
-              <Typography style={styles.txtConvDetails}>
-                {ethPerPhnx ? ethPerPhnx : "0.0"} ETH / PHNX
-              </Typography>
-            </div>
-            <div className="pool-share">
-              <Typography style={styles.txtConvDetails}>
-                {isNaN(poolShare) ? "0.00" : poolShare + "%"}
-              </Typography>
-              <Typography style={styles.txtConvDetails}>pool share</Typography>
-            </div>
-          </div>
-          {web3context.active == false ? (
-            <Button
-              variant="contained"
-              size="small"
-              fullWidth={true}
-              style={{
-                ...styles.btnAddLiquidity,
-              }}
-              onClick={() =>
-                setConnectWalletModalStatus(!ConnectWalletModalStatus)
-              }
-            >
-              {"Connect Wallet"}
-            </Button>
-          ) : allowancePhnxDao != 0 ? (
-            <Button
-              variant="contained"
-              size="small"
-              fullWidth={true}
-              style={{
-                ...styles.btnAddLiquidity,
-                backgroundColor:
-                  loading ||
-                  phnxValue > balancePhnx ||
-                  ethValue > balanceEth ||
-                  lowValue ||
-                  phnxValue === 0 ||
-                  ethValue === 0 ||
-                  phnxValue == "" ||
-                  ethValue == ""
-                    ? "#acacac"
-                    : "#413AE2",
-              }}
-              disabled={
+        </div>
+        {web3context.active == false ? (
+          <Button
+            variant="contained"
+            size="small"
+            fullWidth={true}
+            style={{
+              ...styles.btnAddLiquidity,
+            }}
+            onClick={() =>
+              setConnectWalletModalStatus(!ConnectWalletModalStatus)
+            }
+          >
+            {"Connect Wallet"}
+          </Button>
+        ) : allowancePhnxDao != 0 ? (
+          <Button
+            variant="contained"
+            size="small"
+            fullWidth={true}
+            style={{
+              ...styles.btnAddLiquidity,
+              backgroundColor:
                 loading ||
                 phnxValue > balancePhnx ||
                 ethValue > balanceEth ||
@@ -438,73 +431,94 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                 ethValue === 0 ||
                 phnxValue == "" ||
                 ethValue == ""
+                  ? "#acacac"
+                  : "#413AE2",
+            }}
+            disabled={
+              loading ||
+              phnxValue > balancePhnx ||
+              ethValue > balanceEth ||
+              lowValue ||
+              phnxValue === 0 ||
+              ethValue === 0 ||
+              phnxValue == "" ||
+              ethValue == ""
+            }
+            onClick={setTxModalOpen}
+          >
+            {phnxValue === "" ||
+            ethValue === "" ||
+            phnxValue == 0 ||
+            ethValue == 0
+              ? "Enter an amount"
+              : phnxValue > balancePhnx || ethValue > balanceEth
+              ? "Insufficient Balance"
+              : lowValue
+              ? "Low Value"
+              : "Add Liquidity"}
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            size="large"
+            fullWidth={true}
+            style={{
+              ...styles.btnAddLiquidity,
+              backgroundColor: loading || approveStatus != 0 ? "#acacac" : "#413AE2",
+              textTransform: "capitalize",
+            }}
+            disabled={loading}
+            onClick={
+              // handleGiveApprovalPhnxDao
+              async()=>{
+              if(approveStatus)return;
+              setApproveStatus(true);
+              await handleGiveApprovalPhnxDao(setApproveStatus);
+              // setApproveStatus(false);
               }
-              onClick={setTxModalOpen}
-            >
-              {phnxValue === "" ||
-              ethValue === "" ||
-              phnxValue == 0 ||
-              ethValue == 0
-                ? "Enter an amount"
-                : phnxValue > balancePhnx || ethValue > balanceEth
-                ? "Insufficient Balance"
-                : lowValue
-                ? "Low Value"
-                : "Add Liquidity"}
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              size="large"
-              fullWidth={true}
-              style={{
-                ...styles.btnAddLiquidity,
-                backgroundColor:
-                  loading || approveStatus != 0 ? "#acacac" : "#413AE2",
-                textTransform: "capitalize",
-              }}
-              disabled={loading}
-              onClick={
-                // handleGiveApprovalPhnxDao
-                async () => {
-                  if (approveStatus) return;
-                  setApproveStatus(true);
-                  await handleGiveApprovalPhnxDao(setApproveStatus);
-                  // setApproveStatus(false);
-                }
-              }
-            >
-              {approveStatus == 0 ? "Approve PHNX" : "Approving PHNX..."}
-            </Button>
-          )}
-        </div>
+            }
+          >
 
-        <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus} />
-        <ConnectModal
-          transactionConfirmModal={transactionConfirmModal}
-          setTxModalClose={setTxModalClose}
-          _handleSupply={_handleSupply}
-          phnxValue={phnxValue}
-          ethValue={ethValue}
-          poolShare={poolShare}
-          phnxPerEth={phnxPerEth}
-          ethPerPhnx={ethPerPhnx}
-          slippageValue={slippageValue}
-        />
-        <SlippingTolerance
-          status={slippageModal}
-          handleClose={setSlippageModal}
-          setSlippageValue={setSlippageValue}
-        />
+            {
 
-        <TransactionProgress transactionProcessModal={transactionProcessModal}>
-          {" "}
-        </TransactionProgress>
-        <TransactionSubmitted
-          transactionSubmittedModal={transactionSubmittedModal}
-          hash={tranHash}
-        ></TransactionSubmitted>
+              approveStatus == 0 ?
+              'Approve PHNX' :
+              'Approving PHNX...'
+
+            }
+
+          </Button>
+        )}
       </div>
+
+      <ConnectWallet
+        justModal={true}
+        openModal={ConnectWalletModalStatus}
+      ></ConnectWallet>
+      <ConnectModal
+        transactionConfirmModal={transactionConfirmModal}
+        setTxModalClose={setTxModalClose}
+        _handleSupply={_handleSupply}
+        phnxValue={phnxValue}
+        ethValue={ethValue}
+        poolShare={poolShare}
+        phnxPerEth={phnxPerEth}
+        ethPerPhnx={ethPerPhnx}
+        slippageValue={slippageValue}
+      ></ConnectModal>
+      <SlippingTolerance
+        status={slippageModal}
+        handleClose={setSlippageModal}
+        setSlippageValue={setSlippageValue}
+      />
+
+      <TransactionProgress transactionProcessModal={transactionProcessModal}>
+        {" "}
+      </TransactionProgress>
+      <TransactionSubmitted
+        transactionSubmittedModal={transactionSubmittedModal}
+        hash={tranHash}
+      ></TransactionSubmitted>
     </Box>
   );
 };
@@ -521,15 +535,16 @@ const styles = {
     transform: "translate(-50%, -50%)",
     width: 600,
     bgcolor: "#fff",
-    padding: 0,
-
+    padding: 20,
+    
     // border: "2px solid #000",
     borderRadius: 4,
     boxShadow: 0,
+    p: 4,
     ["@media (max-width: 650px)"]: {
-      width: " 98%",
-      padding: "0px",
-      overflowY: "hidden",
+      width: "98%",
+      padding: 2,
+      overflowY: "auto",
     },
   },
   downArrow: {
@@ -581,7 +596,9 @@ const styles = {
     borderRadius: 12,
     textTransform: "capitalize",
     fontSize: 18,
-    color: "#fff",
+    color:'#fff'
+    
+
   },
   tokenContainer: {
     display: "flex",
@@ -615,14 +632,6 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-end",
-  },
-  modalBox: {
-    padding: 40,
-    "@media (max-width: 650px)": {
-      overflow: "auto",
-      height: "85vh",
-      padding: "16px",
-    },
   },
   txtAmount: {
     fontSize: 18,

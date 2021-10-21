@@ -326,6 +326,11 @@ input[type=number] {
   background: #fafafa;
 }
 
+.modal-scroll::-webkit-scrollbar-track{
+  margin: 15px 0px;
+
+}
+
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
@@ -358,7 +363,10 @@ html {
   @media (max-width: 650px) {
       .addLiquidityBox{
           overflow: auto;
-          height: 85vh;
           padding: 16px;
+          }
+
+          .modal-scroll{
+            overflow-y: scroll !important;
           }
    }

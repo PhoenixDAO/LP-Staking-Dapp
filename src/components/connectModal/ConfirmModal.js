@@ -15,6 +15,7 @@ const ConfirmModal = ({
   phnxethburn,
   handleRemoveLiquidity,
   slippageValue,
+  handleMainClose
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -34,7 +35,7 @@ const ConfirmModal = ({
       return;
     }
     console.log("asdasddsad");
-    handleRemoveLiquidity(setTxModalClose);
+    handleRemoveLiquidity(handleMainClose);
   };
 
   const style = {
