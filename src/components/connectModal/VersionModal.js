@@ -62,7 +62,7 @@ const VersionModal = ({status,setStatus}) => {
               <div className="version-ps-div">
                 V1 is no longer actively supported
               </div>
-              <div style={{color:'#73727d'}}>Use the V2 Staking dApp instead for better experience</div>
+              <div style={{color:'#73727d'}} className="versionParagraph">Use the V2 Staking dApp instead for better experience</div>
             </div>
 
             <Button
@@ -166,7 +166,7 @@ const VersionModal = ({status,setStatus}) => {
                   }}
                 />
               </div>
-              <div style={{color:'#73727d'}}>
+              <div style={{color:'#73727d'}} className="versionParagraph">
                 I understand that V1 is no longer supported and may lead to high
                 slippage fees or a loss in capital
               </div>
@@ -187,7 +187,7 @@ const VersionModal = ({status,setStatus}) => {
                 fontSize:"16px",
                 padding:"15px",
                 textTransform:"inherit",
-                marginBottom:"35px",
+                marginBottom:"30px",
                 borderRadius:"9px",
                 "&:hover": {
                   backgroundColor: "#FFFFFF",

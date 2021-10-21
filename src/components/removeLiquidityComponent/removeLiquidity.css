@@ -36,10 +36,11 @@
   font-size: 17px;
   background-color: #f2f2fd;
   padding: 5px 10px;
-  border-radius: 15px ;
+  border-radius: 20px ;
   margin-right: 15px;
   cursor: pointer;
   user-select: none;
+  width: 60px;
 }
 
 .rm-liq-ps-input-div{
@@ -79,12 +80,12 @@
 }
 
 .rm-liq-phnx-eth-img{
-  height: 30px;
-  width: 30px;
+  height: 26px;
+  width: 26px;
 }
 
 .rm-liq-phnx-eth-name{
-  font-size: 18px;
+  font-size: 16px;
   margin-left: 10px;
   color:#4E4E55;
 }
@@ -99,7 +100,7 @@
 .rm-liq-phnx-eth-con-div{
   width: 100%;
   margin-top: 17px;
-  margin-bottom:40px;
+  margin-bottom:30px;
 }
 
 .rm-liq-phnx-eth-con{
@@ -107,6 +108,7 @@
   margin-left: auto;
   text-align: end;
   color: #4E4E55;
+  font-size:16px;
   margin-bottom: 2px;
   
 }
@@ -125,10 +127,10 @@
 }
 
 .rm-liq-divider{
-  width: 100%;
-  background-color: #73727D;
-  margin: 7px 0px;
   height: 1px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.15);
+  margin-top: 15px;
 }
 
 .rm-liq-phnx-eth-lp-div{

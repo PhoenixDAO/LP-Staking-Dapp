@@ -1,10 +1,8 @@
-import React from "react";
-
+import React, { useState, useEffect } from "react";
 import "./myLiquidity.css";
 import PhnxLogo from "../../../assets/phnxLogo.png";
 import EthLogo from "../../../assets/ETH1.png";
 import SettingsLogo from "../../../assets/settings.png";
-import { useState, useEffect } from "react";
 import { useWeb3React } from "@web3-react/core";
 import { Modal } from "@mui/material";
 import RemoveLiquidityModal from "../../removeLiquidityComponent/RemoveLiquidityModal";
@@ -14,16 +12,15 @@ import {
   // InputAdornment,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { GetPoolPositionAction,
+import {
+  GetPoolPositionAction,
   GetPhnxBalanceAction,
   CheckApprovalPhnxStakingAction,
-  CheckApprovalUniswapPairAction,} from "../../../redux/actions/contract.actions";
+  CheckApprovalUniswapPairAction,
+} from "../../../redux/actions/contract.actions";
 import SlippingTolerance from "../../connectModal/SlippingTolerance";
 import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
 import * as POOL_SERVICES from "../../../services/pool.services";
-
-
-
 
 function MyLiquidity({ ChangeTab }) {
   const web3context = useWeb3React();
@@ -38,9 +35,8 @@ function MyLiquidity({ ChangeTab }) {
 
   const [allowance, setAllowance] = useState(0);
 
-
-  const [slippageModal,setSlippageModal]=useState(false);
-  const [slippageValue,setSlippageValue]=useState(1);
+  const [slippageModal, setSlippageModal] = useState(false);
+  const [slippageValue, setSlippageValue] = useState(1);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -55,16 +51,10 @@ function MyLiquidity({ ChangeTab }) {
     setModalVisible(true);
   };
 
-  
-
-  
-
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
   );
 
-  
-  
   const handleGetPoolPositionAction = () => {
     dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
   };
@@ -74,7 +64,7 @@ function MyLiquidity({ ChangeTab }) {
   const handleGetPhnxBalanceAction = () => {
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
-  
+
   const handleGiveApprovalUniswapPair = async (setApproveStatus) => {
     await POOL_SERVICES.giveApprovalUniswapPair(
       web3context,
@@ -90,32 +80,43 @@ function MyLiquidity({ ChangeTab }) {
 
   useEffect(() => {
     if (contractUniswapPair) {
-      console.log('asdasdasdasdasdasdads')
-      handleCheckApprovalUniswapPairAction(setAllowance)
+      console.log("asdasdasdasdasdasdads");
+      handleCheckApprovalUniswapPairAction(setAllowance);
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
     }
   }, [web3context.active, contractUniswapPair]);
 
-  const handleCheckApprovalUniswapPairAction = async (setAllowance,setApproveStatus) => {
+  const handleCheckApprovalUniswapPairAction = async (
+    setAllowance,
+    setApproveStatus
+  ) => {
     console.log("coming to handleCheckApprovalUniswapPairAction");
-    POOL_SERVICES.checkApprovalUniswapPair(web3context, contractUniswapPair,setAllowance,setApproveStatus);
-    console.log(allowance,'999999999');
+    POOL_SERVICES.checkApprovalUniswapPair(
+      web3context,
+      contractUniswapPair,
+      setAllowance,
+      setApproveStatus
+    );
+    console.log(allowance, "999999999");
   };
 
   return (
-    <div className="my-liquidity-div" >
+    <div className="my-liquidity-div">
       <div className="my-liq-head">My Liquidity</div>
-
-
 
       <div style={{ display: "flex", alignItems: "center" }}>
         <div className="my-liq-sub-head">
           Remove Liquidity to receive tokens back
         </div>
         <img
-          onClick={()=>setSlippageModal(!slippageModal)}
+          onClick={() => setSlippageModal(!slippageModal)}
           src={SettingsLogo}
-          style={{ marginLeft: "auto", height: "20px", width: "20px",cursor:'pointer' }}
+          style={{
+            marginLeft: "auto",
+            height: "20px",
+            width: "20px",
+            cursor: "pointer",
+          }}
         ></img>
       </div>
 
@@ -123,17 +124,22 @@ function MyLiquidity({ ChangeTab }) {
 
       {!web3context.account ? (
         <div>
-          <br></br><br></br>
+          <br></br>
+          <br></br>
 
           <div className="phnx-eth">
             <p
               className="phnx-eth-no"
-              style={{ width: "100%", textAlign: "center", fontWeight: "400",fontSize:'23px' }}
+              style={{
+                width: "100%",
+                textAlign: "center",
+                fontWeight: "400",
+                fontSize: "23px",
+              }}
             >
               Connect Wallet.
             </p>
           </div>
-
 
           <br></br>
 
@@ -165,12 +171,18 @@ function MyLiquidity({ ChangeTab }) {
         </div>
       ) : poolPosition == null ? (
         <div>
-          <br></br><br></br>
+          <br></br>
+          <br></br>
 
           <div className="phnx-eth">
             <p
               className="phnx-eth-no"
-              style={{ width: "100%", textAlign: "center", fontWeight: "400",fontSize:'23px' }}
+              style={{
+                width: "100%",
+                textAlign: "center",
+                fontWeight: "400",
+                fontSize: "23px",
+              }}
             >
               No Liquidity Found 😔.
             </p>
@@ -207,12 +219,18 @@ function MyLiquidity({ ChangeTab }) {
       ) : // poolPosition !== null ?
       poolPosition.lp == 0 ? (
         <div>
-          <br></br><br></br>
+          <br></br>
+          <br></br>
 
           <div className="phnx-eth">
             <p
               className="phnx-eth-no"
-              style={{ width: "100%", textAlign: "center", fontWeight: "400",fontSize:'23px' }}
+              style={{
+                width: "100%",
+                textAlign: "center",
+                fontWeight: "400",
+                fontSize: "23px",
+              }}
             >
               No Liquidity Found 😔.
             </p>
@@ -260,9 +278,9 @@ function MyLiquidity({ ChangeTab }) {
           <div className="pooled-item">
             <div className="pooled-item-txt">pooled phnx</div>
 
-            <div style={{ display: "flex", marginLeft: "auto" }}>
+            <div style={{ display: "flex", marginLeft: "auto", alignItems:"center" }}>
               <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
-              <div className="pooled-item-txt">{poolPosition.phnx}</div>
+              <div className="pooled-item-txt"><span style={{fontSize:"18px"}}>{poolPosition.phnx}</span></div>
             </div>
           </div>
 
@@ -271,9 +289,9 @@ function MyLiquidity({ ChangeTab }) {
           <div className="pooled-item">
             <div className="pooled-item-txt">pooled eth</div>
 
-            <div style={{ display: "flex", marginLeft: "auto" }}>
+            <div style={{ display: "flex", marginLeft: "auto", alignItems:"center" }}>
               <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
-              <div className="pooled-item-txt">{poolPosition.eth}</div>
+              <div className="pooled-item-txt"><span style={{fontSize:"18px"}}>{poolPosition.eth}</span></div>
             </div>
           </div>
 
@@ -282,8 +300,8 @@ function MyLiquidity({ ChangeTab }) {
           <div className="pooled-item">
             <div className="pooled-item-txt">pool share</div>
 
-            <div style={{ display: "flex", marginLeft: "auto" }}>
-              <div className="pooled-item-txt">{poolPosition.poolPerc}%</div>
+            <div style={{ display: "flex", marginLeft: "auto", alignItems:"center" }}>
+              <div className="pooled-item-txt"><span style={{fontSize:"18px"}}>{poolPosition.poolPerc}%</span></div>
             </div>
           </div>
 
@@ -313,10 +331,19 @@ function MyLiquidity({ ChangeTab }) {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <RemoveLiquidityModal slippageValue={slippageValue} allowance={allowance} giveApproval={handleGiveApprovalUniswapPair} handleClose={handleModalClose}/>
+          <RemoveLiquidityModal
+            slippageValue={slippageValue}
+            allowance={allowance}
+            giveApproval={handleGiveApprovalUniswapPair}
+            handleClose={handleModalClose}
+          />
         </Modal>
       ) : null}
-      <SlippingTolerance status={slippageModal} handleClose={setSlippageModal} setSlippageValue={setSlippageValue} />
+      <SlippingTolerance
+        status={slippageModal}
+        handleClose={setSlippageModal}
+        setSlippageValue={setSlippageValue}
+      />
     </div>
   );
 }

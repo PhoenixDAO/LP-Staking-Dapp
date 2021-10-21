@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import {
@@ -11,17 +12,13 @@ import {
 } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import HomeIcon from "@mui/icons-material/Home";
 import HomeLogo from "../../assets/home.png";
 import DropLogo from "../../assets/drop.png";
 import FarmLogo from "../../assets/farm.png";
 import TelegramLogo from "../../assets/telegram.png";
 import TwitterLogo from "../../assets/twitter.png";
 import GithubLogo from "../../assets/github.png";
-
-import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
 import { drawerWidth } from "./constants";
-import { useState, useEffect } from "react";
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -97,8 +94,22 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
   };
 
   return (
-    <Drawer variant="permanent" open={open} className={SocialIcon ? 'sideBarFullScreen' : ''}>
-      <DrawerHeader >
+    <Drawer
+      variant="permanent"
+      open={open}
+      className={SocialIcon ? "sideBarFullScreen" : ""}
+      sx={{
+        "@media (min-width:500px)": {
+          "& .MuiPaper-root": {
+            maxWidth: "150px",
+          },
+          "& .MuiDrawer-docked .MuiDrawer-paper": {
+            maxWidth: "150px",
+          },
+        },
+      }}
+    >
+      <DrawerHeader>
         <IconButton
           onClick={() => {
             handleDrawerClose();
@@ -111,9 +122,9 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
             <ChevronLeftIcon />
           )}
         </IconButton>
-      </DrawerHeader >
+      </DrawerHeader>
       {/* <Divider /> */}
-      <List className='navIconsList'>
+      <List className="navIconsList">
         {["home", "liquidity", "farm"].map((text, index) => (
           <ListItem
             button
@@ -121,7 +132,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
             component={Link}
             to={`/${text}`}
             className={index === currentTab ? "current-tab" : "no-current-tab"}
-            style={{color:"#73727D", fontWeight:"500"}}
+            style={{ color: "#73727D", fontWeight: "500" }}
             onClick={() => {
               handleDrawerClose();
               setSocialIcon(false);
@@ -130,7 +141,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
             <ListItemIcon>
               <img
                 src={index === 0 ? HomeLogo : index === 1 ? DropLogo : FarmLogo}
-                style={{ height: "20px", marginLeft: "5px"}}
+                style={{ height: "20px", marginLeft: "5px" }}
                 alt="icon"
               ></img>
             </ListItemIcon>
@@ -148,7 +159,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
             justifyContent: "space-around",
             alignItem: "baseline",
             width: "100%",
-            padding: "0px 30px",
+            padding: "0px 10px",
           }}
         >
           <a href="https://t.me/PHNXDAO" target="_blank">

@@ -39,8 +39,8 @@
 
 .css-1u2mxbp {
   height: 63px;
+  justify-content: flex-start !important;
 }
-
 @media only screen and (max-width: 650px) {
   .css-1u2mxbp {
     height: 45px;
@@ -157,7 +157,7 @@
   position:fixed;
   display:flex;
   bottom:20px;
-  left:100px;
+  left:110px;
   background-color:#fff;
   border-radius:7px;
   padding:2px
@@ -363,7 +363,6 @@ html {
   @media (max-width: 650px) {
       .addLiquidityBox{
           overflow: auto;
-          
           padding: 16px;
           }
 

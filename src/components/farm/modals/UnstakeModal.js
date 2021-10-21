@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./stakeModal.css";
 import Logo from "../../../assets/Logo.png";
+import CloseIcon from "@mui/icons-material/Close";
 import { useWeb3React } from "@web3-react/core";
 import Web3 from "web3";
 import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY } from "../../../contract/constant";
@@ -94,14 +95,23 @@ function UnStakeModal({ Close, userInfo }) {
 
   return (
     <div className="stakingModal">
-      <img className="stakingModalLogo" src={Logo} alt="Logo"></img>
+        <div className="displayFlex">
+              <div className="confirmPhnxDepositeLogo">
+                <img style={{height:"32px"}} src={Logo}></img>
+              </div>
+              <div className="closeModalIcon">
+                <span className="cursorPointer">
+                  <CloseIcon onClick={() => Close()} />
+                </span>
+              </div>
+            </div>
 
-      <div className="stakingModalHeading">UnStake LP Tokens</div>
+      <div className="stakingModalHeading">Unstake LP Tokens</div>
 
       <div style={{ display: "flex", alignItem: "center" }}>
         <div className="stakingModal-details">STAKE</div>
         <div style={{ marginLeft: "auto" }} className="stakingModal-details">
-         <span> Bal: {" "}<span style={{ color: "#000" }}>{maxlpValue} PHNX-ETH LP</span></span>
+         <span> Bal: {" "}<span style={{ color: "#000", fontWeight:"600" }}>{maxlpValue} PHNX-ETH LP</span></span>
         </div>
       </div>
 
@@ -148,7 +158,8 @@ function UnStakeModal({ Close, userInfo }) {
       <div style={{ display: "flex", alignItems: "center" ,marginTop:"20px"}}>
         <button
           className="farm-btn-stake-outline"
-          style={{ marginTop: "25px" }}
+          style={{ marginTop: "25px",
+        fontSize:"16px" }}
           onClick={() => Close()}
         >
           Close
@@ -158,6 +169,7 @@ function UnStakeModal({ Close, userInfo }) {
           style={{
             marginLeft: "auto",
             marginTop: "25px",
+            fontSize:"16px",
             background:
             loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)
                 ? "#ACACAC"

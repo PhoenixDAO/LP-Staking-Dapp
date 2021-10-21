@@ -1,3 +1,4 @@
+import React from "react";
 import { styled } from "@mui/material/styles";
 import { AppBar as MuiAppBar, Toolbar, IconButton, Stack } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -33,7 +34,15 @@ const Item = styled("div")(({ theme }) => ({
 
 const DashboardNavbar = ({ open, handleDrawerOpen }) => {
   return (
-    <AppBar position="fixed" open={open} style={{boxShadow: '0px 0px 7px 2px rgb(0, 0, 0, 0.1)'}}>
+    <AppBar
+      position="fixed"
+      open={open}
+      className="hello"
+      style={{ boxShadow: "10px 0px 7px 2px rgb(0, 0, 0, 0.1)" }}
+      sx={{
+        width:open?"calc(100% - 150px) !important":"100%",
+      }}
+    >
       <Toolbar>
         <IconButton
           // color="inherit"
@@ -54,13 +63,13 @@ const DashboardNavbar = ({ open, handleDrawerOpen }) => {
           alignItems="center"
           justifyContent="space-between"
           width="100%"
-          className='appBarFlex'
+          className="appBarFlex"
         >
           <Item>
             <img src={Logo} alt="logo" />
           </Item>
           <Item>
-            <ConnectWallet landingScreenBtn={false}/>
+            <ConnectWallet landingScreenBtn={false} />
           </Item>
         </Stack>
       </Toolbar>

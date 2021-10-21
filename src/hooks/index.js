@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import { ethers } from "ethers";

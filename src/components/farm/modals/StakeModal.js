@@ -4,6 +4,7 @@ import Logo from "../../../assets/Logo.png";
 import { useWeb3React } from "@web3-react/core";
 import CalculatorLogo from "../../../assets/calculator.png";
 import ShareLogo from "../../../assets/share.png";
+import CloseIcon from "@mui/icons-material/Close";
 import { useSelector, useDispatch } from "react-redux";
 import * as STAKE_SERVICES from "../../../services/stake.services";
 import {
@@ -43,15 +44,15 @@ function StakeModal({ Close, calculateAPR, Roi }) {
 
     if (!isNaN(e.target.value) && e.target.value != "") {
       console.log(parseFloat(e.target.value));
-      calculateAPR(parseFloat(e.target.value), true);
+      // calculateAPR(parseFloat(e.target.value), true);
     } else {
-      calculateAPR(0, true);
+      // calculateAPR(0, true);
     }
     // }
   };
 
   useEffect(()=>{
-    calculateAPR(0, true);
+    // calculateAPR(0, true);
   },[])
 
   // useEffect(() => {
@@ -102,14 +103,23 @@ function StakeModal({ Close, calculateAPR, Roi }) {
 
   return (
     <div className="stakingModal">
-      <img className="stakingModalLogo" src={Logo} alt="Logo"></img>
+        <div className="displayFlex">
+              <div className="confirmPhnxDepositeLogo">
+                <img style={{height:"32px"}} src={Logo}></img>
+              </div>
+              <div className="closeModalIcon">
+                <span className="cursorPointer">
+                  <CloseIcon onClick={() => Close()} />
+                </span>
+              </div>
+            </div>
       <div className="stakingModalHeading">Stake LP Tokens</div>
 
       <div style={{ display: "flex", alignItem: "center" }}>
         <div className="stakingModal-details">STAKE</div>
         <div style={{ marginLeft: "auto" }} className="stakingModal-details">
           <span>
-            Bal: <span style={{ color: "#000" }}>{maxlpValue} PHNX-ETH LP</span>
+            Bal: <span style={{ color: "#000", fontWeight:"600" }}>{maxlpValue} PHNX-ETH LP</span>
           </span>
         </div>
       </div>
@@ -138,9 +148,9 @@ function StakeModal({ Close, calculateAPR, Roi }) {
             setlpValue(maxlpValue);
             if (!isNaN(maxlpValue) && maxlpValue != "") {
               console.log(parseFloat(maxlpValue));
-              calculateAPR(parseFloat(maxlpValue),true);
+              // calculateAPR(parseFloat(maxlpValue),true);
             } else {
-              calculateAPR(parseFloat(0),true);
+              // calculateAPR(parseFloat(0),true);
             }
           }}
         >
@@ -177,9 +187,10 @@ function StakeModal({ Close, calculateAPR, Roi }) {
       <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
         <button
           className="farm-btn-stake-outline"
-          style={{ marginTop: "25px" }}
+          style={{ marginTop: "25px",
+        fontSize:"16px" }}
           onClick={() => {
-            calculateAPR(0);
+            // calculateAPR(0);
             Close();
           }}
         >
@@ -190,6 +201,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           style={{
             marginLeft: "auto",
             marginTop: "25px",
+            fontSize:"16px",
             background:
             loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue) 
                 ? "#ACACAC"

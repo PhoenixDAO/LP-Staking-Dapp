@@ -33,7 +33,7 @@
 
 .stakingModalInput{
     font-size: 20px;
-    font-weight: bold;
+    font-weight: bolder;
     padding: 7px;
     flex-grow: 1;
     margin-right: 9px;
@@ -51,12 +51,15 @@
 
 .stakingModalInputBtn {
   background-color: #c3b7ff;
-  color: #413ae2;
-  border-radius: 9px;
-  border: none;
-  font-weight: bold;
-  height: fit-content;
-  padding: 7px;
+    color: #413ae2;
+    border-radius: 7px;
+    border: none;
+    font-weight: bold;
+    height: 23px;
+    font-size: 10px;
+    height: 23px;
+    width: 36px;
+    padding: 4px 7px;
 }
 
 .stakingModalConfirm {
