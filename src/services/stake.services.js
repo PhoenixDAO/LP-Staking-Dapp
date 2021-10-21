@@ -17,7 +17,6 @@ export const giveApprovalPhnxStaking = async (
   handleCheckApprovalPhnxStakingAction,
   setApproveStatus
 ) => {
-  //   const web3 = new Web3(web3context?.library?.currentProvider);
   //farming approval
   if (web3context && contractUniswapPair) {
     await contractUniswapPair.methods
@@ -31,21 +30,15 @@ export const giveApprovalPhnxStaking = async (
         console.log("transactionHash", hash);
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
-        if(confirmationNumber == 1){
+        if (confirmationNumber == 0) {
           await handleCheckApprovalPhnxStakingAction(setApproveStatus);
           await handleGetPoolPosition();
           await handleGetEthBalance();
           await handleGetPhnxBalance();
         }
-        if (confirmationNumber === 2) {
-          // tx confirmed
-          console.log("confirmationNumber", confirmationNumber);
-          // await handleCheckApprovalPhnxStakingAction();
-        }
-       
       })
       .on("error", function (err) {
-        setApproveStatus(false)
+        setApproveStatus(false);
         console.log("err", err);
       });
   } else {
@@ -79,9 +72,7 @@ export const harvestPHNX = async (
       setLoading(false);
       toast(
         <Notify
-          text={
-            "INSUFFICIENT PHNX FUNDS IN CONTRACT 😔, Please try later"
-          }
+          text={"INSUFFICIENT PHNX FUNDS IN CONTRACT 😔, Please try later"}
           severity=""
         />,
         {
@@ -109,7 +100,7 @@ export const harvestPHNX = async (
         );
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
-        if (confirmationNumber === 1) {
+        if (confirmationNumber === 0) {
           // tx confirmed
           setLoading(false);
           toast(
@@ -151,12 +142,11 @@ export const checkApprovalPhnxStaking = async (
     const al = await contractUniswapPair.methods
       .allowance(web3context?.account, PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY)
       .call();
-      // setAllowance(al)
-      
-      if(setApproveStatus){
-        setApproveStatus(false)
-      }
+    // setAllowance(al)
 
+    if (setApproveStatus) {
+      setApproveStatus(false);
+    }
 
     console.log("al checkApprovalPhnxStaking", al);
     return al;
@@ -245,9 +235,7 @@ export const stakeLp = async (
     setLoading(false);
     toast(
       <Notify
-        text={
-          "INSUFFICIENT PHNX FUNDS IN CONTRACT 😔, Please try later"
-        }
+        text={"INSUFFICIENT PHNX FUNDS IN CONTRACT 😔, Please try later"}
         severity=""
       />,
       {
@@ -258,8 +246,7 @@ export const stakeLp = async (
     return;
   }
 
-  console.log(lpValue)
-
+  console.log(lpValue);
 
   await contractPhnxStake.methods
     .deposit(web3.utils.toWei(lpValue.toString()))
@@ -278,7 +265,7 @@ export const stakeLp = async (
       );
     })
     .on("confirmation", async function (confirmationNumber, receipt) {
-      if (confirmationNumber === 1) {
+      if (confirmationNumber === 0) {
         // tx confirmed
         setLoading(false);
         Close();
@@ -334,12 +321,10 @@ export const unStakeLp = async (
   console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
   if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
-    setLoading(false)
+    setLoading(false);
     toast(
       <Notify
-        text={
-          "INSUFFICIENT PHNX FUNDS IN CONTRACT 😔, Please try later"
-        }
+        text={"INSUFFICIENT PHNX FUNDS IN CONTRACT 😔, Please try later"}
         severity=""
       />,
       {
@@ -349,10 +334,10 @@ export const unStakeLp = async (
 
     return;
   }
-  console.log(lpValue)
+  console.log(lpValue);
 
   await contractPhnxStake.methods
-    .withdraw(web3.utils.toWei((lpValue).toString()))
+    .withdraw(web3.utils.toWei(lpValue.toString()))
     .send({ from: web3context.account })
     .on("transactionHash", (hash) => {
       // hash of tx
@@ -368,19 +353,20 @@ export const unStakeLp = async (
       );
     })
     .on("confirmation", async function (confirmationNumber, receipt) {
-      if (confirmationNumber === 1) {
-        // tx confirmed
+      if (confirmationNumber === 0) {
         setLoading(false);
         Close();
+        // tx confirmed
+        await handleGetPoolPosition();
+        await handleGetEthBalance();
+        await handleGetPhnxBalance();
+
         toast(
           <Notify text={"Transaction Successful 🚀"} severity="success" />,
           {
             position: "bottom-right",
           }
         );
-        await handleGetPoolPosition();
-        await handleGetEthBalance();
-        await handleGetPhnxBalance();
       }
     })
     .on("error", function (err) {
