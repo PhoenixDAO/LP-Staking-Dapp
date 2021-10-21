@@ -18,8 +18,8 @@
 
 .slippingLiq-heading{
   color: #413AE2;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: bolder;
   margin-top: 7px;
   display: flex;
     align-items: center;
@@ -133,6 +133,7 @@
   background-color: #413AE2;
   color: #fff;
   font-size: 15px;
+  font-weight: 600;
   text-align: center;
   border: none;
   border-radius: 12px;

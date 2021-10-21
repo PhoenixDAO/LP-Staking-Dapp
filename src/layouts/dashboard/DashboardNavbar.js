@@ -2,6 +2,7 @@ import React from "react";
 import { styled } from "@mui/material/styles";
 import { AppBar as MuiAppBar, Toolbar, IconButton, Stack } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import menuHamburger from "../../assets/menuHamburger.svg";
 import Logo from "../../assets/Logo.png";
 import { drawerWidth } from "./constants";
 import ConnectWallet from "../../components/ConnectWallet";
@@ -40,7 +41,7 @@ const DashboardNavbar = ({ open, handleDrawerOpen }) => {
       className="hello"
       style={{ boxShadow: "10px 0px 7px 2px rgb(0, 0, 0, 0.1)" }}
       sx={{
-        width:open?"calc(100% - 150px) !important":"100%",
+        width:open?"calc(100% - 200px) !important":"100%",
       }}
     >
       <Toolbar>
@@ -54,7 +55,8 @@ const DashboardNavbar = ({ open, handleDrawerOpen }) => {
             ...(open && { display: "none" }),
           }}
         >
-          <MenuIcon />
+          {/* <MenuIcon /> */}
+          <img src={menuHamburger} style={{margin:"2px"}}></img>
         </IconButton>
 
         <Stack
@@ -65,7 +67,7 @@ const DashboardNavbar = ({ open, handleDrawerOpen }) => {
           width="100%"
           className="appBarFlex"
         >
-          <Item>
+          <Item sx={{marginLeft:"20px"}}>
             <img src={Logo} alt="logo" />
           </Item>
           <Item>
