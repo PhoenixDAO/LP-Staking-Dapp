@@ -282,7 +282,7 @@ function MyLiquidity({ ChangeTab }) {
 
             <div style={{ display: "flex", marginLeft: "auto", alignItems:"center" }}>
               <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
-              <div className="pooled-item-txt"><span style={{fontSize:"18px"}}>{poolPosition.phnx}</span></div>
+              <div className="pooled-item-txt"><span style={{fontSize:"20px"}}>{poolPosition.phnx}</span></div>
             </div>
           </div>
 
@@ -293,7 +293,7 @@ function MyLiquidity({ ChangeTab }) {
 
             <div style={{ display: "flex", marginLeft: "auto", alignItems:"center" }}>
               <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
-              <div className="pooled-item-txt"><span style={{fontSize:"18px"}}>{poolPosition.eth}</span></div>
+              <div className="pooled-item-txt"><span style={{fontSize:"20px"}}>{poolPosition.eth}</span></div>
             </div>
           </div>
 
@@ -303,7 +303,7 @@ function MyLiquidity({ ChangeTab }) {
             <div className="pooled-item-txt">pool share</div>
 
             <div style={{ display: "flex", marginLeft: "auto", alignItems:"center" }}>
-              <div className="pooled-item-txt"><span style={{fontSize:"18px"}}>{poolPosition.poolPerc}%</span></div>
+              <div className="pooled-item-txt"><span style={{fontSize:"20px"}}>{poolPosition.poolPerc}%</span></div>
             </div>
           </div>
 

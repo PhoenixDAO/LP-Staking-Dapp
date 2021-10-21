@@ -51,8 +51,9 @@ const DashboardNavbar = ({ open, handleDrawerOpen }) => {
           onClick={handleDrawerOpen}
           edge="start"
           sx={{
-            marginRight: "36px",
+
             ...(open && { display: "none" }),
+            
           }}
         >
           {/* <MenuIcon /> */}
@@ -67,8 +68,8 @@ const DashboardNavbar = ({ open, handleDrawerOpen }) => {
           width="100%"
           className="appBarFlex"
         >
-          <Item sx={{marginLeft:"20px"}}>
-            <img src={Logo} alt="logo" />
+          <Item sx={{"@media (min-width:450px)":{marginLeft:"50px"}}}>
+            <img src={Logo} className="navLogo" alt="logo" />
           </Item>
           <Item>
             <ConnectWallet landingScreenBtn={false} />

@@ -72,7 +72,7 @@ export default function WalletSettings({
             </div>
             <div className="closeModalIcon">
               <span className="cursorPointer">
-                <CloseIcon onClick={handleClose} />
+                <CloseIcon sx={{transform:"scale(1.2)"}} onClick={handleClose} />
               </span>
             </div>
           </div>
@@ -187,7 +187,7 @@ export default function WalletSettings({
           <br />
 
           <button
-            className="add-liq-btn cursorPointer"
+            className="walletDisconnect cursorPointer"
             onClick={() => {
               deactivateWallet();
               handleClose();
