@@ -34,7 +34,7 @@ const ConfirmModal = ({
       return;
     }
     console.log("asdasddsad");
-    handleRemoveLiquidity();
+    handleRemoveLiquidity(setTxModalClose);
   };
 
   const style = {

@@ -479,10 +479,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           )}
         </div>
 
-        <ConnectWallet
-          justModal={true}
-          openModal={ConnectWalletModalStatus}
-        ></ConnectWallet>
+        <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus} />
         <ConnectModal
           transactionConfirmModal={transactionConfirmModal}
           setTxModalClose={setTxModalClose}
@@ -493,7 +490,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           phnxPerEth={phnxPerEth}
           ethPerPhnx={ethPerPhnx}
           slippageValue={slippageValue}
-        ></ConnectModal>
+        />
         <SlippingTolerance
           status={slippageModal}
           handleClose={setSlippageModal}
