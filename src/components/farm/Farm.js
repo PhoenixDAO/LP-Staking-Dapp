@@ -221,10 +221,13 @@ function Farm() {
     fetchData();
   }, []);
 
-  // APR * totalLpStake = roi
-  const calculateAPR = async (amt, f) => {
+
+
+
+  const calculateROI = async (amount) => {
     try {
-      if ((amt.toFixed(4) == 0 || amt == "") && f) {
+
+      if (amount.toFixed(16) == 0) {
         setRoi(0);
         return;
       }
@@ -241,81 +244,76 @@ function Farm() {
         (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
         Web3.utils.fromWei(lpTokenSupply);
 
-      console.log(apr, "apr.");
-
-      let amount = amt; //will get from user onChange
-      console.log(amount, "amount1111");
 
       let rewardDebt = userInfo.rewardDebt;
       rewardDebt = Number(Web3.utils.fromWei(rewardDebt.toString()));
-      // console.log(rewardDebt, "rewardDebt1111");
 
-      const getReserves = await contractUniswapPair.methods
-        .getReserves()
-        .call();
-      // console.log(getReserves, "getReserves getReserves");
+      const getReserves = await contractUniswapPair.methods.getReserves().call();
 
-      let _balance = new BigNumber(Web3.utils.toWei(amount.toString()));
+
+      let _balance =
+        Number(Web3.utils.toWei(amount.toFixed(4).toString()))
+
+
+      _balance = new BigNumber(_balance);
+      console.log(_balance, "_balance 222222222");
+
       const _reserve0 = new BigNumber(getReserves._reserve0);
       const _reserve1 = new BigNumber(getReserves._reserve1);
+
       const _ratio = _reserve0.dividedBy(_reserve1);
 
-      let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot(); //1\phnx
+      let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot(); //this
+
+
       let _token1 = _balance.pow(2).dividedBy(_token0);
       const conv = new BigNumber("1e+18");
 
-      _token0 = _token0.dividedBy(conv).toString(); //phnx
-      // _token1 = _token1.dividedBy(conv);
-
-      let reward = apr * amount - rewardDebt;
-      console.log("rewardd", reward);
-      let netProfit = reward - _token0;
-      let roi = netProfit / _token0; //* 100;
-
+      _token0 = _token0.dividedBy(conv).toString(); //phnx this
       let usd = PhoenixDAO_market.usd;
-      console.log("usd ==>", usd);
-      let dollarValue = roi * usd;
 
-      let ROI = apr * amt * usd;
-      console.log("ROI ==>>>>", ROI);
+      let roi = _token0 * apr * usd;
 
-      // console.log("dollarValue", dollarValue);
+      console.log("a", roi);
+      // let reward = Number(apr) * Number(amount) - Number(rewardDebt); // Phnx rewrd in a year
 
-      // console.log(
-      //   "apr",
-      //   apr,
-      //   "amount",
-      //   amount,
-      //   "rewardDebt",
-      //   rewardDebt,
-      //   "netProfit",
-      //   netProfit,
-      //   "_token0",
-      //   _token0,
-      //   "roi",
-      //   roi
-      // );
+      // let netProfit = Number(Number(reward) - Number(_token0));
+      // let roi = Number(netProfit / _token0);
 
-      // setRoi(parseInt(dollarValue));
+      // let usd = PhoenixDAO_market.usd;
 
-      // if (dollarValue.slice(0, 1) == "-") {
-      //   alert("cant handle this small value");
-      //   return;
-      // }
-      // setAPR(parseInt(apr));
+      // let dollarValue = Number(Number(roi) * Number(usd));
 
-      // if (dollarValue.slice(0, 1) == "-") {
-      //     // alert("cant handle this small value");
-      //     return;
-      //   }
 
-      if (f) {
-        console.log(apr, "apr apr");
-        setRoi(parseInt(ROI));
-      }
-      setAPR(parseInt(apr));
-    } catch (e) {}
+      setRoi(parseFloat(roi).toFixed(3));
+
+
+
+    } catch (e) { }
+
   };
+
+
+  const calculateAPR = async () => {
+
+    try {
+
+      const blockInAYear = 2102400;
+      const phxPerBlock = await contractPhnxStake?.methods?.phxPerBlock()?.call();
+      const lpTokenSupply = await contractPhnxStake?.methods
+        ?.lpTokenSupply()
+        ?.call();
+
+      const apr =
+        (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
+        Web3.utils.fromWei(lpTokenSupply);
+
+      setAPR(parseInt(apr));
+
+    } catch (e) { }
+
+  }
+
 
   useEffect(() => {
     if (
@@ -324,7 +322,7 @@ function Farm() {
       contractUniswapPair?.methods &&
       PhoenixDAO_market
     ) {
-      calculateAPR(0, false);
+      calculateAPR();
     }
 
     console.log(userInfo.amount, "111");
@@ -342,15 +340,6 @@ function Farm() {
     console.log(TokenSupply, "aaa");
   };
 
-  // useEffect(() => {
-
-  //   if (contractPhnxStake?.methods && contractUniswapPair?.methods) {
-  //     calculateAPR();
-  //   }
-  // }, [contractPhnxStake, contractUniswapPair, web3context.active]);
-
-  // Check if phnx earned is less than contract balance for staking
-  // for unstake if phnx earned + unstaked token < contract balance of staking
 
   return (
     <div>
@@ -404,7 +393,7 @@ function Farm() {
       >
         <StakingModal
           Close={handleStackClose}
-          calculateAPR={calculateAPR}
+          calculateAPR={calculateROI}
           Roi={Roi}
         />
       </Modal>

@@ -22,7 +22,7 @@ const customHttpProvider = new ethers.providers.JsonRpcProvider(
 );
 
 export const getDataMain = async () => {
-  console.log("asdadasdaaaaaaaaaaa");
+  console.log('asdadasdaaaaaaaaaaa')
   const phnx = await Fetcher.fetchTokenData(
     chainId,
     PHNX_RINKEBY_TOKEN_ADDRESS,
@@ -31,7 +31,7 @@ export const getDataMain = async () => {
   const weth = WETH[chainId];
   const pair = await Fetcher.fetchPairData(phnx, weth, customHttpProvider);
   const route = new Route([pair], weth);
-  console.log(pair.reserve1.toFixed(2), "pairrrrrrrgdfgdfgdfgr");
+  console.log(pair.reserve1.toFixed(2), 'pairrrrrrrgdfgdfgdfgr')
   return { weth, pair, route };
 };
 
@@ -67,7 +67,7 @@ export const supply = async (
     )
     .send({
       from: web3context.account,
-      value: web3.utils.toWei(ethValue.toFixed(16).toString()),
+      value: web3.utils.toWei(((ethValue).toFixed(16)).toString()),
       gas: 190809,
     })
     .on("transactionHash", (hash) => {
@@ -83,23 +83,37 @@ export const supply = async (
       //   }
       // );
       settranHash(hash);
-
+      
       console.log("hash", hash);
     })
     .on("confirmation", async function (confirmationNumber, receipt) {
-      settransactionProcessModal(false);
-      settransactionSubmittedModal(true);
+      if (confirmationNumber === 1) {
+        // settransactionProcessModal(false);
+        // settransactionSubmittedModal(true);
+        toast(
+          <Notify text={"Transaction Successful 🚀"} severity="success" />,
+          {
+            position: "bottom-right",
+          }
+        );
+        
+        
 
-      if (confirmationNumber === 0) {
-        // toast(
-        //   <Notify text={"Transaction Successful 🚀"} severity="success" />,
-        //   {
-        //     position: "bottom-right",
-        //   }
-        // );
         await handleGetPoolPosition();
         await handleGetEthBalance();
         await handleGetPhnxBalance();
+
+        settransactionProcessModal(false);
+        settransactionSubmittedModal(true);
+
+        console.log("confirmationNumber", confirmationNumber);
+        //   setLoading(false);
+        //   setPhnxValue("");
+        //   setEthValue("");
+        //   setPoolShare(0);
+        if (web3context.active && web3context.account) {
+          // getPoolPosition();
+        }
       }
     })
     .on("error", function (err) {
@@ -203,11 +217,11 @@ export const getEthBalance = async (web3context) => {
   let WeiEthBalance = await web3.eth.getBalance(web3context.account);
   // console.log(web3.utils.fromWei(WeiEthBalance, "ether"),'asdasdasd');
   let EthBalance = fixedWithoutRounding(
-    web3.utils.fromWei(WeiEthBalance, "ether"),
+    (web3.utils.fromWei(WeiEthBalance, "ether")),
     4
   );
   // console.log(EthBalance,'aaa')
-  return EthBalance;
+  return (EthBalance);
   // .toFixed(2);
 };
 
@@ -225,20 +239,18 @@ export const getPhnxBalance = async (web3context, contractPhnxDao) => {
   }
 };
 
-export const checkApprovalPhnxDao = async (
-  web3context,
-  contractPhnxDao,
-  setApproveStatus
-) => {
+export const checkApprovalPhnxDao = async (web3context, contractPhnxDao
+  ,setApproveStatus
+  ) => {
   let allowance1 = await contractPhnxDao.methods
     .allowance(web3context.account, UNISWAP_CONTRACT_ADDRESS_RINEBY)
     .call();
-  console.log("preworking", setApproveStatus);
+    console.log('preworking',setApproveStatus);
 
-  if (setApproveStatus) {
-    console.log("working", setApproveStatus);
-    setApproveStatus(false);
-  }
+    if(setApproveStatus){
+      console.log('working',setApproveStatus);
+      setApproveStatus(false);
+    }
   console.log("allowance checkApprovalPhnxDao", allowance1);
   return allowance1;
 };
@@ -252,7 +264,8 @@ export const giveApprovalPhnxDao = async (
   handleCheckApprovalPhnxDaoAction,
   setApproveStatus
 ) => {
-  console.log(setApproveStatus, "aaa1");
+
+  console.log(setApproveStatus,'aaa1')
   if (!web3context.account) {
     alert("Connect your wallet");
     return;
@@ -268,15 +281,17 @@ export const giveApprovalPhnxDao = async (
       console.log("tx hash", hash);
     })
     .on("confirmation", async function (confirmationNumber, receipt) {
-      if (confirmationNumber === 0) {
+      if (confirmationNumber === 1) {
         // tx confirmed
-
+        
         // checkApprovalPhnxDao(web3context, contractPhnxDao);
         // ToastMsg("success", "Approved successfully!");
         await handleGetPoolPosition();
         await handleGetEthBalance();
         await handleGetPhnxBalance();
-        await handleCheckApprovalPhnxDaoAction(setApproveStatus);
+        await handleCheckApprovalPhnxDaoAction(
+           setApproveStatus
+          );
       }
     })
     .on("error", function (err) {
@@ -303,13 +318,14 @@ export const checkApprovalUniswapPair = async (
 
     setAllowance(allowance1);
 
-    if (setApproveStatus) {
+    if(setApproveStatus){
       setApproveStatus(false);
     }
 
     return allowance1;
+    
   } else {
-    if (setApproveStatus) {
+    if(setApproveStatus){
       setApproveStatus(false);
     }
     throw "contractUniswapPair not initialized!";
@@ -339,11 +355,14 @@ export const giveApprovalUniswapPair = async (
         console.log("tx hash", hash);
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
-        if (confirmationNumber === 0) {
-          await handleCheckApprovalUniswapPairAction(
-            setAllowance,
-            setApproveStatus
-          );
+        if (confirmationNumber === 1) {
+          await handleCheckApprovalUniswapPairAction(setAllowance,setApproveStatus);
+          // tx confirmed
+          // await checkApprovalUniswapPair(
+          //   web3context,
+          //   contractUniswapPair,
+          //   setAllowance
+          // );
           await handleGetPoolPosition();
           await handleGetEthBalance();
           await handleGetPhnxBalance();
@@ -353,9 +372,11 @@ export const giveApprovalUniswapPair = async (
       .on("error", function (err) {
         console.error(err);
         setApproveStatus(false);
+
       });
   } else {
     throw "contractUniswapPair not initialized! @giveApprovalUniswapPair";
+    return;
   }
 };
 
@@ -374,20 +395,19 @@ export const removeLiquidity = async (
   settranHash,
   handleMainClose
 ) => {
+
   if (web3context && contractUniswapRouter && poolPosition) {
     let deadline = Date.now();
     deadline += 20 * 60;
 
-    console.log(poolPosition.phnx, "dgf");
+    console.log(poolPosition.phnx,'dgf')
 
-    let ethValue =
-      parseFloat(poolPosition.eth) * (selectedPercentage / 100).toString();
-    let phnxValue =
-      parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();
+    let ethValue = parseFloat(poolPosition.eth) * (selectedPercentage / 100).toString();
+    let phnxValue = parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();
     let phnxMin = phnxValue - phnxValue * (slippageValue / 100);
     let ethMin = ethValue - ethValue * (slippageValue / 100);
 
-    console.log(phnxMin, ethMin, "asdsadasd");
+    console.log(phnxMin,ethMin,'asdsadasd');
 
     await contractUniswapRouter.methods
       .removeLiquidityETH(
@@ -407,41 +427,43 @@ export const removeLiquidity = async (
       .on("transactionHash", (hash) => {
         // hash of tx
 
-        // toast(
-        //   <Notify
-        //     text={"Transaction in Progress 😃, you'll be notified soon."}
-        //     severity="success"
-        //   />,
-        //   {
-        //     position: "bottom-right",
-        //   }
-        // );
+        toast(
+          <Notify
+            text={"Transaction in Progress 😃, you'll be notified soon."}
+            severity="success"
+          />,
+          {
+            position: "bottom-right",
+          }
+        );
         settranHash(hash);
         settransactionConfirmModal(false);
+
+        
         console.log("hash", hash);
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
-        settransactionProcessModal(false);
-        settransactionSubmittedModal(true);
-        if (confirmationNumber === 0) {
+        if (confirmationNumber === 1) {
           toast(
             <Notify text={"Transaction Successful 🚀"} severity="success" />,
             {
               position: "bottom-right",
             }
           );
+
+          console.log("confirmationNumber", confirmationNumber);
+
           await handleGetPoolPosition();
           await handleGetEthBalance();
           await handleGetPhnxBalance();
           settransactionProcessModal(false);
           settransactionSubmittedModal(true);
           handleMainClose(false);
-
+          
           if (web3context.active && web3context.account) {
             // getPoolPosition();
           }
         }
-        console.log("confirmationNumber", confirmationNumber);
       })
       .on("error", function (err) {
         settransactionProcessModal(false);

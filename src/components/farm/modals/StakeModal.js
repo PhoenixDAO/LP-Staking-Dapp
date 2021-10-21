@@ -38,19 +38,23 @@ function StakeModal({ Close, calculateAPR, Roi }) {
     setlpValue(e.target.value);
 
     if (!isNaN(e.target.value) && e.target.value != "") {
-      // console.log(parseFloat(e.target.value));
-      calculateAPR(parseFloat(e.target.value), true);
+      console.log(parseFloat(e.target.value));
+      calculateAPR(parseFloat(e.target.value));
     } else {
-      calculateAPR(0, true);
+      calculateAPR(0);
     }
   };
 
-  useEffect(() => {
-    calculateAPR(0, true);
-  }, []);
-  useEffect(() => {
-    console.log("Roi UseEffect()=>>", Roi);
-  }, [Roi, lpValue]);
+  useEffect(()=>{
+    calculateAPR(0);
+  },[])
+
+  // useEffect(() => {
+  // if (!poolPosition) {
+  // dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+  // }
+  // console.log("Pool position already init!");
+  // }, [web3context.account]);
 
   useEffect(() => {
     if (web3context.active && web3context.account && poolPosition) {
@@ -141,10 +145,9 @@ function StakeModal({ Close, calculateAPR, Roi }) {
             setlpValue(maxlpValue);
             if (!isNaN(maxlpValue) && maxlpValue != "") {
               console.log(parseFloat(maxlpValue));
-              calculateAPR(parseFloat(maxlpValue), true);
+              calculateAPR(parseFloat(maxlpValue));
             } else {
-              calculateAPR(parseFloat(0), true);
-              // console.log(parseFloat(0));
+              calculateAPR(parseFloat(0));
             }
           }}
         >
