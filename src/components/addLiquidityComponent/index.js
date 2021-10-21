@@ -392,7 +392,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
           <div className="pool-share">
             <Typography style={styles.txtConvDetails}>
-              {isNaN(poolShare) ? "0.00" : poolShare + "%"}
+              {isNaN(poolShare) ? "0%" : poolShare + "%"}
             </Typography>
             <Typography style={styles.txtConvDetails}>pool share</Typography>
           </div>
