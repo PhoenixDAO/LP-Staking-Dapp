@@ -247,24 +247,25 @@ export default function ConnectWallet({
   }, []);
 
   return (
-    <div style={{ width: "fit-content" }}>
+    <div style={{ width: "fit-content", display:"flex", alignItems:"center" }}>
       {active && account && justModal != true ? (
-        <button
-          className="connect-wallet-btn balance-btn"
-          style={{ border: "none" }}
-        >
           <div
-            style={{
-              display: "flex",
-              alignItem: "center",
-              justifyContent: "center",
-            }}
+            className="usdBalance"
           >
             <img
               src={PhnxLogo}
               alt="PhnxLogo"
-              className="connect-wallet-btn-img"
+              className="dollarBalanceBtnImg"
             ></img>
+            <span  style={{
+              display: "flex",
+              alignItem: "center",
+              justifyContent: "center",
+              alignItems:"center",
+              fontWeight:"700",
+              color:"black",
+              fontSize:"16px"
+            }}>
             $
             {poolPosition != null
               ? fixedWithoutRounding(
@@ -273,19 +274,21 @@ export default function ConnectWallet({
                   4
                 )
               : "0.00"}
+              </span>
           </div>
-        </button>
       ) : null}
 
       {landingScreenBtn != true ? <>&nbsp; &nbsp;</> : null}
 
       {active && account && justModal != true ? (
-        <button className="connect-wallet-btn balance-btn">
+        <button className="balance-wallet-btn balance-btn">
           <div
             style={{
               display: "flex",
               alignItem: "center",
               justifyContent: "center",
+                fontWeight:"700",
+                alignItems:"center"
             }}
           >
             <img
@@ -315,7 +318,7 @@ export default function ConnectWallet({
           className={
             landingScreenBtn === true
               ? "connect-wallet-btn connect-wallet-btn-reverse"
-              : "connect-wallet-btn"
+              : "connect-wallet-modal-btn"
           }
           style={{borderRadius:landingScreenBtn?"":"9px"}}
         >
@@ -324,6 +327,8 @@ export default function ConnectWallet({
               style={{
                 display: "flex",
                 alignItems: "center",
+                paddingInline:"10px",
+                fontWeight:"700",
               }}
             >
               {" "}
@@ -359,7 +364,7 @@ export default function ConnectWallet({
             variant="h6"
             component="h2"
             color="primary"
-            sx={{ mt: 3, color: "#413AE2", fontWeight: "bolder" }}
+            sx={{ mt: 3, color: "#413AE2", fontWeight: "bolder"}}
             align="center"
             className="connectWalletMsg"
           >
@@ -393,7 +398,7 @@ export default function ConnectWallet({
             </Item>
             <Divider style={{ marginTop: "5px" }} />
             <Item
-            style={{marginTop:"5px"}}
+            style={{marginTop:"5px", textAlign: "left" }}
               onClick={() => {
                 !active &&
                   !(connector instanceof WalletConnectConnector) &&
@@ -420,7 +425,7 @@ export default function ConnectWallet({
             </Item>
             <Divider style={{ marginTop: "5px" }} />
             <Item
-              style={{marginTop:"5px"}}
+              style={{marginTop:"5px", textAlign: "left" }}
               onClick={() => {
                 !active &&
                   !(connector instanceof WalletLinkConnector) &&
@@ -447,7 +452,7 @@ export default function ConnectWallet({
             </Item>
             <Divider style={{ marginTop: "5px" }} />
 
-            <Item style={{marginTop:"5px"}}>
+            <Item style={{marginTop:"5px", textAlign: "left" }}>
               <img src={ledgerIcon} alt="logo" className="walletImg" />
               <Typography
                 id="modal-modal-title"

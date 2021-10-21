@@ -44,25 +44,24 @@ function FarmHarvest({
         <div style={{ marginLeft: "auto", fontWeight: "bolder",fontSize:"18px" ,color:"#1E1E22"}}>PHNX/ETH</div>
       </div>
       <div className="farm-details-div">
-        <div className="farm-details-txt">APR</div>
+        <div className="farm-details-txt"><span style={{color:"#4E4E55", fontWeight:"normal"}}>APR</span></div>
         <div className="farm-details-txt-right">
 
 <span style={{color:"#73727D"}}>
           {web3context.active ? APR : "--- "}% </span> &nbsp;
-          <img src={CalculatorLogo}></img>
+          <img src={CalculatorLogo} style={{height:"15px"}}></img>
 
         </div>
       </div>
       <div className="farm-details-div">
-        <div className="farm-details-txt">EARN</div>
-        <div className="farm-details-txt-right" style={{color:"#73727D"}}>PHNX + fees</div>
+        <div className="farm-details-txt"><span style={{color:"#4E4E55"}}>EARN</span></div>
+        <div className="farm-details-txt-right" style={{color:"#73727D", fontWeight:"normal"}}>PHNX + fees</div>
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#413AE2" }}>PHNX</span> EARNED
+          <span style={{ color: "#413AE2" }}>PHNX</span> <span style={{color:"#4E4E55"}}>EARNED</span>
         </div>
         <div className="farm-details-txt-right">
-
           <span style={{ fontWeight: "bolder", color: "#4E4E55" }}>
             {pendingPHX["0"] &&
               // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
@@ -86,7 +85,7 @@ function FarmHarvest({
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
+          <span style={{ color: "#413AE2" }}>PHNX-ETH</span> <span style={{color:"#4E4E55"}}>LP STAKED</span>
         </div>
         <div className="farm-details-txt-right">
           <span style={{ fontWeight: "bolder", color: "#4E4E55" }}>
@@ -179,7 +178,7 @@ function FarmHarvest({
               <span style={{ color: "#413AE2" }}>
                 <a
                   target="_blank"
-                  href="https://github.com/XORD-one/phoenix-LP-staking-contract"
+                  href="https://github.com/PhoenixDAO/Lp-staking-contract"
                   style={{ textDecoration: "none", color: "#413ae2" }}
                 >
                   View Contract&nbsp;

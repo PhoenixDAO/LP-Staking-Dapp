@@ -5,3 +5,18 @@
   .MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.Mui-disabled{
       padding-right:0px;
   }
+
+  .walletDisconnect{
+    width: 100%;
+    background-color: #fff;
+    color: #413AE2;
+    font-size: 16px;
+    text-shadow: 0px 0px 0px #413AE2;
+     font-weight: 900;
+    text-align: center;
+    border: 1px solid #413AE2;
+    border-radius: 9px;
+    padding: 15px;
+    margin: 13px 0px;
+    margin-top: 0px;
+  }

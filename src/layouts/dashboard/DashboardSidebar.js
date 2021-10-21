@@ -132,7 +132,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
             component={Link}
             to={`/${text}`}
             className={index === currentTab ? "current-tab" : "no-current-tab"}
-            style={{ color: "#73727D", fontWeight: "500" }}
+            style={{ color: "#73727D", fontWeight: "500",marginBottom:"20px" }}
             onClick={() => {
               handleDrawerClose();
               setSocialIcon(false);
@@ -171,7 +171,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
           </a>
 
           <a
-            href="https://github.com/XORD-one/phoenixdao-lp-staking-dapp"
+            href="https://github.com/PhoenixDAO/LP-Staking-Dapp/tree/main"
             target="_blank"
           >
             <img src={GithubLogo}></img>

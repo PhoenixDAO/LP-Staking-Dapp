@@ -39,7 +39,6 @@
 
 .farm-details-txt {
   font-size: 17px;
-  font-weight: 600;
 }
 
 .farm-details-txt-right {
@@ -47,7 +46,6 @@
   font-size: 18px;
   align-items: center;
   margin-left: auto;
-  font-weight: 900;
 }
 
 .farm-btn-stake {
@@ -58,7 +56,7 @@
   border-radius: 9px;
   border: none;
   padding: 13px;
-  margin-top: 50px;
+  margin-top: 35px;
 }
 
 .get-phnx-eth-lp {
