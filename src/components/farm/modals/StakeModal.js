@@ -44,15 +44,15 @@ function StakeModal({ Close, calculateAPR, Roi }) {
 
     if (!isNaN(e.target.value) && e.target.value != "") {
       console.log(parseFloat(e.target.value));
-      // calculateAPR(parseFloat(e.target.value), true);
+      calculateAPR(parseFloat(e.target.value));
     } else {
-      // calculateAPR(0, true);
+      calculateAPR(0);
     }
     // }
   };
 
   useEffect(()=>{
-    // calculateAPR(0, true);
+    calculateAPR(0);
   },[])
 
   // useEffect(() => {
@@ -148,9 +148,9 @@ function StakeModal({ Close, calculateAPR, Roi }) {
             setlpValue(maxlpValue);
             if (!isNaN(maxlpValue) && maxlpValue != "") {
               console.log(parseFloat(maxlpValue));
-              // calculateAPR(parseFloat(maxlpValue),true);
+              calculateAPR(parseFloat(maxlpValue));
             } else {
-              // calculateAPR(parseFloat(0),true);
+              calculateAPR(parseFloat(0));
             }
           }}
         >
@@ -190,7 +190,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           style={{ marginTop: "25px",
         fontSize:"16px" }}
           onClick={() => {
-            // calculateAPR(0);
+            calculateAPR(0);
             Close();
           }}
         >
