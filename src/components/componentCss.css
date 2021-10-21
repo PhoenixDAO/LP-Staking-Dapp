@@ -308,6 +308,9 @@ div.liq-modal-res > div > .css-196kcza{
   margin-bottom: 18px !important;
 }
 
+.walletImg{
+  max-width: 38px !important;
+}
 
 @media(max-width: 340px){
   .connect-wallet-btn{
