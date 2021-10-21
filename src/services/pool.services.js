@@ -458,7 +458,7 @@ export const removeLiquidity = async (
           await handleGetPhnxBalance();
           settransactionProcessModal(false);
           settransactionSubmittedModal(true);
-          handleMainClose(false);
+          // handleMainClose(false);
           
           if (web3context.active && web3context.account) {
             // getPoolPosition();

@@ -375,6 +375,8 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
       <TransactionSubmitted
         transactionSubmittedModal={transactionSubmittedModal}
         hash={tranHash}
+        handleMainClose={handleClose}
+
       />
     </div>
   );
