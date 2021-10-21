@@ -233,7 +233,9 @@ function Farm() {
       }
 
       const blockInAYear = 2102400;
-      const phxPerBlock = await contractPhnxStake?.methods?.phxPerBlock()?.call();
+      const phxPerBlock = await contractPhnxStake?.methods
+        ?.phxPerBlock()
+        ?.call();
       const lpTokenSupply = await contractPhnxStake?.methods
         ?.lpTokenSupply()
         ?.call();
