@@ -193,7 +193,7 @@ input[type=number] {
 
 .css-nz481w-MuiInputBase-input-MuiInput-input{
   font-weight: 900 !important;
-  font-size: 17px !important;
+  font-size: 20px !important;
 }
 
 .css-9mgopn-MuiDivider-root{
@@ -362,7 +362,6 @@ html {
   @media (max-width: 650px) {
       .addLiquidityBox{
           overflow: auto;
-          padding: 16px;
           }
 
           .modal-scroll{
