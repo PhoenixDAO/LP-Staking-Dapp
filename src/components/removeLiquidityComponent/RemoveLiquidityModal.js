@@ -21,9 +21,14 @@ import { GetEthBalanceAction } from "../../redux/actions/local.actions";
 import { IconButton, InputAdornment, Modal, TextField } from "@mui/material";
 import percentage from "../../assets/percentage.svg";
 
-const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handleClose}) => {
-  console.log(allowance,'asdasdasd')
-  console.log(slippageValue,'asdasdasd')
+const RemoveLiquidityModaL = ({
+  slippageValue,
+  allowance,
+  giveApproval,
+  handleClose,
+}) => {
+  console.log(allowance, "asdasdasd");
+  console.log(slippageValue, "asdasdasd");
   const web3context = useWeb3React();
   const dispatch = useDispatch();
   const phnxPerEth = useSelector((state) => state.localReducer.phnxPerEth);
@@ -53,20 +58,22 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
   const [transactionSubmittedModal, settransactionSubmittedModal] =
     useState(false);
   const [tranHash, settranHash] = useState("");
-  const[approveStatus,setApproveStatus] = useState(false);
+  const [approveStatus, setApproveStatus] = useState(false);
 
-
-  useEffect(()=>{
-    console.log(allowance,'aaaaa')
-  })
+  useEffect(() => {
+    console.log(allowance, "aaaaa");
+  });
 
   const handleCheckApprovalUniswapPairAction = async () => {
     console.log("coming to handleCheckApprovalUniswapPairAction");
-    dispatch(CheckApprovalUniswapPairAction(web3context, contractUniswapPair,setApproveStatus));
+    dispatch(
+      CheckApprovalUniswapPairAction(
+        web3context,
+        contractUniswapPair,
+        setApproveStatus
+      )
+    );
   };
-  // const handleCheckApprovalPhnxStakingAction = () => {
-  //   dispatch(CheckApprovalPhnxStakingAction(web3context, contractUniswapPair,setAllowance));
-  // };
 
   const handleGetPoolPositionAction = () => {
     dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
@@ -95,9 +102,6 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
         slippageValue,
         settranHash
       );
-      dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
-      dispatch(GetEthBalanceAction(web3context));
-      dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
     } catch (e) {
       console.error(e);
     }
@@ -153,8 +157,16 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
       <img className="rm-liq-Logo" src={Logo}></img>
       <div className="rm-liq-heading">Remove PHNX-ETH Liquidity</div>
 
-      <div style={{cursor:'pointer',position:'absolute',right:'25px',top:'25px',padding:'5px'}}>
-        <span >
+      <div
+        style={{
+          cursor: "pointer",
+          position: "absolute",
+          right: "25px",
+          top: "25px",
+          padding: "5px",
+        }}
+      >
+        <span>
           <CloseIcon onClick={handleClose} />
         </span>
       </div>
@@ -227,12 +239,16 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
           }}
           InputProps={{
             classes: {
-              root: {  '&$cssFocused $notchedOutline': {
-                borderColor: `1px solid rgb(0,0,0,0.5)`,
-              },},
+              root: {
+                "&$cssFocused $notchedOutline": {
+                  borderColor: `1px solid rgb(0,0,0,0.5)`,
+                },
+              },
               focused: {},
-              notchedOutline: {    borderWidth: '1px',
-              borderColor: 'green !important',},
+              notchedOutline: {
+                borderWidth: "1px",
+                borderColor: "green !important",
+              },
             },
             endAdornment: (
               <InputAdornment>
@@ -283,22 +299,18 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
       {allowance == 0 ? (
         <button
           className="rm-liq-btn"
-          onClick={async()=>{
-            if(approveStatus)return;
+          onClick={async () => {
+            if (approveStatus) return;
             setApproveStatus(true);
             await giveApproval(setApproveStatus);
             // setApproveStatus(false);
           }}
-        style={{backgroundColor: approveStatus ? "#acacac" : "#413AE2"}}
+          style={{ backgroundColor: approveStatus ? "#acacac" : "#413AE2" }}
           // onClick={() => setTxModalOpen()}
         >
-          {
-
-              approveStatus==false ?
-              'Approve ETH-PHNX LP' :
-              'Approving ETH-PHNX LP...'
-
-          }
+          {approveStatus == false
+            ? "Approve ETH-PHNX LP"
+            : "Approving ETH-PHNX LP..."}
         </button>
       ) : selectedPercentage == 0 || selectedPercentage == "" ? (
         <button
@@ -324,7 +336,17 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
         <img src={PhnxLogo}></img>
         <img src={EthLogo}></img>
         <div className="rm-liq-phnx-eth-lp-sub">PHNX/ETH LP</div>
-        <div className="rm-liq-phnx-eth-lp-sub-no" style={{fontWeight:'900',fontSize:'20px', color:'#1e1e22', fontFamily:'AeonikBold'}}>{poolPosition?.lp}</div>
+        <div
+          className="rm-liq-phnx-eth-lp-sub-no"
+          style={{
+            fontWeight: "900",
+            fontSize: "20px",
+            color: "#1e1e22",
+            fontFamily: "AeonikBold",
+          }}
+        >
+          {poolPosition?.lp}
+        </div>
       </div>
 
       <div className="rm-liq-phnx-eth-lp-div">
