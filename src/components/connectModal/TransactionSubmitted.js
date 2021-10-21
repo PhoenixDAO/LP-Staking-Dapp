@@ -121,7 +121,6 @@ const TransactionSubmitted = ({ transactionSubmittedModal, hash , handleMainClos
                 </div>
               </div>
             </div>
-      {!removeLiquidity&&
             <div
               className="transaction-liq-phnx-eth-det-div cursorPointer"
               onClick={registerToken}
@@ -132,7 +131,7 @@ const TransactionSubmitted = ({ transactionSubmittedModal, hash , handleMainClos
                   <img src={metamask} className="metamaskIcon"></img>
                 </div>
               </div>
-            </div>}
+            </div>
 
             {/* <div className="transaction-liq-phnx-eth-con-div">
         <div className="transaction-liq-phnx-eth-con">1 PHNX = 0.2335 ETH</div>
