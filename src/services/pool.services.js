@@ -426,15 +426,15 @@ export const removeLiquidity = async (
       .on("transactionHash", (hash) => {
         // hash of tx
 
-        toast(
-          <Notify
-            text={"Transaction in Progress 😃, you'll be notified soon."}
-            severity="success"
-          />,
-          {
-            position: "bottom-right",
-          }
-        );
+        // toast(
+        //   <Notify
+        //     text={"Transaction in Progress 😃, you'll be notified soon."}
+        //     severity="success"
+        //   />,
+        //   {
+        //     position: "bottom-right",
+        //   }
+        // );
         settranHash(hash);
         settransactionConfirmModal(false);
 
