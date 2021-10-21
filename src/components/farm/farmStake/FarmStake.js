@@ -63,27 +63,27 @@ function FarmStake({
       </div>
 
       <div className="farm-details-div">
-        <div className="farm-details-txt">APR</div>
+        <div className="farm-details-txt"><span style={{color:"#4E4E55"}}>APR</span></div>
         <div className="farm-details-txt-right" style={{color:"#73727D"}}>
           {web3context.active ? APR : '--- '}% &nbsp;
-          <img style={{ height: "16px" }} src={CalculatorLogo} />
+          <img style={{ height: "15px" }} src={CalculatorLogo} />
         </div>
       </div>
 
       <div className="farm-details-div">
-        <div className="farm-details-txt">EARN</div>
+        <div className="farm-details-txt"><span style={{color:"#4E4E55"}}>EARN</span></div>
         <div className="farm-details-txt-right"  style={{color:"#73727D"}}>PHNX + fees</div>
       </div>
 
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#413AE2" }}>PHNX</span> EARNED
+          <span style={{ color: "#413AE2" }}>PHNX</span> <span style={{color:"#4E4E55"}}>EARNED</span>
         </div>
         <div className="farm-details-txt-right">  <span style={{fontWeight:"bolder", color:"#4E4E55"}}>0.000</span></div>
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
+          <span style={{ color: "#413AE2" }}>PHNX-ETH</span> <span style={{color:"#4E4E55"}}>LP STAKED</span>
         </div>
         <div className="farm-details-txt-right">
         <span style={{fontWeight:"bolder", color:"#4E4E55"}}>
@@ -154,7 +154,7 @@ function FarmStake({
               <span style={{ color: "#413AE2" }}>
                 <a
                   target="_blank"
-                  href="https://github.com/XORD-one/phoenix-LP-staking-contract"
+                  href="https://github.com/PhoenixDAO/Lp-staking-contract"
                   style={{textDecoration:'none' ,color:'#413ae2'}}
                 >
                   View Contract&nbsp;

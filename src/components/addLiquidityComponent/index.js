@@ -226,7 +226,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     <Box
       sx={styles.containerStyle}
       className="modal-scroll"
-      style={{ boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)" }}
+
     >
       <div className="addLiquidityBox">
         <div style={{ marginBottom: "10px" }}>
@@ -261,15 +261,13 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         style={{
           height: 1,
           background: "rgba(0, 0, 0, 0.15)",
-          marginLeft: 10,
-          marginRight: 10,
           marginBottom: 9,
         }}
       />
       <div className="dialog-style">
         <div style={styles.containerTip}>
           <Typography style={styles.txtTipParagraph}>
-            Tip: By adding liquidity, you'll earn 0.25% of all trades on this
+           <span style={{fontWeight:"700"}}> Tip:</span> By adding liquidity, you'll earn 0.25% of all trades on this
             pair proportional to your share of the pool. Fees are added to the
             pool, accrue in real time and can be claimed by withdrawing your
             liquidity.
@@ -282,7 +280,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.containerImg}>
                 <Typography style={styles.txtInput}>Input</Typography>
                 <Typography style={styles.txtPhnx}>
-                  PHNX <img src={blueDownArrow} style={styles.downArrow}></img>
+                  PHNX
                 </Typography>
               </div>
             </div>
@@ -340,7 +338,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.containerImg}>
                 <Typography style={styles.txtInput}>Input</Typography>
                 <Typography style={{ ...styles.txtPhnx, color: "#454A75" }}>
-                  ETH <img src={downArrow} style={styles.downArrow}></img>
+                  ETH
                 </Typography>
               </div>
             </div>
@@ -525,11 +523,12 @@ const styles = {
     transform: "translate(-50%, -50%)",
     width: 600,
     bgcolor: "#fff",
-    padding: 20,
+    // padding: 20,
+    boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)",
 
     // border: "2px solid #000",
     borderRadius: 4,
-    boxShadow: 0,
+    // boxShadow: 0,
     p: 4,
     ["@media (max-width: 650px)"]: {
       width: "98%",
@@ -578,6 +577,8 @@ const styles = {
   txtTipParagraph: {
     fontSize: 15,
     color: "#FFFFFF",
+    paddingInline:"15px",
+    textAlign:"justify"
   },
   btnAddLiquidity: {
     backgroundColor: "#413AE2",

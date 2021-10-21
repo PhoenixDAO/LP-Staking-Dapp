@@ -24,7 +24,7 @@ p.connect-wallet-txt {
   text-align: left;
   width: 55%;
   margin: 34px 0px 40px 36px;
-  font-weight: 900;
+  font-weight: 600;
 }
 img.img-hands {
   position: absolute;
@@ -57,7 +57,7 @@ p.phnx-subheading {
 img.img-landing-logo {
   position: absolute;
   right: 0px;
-  margin-top: 60px;
+  margin-top: 40px;
   z-index: -100;
   width: 370px;
   height: auto;

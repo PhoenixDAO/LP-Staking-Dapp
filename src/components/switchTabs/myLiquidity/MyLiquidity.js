@@ -291,9 +291,11 @@ function MyLiquidity({ ChangeTab }) {
               }}
             >
               <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
+
               <div className="pooled-item-txt">
                 <span style={{ fontSize: "18px" }}>{poolPosition.phnx}</span>
               </div>
+
             </div>
           </div>
 
@@ -310,9 +312,11 @@ function MyLiquidity({ ChangeTab }) {
               }}
             >
               <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
+
               <div className="pooled-item-txt">
                 <span style={{ fontSize: "18px" }}>{poolPosition.eth}</span>
               </div>
+
             </div>
           </div>
 
@@ -333,6 +337,7 @@ function MyLiquidity({ ChangeTab }) {
                   {poolPosition.poolPerc}%
                 </span>
               </div>
+
             </div>
           </div>
 
