@@ -31,7 +31,7 @@ export const getDataMain = async () => {
   const weth = WETH[chainId];
   const pair = await Fetcher.fetchPairData(phnx, weth, customHttpProvider);
   const route = new Route([pair], weth);
-  console.log(pair.reserve1.toFixed(2), "pairrrrrrrgdfgdfgdfgr");
+  // console.log(pair.reserve1.toFixed(2), "pairrrrrrrgdfgdfgdfgr");
   return { weth, pair, route };
 };
 
