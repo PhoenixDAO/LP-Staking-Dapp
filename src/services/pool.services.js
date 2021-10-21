@@ -73,15 +73,15 @@ export const supply = async (
     .on("transactionHash", (hash) => {
       // hash of tx
 
-      toast(
-        <Notify
-          text={"Transaction in Progress 😃, you'll be notified soon."}
-          severity="success"
-        />,
-        {
-          position: "bottom-right",
-        }
-      );
+      // toast(
+      //   <Notify
+      //     text={"Transaction in Progress 😃, you'll be notified soon."}
+      //     severity="success"
+      //   />,
+      //   {
+      //     position: "bottom-right",
+      //   }
+      // );
       settranHash(hash);
 
       console.log("hash", hash);
