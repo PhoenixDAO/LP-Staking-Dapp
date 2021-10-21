@@ -397,6 +397,7 @@ const RemoveLiquidityModaL = ({
       <TransactionSubmitted
         transactionSubmittedModal={transactionSubmittedModal}
         hash={tranHash}
+        removeLiquidity={true}
       />
     </div>
   );

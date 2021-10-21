@@ -101,10 +101,10 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
       sx={{
         "@media (min-width:500px)": {
           "& .MuiPaper-root": {
-            maxWidth: "150px",
+            maxWidth: "200px",
           },
           "& .MuiDrawer-docked .MuiDrawer-paper": {
-            maxWidth: "150px",
+            maxWidth: "200px",
           },
         },
       }}

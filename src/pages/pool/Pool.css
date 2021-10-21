@@ -11,11 +11,7 @@ div.gradient-div {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(
-    90deg,
-    rgba(65, 58, 226, 0.3) 0%,
-    rgba(255, 0, 245, 0) 132.13%
-  );
+  background: linear-gradient(90deg, rgba(65, 58, 226, 0.3) 0%, rgba(255, 0, 247, 0.080) 70.13%);
   border: 1px solid rgba(65, 58, 226, 0.51);
   box-sizing: border-box;
   backdrop-filter: blur(2px);
@@ -28,7 +24,7 @@ p.connect-wallet-txt {
   text-align: left;
   width: 55%;
   margin: 34px 0px 40px 36px;
-  font-weight: 500;
+  font-weight: 900;
 }
 img.img-hands {
   position: absolute;
@@ -50,8 +46,8 @@ div.connect-wallet-div {
   align-items: flex-start;
 }
 p.phnx-heading {
-  font-size: 30px;
-  font-weight: bold;
+  font-size: 35px;
+  font-weight: bolder;
   margin-bottom: 0;
 }
 p.phnx-subheading {
@@ -169,8 +165,9 @@ img.img-landing-logo {
     font-size: 15px;
   }
   p.phnx-heading {
-    font-size: 25px;
+    font-size: 30px;
     margin-top: 200px;
+    font-weight: bolder;
   }
   p.connect-wallet-txt {
     width: 50%;
@@ -205,6 +202,7 @@ img.img-landing-logo {
   p.phnx-heading {
     font-size: 25px;
     margin-top: 180px;
+    font-weight: bolder;
   }
 }
 
@@ -215,6 +213,7 @@ img.img-landing-logo {
   p.phnx-heading {
     font-size: 25px;
     margin-top: 160px;
+    font-weight: bolder;
   }
 }
 
@@ -225,6 +224,7 @@ img.img-landing-logo {
   p.phnx-heading {
     font-size: 25px;
     margin-top: 140px;
+    font-weight: bold;
   }
   p.connect-wallet-txt {
     font-size: 18px;
@@ -240,6 +240,7 @@ img.img-landing-logo {
   p.phnx-heading {
     font-size: 25px;
     margin-top: 120px;
+    font-weight: bold;
   }
 }
 
@@ -251,6 +252,7 @@ img.img-landing-logo {
   p.phnx-heading {
     font-size: 23px;
     margin-top: 150px;
+    font-weight: bold;
   }
   p.connect-wallet-txt {
     font-size: 18px;
@@ -282,6 +284,7 @@ img.img-landing-logo {
   p.phnx-heading {
     font-size: 21px;
     margin-top: 130px;
+    font-weight: bold;
   }
   p.connect-wallet-txt {
     font-size: 17px;
@@ -316,6 +319,7 @@ img.img-landing-logo {
   p.phnx-heading {
     font-size: 20px;
     margin-top: 150px;
+    font-weight: bold;
   }
   p.connect-wallet-txt {
     font-size: 16px;

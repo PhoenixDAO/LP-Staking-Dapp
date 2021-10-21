@@ -317,6 +317,7 @@ export default function ConnectWallet({
               ? "connect-wallet-btn connect-wallet-btn-reverse"
               : "connect-wallet-btn"
           }
+          style={{borderRadius:landingScreenBtn?"":"9px"}}
         >
           {active && account ? (
             <div
