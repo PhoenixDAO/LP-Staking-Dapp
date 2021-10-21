@@ -215,20 +215,159 @@ function Farm() {
     fetchData();
   }, []);
 
-  const calculateAPR = async (amt, f) => {
-   
-    if ((amt.toFixed(4) == 0 || amt =='') && f) {
-      setRoi(0);
-      return;
-    }
+ 
 
+
+  
+  // const calculateAPR = async (amount, f) => {
+    
+  //   const blockInAYear = 2102400;
+   
+  //   if ((amount.toFixed(4) == 0 || amount == "") && f) {
+  //     setRoi(0);
+  //     return;
+  //   }
+
+  //   let phnxPerBlock_inWei = await contractPhnxStake?.methods
+  //     ?.phxPerBlock()
+  //     ?.call();
+  //   let lpTokenSupply_inWei = await contractPhnxStake?.methods
+  //     ?.lpTokenSupply()
+  //     ?.call();
+  //   let phnxPerBlock_inEth = Web3.utils.fromWei(phnxPerBlock_inWei);
+  //   let lpTokenSupply_inEth = Web3.utils.fromWei(lpTokenSupply_inWei);
+
+  //   let apr_inEth = (blockInAYear * phnxPerBlock_inEth) / lpTokenSupply_inEth;
+  //   console.log("apr_inEth", apr_inEth);
+
+  //   let rewardDebt_inEth = Web3.utils.fromWei(userInfo.rewardDebt.toString());
+  //   const getReserves = await contractUniswapPair.methods.getReserves().call();
+
+  //   let _balance = Number(amount) + Number(userInfo.amount);
+  //   console.log("_balance", _balance);
+
+  //   _balance = new BigNumber(_balance);
+
+  //   const _reserve0 = new BigNumber(getReserves._reserve0);
+  //   const _reserve1 = new BigNumber(getReserves._reserve1);
+  //   const _ratio = _reserve0.dividedBy(_reserve1);
+
+  //   // let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot(); //this
+
+  //   let reward = Number(apr_inEth) * Number(amount) - Number(rewardDebt_inEth); // Phnx rewrd in a year
+  //   console.log("reward reward", reward);
+
+  //   let netProfit = Number(Number(reward) - _balance);
+  //   console.log(netProfit, "netprofit");
+
+  //   let roi = Number(netProfit / _balance);
+
+  //   let usd = PhoenixDAO_market.usd;
+
+  //   console.log(usd, "usd");
+  //   console.log(roi, "roi");
+
+  //   let dollarValue = Number(roi) * Number(usd) * 100;
+
+  //   console.log("dollarValue", dollarValue);
+
+  //   if (f) {
+  //   setRoi(parseInt(dollarValue));
+  //   }
+
+  //   console.log(apr_inEth, "apr apr");
+  //   setAPR(parseInt(apr_inEth));
+
+
+  // };
+  ////////////////////////////////////
+  // APR * totalLpStake = roi
+  // const calculateAPR = async (amt, f) => {
+  //   if ((amt.toFixed(4) == 0 || amt == "") && f) {
+  //     setRoi(0);
+  //     return;
+  //   }
+
+  //   const blockInAYear = 2102400;
+  //   const phxPerBlock = await contractPhnxStake?.methods?.phxPerBlock()?.call();
+  //   const lpTokenSupply = await contractPhnxStake?.methods
+  //     ?.lpTokenSupply()
+  //     ?.call();
+
+  //   const apr =
+  //     (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
+  //     Web3.utils.fromWei(lpTokenSupply);
+
+  //   console.log(apr, "apr.");
+
+  //   let amount = amt; //will get from user onChange
+  //   console.log(amount, "amount1111");
+
+  //   let rewardDebt = userInfo.rewardDebt;
+  //   rewardDebt = Number(Web3.utils.fromWei(rewardDebt.toString()));
+  //   console.log(rewardDebt, "rewardDebt1111");
+
+  //   const getReserves = await contractUniswapPair.methods.getReserves().call();
+  //   console.log(getReserves, "getReserves getReserves");
+
+  //   let _balance =
+  //     Number(Web3.utils.toWei(amount.toFixed(4).toString())) +
+  //     Number(Web3.utils.toWei(userInfo.amount));
+  //   console.log(
+  //     "_balance _balance",
+  //     Number(Web3.utils.toWei(amount.toFixed(4).toString())),
+  //     "userInfo.amount userInfo.amount",
+  //     Number(userInfo.amount)
+  //   );
+  //   console.log(_balance, "_balance 111111111");
+
+  //   _balance = new BigNumber(_balance);
+  //   console.log(_balance, "_balance 222222222");
+
+  //   const _reserve0 = new BigNumber(getReserves._reserve0);
+  //   const _reserve1 = new BigNumber(getReserves._reserve1);
+  //   const _ratio = _reserve0.dividedBy(_reserve1);
+
+  //   let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot(); //this
+  //   console.log("_token0 _token0", _token0);
+  //   let _token1 = _balance.pow(2).dividedBy(_token0);
+  //   const conv = new BigNumber("1e+18");
+
+  //   _token0 = _token0.dividedBy(conv).toString(); //phnx this
+
+  //   let reward = Number(apr) * Number(amount) - Number(rewardDebt); // Phnx rewrd in a year
+  //   console.log("reward reward", reward);
+
+  //   let netProfit = Number(Number(reward) - Number(_token0));
+  //   console.log(netProfit, "netprofit");
+  //   let roi = Number(netProfit / _token0);
+  //   console.log(roi, "roi");
+
+  //   let usd = PhoenixDAO_market.usd;
+
+  //   console.log(usd, "usd");
+  //   console.log(roi, "roi");
+
+  //   let dollarValue = Number(Number(roi) * Number(usd));
+
+  //   console.log("dollarValue", dollarValue);
+
+  //   if (f) {
+  //     setRoi(parseInt(dollarValue));
+  //     console.log(apr, "apr apr");
+  //     setAPR(parseInt(apr));
+  //   }
+  // };
+
+
+  const calculateAPR = async (amt,f) => {
     const blockInAYear = 2102400;
-    const phxPerBlock = await contractPhnxStake?.methods?.phxPerBlock()?.call();
+    const phxPerBlock = await contractPhnxStake?.methods
+      ?.phxPerBlock()
+      ?.call();
     const lpTokenSupply = await contractPhnxStake?.methods
       ?.lpTokenSupply()
       ?.call();
-
-      
 
     const apr =
       (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
@@ -239,9 +378,11 @@ function Farm() {
     let rewardDebt = userInfo.rewardDebt;
     rewardDebt = Web3.utils.fromWei(rewardDebt.toString());
 
-    const getReserves = await contractUniswapPair.methods.getReserves().call();
+    const getReserves = await contractUniswapPair.methods
+      .getReserves()
+      .call();
 
-    let _balance = new BigNumber(Web3.utils.toWei(amount.toFixed(4).toString()));
+    let _balance = new BigNumber(Web3.utils.toWei(amount.toString()));
     const _reserve0 = new BigNumber(getReserves._reserve0);
     const _reserve1 = new BigNumber(getReserves._reserve1);
     const _ratio = _reserve0.dividedBy(_reserve1);
@@ -251,30 +392,53 @@ function Farm() {
     const conv = new BigNumber("1e+18");
 
     _token0 = _token0.dividedBy(conv).toString(); //phnx
+    // _token1 = _token1.dividedBy(conv);
 
-    let reward = apr * amount - rewardDebt;
-    
-    let netProfit = reward - _token0;
+    let reward;
+    // console.log(reward,'reward')
+    let netProfit;
+    // if(amt<0.1){
+    //   reward = rewardDebt - (apr * amount) ;
+    //   netProfit = _token0 - reward;
+    //   console.log(netProfit,'<')
+    // }else{
+
+      reward = ((apr * amount)+userInfo.amount) - rewardDebt;
+          console.log(reward,'reward')
+
+      netProfit =  reward - _token0;
+      console.log(netProfit,'>')
+
+    // }
     let roi = (netProfit / _token0) * 100;
 
-    // let usd = PhoenixDAO_market ? PhoenixDAO_market.usd : 0;
-    
     let usd = PhoenixDAO_market.usd;
-
-    console.log(usd,'usd')
-    console.log(roi,'roi')
-
     let dollarValue = roi * usd;
 
     console.log("dollarValue", dollarValue);
 
-    if(f){
-      setRoi(parseInt(dollarValue));
-    }
-    console.log(apr,'123')
+    console.log(
+      "apr",
+      apr,
+      "amount",
+      amount,
+      "rewardDebt",
+      rewardDebt,
+      "netProfit",
+      netProfit,
+      "_token0",
+      _token0,
+      "roi",
+      roi
+    );
+
     setAPR(parseInt(apr));
-    
+    setRoi(parseInt(dollarValue));
+
   };
+
+
+
 
   useEffect(() => {
     if (

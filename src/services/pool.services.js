@@ -392,7 +392,8 @@ export const removeLiquidity = async (
   handleGetEthBalance,
   handleGetPhnxBalance,
   slippageValue,
-  settranHash
+  settranHash,
+  handleMainClose
 ) => {
 
   if (web3context && contractUniswapRouter && poolPosition) {
@@ -457,6 +458,7 @@ export const removeLiquidity = async (
           await handleGetPhnxBalance();
           settransactionProcessModal(false);
           settransactionSubmittedModal(true);
+          handleMainClose(false)
           
           if (web3context.active && web3context.account) {
             // getPoolPosition();
@@ -465,6 +467,7 @@ export const removeLiquidity = async (
       })
       .on("error", function (err) {
         settransactionProcessModal(false);
+        handleMainClose(false);
 
         toast(
           <Notify

@@ -19,7 +19,8 @@ const ConfirmModal = ({
   eth,
   phnxethburn,
   handleRemoveLiquidity,
-  slippageValue
+  slippageValue,
+  handleMainClose
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -38,8 +39,8 @@ const ConfirmModal = ({
     if (eth == 0 || phnx == 0) {
       return;
     }
-    console.log('asdasddsad')
-    handleRemoveLiquidity();
+    console.log("asdasddsad");
+    handleRemoveLiquidity(handleMainClose);
   };
 
   const style = {

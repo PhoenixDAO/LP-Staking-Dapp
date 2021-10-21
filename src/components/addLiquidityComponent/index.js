@@ -224,30 +224,38 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     settransactionConfirmModal(false);
   };
   return (
-    <Box sx={styles.containerStyle} className="modal-scroll" style={{boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)"}}>
-      <div>
-        <div style={styles.divTopHeading}>
-          <p className="heading-modal">Add Liquidity</p>
-          <p className="subheading-modal" style={{ display: "flex" }}>
-            Add liquidity to the ETH/PHNX pool <br /> and receive LP tokens
-            <img
-              onClick={() => setSlippageModal(!slippageModal)}
-              src={SettingsLogo}
-              style={{
-                marginLeft: "auto",
-                height: "20px",
-                width: "20px",
-                cursor: "pointer",
-              }}
-            ></img>
-          </p>
-          <br></br>
+    <Box
+      sx={styles.containerStyle}
+      className="modal-scroll"
+      style={{ boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)"  }}
+    >
+      <div className="addLiquidityBox">
+        <div style={{ marginBottom: "10px" }}>
+          <div style={styles.divTopHeading}>
+            <p className="heading-modal">Add Liquidity</p>
+            <p
+              className="subheading-modal"
+              style={{ display: "flex", marginBottom: "10px" }}
+            >
+              Add liquidity to the ETH/PHNX pool <br /> and receive LP tokens
+              <img
+                onClick={() => setSlippageModal(!slippageModal)}
+                src={SettingsLogo}
+                style={{
+                  marginLeft: "auto",
+                  height: "20px",
+                  width: "20px",
+                  cursor: "pointer",
+                }}
+              ></img>
+            </p>
 
-          {closeBtn ? (
-            <button onClick={handleClose} className="icon-btn">
-              <CloseIcon />
-            </button>
-          ) : null}
+            {closeBtn ? (
+              <button onClick={handleClose} className="icon-btn">
+                <CloseIcon />
+              </button>
+            ) : null}
+          </div>
         </div>
       </div>
       <div
