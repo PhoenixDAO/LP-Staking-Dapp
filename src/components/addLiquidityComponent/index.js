@@ -32,23 +32,23 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [ethValue, setEthValue] = useState("");
   const [phnxValue, setPhnxValue] = useState("");
 
-
   const [lowValue, setLowValue] = useState(false);
-
 
   const [slippageModal, setSlippageModal] = useState(false);
   const [slippageValue, setSlippageValue] = useState(1);
 
   const [poolShare, setPoolShare] = useState(0);
 
-  const[approveStatus,setApproveStatus] = useState(false);
+  const [approveStatus, setApproveStatus] = useState(false);
 
   // const [allowance, setAllowance] = useState(0);
 
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   const phnxPerEth = useSelector((state) => state.localReducer.phnxPerEth);
-  const allowancePhnxDao = useSelector((state) => state.contractReducer.allowancePhnxDao);
+  const allowancePhnxDao = useSelector(
+    (state) => state.contractReducer.allowancePhnxDao
+  );
 
   const ethPerPhnx = useSelector((state) => state.localReducer.ethPerPhnx);
   const reserve0 = useSelector((state) => state.localReducer.reserve0);
@@ -81,7 +81,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   useEffect(() => {
     _handleGetDataMain();
-  }, []);
+  }, [web3context.account, web3context.active]);
 
   useEffect(() => {
     if (web3context.active && web3context.account) {
@@ -109,18 +109,14 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
   // This will be replaced with allowance state
-  const handleCheckApprovalPhnxDaoAction = async (
-    setApproveStatus
-    ) => {
-      console.log(setApproveStatus,'aaa2');
-    dispatch(CheckApprovalPhnxDaoAction(web3context, contractPhnxDao
-      ,setApproveStatus
-      ));
+  const handleCheckApprovalPhnxDaoAction = async (setApproveStatus) => {
+    console.log(setApproveStatus, "aaa2");
+    dispatch(
+      CheckApprovalPhnxDaoAction(web3context, contractPhnxDao, setApproveStatus)
+    );
   };
 
-  const handleGiveApprovalPhnxDao = async (
-    setApproveStatus
-    ) => {
+  const handleGiveApprovalPhnxDao = async (setApproveStatus) => {
     try {
       await SERVICE.giveApprovalPhnxDao(
         web3context,
@@ -175,14 +171,13 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       setPhnxValue(v);
       setEthValue(parseFloat(ethPerPhnx) * v || num);
 
-      if(v>0 && v<0.001){
+      if (v > 0 && v < 0.001) {
         setLowValue(true);
-        return
-      }else{
+        return;
+      } else {
         setLowValue(false);
-        return
+        return;
       }
-
     } else if (tokenName === "eth") {
       let v = parseFloat(val);
       let total = parseFloat(phnxPerEth) * v;
@@ -193,15 +188,16 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       setEthValue(v);
       setPhnxValue(parseFloat(phnxPerEth) * v || num);
 
-      if((parseFloat(phnxPerEth) * v || num)>0 && (parseFloat(phnxPerEth) * v || num)<0.001){
+      if (
+        (parseFloat(phnxPerEth) * v || num) > 0 &&
+        (parseFloat(phnxPerEth) * v || num) < 0.001
+      ) {
         setLowValue(true);
-        return
-      }else{
+        return;
+      } else {
         setLowValue(false);
-        return
+        return;
       }
-      
-
     } else {
       return;
     }
@@ -227,7 +223,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     <Box
       sx={styles.containerStyle}
       className="modal-scroll"
-      style={{ }}
+
     >
       <div className="addLiquidityBox">
         <div style={{ marginBottom: "10px" }}>
@@ -394,7 +390,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           </div>
           <div className="pool-share">
             <Typography style={styles.txtConvDetails}>
-              {isNaN(poolShare) ? "0.00" : poolShare + "%"}
+              {isNaN(poolShare) ? "0%" : poolShare + "%"}
             </Typography>
             <Typography style={styles.txtConvDetails}>pool share</Typography>
           </div>
@@ -462,29 +458,22 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             fullWidth={true}
             style={{
               ...styles.btnAddLiquidity,
-              backgroundColor: loading || approveStatus != 0 ? "#acacac" : "#413AE2",
+              backgroundColor:
+                loading || approveStatus != 0 ? "#acacac" : "#413AE2",
               textTransform: "capitalize",
             }}
             disabled={loading}
             onClick={
               // handleGiveApprovalPhnxDao
-              async()=>{
-              if(approveStatus)return;
-              setApproveStatus(true);
-              await handleGiveApprovalPhnxDao(setApproveStatus);
-              // setApproveStatus(false);
+              async () => {
+                if (approveStatus) return;
+                setApproveStatus(true);
+                await handleGiveApprovalPhnxDao(setApproveStatus);
+                // setApproveStatus(false);
               }
             }
           >
-
-            {
-
-              approveStatus == 0 ?
-              'Approve PHNX' :
-              'Approving PHNX...'
-
-            }
-
+            {approveStatus == 0 ? "Approve PHNX" : "Approving PHNX..."}
           </Button>
         )}
       </div>
@@ -535,6 +524,7 @@ const styles = {
     bgcolor: "#fff",
     // padding: 20,
     boxShadow: "0px 10px 80px 10px rgb(0, 0, 0, 0.06)",
+
     // border: "2px solid #000",
     borderRadius: 4,
     // boxShadow: 0,
@@ -596,9 +586,7 @@ const styles = {
     borderRadius: 12,
     textTransform: "capitalize",
     fontSize: 18,
-    color:'#fff'
-    
-
+    color: "#fff",
   },
   tokenContainer: {
     display: "flex",

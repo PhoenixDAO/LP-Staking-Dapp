@@ -31,9 +31,9 @@ const ConfirmModal = ({
   }, [transactionConfirmModal]);
 
   const handleConfirm = () => {
-    if (eth == 0 || phnx == 0) {
-      return;
-    }
+    // if (eth == 0 || phnx == 0) {
+    //   return;
+    // }
     console.log("asdasddsad");
     handleRemoveLiquidity(handleMainClose);
   };

@@ -13,7 +13,6 @@ import {
 } from "../../../redux/actions/contract.actions";
 import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
 import { Link } from "react-router-dom";
-import { CircularProgress } from "@mui/material";
 
 function StakeModal({ Close, calculateAPR, Roi }) {
   const [lpValue, setlpValue] = useState();
@@ -36,23 +35,18 @@ function StakeModal({ Close, calculateAPR, Roi }) {
   );
 
   const LpChange = (e) => {
-    // if (lpValue > maxlpValue) {
-    //   return;
-    // }
-
     setlpValue(e.target.value);
 
     if (!isNaN(e.target.value) && e.target.value != "") {
       console.log(parseFloat(e.target.value));
-      // calculateAPR(parseFloat(e.target.value), true);
+      calculateAPR(parseFloat(e.target.value));
     } else {
-      // calculateAPR(0, true);
+      calculateAPR(0);
     }
-    // }
   };
 
   useEffect(()=>{
-    // calculateAPR(0, true);
+    calculateAPR(0);
   },[])
 
   // useEffect(() => {
@@ -103,23 +97,26 @@ function StakeModal({ Close, calculateAPR, Roi }) {
 
   return (
     <div className="stakingModal">
-        <div className="displayFlex">
-              <div className="confirmPhnxDepositeLogo">
-                <img style={{height:"32px"}} src={Logo}></img>
-              </div>
-              <div className="closeModalIcon">
-                <span className="cursorPointer">
-                  <CloseIcon onClick={() => Close()} />
-                </span>
-              </div>
-            </div>
+      <div className="displayFlex">
+        <div className="confirmPhnxDepositeLogo">
+          <img style={{ height: "32px" }} src={Logo}></img>
+        </div>
+        <div className="closeModalIcon">
+          <span className="cursorPointer">
+            <CloseIcon onClick={() => Close()} />
+          </span>
+        </div>
+      </div>
       <div className="stakingModalHeading">Stake LP Tokens</div>
 
       <div style={{ display: "flex", alignItem: "center" }}>
         <div className="stakingModal-details">STAKE</div>
         <div style={{ marginLeft: "auto" }} className="stakingModal-details">
           <span>
-            Bal: <span style={{ color: "#000", fontWeight:"600" }}>{maxlpValue} PHNX-ETH LP</span>
+            Bal:{" "}
+            <span style={{ color: "#000", fontWeight: "600" }}>
+              {maxlpValue} PHNX-ETH LP
+            </span>
           </span>
         </div>
       </div>
@@ -140,7 +137,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           className="stakingModalInput"
           onChange={(e) => LpChange(e)}
           value={lpValue}
-        ></input>
+        />
 
         <button
           className="stakingModalInputBtn"
@@ -148,9 +145,9 @@ function StakeModal({ Close, calculateAPR, Roi }) {
             setlpValue(maxlpValue);
             if (!isNaN(maxlpValue) && maxlpValue != "") {
               console.log(parseFloat(maxlpValue));
-              // calculateAPR(parseFloat(maxlpValue),true);
+              calculateAPR(parseFloat(maxlpValue));
             } else {
-              // calculateAPR(parseFloat(0),true);
+              calculateAPR(parseFloat(0));
             }
           }}
         >
@@ -159,16 +156,14 @@ function StakeModal({ Close, calculateAPR, Roi }) {
       </div>
 
       <>
-      {
-        lpValue>0 && lpValue <= 0.00000000000000001 ? 
-        <div style={{color:'red',paddingTop:'5px'}}>The entered value is too low.</div> : null
-      }
+        {lpValue > 0 && lpValue <= 0.00000000000000001 ? (
+          <div style={{ color: "red", paddingTop: "5px" }}>
+            The entered value is too low.
+          </div>
+        ) : null}
       </>
 
       <div style={{ display: "flex", alignItems: "center", marginTop: "13px" }}>
-
-        
-
         <div className="stakingModal-details" style={{ marginTop: "0px" }}>
           Annual ROI at current rates:
         </div>
@@ -187,10 +182,9 @@ function StakeModal({ Close, calculateAPR, Roi }) {
       <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
         <button
           className="farm-btn-stake-outline"
-          style={{ marginTop: "25px",
-        fontSize:"16px" }}
+          style={{ marginTop: "25px", fontSize: "16px" }}
           onClick={() => {
-            // calculateAPR(0);
+            calculateAPR(0);
             Close();
           }}
         >
@@ -201,22 +195,36 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           style={{
             marginLeft: "auto",
             marginTop: "25px",
-            fontSize:"16px",
+            fontSize: "16px",
             background:
-            loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue) 
+              loading ||
+              lpValue > maxlpValue ||
+              lpValue <= 0 ||
+              lpValue <= 0.00000000000000001 ||
+              isNaN(lpValue)
                 ? "#ACACAC"
                 : "#413AE2",
             color: "#fff",
             borderColor:
-            loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)
+              loading ||
+              lpValue > maxlpValue ||
+              lpValue <= 0 ||
+              lpValue <= 0.00000000000000001 ||
+              isNaN(lpValue)
                 ? "#ACACAC"
                 : "#413AE2",
           }}
           onClick={() => {
-              // if((lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)) return;
+            // if((lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)) return;
             _handleStakeLp();
           }}
-          disabled={loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)}
+          disabled={
+            loading ||
+            lpValue > maxlpValue ||
+            lpValue <= 0 ||
+            lpValue <= 0.00000000000000001 ||
+            isNaN(lpValue)
+          }
         >
           {loading && "Confirming..."}
           {!loading && "Confirm"}
