@@ -87,7 +87,7 @@ export const supply = async (
       console.log("hash", hash);
     })
     .on("confirmation", async function (confirmationNumber, receipt) {
-      if (confirmationNumber === 1) {
+      if (confirmationNumber === 0) {
         // settransactionProcessModal(false);
         // settransactionSubmittedModal(true);
         toast(
@@ -280,7 +280,7 @@ export const giveApprovalPhnxDao = async (
       console.log("tx hash", hash);
     })
     .on("confirmation", async function (confirmationNumber, receipt) {
-      if (confirmationNumber === 1) {
+      if (confirmationNumber === 0) {
         // tx confirmed
 
         // checkApprovalPhnxDao(web3context, contractPhnxDao);
@@ -351,7 +351,7 @@ export const giveApprovalUniswapPair = async (
         console.log("tx hash", hash);
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
-        if (confirmationNumber === 1) {
+        if (confirmationNumber === 0) {
           await handleCheckApprovalUniswapPairAction(
             setAllowance,
             setApproveStatus
@@ -441,7 +441,7 @@ export const removeLiquidity = async (
         console.log("hash", hash);
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
-        if (confirmationNumber === 1) {
+        if (confirmationNumber === 0) {
           toast(
             <Notify text={"Transaction Successful 🚀"} severity="success" />,
             {
