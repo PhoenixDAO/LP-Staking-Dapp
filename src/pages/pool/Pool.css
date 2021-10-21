@@ -12,7 +12,7 @@ div.gradient-div {
   align-items: center;
   justify-content: space-between;
   background: linear-gradient(90deg, rgba(65, 58, 226, 0.3) 0%, rgba(255, 0, 247, 0.080) 70.13%);
-  border: 1px solid rgba(65, 58, 226, 0.51);
+  border: 1px solid rgba(65, 58, 226, 0.41);
   box-sizing: border-box;
   backdrop-filter: blur(2px);
   /* -webkit-filter: ; */

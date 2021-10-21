@@ -41,7 +41,7 @@ function FarmHarvest({
             alt="PhnxLogo"
           ></img>
         </div>
-        <div style={{ marginLeft: "auto", fontWeight: "bold" }}>PHNX/ETH</div>
+        <div style={{ marginLeft: "auto", fontWeight: "bolder",fontSize:"18px" ,color:"#1E1E22"}}>PHNX/ETH</div>
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">APR</div>
@@ -55,7 +55,7 @@ function FarmHarvest({
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">EARN</div>
-        <div className="farm-details-txt-right">PHNX + fees</div>
+        <div className="farm-details-txt-right" style={{color:"#73727D"}}>PHNX + fees</div>
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">
@@ -74,7 +74,7 @@ function FarmHarvest({
       <div className="farm-details-div" style={{ marginTop: "1px" }}>
         <div className="farm-details-txt-right">
           <span
-            style={{ fontSize: "15px", fontWeight: "100", color: "#4E4E55" }}
+            style={{ fontSize: "14px", fontWeight: "100", color: "#4E4E55" }}
           >
             {pendingPHX["0"] &&
               // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
@@ -98,7 +98,7 @@ function FarmHarvest({
       <div className="farm-details-div" style={{ marginTop: "1px" }}>
         <div className="farm-details-txt-right">
           <span
-            style={{ fontSize: "15px", fontWeight: "100", color: "#4E4E55" }}
+            style={{ fontSize: "14px", fontWeight: "100", color: "#4E4E55" }}
           >
             {
               // (userInfo.amount && (parseFloat(Web3.utils.fromWei(userInfo.amount))*(reserveUSD/TokenSupply))).toFixed(4) + 'USD'

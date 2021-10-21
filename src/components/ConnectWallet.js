@@ -482,7 +482,7 @@ export default function ConnectWallet({
             align="center"
             sx={{
               mt: 4,
-              fontSize: "small",
+              fontSize: "medium",
               "@media (max-width:420px)": {
                 fontSize: "12px",
               },

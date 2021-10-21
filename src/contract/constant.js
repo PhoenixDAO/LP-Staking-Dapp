@@ -34,3 +34,7 @@ export const URL_INFURA_MAINNET =
 
 export const TX_LINK_MAINNET = 
 "https://etherscan.io/tx/";
+
+export const ETHERSCAN_ACCOUNT_LINK_RINKBY = "https://rinkeby.etherscan.io/address/";
+
+export const ETHERSCAN_ACCOUNT_LINK_MAINNET = "https://etherscan.io/address/";
