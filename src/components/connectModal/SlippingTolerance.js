@@ -42,7 +42,7 @@ const SlippingTolerance = ({ status, handleClose, setSlippageValue }) => {
                 </span>
               </div>
             </div>
-      <div className="slippingLiq-heading"><div>Slippage Tolerance</div> <div style={{height:"20px",marginLeft:"10px"}}><InfoOutlinedIcon sx={{color:"black"}} /></div></div>
+      <div className="slippingLiq-heading"><div>Slippage Tolerance</div> <div  title="Slippage tolerance is a setting for the amount of price slippage you are willing to accept for a trade. By setting slippage tolerance, you basically setting a minimum amount on how many tokens you will accept, in the event that the price increases or decreases." style={{height:"24px",marginLeft:"10px", alignItems:"center"}}><InfoOutlinedIcon sx={{color:"black", fontSize:"20px"}} /></div></div>
 
       <div className="slippingLiq-ps-div">
         <div
@@ -50,7 +50,8 @@ const SlippingTolerance = ({ status, handleClose, setSlippageValue }) => {
           style={{
             backgroundColor: selectedPercentage === 5 ? "#413AE2" : "#eee",
             color: selectedPercentage === 5 ? "#fff" : "#000",
-            marginRight:"15px"
+            marginRight:"15px",
+            fontSize:"19px"
           }}
           onClick={() => {
             setSelectedPercentage(5);
@@ -64,7 +65,8 @@ const SlippingTolerance = ({ status, handleClose, setSlippageValue }) => {
           style={{
             backgroundColor: selectedPercentage === 10 ? "#413AE2" : "#eee",
             color: selectedPercentage === 10 ? "#fff" : "#000",
-            marginRight:"15px"
+            marginRight:"15px",
+            fontSize:"19px"
           }}
           onClick={() => {
             setSelectedPercentage(10);
@@ -78,7 +80,8 @@ const SlippingTolerance = ({ status, handleClose, setSlippageValue }) => {
           style={{
             backgroundColor: selectedPercentage === 20 ? "#413AE2" : "#eee",
             color: selectedPercentage === 20 ? "#fff" : "#000",
-            marginRight:"15px"
+            marginRight:"15px",
+            fontSize:"19px"
           }}
           onClick={() => {
             setSelectedPercentage(20);
@@ -92,6 +95,7 @@ const SlippingTolerance = ({ status, handleClose, setSlippageValue }) => {
           style={{
             backgroundColor: selectedPercentage != 5 && selectedPercentage != 10 && selectedPercentage != 20 ? "#413AE2" : "#eee",
             color: selectedPercentage != 5 && selectedPercentage != 10 && selectedPercentage != 20 ? "#fff" : "#000",
+            fontSize:"19px"
           }}
           onClick={() => {
             // setSelectedPercentage(10);

@@ -1,6 +1,7 @@
 import React from "react";
 import "./wallet.css";
 import ShareLogo from "../../assets/share.png";
+import { ETHERSCAN_ACCOUNT_LINK_RINKBY } from "../../contract/constant";
 import copyIcon from "../../assets/copyIcon.svg";
 import {
   MenuItem,
@@ -154,10 +155,34 @@ export default function WalletSettings({
           </Stack>
           <br />
           <div >
-        <Link to="/liquidity" style={{textDecoration:'none' ,color:'#413ae2'}} onClick={handleClose}>
-          Get PHNX-ETH LP &nbsp;
-          <img src={ShareLogo}></img>
-        </Link>
+        <a target="_blank" href={`${ETHERSCAN_ACCOUNT_LINK_RINKBY}${web3context.account}`} style={{textDecoration:'none' ,color:'#413ae2', cursor:"pointer"}}>
+        <div className="displayFlex etherScan">
+                <div className="cursorPointer">
+                  <a
+                    href={ETHERSCAN_ACCOUNT_LINK_RINKBY + web3context.active}
+                    rel="external nofollow noopener"
+                    target="_blank"
+                    style={{ textDecoration: "none", color: "#413AE2" }}
+                  >
+                    View on Etherscan
+                  </a>
+                </div>
+                <div className="openTabPadding  cursorPointer">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5.5 2.5V4H1.75V12.25H10V8.5H11.5V13C11.5 13.1989 11.421 13.3897 11.2803 13.5303C11.1397 13.671 10.9489 13.75 10.75 13.75H1C0.801088 13.75 0.610322 13.671 0.46967 13.5303C0.329018 13.3897 0.25 13.1989 0.25 13V3.25C0.25 3.05109 0.329018 2.86032 0.46967 2.71967C0.610322 2.57902 0.801088 2.5 1 2.5H5.5ZM13.75 0.25V7L10.9045 4.15525L6.40525 8.65525L5.34475 7.59475L9.844 3.09475L7 0.25H13.75Z"
+                      fill="#413AE2"
+                    />
+                  </svg>
+                </div>
+              </div>
+        </a>
       </div>
           <br />
 
