@@ -133,7 +133,6 @@ function StakeModal({ Close, calculateAPR, Roi }) {
       >
         <input
           type="number"
-          disabled={parseFloat(maxlpValue).toFixed(5)==0.00000}
           placeholder="0.0"
           className="stakingModalInput"
           onChange={(e) => LpChange(e)}
