@@ -148,7 +148,6 @@ function Farm() {
     web3context?.active,
     contractUniswapPair,
     balancePhnx,
-    // contractPhnxStake,
   ]);
 
   useEffect(() => {

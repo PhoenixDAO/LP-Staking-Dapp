@@ -226,10 +226,11 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     <Box
       sx={styles.containerStyle}
       className="modal-scroll"
+      
 
     >
       <div className="addLiquidityBox">
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginBottom: "9px" }}>
           <div style={styles.divTopHeading}>
             <p className="heading-modal">Add Liquidity</p>
             <p
@@ -264,7 +265,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           marginBottom: 9,
         }}
       />
-      <div className="dialog-style">
+      <div className="dialog-style" style={{marginTop:"25px",}}>
         <div style={styles.containerTip}>
           <Typography style={styles.txtTipParagraph}>
            <span style={{fontWeight:"700"}}> Tip:</span> By adding liquidity, you'll earn 0.25% of all trades on this
@@ -273,7 +274,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             liquidity.
           </Typography>
         </div>
-        <div style={{ position: "relative" }}>
+        <div style={{ position: "relative", marginTop:"25px" }}>
           <div className="token-container">
             <div style={{ display: "flex", flexDirection: "row" }}>
               <img alt="logo" style={styles.imgLogoPhnx} src={PhnxLogo} />
@@ -530,6 +531,7 @@ const styles = {
     borderRadius: 4,
     // boxShadow: 0,
     p: 4,
+    padding: '32px 42px',
     ["@media (max-width: 650px)"]: {
       width: "98%",
       padding: 2,
@@ -568,7 +570,7 @@ const styles = {
   containerTip: {
     display: "flex",
     width: "100%",
-    padding: "18px 15px",
+    padding: "10px 15px",
     background:
       "linear-gradient(90deg, rgba(56, 16, 255, 0.55) 0%, rgba(255, 0, 245, 0.55) 143.12%)",
     borderRadius: 15,
@@ -578,11 +580,10 @@ const styles = {
     fontSize: 15,
     color: "#FFFFFF",
     paddingInline:"15px",
-    textAlign:"justify"
   },
   btnAddLiquidity: {
     backgroundColor: "#413AE2",
-    margin: "25px 0px 0px 0px",
+    margin: "15px 0px 0px 0px",
     height: 45,
     borderRadius: 12,
     textTransform: "capitalize",
@@ -613,7 +614,7 @@ const styles = {
     borderRadius: 25,
   },
   txtPhnx: {
-    fontSize: 16,
+    fontSize: 19,
     fontWeight: "bold",
     color: "#413AE2",
   },

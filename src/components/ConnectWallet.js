@@ -322,7 +322,7 @@ export default function ConnectWallet({
           className={
             landingScreenBtn === true
               ? "connect-wallet-btn connect-wallet-btn-reverse"
-              : "connect-wallet-modal-btn"
+              : "connect-wallet-modal-btn connect-wallet-btn"
           }
           style={{ borderRadius: landingScreenBtn ? "" : "9px" }}
         >
