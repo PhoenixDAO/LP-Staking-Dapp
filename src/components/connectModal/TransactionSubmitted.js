@@ -154,9 +154,9 @@ const TransactionSubmitted = ({
             <div className="transactionCloseButton">
               <button
                 className="transaction-liq-btn cursorPointer"
-                onClick={() => {
+                onClick={()=>{
                   handleClose();
-                  if (handleMainClose) {
+                  if(handleMainClose){
                     handleMainClose(false);
                   }
                 }}

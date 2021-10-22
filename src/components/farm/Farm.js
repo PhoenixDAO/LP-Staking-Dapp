@@ -25,11 +25,8 @@ import {
 } from "../../redux/actions/contract.actions";
 import VersionSwitch from "../versionSwitch/versionSwitch";
 import Web3 from "web3";
-import {
-  phnxStakeContractInit,
-  giveApprovalUniswapPair,
-} from "../../services/pool.services";
 import BigNumber from "bignumber.js";
+import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET } from "../../contract/constant";
 
 function Farm() {
   const dispatch = useDispatch();
@@ -172,7 +169,7 @@ function Farm() {
         data: {
           query: `
           {
-            pairs(where:{id:"0xdfe317f907ca9bf6202cddec3def756438a3b3f7"}){
+            pairs(where:{id:"${UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET}"}){
               reserveUSD
             }
           }
@@ -221,12 +218,8 @@ function Farm() {
     fetchData();
   }, []);
 
-
-
-
   const calculateROI = async (amount) => {
     try {
-
       if (amount.toFixed(16) == 0) {
         setRoi(0);
         return;
@@ -244,16 +237,14 @@ function Farm() {
         (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
         Web3.utils.fromWei(lpTokenSupply);
 
-
       let rewardDebt = userInfo.rewardDebt;
       rewardDebt = Number(Web3.utils.fromWei(rewardDebt.toString()));
 
-      const getReserves = await contractUniswapPair.methods.getReserves().call();
+      const getReserves = await contractUniswapPair.methods
+        .getReserves()
+        .call();
 
-
-      let _balance =
-        Number(Web3.utils.toWei(amount.toFixed(4).toString()))
-
+      let _balance = Number(Web3.utils.toWei(amount.toFixed(4).toString()));
 
       _balance = new BigNumber(_balance);
       console.log(_balance, "_balance 222222222");
@@ -264,7 +255,6 @@ function Farm() {
       const _ratio = _reserve0.dividedBy(_reserve1);
 
       let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot(); //this
-
 
       let _token1 = _balance.pow(2).dividedBy(_token0);
       const conv = new BigNumber("1e+18");
@@ -284,22 +274,16 @@ function Farm() {
 
       // let dollarValue = Number(Number(roi) * Number(usd));
 
-
       setRoi(parseFloat(roi).toFixed(3));
-
-
-
-    } catch (e) { }
-
+    } catch (e) {}
   };
 
-
   const calculateAPR = async () => {
-
     try {
-
       const blockInAYear = 2102400;
-      const phxPerBlock = await contractPhnxStake?.methods?.phxPerBlock()?.call();
+      const phxPerBlock = await contractPhnxStake?.methods
+        ?.phxPerBlock()
+        ?.call();
       const lpTokenSupply = await contractPhnxStake?.methods
         ?.lpTokenSupply()
         ?.call();
@@ -309,11 +293,8 @@ function Farm() {
         Web3.utils.fromWei(lpTokenSupply);
 
       setAPR(parseInt(apr));
-
-    } catch (e) { }
-
-  }
-
+    } catch (e) {}
+  };
 
   useEffect(() => {
     if (
@@ -339,7 +320,6 @@ function Farm() {
     setTokenSupply(Web3.utils.fromWei(ts));
     console.log(TokenSupply, "aaa");
   };
-
 
   return (
     <div>

@@ -8,8 +8,9 @@ import { abi as PhoenixDaoABI } from "../contract/abi/PhoenixDaoABI.json";
 import { abi as PhoenixStakeABI } from "../contract/abi/PHXStakeABI.json";
 import {
   PHNX_RINKEBY_TOKEN_ADDRESS,
-  UNISWAP_CONTRACT_ADDRESS_RINEBY,
+  CONTRACT_ADDRESS_UniswapV2Router02,
   URL_INFURA_RINKEBY,
+  UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY,
 } from "../contract/constant";
 import { ChainId, WETH, Fetcher, Route } from "@uniswap/sdk";
 import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../contract/constant";
@@ -198,7 +199,7 @@ export const uniswapV2RouterInit = async (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   const contract = new web3.eth.Contract(
     UniswapV2Router02ABI,
-    UNISWAP_CONTRACT_ADDRESS_RINEBY
+    CONTRACT_ADDRESS_UniswapV2Router02
   );
   return contract;
 };
@@ -207,7 +208,7 @@ export const uniswapV2PairInit = (web3context) => {
   const web3 = new Web3(web3context?.library?.currentProvider);
   const contract = new web3.eth.Contract(
     UniswapV2PairABI,
-    "0xff8ae8805552c813d75ad6ff456dbc417bd12be6"
+    UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_RINKEBY
   );
   return contract;
 };
@@ -245,7 +246,7 @@ export const checkApprovalPhnxDao = async (
   setApproveStatus
 ) => {
   let allowance1 = await contractPhnxDao.methods
-    .allowance(web3context.account, UNISWAP_CONTRACT_ADDRESS_RINEBY)
+    .allowance(web3context.account, CONTRACT_ADDRESS_UniswapV2Router02)
     .call();
   console.log("preworking", setApproveStatus);
 
@@ -275,7 +276,10 @@ export const giveApprovalPhnxDao = async (
 
   //before add liquidity
   await contractPhnxDao.methods
-    .approve(UNISWAP_CONTRACT_ADDRESS_RINEBY, web3.utils.toWei("10000000000"))
+    .approve(
+      CONTRACT_ADDRESS_UniswapV2Router02,
+      web3.utils.toWei("10000000000")
+    )
     .send({ from: web3context.account })
     .on("transactionHash", (hash) => {
       // hash of tx
@@ -308,10 +312,7 @@ export const checkApprovalUniswapPair = async (
   if (contractUniswapPair) {
     // console.log("contractUniswapPair", contractUniswapPair);
     let allowance1 = await contractUniswapPair.methods
-      .allowance(
-        web3context.account,
-        "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
-      )
+      .allowance(web3context.account, CONTRACT_ADDRESS_UniswapV2Router02)
       .call();
     console.log("allowance11", allowance1);
 
@@ -344,7 +345,7 @@ export const giveApprovalUniswapPair = async (
   if (contractUniswapPair && web3context) {
     await contractUniswapPair.methods
       .approve(
-        "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+        CONTRACT_ADDRESS_UniswapV2Router02,
         Web3.utils.toWei("1000000000000000000000000000000000000000000000000000")
       )
       .send({ from: web3context.account })
@@ -439,7 +440,7 @@ export const removeLiquidity = async (
 
     await contractUniswapRouter.methods
       .removeLiquidityETH(
-        "0xfe1b6abc39e46cec54d275efb4b29b33be176c2a", // address token,
+        PHNX_RINKEBY_TOKEN_ADDRESS, // address token,
         Web3.utils.toWei(
           finalPoolPosition,
           "ether"

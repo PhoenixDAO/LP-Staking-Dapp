@@ -9,7 +9,8 @@ import CalculatorLogo from "../../../assets/calculator.png";
 import Web3 from "web3";
 import { Link } from "react-router-dom";
 import { useWeb3React } from "@web3-react/core";
-import { Button } from "@mui/material";
+import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET } from "../../../contract/constant";
+// import { Button } from "@mui/material";
 
 function FarmHarvest({
   stakeModalOpen,
@@ -41,25 +42,44 @@ function FarmHarvest({
             alt="PhnxLogo"
           ></img>
         </div>
-        <div style={{ marginLeft: "auto", fontWeight: "bolder",fontSize:"18px" ,color:"#1E1E22"}}>PHNX/ETH</div>
-      </div>
-      <div className="farm-details-div">
-        <div className="farm-details-txt"><span style={{color:"#4E4E55", fontWeight:"normal"}}>APR</span></div>
-        <div className="farm-details-txt-right">
-
-<span style={{color:"#73727D"}}>
-          {web3context.active ? APR : "--- "}% </span> &nbsp;
-          <img src={CalculatorLogo} style={{height:"15px"}}></img>
-
+        <div
+          style={{
+            marginLeft: "auto",
+            fontWeight: "bolder",
+            fontSize: "18px",
+            color: "#1E1E22",
+          }}
+        >
+          PHNX/ETH
         </div>
       </div>
       <div className="farm-details-div">
-        <div className="farm-details-txt"><span style={{color:"#4E4E55"}}>EARN</span></div>
-        <div className="farm-details-txt-right" style={{color:"#73727D", fontWeight:"normal"}}>PHNX + fees</div>
+        <div className="farm-details-txt">
+          <span style={{ color: "#4E4E55", fontWeight: "normal" }}>APR</span>
+        </div>
+        <div className="farm-details-txt-right">
+          <span style={{ color: "#73727D" }}>
+            {web3context.active ? APR : "--- "}%{" "}
+          </span>{" "}
+          &nbsp;
+          <img src={CalculatorLogo} style={{ height: "15px" }}></img>
+        </div>
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#413AE2" }}>PHNX</span> <span style={{color:"#4E4E55"}}>EARNED</span>
+          <span style={{ color: "#4E4E55" }}>EARN</span>
+        </div>
+        <div
+          className="farm-details-txt-right"
+          style={{ color: "#73727D", fontWeight: "normal" }}
+        >
+          PHNX + fees
+        </div>
+      </div>
+      <div className="farm-details-div">
+        <div className="farm-details-txt">
+          <span style={{ color: "#413AE2" }}>PHNX</span>{" "}
+          <span style={{ color: "#4E4E55" }}>EARNED</span>
         </div>
         <div className="farm-details-txt-right">
           <span style={{ fontWeight: "bolder", color: "#4E4E55" }}>
@@ -67,7 +87,6 @@ function FarmHarvest({
               // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
               parseFloat(Web3.utils.fromWei(pendingPHX["0"])).toFixed(6)}
           </span>
-
         </div>
       </div>
       <div className="farm-details-div" style={{ marginTop: "1px" }}>
@@ -85,7 +104,8 @@ function FarmHarvest({
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#413AE2" }}>PHNX-ETH</span> <span style={{color:"#4E4E55"}}>LP STAKED</span>
+          <span style={{ color: "#413AE2" }}>PHNX-ETH</span>{" "}
+          <span style={{ color: "#4E4E55" }}>LP STAKED</span>
         </div>
         <div className="farm-details-txt-right">
           <span style={{ fontWeight: "bolder", color: "#4E4E55" }}>
@@ -128,9 +148,11 @@ function FarmHarvest({
       </div>
       <button
         className="farm-btn-stake"
-
-        style={{ marginTop: "20px" , backgroundColor: loading ? '#acacac' : '#413ae2', fontSize:"18px" }}
-
+        style={{
+          marginTop: "20px",
+          backgroundColor: loading ? "#acacac" : "#413ae2",
+          fontSize: "18px",
+        }}
         onClick={harvestPHNX}
         disabled={loading}
       >
@@ -193,7 +215,7 @@ function FarmHarvest({
               <span style={{ color: "#413AE2" }}>
                 <a
                   target="_blank"
-                  href=" https://v2.info.uniswap.org/pair/0xdfe317f907ca9bf6202cddec3def756438a3b3f7"
+                  href={` https://v2.info.uniswap.org/pair/${UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET}`}
                   style={{ textDecoration: "none", color: "#413ae2" }}
                 >
                   See Pair Info&nbsp;

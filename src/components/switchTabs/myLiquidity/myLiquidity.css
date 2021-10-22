@@ -1,7 +1,7 @@
 .my-liquidity-div {
   margin-left: auto;
   margin-right: auto;
-  width: 500px;
+  width: 600px;
   background-color: #fff;
   border-radius: 13px;
   height: fit-content;
@@ -64,7 +64,7 @@
 .pooled-item-txt {
   text-transform: uppercase;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 500;
   color:#4E4E55;
 }
 
