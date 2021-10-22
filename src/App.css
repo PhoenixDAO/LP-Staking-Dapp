@@ -154,29 +154,39 @@
 
 .versionButtons{
   cursor:pointer;
-  position:fixed;
   display:flex;
-  bottom:20px;
-  left:110px;
+  justify-content: center;
+  border: 1px solid #E9E9E9;
+  width: fit-content;
+  height: 40px;
   background-color:#fff;
   border-radius:7px;
   padding:2px
 }
+.versionSingleButton{
+  padding: 5px 20px;
+  border-radius: 7px;
+}
+@media(max-width: 500px){
+  .versionSingleButton{
+    padding: 5px 15px;
+    border-radius: 7px;
+  }
+}
 @media(max-width: 900px){
   .versionButtons{
     cursor:pointer;
-    position:inherit;
     display:flex;
-    bottom:20px;
-    margin-left: 20px;
-    margin-bottom: 50px;
-    width: max-content;
-    left:100px;
+    justify-content: center;
+    border: 1px solid #E9E9E9;
+    width: fit-content;
+    height: 40px;
     background-color:#fff;
     border-radius:7px;
     padding:2px
   }
 }
+
 button{
   font-family: 'Aeonik' !important;
   cursor: pointer !important;
@@ -213,7 +223,7 @@ input[type=number] {
   .sideBarFullScreen{
     width: 100% !important;
     position : fixed !important;
-    z-index: 5000000000;
+    z-index: 1201;
   }
 
   .sideBarFullScreen > div{

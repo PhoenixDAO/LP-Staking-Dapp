@@ -2,29 +2,33 @@ import React, { useState } from "react";
 import VersionModal from "../connectModal/VersionModal";
 import "../../App.css";
 
-const VersionSwitch = () => {
+const VersionSwitch = ({isSidebarOpen}) => {
   const [modalStatus, setModalStatus] = useState(false);
 
   return (
     <>
       <div className="versionButtons">
-        <div
+        {isSidebarOpen&&<div
+        className="versionSingleButton"
           style={{
             backgroundColor: "#fff",
-            padding: "5px 15px",
-            color: "#000",
-            borderRadius: "7px",
+            color:"#000",
+            "@media (max-width:500px)":{
+              padding: "5px 15px",
+            }
           }}
           onClick={() => setModalStatus(!modalStatus)}
         >
           V1
-        </div>
+        </div>}
         <div
+        className="versionSingleButton"
           style={{
             backgroundColor: "#413AE2",
-            padding: "5px 15px",
-            color: "#fff",
-            borderRadius: "7px",
+            color:"#fff",
+            "@media (max-width:500px)":{
+              padding: "5px 15px",
+            }
           }}
         >
           V2

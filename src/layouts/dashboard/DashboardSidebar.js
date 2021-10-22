@@ -10,6 +10,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import VersionSwitch from "../../components/versionSwitch/versionSwitch";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import HomeLogo from "../../assets/home.png";
@@ -149,7 +150,13 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
           </ListItem>
         ))}
       </List>
-
+      <div style={{alignSelf:"center",  position: "absolute",
+            bottom: "160px",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItem: "baseline",}}>
+      <VersionSwitch isSidebarOpen = {open}/>
+      </div>
       {SocialIcon ? (
         <div
           style={{
