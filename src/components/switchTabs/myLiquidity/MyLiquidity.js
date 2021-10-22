@@ -223,7 +223,7 @@ function MyLiquidity({ ChangeTab }) {
           ></ConnectWallet>
         </div>
       ) : // poolPosition !== null ?
-      poolPosition.lp <= 0 ? (
+      parseFloat(poolPosition.lp) <= 0.00001 ? (
         <div>
           <br></br>
           <br></br>

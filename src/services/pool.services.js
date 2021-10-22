@@ -421,8 +421,8 @@ export const removeLiquidity = async (
       let phnxValue =
       fixedWithoutRounding(((poolPosition.phnx) * (selectedPercentage / 100)),18).toString();
       
-      phnxMin = fixedWithoutRounding((phnxValue - phnxValue * (0.1 / 100)).toFixed(19),18).toFixed(18);
-      ethMin = fixedWithoutRounding((ethValue - ethValue * (0.1 / 100)).toFixed(19),18).toFixed(18);
+      phnxMin = fixedWithoutRounding((phnxValue - phnxValue * (slippageValue / 100)).toFixed(19),18).toFixed(18);
+      ethMin = fixedWithoutRounding((ethValue - ethValue * (slippageValue / 100)).toFixed(19),18).toFixed(18);
 
 
 

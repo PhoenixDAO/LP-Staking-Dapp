@@ -260,7 +260,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
         <div className="rm-liq-phnx-eth-det">
           <img src={PhnxLogo} className="rm-liq-phnx-eth-img"></img>
           <div className="rm-liq-phnx-eth-name">PHNX</div>
-          <div className="rm-liq-phnx-eth-number">{perPhnxVal}</div>
+          <div className="rm-liq-phnx-eth-number">{parseFloat(perPhnxVal).toFixed(5)}</div>
         </div>
 
         <div style={{ height: "10px" }}></div>
@@ -268,7 +268,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
         <div className="rm-liq-phnx-eth-det">
           <img src={EthLogo} className="rm-liq-phnx-eth-img"></img>
           <div className="rm-liq-phnx-eth-name">ETH</div>
-          <div className="rm-liq-phnx-eth-number">{perEthVal}</div>
+          <div className="rm-liq-phnx-eth-number">{parseFloat(perEthVal).toFixed(5)}</div>
         </div>
       </div>
 
@@ -325,7 +325,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
         <img src={PhnxLogo}></img>
         <img src={EthLogo}></img>
         <div className="rm-liq-phnx-eth-lp-sub">PHNX/ETH LP</div>
-        <div className="rm-liq-phnx-eth-lp-sub-no" style={{fontWeight:'900',fontSize:'20px', color:'#1e1e22', fontFamily:'AeonikBold'}}>{poolPosition?.lp}</div>
+        <div className="rm-liq-phnx-eth-lp-sub-no" style={{fontWeight:'900',fontSize:'20px', color:'#1e1e22', fontFamily:'AeonikBold'}}>{parseFloat(poolPosition?.lp).toFixed(5)}</div>
       </div>
 
       <div className="rm-liq-phnx-eth-lp-div">
@@ -335,7 +335,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
           className="rm-liq-phnx-eth-lp-sub-no"
           style={{ marginLeft: "4px" }}
         >
-          {poolPosition?.phnx}
+          {parseFloat(poolPosition?.phnx).toFixed(5)}
         </div>
       </div>
 
@@ -346,14 +346,14 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
           className="rm-liq-phnx-eth-lp-sub-no"
           style={{ marginLeft: "4px" }}
         >
-          {poolPosition?.eth}
+          {parseFloat(poolPosition?.eth).toFixed(5)}
         </div>
       </div>
 
       <div className="rm-liq-phnx-eth-lp-div" style={{ marginTop: "7px" }}>
         <div className="rm-liq-phnx-eth-lp-sub">Pool Share</div>
         <div className="rm-liq-phnx-eth-lp-sub-no">
-          {poolPosition.poolPerc}%
+          {parseFloat(poolPosition.poolPerc).toFixed(5)}%
         </div>
       </div>
 
