@@ -156,11 +156,13 @@ export const getPoolPosition = async (web3context, contractUniswapPair) => {
   _token0 = _token0.dividedBy(conv);
   _token1 = _token1.dividedBy(conv);
 
+  console.log('balance:',_balance.toFixed(18).toString(),'poolPerc:',fixedWithoutRounding(_poolPercentage,18).toString(),'eth:',_token1.toString(),'phnx',_token0.toString());
+
   return {
-    lp: fixedWithoutRounding(_balance, 4), //.toFixed(2),
-    poolPerc: _poolPercentage.toFormat(6),
-    eth: _token1.toFormat(6),
-    phnx: _token0.toFormat(6),
+    lp: fixedWithoutRounding(_balance, 18), //.toFixed(2),
+    poolPerc: fixedWithoutRounding(_poolPercentage,18),
+    eth: fixedWithoutRounding(_token1,18),
+    phnx: fixedWithoutRounding(_token0,18),
   };
 };
 
@@ -397,26 +399,53 @@ export const removeLiquidity = async (
     let deadline = Date.now();
     deadline += 20 * 60;
 
-    console.log(poolPosition.phnx, "dgf");
+    console.log(poolPosition.lp, "dgf");
 
-    let ethValue =
-      parseFloat(poolPosition.eth) * (selectedPercentage / 100).toString();
-    let phnxValue =
-      parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();
-    let phnxMin = phnxValue - phnxValue * (slippageValue / 100);
-    let ethMin = ethValue - ethValue * (slippageValue / 100);
+    let phnxMin;
+    let ethMin;
+    let finalPoolPosition;
 
-    console.log(phnxMin, ethMin, "asdsadasd");
+    if(selectedPercentage==100){
+
+      phnxMin = fixedWithoutRounding((poolPosition.phnx - poolPosition.phnx * (slippageValue / 100)).toFixed(19),18).toFixed(18);
+      ethMin = fixedWithoutRounding((poolPosition.eth - poolPosition.eth * (slippageValue / 100)).toFixed(19),18).toFixed(18);
+
+      finalPoolPosition = fixedWithoutRounding(poolPosition.lp.toFixed(19),19).toFixed(18).toString();
+
+
+    }else{
+
+      let ethValue =
+      fixedWithoutRounding(((poolPosition.eth) * (selectedPercentage / 100)),18).toString();
+      let phnxValue =
+      fixedWithoutRounding(((poolPosition.phnx) * (selectedPercentage / 100)),18).toString();
+      
+      phnxMin = fixedWithoutRounding((phnxValue - phnxValue * (0.1 / 100)).toFixed(19),18).toFixed(18);
+      ethMin = fixedWithoutRounding((ethValue - ethValue * (0.1 / 100)).toFixed(19),18).toFixed(18);
+
+
+
+      finalPoolPosition = fixedWithoutRounding((poolPosition.lp * (selectedPercentage / 100)).toFixed(19),19).toFixed(18).toString();
+
+
+    }
+
+    // finalPoolPosition =BigNumber(finalPoolPosition);
+
+    
+
+    
+    console.log(finalPoolPosition, "asdsadasd");
 
     await contractUniswapRouter.methods
       .removeLiquidityETH(
         "0xfe1b6abc39e46cec54d275efb4b29b33be176c2a", // address token,
         Web3.utils.toWei(
-          (poolPosition.lp * (selectedPercentage / 100)).toString(),
+          finalPoolPosition,
           "ether"
         ), //LP token
-        Web3.utils.toWei(parseFloat(phnxMin).toFixed(4).toString()), //uint amountTokenMin,
-        Web3.utils.toWei(parseFloat(ethMin).toFixed(4).toString()), // uint amountETHMin
+        Web3.utils.toWei((phnxMin).toString()), //uint amountTokenMin,
+        Web3.utils.toWei((ethMin).toString()), // uint amountETHMin
         web3context.account, //address to,
         deadline //deadline
       )
@@ -499,13 +528,15 @@ export const calculateLpToken = async (
   const _reserve0 = getReserves._reserve0;
   const _reserve1 = getReserves._reserve1;
 
-  amount0 = Web3.utils.toWei(amount0.toString());
-  amount1 = Web3.utils.toWei(amount1.toString());
+  console.log(fixedWithoutRounding((amount1).toFixed(20),18).toFixed(20).toString(),'amount1');
+
+  amount0 = Web3.utils.toWei(fixedWithoutRounding(parseFloat(amount0).toFixed(19),18).toString());
+  amount1 = Web3.utils.toWei(fixedWithoutRounding((amount1).toFixed(20),18).toFixed(18).toString());
 
   const liquidity = Math.min(
     (amount0 * _totalSupply) / _reserve0,
     (amount1 * _totalSupply) / _reserve1
   );
-  // console.log(liquidity);
-  setphnxethburn(Web3.utils.fromWei(liquidity.toString(), "ether"));
+   console.log(liquidity);
+  setphnxethburn(Web3.utils.fromWei(fixedWithoutRounding(liquidity).toString(), "ether"));
 };

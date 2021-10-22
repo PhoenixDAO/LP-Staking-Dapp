@@ -139,7 +139,7 @@ const RemoveLiquidityModaL = ({ slippageValue , allowance , giveApproval ,handle
     if (!poolPosition) {
       return;
     }
-    const ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
+    const ethValue = (poolPosition.eth * (selectedPercentage / 100)).toString();
     const phnxValue =
       parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();
 
