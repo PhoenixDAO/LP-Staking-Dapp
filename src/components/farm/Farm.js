@@ -23,7 +23,6 @@ import {
   CheckApprovalUniswapPairAction,
   CheckApprovalPhnxStakingAction,
 } from "../../redux/actions/contract.actions";
-import VersionSwitch from "../versionSwitch/versionSwitch";
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET } from "../../contract/constant";
@@ -126,7 +125,13 @@ function Farm() {
       console.error(e, "err in handleGiveApprovalPhnxStakingAction");
     }
   };
-
+  
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      await getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
+    }, 15000);
+  }, []);
+ 
   useEffect(() => {
     if (
       web3context?.account &&
@@ -373,8 +378,7 @@ function Farm() {
         aria-describedby="modal-modal-description"
       >
         <UnStakingModal Close={handleUnStackClose} userInfo={userInfo} />
-      </Modal>
-      <VersionSwitch />
+      </Modal> 
     </div>
   );
 }

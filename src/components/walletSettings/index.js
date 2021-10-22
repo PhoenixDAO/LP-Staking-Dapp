@@ -87,7 +87,7 @@ export default function WalletSettings({
             Wallet
           </Typography>
           <br />
-          <Typography sx={{marginBottom:"10px"}} variant="body2" component="h2">
+          <Typography sx={{marginBottom:"10px", color:"#4E4E55"}} variant="body2" component="h2">
             YOUR ADDRESS
           </Typography>
           <TextField
@@ -95,6 +95,7 @@ export default function WalletSettings({
             fullWidth
             variant="outlined"
             disabled
+            sx={{marginBottom:"38px"}}
             value={web3context?.account}
             InputProps={{
               endAdornment: (
@@ -122,13 +123,11 @@ export default function WalletSettings({
               ),
             }}
           />
-          <br />
-          <br />
           <Stack
             direction="row"
             justifyContent="space-between"
             alignItems="center"
-            mb={1.5}
+            mb={1.8}
           >
             <Typography id="modal-modal-title" variant="body1" component="h2" style={{color:"#4E4E55"}}>
               PHNX BALANCE

@@ -23,6 +23,7 @@ function Notify({ text, severity }) {
           textAlign: "center",
           margin: "9px",
           marginBottom: "15px",
+          color:"#000"
         }}
       >
         {text}

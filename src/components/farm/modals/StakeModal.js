@@ -115,7 +115,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           <span>
             Bal:{" "}
             <span style={{ color: "#000", fontWeight: "600" }}>
-              {maxlpValue} PHNX-ETH LP
+              {parseFloat(maxlpValue).toFixed(5)} PHNX-ETH LP
             </span>
           </span>
         </div>
