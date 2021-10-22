@@ -82,6 +82,7 @@ function MyLiquidity({ ChangeTab }) {
   };
 
   useEffect(() => {
+    // console.log(poolPosition.lp,'aaa');
     if (contractUniswapPair) {
       console.log("asdasdasdasdasdasdads");
       handleCheckApprovalUniswapPairAction(setAllowance);
@@ -222,7 +223,7 @@ function MyLiquidity({ ChangeTab }) {
           ></ConnectWallet>
         </div>
       ) : // poolPosition !== null ?
-      poolPosition.lp == 0 ? (
+      parseFloat(poolPosition.lp) <= 0.00001 ? (
         <div>
           <br></br>
           <br></br>
@@ -271,7 +272,7 @@ function MyLiquidity({ ChangeTab }) {
         <div>
           <br></br>
           <div className="phnx-eth">
-            <p className="phnx-eth-no">{poolPosition.lp}</p>
+            <p className="phnx-eth-no">{parseFloat(poolPosition.lp).toFixed(5)}</p>
             <img src={PhnxLogo} className="phnx-eth-logo"></img>
             <img src={EthLogo} className="phnx-eth-logo"></img>
           </div>
@@ -293,7 +294,7 @@ function MyLiquidity({ ChangeTab }) {
               <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
 
               <div className="pooled-item-txt">
-                <span style={{ fontSize: "18px" }}>{poolPosition.phnx}</span>
+                <span style={{ fontSize: "18px" }}>{parseFloat(poolPosition.phnx).toFixed(5)}</span>
               </div>
 
             </div>
@@ -314,7 +315,7 @@ function MyLiquidity({ ChangeTab }) {
               <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
 
               <div className="pooled-item-txt">
-                <span style={{ fontSize: "18px" }}>{poolPosition.eth}</span>
+                <span style={{ fontSize: "18px" }}>{parseFloat(poolPosition.eth).toFixed(5)}</span>
               </div>
 
             </div>
@@ -334,7 +335,7 @@ function MyLiquidity({ ChangeTab }) {
             >
               <div className="pooled-item-txt">
                 <span style={{ fontSize: "18px" }}>
-                  {poolPosition.poolPerc}%
+                  {parseFloat(poolPosition.poolPerc).toFixed(5)}%
                 </span>
               </div>
 

@@ -9,7 +9,7 @@ import UnStakingModal from "./modals/UnstakeModal";
 import { useWeb3React } from "@web3-react/core";
 import {
   harvestPHNX,
-  getUserInfo,
+  // getUserInfo,
   getPendingPHX,
   giveApprovalPhnxStaking,
 } from "../../services/stake.services";
@@ -23,13 +23,9 @@ import {
   CheckApprovalUniswapPairAction,
   CheckApprovalPhnxStakingAction,
 } from "../../redux/actions/contract.actions";
-import VersionSwitch from "../versionSwitch/versionSwitch";
 import Web3 from "web3";
-import {
-  phnxStakeContractInit,
-  giveApprovalUniswapPair,
-} from "../../services/pool.services";
 import BigNumber from "bignumber.js";
+import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET } from "../../contract/constant";
 
 function Farm() {
   const dispatch = useDispatch();
@@ -47,11 +43,11 @@ function Farm() {
     (state) => state.contractReducer.poolPosition
   );
   const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);
+  const userInfo = useSelector((state) => state.localReducer.userInfo);
 
   const [isStackVisible, setStackVisible] = useState(false);
   const [isUnStackVisible, setUnStackVisible] = useState(false);
   // const [allowance, setAllowance] = useState(0);
-  const [userInfo, setUserInfo] = useState({ amount: 0, rewardDebt: 0 });
   const [pendingPHX, setPendingPHX] = useState({ 0: 0, 1: 0 });
   const [reserveUSD, setReserveUSD] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -78,9 +74,9 @@ function Farm() {
   const handleUnStackClose = () => {
     setUnStackVisible(false);
   };
-  const handleGetUserInfo = async () => {
-    getUserInfo(contractPhnxStake, web3context, setUserInfo);
-  };
+  // const handleGetUserInfo = async () => {
+  //   getUserInfo(contractPhnxStake, web3context, setUserInfo);
+  // };
   const handleGetPoolPositionAction = async () => {
     dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
   };
@@ -129,7 +125,13 @@ function Farm() {
       console.error(e, "err in handleGiveApprovalPhnxStakingAction");
     }
   };
-
+  
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      await getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
+    }, 5000);
+  }, []);
+ 
   useEffect(() => {
     if (
       web3context?.account &&
@@ -140,7 +142,7 @@ function Farm() {
       (async () => {
         dispatch(PhnxStakeContractInitAction(web3context));
         await handleCheckApprovalUniswapPairAction();
-        await handleGetUserInfo();
+        // await handleGetUserInfo();
         await getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
         await handleGetPoolPositionAction();
       })();
@@ -154,17 +156,6 @@ function Farm() {
   ]);
 
   useEffect(() => {
-    if (
-      web3context?.account &&
-      web3context?.active &&
-      contractUniswapPair &&
-      contractPhnxStake
-    ) {
-      handleGetUserInfo();
-    }
-  }, [poolPosition, balancePhnx]);
-
-  useEffect(() => {
     const getTotalLiquidity = async () => {
       await axios({
         url: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2",
@@ -172,7 +163,7 @@ function Farm() {
         data: {
           query: `
           {
-            pairs(where:{id:"0xdfe317f907ca9bf6202cddec3def756438a3b3f7"}){
+            pairs(where:{id:"${UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET}"}){
               reserveUSD
             }
           }
@@ -387,8 +378,7 @@ function Farm() {
         aria-describedby="modal-modal-description"
       >
         <UnStakingModal Close={handleUnStackClose} userInfo={userInfo} />
-      </Modal>
-      <VersionSwitch />
+      </Modal> 
     </div>
   );
 }

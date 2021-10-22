@@ -156,30 +156,13 @@ export const checkApprovalPhnxStaking = async (
   }
 };
 
-export const getUserInfo = async (
-  contractPhnxStake,
-  web3context,
-  setUserInfo
-) => {
-  if (
-    contractPhnxStake?.methods &&
-    web3context.active &&
-    web3context.account &&
-    setUserInfo
-  ) {
-    console.log(
-      "contractPhnxStake.methods",
-      contractPhnxStake.methods,
-      " web3context.active ",
-      web3context.active,
-      " setUserInfo ",
-      setUserInfo
-    );
+export const getUserInfo = async (web3context, contractPhnxStake) => {
+  if (contractPhnxStake?.methods && web3context.active && web3context.account) {
     const info = await contractPhnxStake?.methods
       ?.userInfo(web3context.account)
       .call();
-    // console.log("infooo", info);
-    setUserInfo(info);
+    console.log("infooo", info);
+    return info;
   } else {
     throw "Invalid credentials of getUserInfo";
   }

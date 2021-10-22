@@ -83,7 +83,7 @@ const ConfirmModal = ({
                     </div>
                     <div>PHNX</div>
                   </div>
-                  <div className="confirmPhnxDeposite confirmPrice">{phnx}</div>
+                  <div className="confirmPhnxDeposite confirmPrice">{parseFloat(phnx).toFixed(5)}</div>
                 </div>
               </div>
               <div className="confirmModalAddPrice">
@@ -94,7 +94,7 @@ const ConfirmModal = ({
                     </div>
                     <div>ETH</div>
                   </div>
-                  <div className="confirmPhnxDeposite confirmPrice">{eth}</div>
+                  <div className="confirmPhnxDeposite confirmPrice">{parseFloat(eth).toFixed(5)}</div>
                 </div>
               </div>
               <div className="confirmModalAddPrice">
@@ -115,7 +115,7 @@ const ConfirmModal = ({
                     <div>PHNX-ETH BURNED</div>
                   </div>
                   <div className="confirmPhnxDeposite confirmPhnxDepositeFontSize">
-                    {phnxethburn}
+                    {parseFloat(phnxethburn).toFixed(5)}
                   </div>
                 </div>
               </div>

@@ -38,10 +38,6 @@ const SlippingTolerance = ({
     }
   };
 
-  // const handleShowValue = () => {
-  //   if
-  // }
-
   const [selectedPercentage, setSelectedPercentage] = useState("");
 
   const [open, setOpen] = useState(status);
@@ -50,34 +46,18 @@ const SlippingTolerance = ({
   const handlePercentageInput = (e) => {
     if (e.target.value === "" || isNaN(e.target.value)) {
       setSelectedPercentage("");
-      // setSlippageValue(parseInt(1));
-      // dispatch({
-      //   type: SET_SLIPPAGE_ADD_LIQUIDITY,
-      //   payload: "",
-      // });
       handleSlippageValue("");
     } else if (e.target.value > 50) {
       setSelectedPercentage(50);
-      // setSlippageValue(50);
-      // dispatch({
-      //   type: SET_SLIPPAGE_ADD_LIQUIDITY,
-      //   payload: "50",
-      // });
       handleSlippageValue(e.target.value);
     } else {
       setSelectedPercentage(parseInt(e.target.value));
-      // setSlippageValue(parseInt(e.target.value));
-      // dispatch({
-      //   type: SET_SLIPPAGE_ADD_LIQUIDITY,
-      //   payload: e.target.value,
-      // });
       handleSlippageValue(e.target.value);
     }
   };
 
   return (
     <div>
-      {/* <Button onClick={handleOpen}>Slipping Tolerance</Button> */}
       <Modal
         open={status}
         onClose={() => handleClose(false)}
@@ -112,11 +92,6 @@ const SlippingTolerance = ({
               }}
               onClick={() => {
                 setSelectedPercentage(5);
-                // setSlippageValue(5);
-                // dispatch({
-                //   type: SET_SLIPPAGE_ADD_LIQUIDITY,
-                //   payload: "5",
-                // });
                 handleSlippageValue(5);
               }}
             >
@@ -131,11 +106,7 @@ const SlippingTolerance = ({
               }}
               onClick={() => {
                 setSelectedPercentage(10);
-                // setSlippageValue(10);
-                // dispatch({
-                //   type: SET_SLIPPAGE_VALUE,
-                //   payload: "10",
-                // });
+
                 handleSlippageValue(10);
               }}
             >
@@ -150,11 +121,7 @@ const SlippingTolerance = ({
               }}
               onClick={() => {
                 setSelectedPercentage(20);
-                // setSlippageValue(20);
-                // dispatch({
-                //   type: SET_SLIPPAGE_ADD_LIQUIDITY,
-                //   payload: "20",
-                // });
+
                 handleSlippageValue(20);
               }}
             >
@@ -205,9 +172,9 @@ const SlippingTolerance = ({
               ),
             }}
             className="slippingLiq-ps-input"
-            placeholder="Enter a value"
+            placeholder="Enter a value, default value is 1"
             // value={selectedPercentage}
-            value={slippageValue}
+            value={slippageValue == 1 ? "" : slippageValue}
             onChange={(e) => {
               handlePercentageInput(e);
             }}
