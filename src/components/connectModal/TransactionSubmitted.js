@@ -142,9 +142,9 @@ const TransactionSubmitted = ({ transactionSubmittedModal, hash , handleMainClos
               <button
                 className="transaction-liq-btn cursorPointer"
                 onClick={()=>{
-                  handleMainClose(false);
-                  if(handleClose){
-                    handleClose();
+                  handleClose();
+                  if(handleMainClose){
+                    handleMainClose(false);
                   }
                 }
               }
