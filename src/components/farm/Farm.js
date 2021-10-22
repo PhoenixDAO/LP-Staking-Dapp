@@ -129,7 +129,7 @@ function Farm() {
   useEffect(() => {
     const interval = setInterval(async () => {
       await getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
-    }, 15000);
+    }, 5000);
   }, []);
  
   useEffect(() => {

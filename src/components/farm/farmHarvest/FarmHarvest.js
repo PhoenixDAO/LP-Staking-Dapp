@@ -150,11 +150,11 @@ function FarmHarvest({
         className="farm-btn-stake"
         style={{
           marginTop: "20px",
-          backgroundColor: loading ? "#acacac" : "#413ae2",
+          backgroundColor: loading || pendingPHX["0"]=="0" ? "#acacac" : "#413ae2",
           fontSize: "18px",
         }}
         onClick={harvestPHNX}
-        disabled={loading}
+        disabled={loading || pendingPHX["0"]=="0"}
       >
         {loading && "Harvesting..."}
         {!loading && "Harvest"}
