@@ -141,6 +141,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
 
         <button
           className="stakingModalInputBtn"
+          disabled={parseFloat(maxlpValue).toFixed(5) == 0.00000}
           onClick={() => {
             setlpValue(maxlpValue);
             if (!isNaN(maxlpValue) && maxlpValue != "") {
