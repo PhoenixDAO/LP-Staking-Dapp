@@ -190,11 +190,6 @@ export const getPendingPHX = async (
   web3context,
   setPendingPHX
 ) => {
-  // console.log(
-  //   contractPhnxStake + "==> contractPhnxStake",
-  //   web3context + "==> web3context",
-  //   setPendingPHX + "==> setPendingPHX"
-  // );
   if (contractPhnxStake && web3context.active != false && setPendingPHX) {
     const pending = await contractPhnxStake?.methods
       ?.pendingPHX(web3context?.account)
