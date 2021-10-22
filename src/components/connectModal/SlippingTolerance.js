@@ -207,7 +207,7 @@ const SlippingTolerance = ({
             className="slippingLiq-ps-input"
             placeholder="Enter a value"
             // value={selectedPercentage}
-            value={slippageValue}
+            value={slippageValue == 0 ? "" : slippageValue}
             onChange={(e) => {
               handlePercentageInput(e);
             }}
