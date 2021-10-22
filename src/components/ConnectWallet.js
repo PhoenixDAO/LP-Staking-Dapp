@@ -17,6 +17,7 @@ import * as CONTRACT_TYPES from "../redux/types/contract.types";
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
 import { conciseAddress, fixedWithoutRounding } from "../utils/formatters";
+import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET } from "../contract/constant";
 
 import CloseIcon from "@mui/icons-material/Close";
 import Logo from "../assets/Logo.png";
@@ -34,31 +35,32 @@ import { toast } from "react-toastify";
 import Notify from "./Notify";
 
 const style = {
-  modalBox:{
-overflowY:"auto",
-borderRadius:"20px",
-padding: "40px",
-},
-modal:{
-  position: "absolute",
-  maxHeight: "90%",
-  padding: "0px",
-  overflowY: "hidden",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 500,
-  bgcolor: "background.paper",
-  // border: "2px solid #000",
-  boxShadow: 24,
-  display: "flex",
-  flexDirection: "column",
-  // alignItems: "center",
-  borderRadius: 5,
-  ["@media (max-width: 650px)"]: {
-    width: "90%",
+  modalBox: {
+    overflowY: "auto",
+    borderRadius: "20px",
+    padding: "40px",
   },
-}};
+  modal: {
+    position: "absolute",
+    maxHeight: "90%",
+    padding: "0px",
+    overflowY: "hidden",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 500,
+    bgcolor: "background.paper",
+    // border: "2px solid #000",
+    boxShadow: 24,
+    display: "flex",
+    flexDirection: "column",
+    // alignItems: "center",
+    borderRadius: 5,
+    ["@media (max-width: 650px)"]: {
+      width: "90%",
+    },
+  },
+};
 
 const Item = styled("button")(({ theme }) => ({
   ...theme.typography.body2,
@@ -228,7 +230,7 @@ export default function ConnectWallet({
         data: {
           query: `
           {
-            pairs(where:{id:"0xdfe317f907ca9bf6202cddec3def756438a3b3f7"}){
+            pairs(where:{id:"${UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET}"}){
               reserveUSD
             }
           }
@@ -247,25 +249,27 @@ export default function ConnectWallet({
   }, []);
 
   return (
-    <div style={{ width: "fit-content", display:"flex", alignItems:"center" }}>
+    <div
+      style={{ width: "fit-content", display: "flex", alignItems: "center" }}
+    >
       {active && account && justModal != true ? (
-          <div
-            className="usdBalance"
-          >
-            <img
-              src={PhnxLogo}
-              alt="PhnxLogo"
-              className="dollarBalanceBtnImg"
-            ></img>
-            <span  style={{
+        <div className="usdBalance">
+          <img
+            src={PhnxLogo}
+            alt="PhnxLogo"
+            className="dollarBalanceBtnImg"
+          ></img>
+          <span
+            style={{
               display: "flex",
               alignItem: "center",
               justifyContent: "center",
-              alignItems:"center",
-              fontWeight:"700",
-              color:"black",
-              fontSize:"16px"
-            }}>
+              alignItems: "center",
+              fontWeight: "700",
+              color: "black",
+              fontSize: "16px",
+            }}
+          >
             $
             {poolPosition != null
               ? fixedWithoutRounding(
@@ -274,8 +278,8 @@ export default function ConnectWallet({
                   4
                 )
               : "0.00"}
-              </span>
-          </div>
+          </span>
+        </div>
       ) : null}
 
       {landingScreenBtn != true ? <>&nbsp; &nbsp;</> : null}
@@ -287,8 +291,8 @@ export default function ConnectWallet({
               display: "flex",
               alignItem: "center",
               justifyContent: "center",
-                fontWeight:"700",
-                alignItems:"center"
+              fontWeight: "700",
+              alignItems: "center",
             }}
           >
             <img
@@ -320,15 +324,15 @@ export default function ConnectWallet({
               ? "connect-wallet-btn connect-wallet-btn-reverse"
               : "connect-wallet-modal-btn"
           }
-          style={{borderRadius:landingScreenBtn?"":"9px"}}
+          style={{ borderRadius: landingScreenBtn ? "" : "9px" }}
         >
           {active && account ? (
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                paddingInline:"10px",
-                fontWeight:"700",
+                paddingInline: "10px",
+                fontWeight: "700",
               }}
             >
               {" "}
@@ -353,155 +357,158 @@ export default function ConnectWallet({
       >
         <Box sx={style.modal} className="modal-scroll">
           <div style={style.modalBox}>
-          <button onClick={handleClose} className="icon-btn">
-            <CloseIcon />
-          </button>
-          <Stack sx={{ mt: 5, alignItems: "center" }}>
-            <img src={Logo} alt="logo" width="192px" height="54px" />
-          </Stack>
-          <Typography
-            id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            color="primary"
-            sx={{ mt: 3, color: "#413AE2", fontWeight: "bolder"}}
-            align="center"
-            className="connectWalletMsg"
-          >
-            Connect to your wallet
-          </Typography>
-          <Stack spacing={2} sx={{ mt: 5 }}>
-            <Item
-              onClick={() => {
-                !active &&
-                  !(connector instanceof InjectedConnector) &&
-                  activateWallet(injected);
-
-                window.localStorage.setItem("previousWallet", "metaMask");
-              }}
+            <button onClick={handleClose} className="icon-btn">
+              <CloseIcon />
+            </button>
+            <Stack sx={{ mt: 5, alignItems: "center" }}>
+              <img src={Logo} alt="logo" width="192px" height="54px" />
+            </Stack>
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              component="h2"
+              color="primary"
+              sx={{ mt: 3, color: "#413AE2", fontWeight: "bolder" }}
+              align="center"
+              className="connectWalletMsg"
             >
-              <img src={metamaskIcon} alt="logo" className="walletImg" />
-              <Typography
-                id="modal-modal-title"
-                variant="h6"
-                component="h2"
-                sx={{ ml: 3, textAlign: "left" }}
-                className="connectWalletModalText"
-              >
-                Metamask
-              </Typography>
-              <ArrowRightAltIcon
-                sx={{ ml: "auto" }}
-                fontSize="large"
-                color="primary"
-              />
-            </Item>
-            <Divider style={{ marginTop: "5px" }} />
-            <Item
-            style={{marginTop:"5px", textAlign: "left" }}
-              onClick={() => {
-                !active &&
-                  !(connector instanceof WalletConnectConnector) &&
-                  activateWallet(walletconnect);
+              Connect to your wallet
+            </Typography>
+            <Stack spacing={2} sx={{ mt: 5 }}>
+              <Item
+                onClick={() => {
+                  !active &&
+                    !(connector instanceof InjectedConnector) &&
+                    activateWallet(injected);
 
-                window.localStorage.setItem("previousWallet", "walletConnect");
-              }}
-            >
-              <img src={walletConnectIcon} alt="logo" className="walletImg" />
-              <Typography
-                id="modal-modal-title"
-                variant="h6"
-                component="h2"
-                sx={{ ml: 3 }}
-                className="connectWalletModalText"
-              >
-                Wallet Connect
-              </Typography>
-              <ArrowRightAltIcon
-                sx={{ ml: "auto" }}
-                fontSize="large"
-                color="primary"
-              />
-            </Item>
-            <Divider style={{ marginTop: "5px" }} />
-            <Item
-              style={{marginTop:"5px", textAlign: "left" }}
-              onClick={() => {
-                !active &&
-                  !(connector instanceof WalletLinkConnector) &&
-                  activateWallet(walletlink);
-
-                window.localStorage.setItem("previousWallet", "coinBase");
-              }}
-            >
-              <img src={coinbaseIcon} alt="logo" className="walletImg" />
-              <Typography
-                id="modal-modal-title"
-                variant="h6"
-                component="h2"
-                sx={{ ml: 3 }}
-                className="connectWalletModalText"
-              >
-                Coinbase Wallet
-              </Typography>
-              <ArrowRightAltIcon
-                sx={{ ml: "auto" }}
-                fontSize="large"
-                color="primary"
-              />
-            </Item>
-            <Divider style={{ marginTop: "5px" }} />
-
-            <Item style={{marginTop:"5px", textAlign: "left" }}>
-              <img src={ledgerIcon} alt="logo" className="walletImg" />
-              <Typography
-                id="modal-modal-title"
-                variant="h6"
-                component="h2"
-                sx={{ ml: 3 }}
-                className="connectWalletModalText"
-              >
-                Ledger
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  ml: "auto",
-                  color: "#ED2020",
-                  background: "#FAEBEB",
-                  px: "7px",
-                  py: "3px",
-                  borderRadius: "30px",
+                  window.localStorage.setItem("previousWallet", "metaMask");
                 }}
-                className="comingSoon"
               >
-                COMING SOON
-              </Typography>
-            </Item>
-          </Stack>
+                <img src={metamaskIcon} alt="logo" className="walletImg" />
+                <Typography
+                  id="modal-modal-title"
+                  variant="h6"
+                  component="h2"
+                  sx={{ ml: 3, textAlign: "left" }}
+                  className="connectWalletModalText"
+                >
+                  Metamask
+                </Typography>
+                <ArrowRightAltIcon
+                  sx={{ ml: "auto" }}
+                  fontSize="large"
+                  color="primary"
+                />
+              </Item>
+              <Divider style={{ marginTop: "5px" }} />
+              <Item
+                style={{ marginTop: "5px", textAlign: "left" }}
+                onClick={() => {
+                  !active &&
+                    !(connector instanceof WalletConnectConnector) &&
+                    activateWallet(walletconnect);
 
-          <Typography
-            id="modal-modal-title"
-            variant="p"
-            component="p"
-            align="center"
-            sx={{
-              mt: 4,
-              fontSize: "medium",
-              "@media (max-width:420px)": {
-                fontSize: "12px",
-              },
-              "@media (max-width:350px)": {
-                fontSize: "9px",
-              },
-            }}
-          >
-            By connecting, I accept PhoenixDAO’s{" "}
-            <Link to="/terms" onClick={handleClose}>
-              {" "}
-              Terms of service{" "}
-            </Link>
-          </Typography>
+                  window.localStorage.setItem(
+                    "previousWallet",
+                    "walletConnect"
+                  );
+                }}
+              >
+                <img src={walletConnectIcon} alt="logo" className="walletImg" />
+                <Typography
+                  id="modal-modal-title"
+                  variant="h6"
+                  component="h2"
+                  sx={{ ml: 3 }}
+                  className="connectWalletModalText"
+                >
+                  Wallet Connect
+                </Typography>
+                <ArrowRightAltIcon
+                  sx={{ ml: "auto" }}
+                  fontSize="large"
+                  color="primary"
+                />
+              </Item>
+              <Divider style={{ marginTop: "5px" }} />
+              <Item
+                style={{ marginTop: "5px", textAlign: "left" }}
+                onClick={() => {
+                  !active &&
+                    !(connector instanceof WalletLinkConnector) &&
+                    activateWallet(walletlink);
+
+                  window.localStorage.setItem("previousWallet", "coinBase");
+                }}
+              >
+                <img src={coinbaseIcon} alt="logo" className="walletImg" />
+                <Typography
+                  id="modal-modal-title"
+                  variant="h6"
+                  component="h2"
+                  sx={{ ml: 3 }}
+                  className="connectWalletModalText"
+                >
+                  Coinbase Wallet
+                </Typography>
+                <ArrowRightAltIcon
+                  sx={{ ml: "auto" }}
+                  fontSize="large"
+                  color="primary"
+                />
+              </Item>
+              <Divider style={{ marginTop: "5px" }} />
+
+              <Item style={{ marginTop: "5px", textAlign: "left" }}>
+                <img src={ledgerIcon} alt="logo" className="walletImg" />
+                <Typography
+                  id="modal-modal-title"
+                  variant="h6"
+                  component="h2"
+                  sx={{ ml: 3 }}
+                  className="connectWalletModalText"
+                >
+                  Ledger
+                </Typography>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    ml: "auto",
+                    color: "#ED2020",
+                    background: "#FAEBEB",
+                    px: "7px",
+                    py: "3px",
+                    borderRadius: "30px",
+                  }}
+                  className="comingSoon"
+                >
+                  COMING SOON
+                </Typography>
+              </Item>
+            </Stack>
+
+            <Typography
+              id="modal-modal-title"
+              variant="p"
+              component="p"
+              align="center"
+              sx={{
+                mt: 4,
+                fontSize: "medium",
+                "@media (max-width:420px)": {
+                  fontSize: "12px",
+                },
+                "@media (max-width:350px)": {
+                  fontSize: "9px",
+                },
+              }}
+            >
+              By connecting, I accept PhoenixDAO’s{" "}
+              <Link to="/terms" onClick={handleClose}>
+                {" "}
+                Terms of service{" "}
+              </Link>
+            </Typography>
           </div>
         </Box>
       </Modal>

@@ -25,11 +25,8 @@ import {
 } from "../../redux/actions/contract.actions";
 import VersionSwitch from "../versionSwitch/versionSwitch";
 import Web3 from "web3";
-import {
-  phnxStakeContractInit,
-  giveApprovalUniswapPair,
-} from "../../services/pool.services";
 import BigNumber from "bignumber.js";
+import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET } from "../../contract/constant";
 
 function Farm() {
   const dispatch = useDispatch();
@@ -151,7 +148,7 @@ function Farm() {
     web3context?.active,
     contractUniswapPair,
     balancePhnx,
-    contractPhnxStake,
+    // contractPhnxStake,
   ]);
 
   useEffect(() => {
@@ -173,7 +170,7 @@ function Farm() {
         data: {
           query: `
           {
-            pairs(where:{id:"0xdfe317f907ca9bf6202cddec3def756438a3b3f7"}){
+            pairs(where:{id:"${UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET}"}){
               reserveUSD
             }
           }
