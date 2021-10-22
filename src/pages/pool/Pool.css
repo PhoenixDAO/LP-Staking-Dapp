@@ -12,7 +12,7 @@ div.gradient-div {
   align-items: center;
   justify-content: space-between;
   background: linear-gradient(90deg, rgba(65, 58, 226, 0.3) 0%, rgba(255, 0, 247, 0.080) 70.13%);
-  border: 1px solid rgba(65, 58, 226, 0.41);
+  border: 0.5px solid rgba(65, 58, 226, 0.3);
   box-sizing: border-box;
   backdrop-filter: blur(2px);
   /* -webkit-filter: ; */
@@ -28,7 +28,7 @@ p.connect-wallet-txt {
 }
 img.img-hands {
   position: absolute;
-  right: 20px;
+  right: 47px;
   width: 200px;
   height: auto;
 }
@@ -48,6 +48,7 @@ div.connect-wallet-div {
 p.phnx-heading {
   font-size: 35px;
   font-weight: bolder;
+  text-shadow: 0px 0px 0px #000000;
   margin-bottom: 0;
 }
 p.phnx-subheading {

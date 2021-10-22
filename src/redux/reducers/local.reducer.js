@@ -12,8 +12,8 @@ const INITIAL_STATE = {
   reserve1: 0,
   userIsActive: false,
 
-  slippageAddLiquidity: null,
-  slippageRemoveLiquidity: null,
+  slippageAddLiquidity: 1,
+  slippageRemoveLiquidity: 1,
 };
 
 const localReducer = (state = INITIAL_STATE, action) => {
