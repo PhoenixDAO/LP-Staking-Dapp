@@ -11,6 +11,9 @@ const INITIAL_STATE = {
   reserve0: 0,
   reserve1: 0,
   userIsActive: false,
+
+  slippageAddLiquidity: null,
+  slippageRemoveLiquidity: null,
 };
 
 const localReducer = (state = INITIAL_STATE, action) => {
@@ -41,6 +44,12 @@ const localReducer = (state = INITIAL_STATE, action) => {
 
     case types.DISCONNECT_USER:
       return { ...state, userIsActive: false };
+
+    case types.SET_SLIPPAGE_ADD_LIQUIDITY:
+      return { ...state, slippageAddLiquidity: action.payload };
+
+    case types.SET_SLIPPAGE_REMOVE_LIQUIDITY:
+      return { ...state, slippageRemoveLiquidity: action.payload };
 
     case types.RESET_ALL_LOCAL_REDUCER:
       return { ...INITIAL_STATE };

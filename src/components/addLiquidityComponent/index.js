@@ -49,6 +49,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const allowancePhnxDao = useSelector(
     (state) => state.contractReducer.allowancePhnxDao
   );
+  const slippageAddLiquidity = useSelector(
+    (state) => state.localReducer.slippageAddLiquidity
+  );
 
   const ethPerPhnx = useSelector((state) => state.localReducer.ethPerPhnx);
   const reserve0 = useSelector((state) => state.localReducer.reserve0);
@@ -479,10 +482,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         )}
       </div>
 
-      <ConnectWallet
-        justModal={true}
-        openModal={ConnectWalletModalStatus}
-      ></ConnectWallet>
+      <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus} />
       <ConnectModal
         transactionConfirmModal={transactionConfirmModal}
         setTxModalClose={setTxModalClose}
@@ -492,21 +492,22 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         poolShare={poolShare}
         phnxPerEth={phnxPerEth}
         ethPerPhnx={ethPerPhnx}
-        slippageValue={slippageValue}
-      ></ConnectModal>
+        slippageValue={slippageAddLiquidity}
+      />
+
       <SlippingTolerance
         status={slippageModal}
         handleClose={setSlippageModal}
-        setSlippageValue={setSlippageValue}
+        slippageValue={slippageAddLiquidity}
+        slippageType="add"
       />
 
-      <TransactionProgress transactionProcessModal={transactionProcessModal}>
-        {" "}
-      </TransactionProgress>
+      <TransactionProgress transactionProcessModal={transactionProcessModal} />
+
       <TransactionSubmitted
         transactionSubmittedModal={transactionSubmittedModal}
         hash={tranHash}
-      ></TransactionSubmitted>
+      />
     </Box>
   );
 };

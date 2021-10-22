@@ -5,9 +5,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import PhnxLogo from "../../assets/PhnxLogo1.png";
 import EthLogo from "../../assets/ETH1.png";
 
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Web3 from "web3";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
@@ -22,7 +19,7 @@ const ConnectModal = ({
   poolShare,
   phnxPerEth,
   ethPerPhnx,
-  slippageValue
+  slippageValue,
 }) => {
   // const [open, setOpen] = useState(transactionConfirmModal);
   // const handleClose = () => {setOpen(false)};
@@ -41,6 +38,9 @@ const ConnectModal = ({
   const uniswapV2PairContract = useSelector(
     (state) => state.contractReducer.contractUniswapPair
   );
+  // const slippageTolerance = useSelector(
+  //   (state) => state.localReducer.slippageTolerance
+  // );
 
   const calculateLpToken = async (amount0, amount1) => {
     console.log(amount0, amount1);
@@ -94,7 +94,7 @@ const ConnectModal = ({
           <div className="add-liq-div">
             <div className="displayFlex">
               <div className="phnxDeposite">
-                <img className="add-liq-Logo" src={Logo} ></img>
+                <img className="add-liq-Logo" src={Logo}></img>
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
@@ -104,19 +104,28 @@ const ConnectModal = ({
             </div>
             <div className="add-liq-heading">YOU WILL RECIEVE</div>
 
-            <div className="add-liq-ps-div" style={{display: 'flex' , alignItems: 'center'}}>
+            <div
+              className="add-liq-ps-div"
+              style={{ display: "flex", alignItems: "center" }}
+            >
               {lp}
               {/* <span className="iconMargin"> */}
-                <img src={PhnxLogo} className="add-liq-phnx-eth-img" style={{height:'25px',width:'25px',marginLeft:'5px'}}></img>
-                <img
-                  src={EthLogo}
-                  className="add-liq-phnx-eth-img iconLeftMargin"
-                  style={{height:'25px',width:'25px',marginLeft:'5px'}}
-                ></img>
+              <img
+                src={PhnxLogo}
+                className="add-liq-phnx-eth-img"
+                style={{ height: "25px", width: "25px", marginLeft: "5px" }}
+              ></img>
+              <img
+                src={EthLogo}
+                className="add-liq-phnx-eth-img iconLeftMargin"
+                style={{ height: "25px", width: "25px", marginLeft: "5px" }}
+              ></img>
               {/* </span> */}
             </div>
 
-            <div className="textRecieve" style={{marginBottom:'15px'}}>PHNX/ETH Pool tokens</div>
+            <div className="textRecieve" style={{ marginBottom: "15px" }}>
+              PHNX/ETH Pool tokens
+            </div>
             <div className="add-liq-divider"></div>
             <div className="priceContainer">
               <div className="addPrice">
@@ -171,8 +180,8 @@ const ConnectModal = ({
             </div>
 
             <div className="add-liq-phnx-eth-det-div">
-              Output is estimated. if the price changes by more than {slippageValue}% your
-              transaction will revert
+              Output is estimated. if the price changes by more than{" "}
+              {slippageValue}% your transaction will revert
             </div>
 
             {/* <div className="add-liq-phnx-eth-con-div">
