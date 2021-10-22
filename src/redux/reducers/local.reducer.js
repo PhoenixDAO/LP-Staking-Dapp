@@ -14,6 +14,8 @@ const INITIAL_STATE = {
 
   slippageAddLiquidity: 1,
   slippageRemoveLiquidity: 1,
+
+  userInfo: { amount: 0, rewardDebt: 0 },
 };
 
 const localReducer = (state = INITIAL_STATE, action) => {
@@ -50,6 +52,15 @@ const localReducer = (state = INITIAL_STATE, action) => {
 
     case types.SET_SLIPPAGE_REMOVE_LIQUIDITY:
       return { ...state, slippageRemoveLiquidity: action.payload };
+
+    case types.GET_USER_INFO_SUCCESS:
+      return { ...state, userInfo: action.payload, error: "" };
+    case types.GET_USER_INFO_ERROR:
+      return {
+        ...state,
+        userInfo: INITIAL_STATE.userInfo,
+        error: action.payload,
+      };
 
     case types.RESET_ALL_LOCAL_REDUCER:
       return { ...INITIAL_STATE };

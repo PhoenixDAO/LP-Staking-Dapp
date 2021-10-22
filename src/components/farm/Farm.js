@@ -9,7 +9,7 @@ import UnStakingModal from "./modals/UnstakeModal";
 import { useWeb3React } from "@web3-react/core";
 import {
   harvestPHNX,
-  getUserInfo,
+  // getUserInfo,
   getPendingPHX,
   giveApprovalPhnxStaking,
 } from "../../services/stake.services";
@@ -44,11 +44,11 @@ function Farm() {
     (state) => state.contractReducer.poolPosition
   );
   const balancePhnx = useSelector((state) => state.contractReducer.balancePhnx);
+  const userInfo = useSelector((state) => state.localReducer.userInfo);
 
   const [isStackVisible, setStackVisible] = useState(false);
   const [isUnStackVisible, setUnStackVisible] = useState(false);
   // const [allowance, setAllowance] = useState(0);
-  const [userInfo, setUserInfo] = useState({ amount: 0, rewardDebt: 0 });
   const [pendingPHX, setPendingPHX] = useState({ 0: 0, 1: 0 });
   const [reserveUSD, setReserveUSD] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -75,9 +75,9 @@ function Farm() {
   const handleUnStackClose = () => {
     setUnStackVisible(false);
   };
-  const handleGetUserInfo = async () => {
-    getUserInfo(contractPhnxStake, web3context, setUserInfo);
-  };
+  // const handleGetUserInfo = async () => {
+  //   getUserInfo(contractPhnxStake, web3context, setUserInfo);
+  // };
   const handleGetPoolPositionAction = async () => {
     dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
   };
@@ -137,7 +137,7 @@ function Farm() {
       (async () => {
         dispatch(PhnxStakeContractInitAction(web3context));
         await handleCheckApprovalUniswapPairAction();
-        await handleGetUserInfo();
+        // await handleGetUserInfo();
         await getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
         await handleGetPoolPositionAction();
       })();
@@ -149,17 +149,6 @@ function Farm() {
     contractUniswapPair,
     balancePhnx,
   ]);
-
-  useEffect(() => {
-    if (
-      web3context?.account &&
-      web3context?.active &&
-      contractUniswapPair &&
-      contractPhnxStake
-    ) {
-      handleGetUserInfo();
-    }
-  }, [poolPosition, balancePhnx]);
 
   useEffect(() => {
     const getTotalLiquidity = async () => {
