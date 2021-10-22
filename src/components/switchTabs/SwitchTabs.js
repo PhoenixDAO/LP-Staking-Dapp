@@ -53,7 +53,7 @@ function SwitchTabs() {
         <MyLiquidity ChangeTab={ChangeTab} />
       )}
     </div>
-    <VersionSwitch/>
+
     </div>
   );
 }
