@@ -33,6 +33,7 @@ import WalletSettings from "./walletSettings";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Notify from "./Notify";
+import TransactionModal from '../components/connectModal/TransactionsModal';
 
 const style = {
   modalBox: {
@@ -86,6 +87,9 @@ export default function ConnectWallet({
   const dispatch = useDispatch();
   const web3context = useWeb3React();
   const [reserveUSD, setReserveUSD] = useState(0);
+
+  const[TransactionModalStatus,setTransactionModalStatus]=useState(false);
+
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
   );
@@ -517,7 +521,15 @@ export default function ConnectWallet({
         open2={open2}
         handleClose2={handleClose2}
         deactivateWallet={deactivateWallet}
+        setTransactionModalStatus={setTransactionModalStatus}
       />
+
+      <TransactionModal
+        status={TransactionModalStatus}
+        changeStatus={setTransactionModalStatus}
+        
+      ></TransactionModal>
+
     </div>
   );
 }

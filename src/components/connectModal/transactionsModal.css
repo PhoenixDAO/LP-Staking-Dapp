@@ -1,0 +1,29 @@
+.transactions-div{
+    height: 500px;
+    width: 100%;
+    padding: 25px 0px;
+    max-height: 500px;
+    margin-bottom: 30px;
+    
+}
+
+
+.trans-div-child{
+    display: flex;
+
+}
+
+.trans-div-child > * {
+    margin: 5px;
+    color: #5F5F5F;
+    font-size: 19px;
+    max-width: 80%;
+}
+
+
+.trans-divider{
+    width: 94%;
+    background-color: rgba(0, 0, 0, 0.15);
+    height: 1px;
+    margin: 9px auto;
+}
