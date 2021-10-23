@@ -111,7 +111,7 @@ function UnStakeModal({ Close, userInfo }) {
       <div style={{ display: "flex", alignItem: "center" }}>
         <div className="stakingModal-details">STAKE</div>
         <div style={{ marginLeft: "auto" }} className="stakingModal-details">
-         <span> Bal: {" "}<span style={{ color: "#000", fontWeight:"600" }}>{maxlpValue} PHNX-ETH LP</span></span>
+         <span> Bal: {" "}<span style={{ color: "#000", fontWeight:"600" }}>{parseFloat(maxlpValue).toFixed(5)} PHNX-ETH LP</span></span>
         </div>
       </div>
 
@@ -121,7 +121,7 @@ function UnStakeModal({ Close, userInfo }) {
           placeholder="0.0"
           className="stakingModalInput"
           onChange={(e) => LpChange(e)}
-          value={lpValue}
+          value={Math.round(100000* parseFloat(lpValue))/100000}
         ></input>
         <button
           className="stakingModalInputBtn"
