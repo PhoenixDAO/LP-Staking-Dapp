@@ -91,7 +91,7 @@ const RemoveLiquidityModaL = ({
         web3context,
         contractUniswapRouter,
         poolPosition,
-        // selectedPercentage == "" ? 10 : selectedPercentage,
+        selectedPercentage == "" ? 10 : selectedPercentage,
         settransactionProcessModal,
         settransactionConfirmModal,
         settransactionSubmittedModal,
