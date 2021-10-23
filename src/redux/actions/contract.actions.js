@@ -108,16 +108,14 @@ export const CheckApprovalUniswapPairAction = (
   contractUniswapPair,
   setAllowance
 ) => {
-
   return async (dispatch) => {
-
     try {
       let response = await checkApprovalUniswapPair(
         web3context,
         contractUniswapPair
       );
-      console.log(response,'555555555')
-      setAllowance(response)
+      console.log(response, "555555555");
+      setAllowance(response);
       console.log("CheckApprovalUniswapPairAction response", response);
       dispatch({
         type: types.CHECK_APPROVAL_UNISWAP_PAIR_SUCCESS,
@@ -132,14 +130,18 @@ export const CheckApprovalUniswapPairAction = (
   };
 };
 
-export const CheckApprovalPhnxDaoAction = (web3context, contractPhnxDao
-  ,setApproveStatus
-  ) => {
+export const CheckApprovalPhnxDaoAction = (
+  web3context,
+  contractPhnxDao,
+  setApproveStatus
+) => {
   return async (dispatch) => {
     try {
-      let response = await checkApprovalPhnxDao(web3context, contractPhnxDao
-        ,setApproveStatus
-        );
+      let response = await checkApprovalPhnxDao(
+        web3context,
+        contractPhnxDao,
+        setApproveStatus
+      );
       console.log("CheckApprovalPhnxDaoAction response", response);
       dispatch({
         type: types.CHECK_APPROVAL_PHNXDAO_SUCCESS,

@@ -4,9 +4,7 @@ import Logo from "../../assets/Logo.png";
 import PhnxLogo from "../../assets/PhnxLogo1.png";
 import EthLogo from "../../assets/ETH1.png";
 
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
 const ConnectModal = () => {
