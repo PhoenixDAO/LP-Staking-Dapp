@@ -382,6 +382,7 @@ function MyLiquidity({ ChangeTab }) {
         slippageValue={slippageRemoveLiquidity}
         slippageType="remove"
       />
+      
     </div>
   );
 }

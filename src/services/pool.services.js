@@ -540,13 +540,18 @@ export const calculateLpToken = async (
   if (!contractUniswapPair || !amount0 || !amount1) {
     return;
   }
+  console.log('1');
+
   const getReserves = await contractUniswapPair.methods.getReserves().call();
   const _totalSupply = await contractUniswapPair.methods.totalSupply().call();
+  console.log('12');
 
   const _reserve0 = getReserves._reserve0;
   const _reserve1 = getReserves._reserve1;
+  console.log('123');
 
   console.log(fixedWithoutRounding((amount1).toFixed(20),18).toFixed(20).toString(),'amount1');
+  console.log('1234');
 
   amount0 = Web3.utils.toWei(fixedWithoutRounding(parseFloat(amount0).toFixed(19),18).toString());
   amount1 = Web3.utils.toWei(fixedWithoutRounding((amount1).toFixed(20),18).toFixed(18).toString());
@@ -555,6 +560,8 @@ export const calculateLpToken = async (
     (amount0 * _totalSupply) / _reserve0,
     (amount1 * _totalSupply) / _reserve1
   );
-   console.log(liquidity);
-  setphnxethburn(Web3.utils.fromWei(fixedWithoutRounding(liquidity).toString(), "ether"));
+   console.log(liquidity,'1234');
+   console.log(setphnxethburn,'aaa');
+   console.log(fixedWithoutRounding(liquidity,18).toString(), "ether");
+  setphnxethburn(Web3.utils.fromWei(fixedWithoutRounding(liquidity,18).toString(), "ether"));
 };
