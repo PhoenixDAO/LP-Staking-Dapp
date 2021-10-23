@@ -18,6 +18,7 @@ const SlippingTolerance = ({
 }) => {
   const dispatch = useDispatch();
   const [slippageVal, setSlippageVal] = useState(0.1);
+  const [warningMsg, setWarningMsg] = useState(false);
   // const slippageAddLiquidity = useSelector(
   //   (state) => state.localReducer.slippageAddLiquidity
   // );
@@ -25,17 +26,14 @@ const SlippingTolerance = ({
   //   (state) => state.localReducer.slippageRemoveLiquidity
   // );
 
-  // const handleDisableBtn = () => {
-  //   console.log(slippageVal, "slpval");
-  //   if (slippageVal <= 0 || slippageVal > 1 || isNaN(slippageVal)) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // };
   useEffect(() => {
     if (slippageValue) {
       setSlippageVal(slippageValue);
+    }
+    if (slippageValue > 0 && slippageValue < 0.1) {
+      setWarningMsg(true);
+    } else {
+      setWarningMsg(false);
     }
   }, []);
 
@@ -55,11 +53,6 @@ const SlippingTolerance = ({
         });
       }
     }
-    // if (slippageValue) {
-    //   setSlippageVal(slippageValue);
-    // }
-    // console.log("local SlippageVal ***** ", slippageVal);
-    // console.log("redux slippageValue ***** ", slippageValue);
   }, [slippageVal]);
 
   const handleOnChangeSlippageValue = (val) => {
@@ -67,6 +60,11 @@ const SlippingTolerance = ({
     if (val < 0 || val > 1) {
       return;
     } else {
+      if (val > 0 && val < 0.1) {
+        setWarningMsg(true);
+      } else {
+        setWarningMsg(false);
+      }
       setSlippageVal(val);
     }
   };
@@ -200,7 +198,11 @@ const SlippingTolerance = ({
               handlePercentageInput(e);
             }}
           />
-
+          {warningMsg ? (
+            <p style={{ color: "#ff0000", marginBottom: -20, marginTop: 5 }}>
+              Your transaction may fail!
+            </p>
+          ) : null}
           <br></br>
           <br></br>
 
