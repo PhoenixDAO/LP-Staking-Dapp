@@ -39,7 +39,6 @@ function MyLiquidity({ ChangeTab }) {
   const [allowance, setAllowance] = useState(0);
 
   const [slippageModal, setSlippageModal] = useState(false);
-  const [slippageValue, setSlippageValue] = useState(1);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -156,8 +155,8 @@ function MyLiquidity({ ChangeTab }) {
               margin: "25px 0px 30px 0px",
               height: 45,
               borderRadius: 12,
-              textTransform:"capitalize",
-              fontSize:"18px",
+              textTransform: "capitalize",
+              fontSize: "18px",
             }}
             onClick={() =>
               setConnectWalletModalStatus(!ConnectWalletModalStatus)
@@ -272,7 +271,9 @@ function MyLiquidity({ ChangeTab }) {
         <div>
           <br></br>
           <div className="phnx-eth">
-            <p className="phnx-eth-no">{parseFloat(poolPosition.lp).toFixed(5)}</p>
+            <p className="phnx-eth-no">
+              {parseFloat(poolPosition.lp).toFixed(5)}
+            </p>
             <img src={PhnxLogo} className="phnx-eth-logo"></img>
             <img src={EthLogo} className="phnx-eth-logo"></img>
           </div>
@@ -292,11 +293,11 @@ function MyLiquidity({ ChangeTab }) {
               }}
             >
               <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
-
               <div className="pooled-item-txt">
-                <span style={{ fontSize: "18px" }}>{parseFloat(poolPosition.phnx).toFixed(5)}</span>
+                <span style={{ fontSize: "18px" }}>
+                  {parseFloat(poolPosition.phnx).toFixed(5)}
+                </span>
               </div>
-
             </div>
           </div>
 
@@ -313,11 +314,11 @@ function MyLiquidity({ ChangeTab }) {
               }}
             >
               <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
-
               <div className="pooled-item-txt">
-                <span style={{ fontSize: "18px" }}>{parseFloat(poolPosition.eth).toFixed(5)}</span>
+                <span style={{ fontSize: "18px" }}>
+                  {parseFloat(poolPosition.eth).toFixed(5)}
+                </span>
               </div>
-
             </div>
           </div>
 
@@ -338,7 +339,6 @@ function MyLiquidity({ ChangeTab }) {
                   {parseFloat(poolPosition.poolPerc).toFixed(5)}%
                 </span>
               </div>
-
             </div>
           </div>
 

@@ -12,8 +12,8 @@ const INITIAL_STATE = {
   reserve1: 0,
   userIsActive: false,
 
-  slippageAddLiquidity: 1,
-  slippageRemoveLiquidity: 1,
+  slippageAddLiquidity: 0.1,
+  slippageRemoveLiquidity: 0.1,
 
   userInfo: { amount: 0, rewardDebt: 0 },
 };

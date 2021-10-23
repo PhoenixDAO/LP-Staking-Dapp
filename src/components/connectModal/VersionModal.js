@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Checkbox, IconButton, InputAdornment, TextField } from "@mui/material";
 
-const VersionModal = ({status,setStatus}) => {
+const VersionModal = ({ status, setStatus }) => {
   const [selectedPercentage, setSelectedPercentage] = useState(0);
   const [allowance, setAllowance] = useState(0);
 
@@ -42,7 +42,7 @@ const VersionModal = ({status,setStatus}) => {
         {/* <Button onClick={handleOpen}>Version Modal</Button> */}
         <Modal
           open={status}
-          onClose={()=>setStatus(false)}
+          onClose={() => setStatus(false)}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
@@ -53,7 +53,7 @@ const VersionModal = ({status,setStatus}) => {
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
-                  <CloseIcon onClick={()=>setStatus(false)} />
+                  <CloseIcon onClick={() => setStatus(false)} />
                 </span>
               </div>
             </div>
@@ -62,22 +62,24 @@ const VersionModal = ({status,setStatus}) => {
               <div className="version-ps-div">
                 V1 is no longer actively supported
               </div>
-              <div style={{color:'#73727d'}} className="versionParagraph">Use the V2 Staking dApp instead for better experience</div>
+              <div style={{ color: "#73727d" }} className="versionParagraph">
+                Use the V2 Staking dApp instead for better experience
+              </div>
             </div>
 
             <Button
               sx={{
                 backgroundColor: "#413AE2",
                 borderColor: "#413AE2",
-                color:"#fff",
-                padding:"15px",
-                borderRadius:"9px",
-                fontWeight:"bold",
-                fontSize:"16px",
-                padding:"15px",
-                textTransform:"inherit",
-                marginBottom:"30px",
-                textTransform:"inherit",
+                color: "#fff",
+                padding: "15px",
+                borderRadius: "9px",
+                fontWeight: "bold",
+                fontSize: "16px",
+                padding: "15px",
+                textTransform: "inherit",
+                marginBottom: "30px",
+                textTransform: "inherit",
                 "&:hover": {
                   backgroundColor: "#413AE2",
                   borderColor: "#413AE2",
@@ -90,7 +92,7 @@ const VersionModal = ({status,setStatus}) => {
                 },
               }}
               className="version-btn cursorPointer"
-              onClick={()=>setStatus(false)}
+              onClick={() => setStatus(false)}
             >
               Go to V2 Staking dApp
             </Button>
@@ -166,7 +168,7 @@ const VersionModal = ({status,setStatus}) => {
                   }}
                 />
               </div>
-              <div style={{color:'#73727d'}} className="versionParagraph">
+              <div style={{ color: "#73727d" }} className="versionParagraph">
                 I understand that V1 is no longer supported and may lead to high
                 slippage fees or a loss in capital
               </div>
@@ -178,32 +180,32 @@ const VersionModal = ({status,setStatus}) => {
       </div> */}
 
             <Button
-            disabled={!checked}
+              disabled={!checked}
               sx={{
                 backgroundColor: "#FFFFFF",
-                border:"1px solid #413AE2",
-                color:"#413AE2",
-                fontWeight:"bold",
-                fontSize:"16px",
-                padding:"15px",
-                textTransform:"inherit",
-                marginBottom:"30px",
-                borderRadius:"9px",
+                border: "1px solid #413AE2",
+                color: "#413AE2",
+                fontWeight: "bold",
+                fontSize: "16px",
+                padding: "15px",
+                textTransform: "inherit",
+                marginBottom: "30px",
+                borderRadius: "9px",
                 "&:hover": {
                   backgroundColor: "#FFFFFF",
-                border:"1px solid #413AE2",
-                color:"#413AE2",
+                  border: "1px solid #413AE2",
+                  color: "#413AE2",
                   boxShadow: "none",
                 },
-                "&:disabled":{
+                "&:disabled": {
                   boxShadow: "none",
                   backgroundColor: "#AAAAAA",
                   borderColor: "#AAAAAA",
-                  color:"#FFFFFF",
+                  color: "#FFFFFF",
                 },
               }}
               className="version-btn cursorPointer"
-              onClick={()=>setStatus(false)}
+              onClick={() => setStatus(false)}
             >
               Continue to V1
             </Button>
