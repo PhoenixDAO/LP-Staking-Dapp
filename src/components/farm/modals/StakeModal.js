@@ -136,14 +136,13 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           placeholder="0.0"
           className="stakingModalInput"
           onChange={(e) => LpChange(e)}
-          value={lpValue}
+          value={Math.round(100000* parseFloat(lpValue))/100000}
         />
 
         <button
           className="stakingModalInputBtn"
-          disabled={parseFloat(maxlpValue).toFixed(5) == 0.00000}
           onClick={() => {
-            setlpValue(maxlpValue);
+            setlpValue((maxlpValue));
             if (!isNaN(maxlpValue) && maxlpValue != "") {
               console.log(parseFloat(maxlpValue));
               calculateAPR(parseFloat(maxlpValue));

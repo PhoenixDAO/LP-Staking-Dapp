@@ -9,6 +9,7 @@ import Modal from "@mui/material/Modal";
 import Web3 from "web3";
 import { UnsupportedChainIdError, useWeb3React } from "@web3-react/core";
 import { useSelector, useDispatch } from "react-redux";
+import { fixedWithoutRounding } from "../../utils/formatters";
 
 const ConnectModal = ({
   transactionConfirmModal,
@@ -108,7 +109,7 @@ const ConnectModal = ({
               className="add-liq-ps-div"
               style={{ display: "flex", alignItems: "center" }}
             >
-              {lp}
+              {fixedWithoutRounding(lp,7)}
               {/* <span className="iconMargin"> */}
               <img
                 src={PhnxLogo}

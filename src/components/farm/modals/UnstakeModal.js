@@ -65,25 +65,18 @@ function UnStakeModal({ Close, userInfo }) {
     if (lpValue > maxlpValue || lpValue === 0 || isNaN(lpValue)) {
       return;
     } else {
-      let newMaxLpValue= "0";
-      if(lpValue == maxlpValue){
-        newMaxLpValue = lpValue.toString();
-        newMaxLpValue = newMaxLpValue.slice(0,-1)
-        console.log('newMaxLpValue', newMaxLpValue)
-      }
       try {
         await STAKE_SERVICES.unStakeLp(
           web3context,
           contractPhnxStake,
           contractPhnxDao,
-          newMaxLpValue == '0'?lpValue:newMaxLpValue,
+          lpValue,
           handleGetPoolPosition,
           handleGetEthBalance,
           handleGetPhnxBalance,
           setLoading,
           Close
         );
-        newMaxLpValue = "0";
       } catch (e) {
         console.error(e);
       }
@@ -118,7 +111,7 @@ function UnStakeModal({ Close, userInfo }) {
       <div style={{ display: "flex", alignItem: "center" }}>
         <div className="stakingModal-details">STAKE</div>
         <div style={{ marginLeft: "auto" }} className="stakingModal-details">
-         <span> Bal: {" "}<span style={{ color: "#000", fontWeight:"600" }}>{maxlpValue} PHNX-ETH LP</span></span>
+         <span> Bal: {" "}<span style={{ color: "#000", fontWeight:"600" }}>{parseFloat(maxlpValue).toFixed(5)} PHNX-ETH LP</span></span>
         </div>
       </div>
 
@@ -128,7 +121,7 @@ function UnStakeModal({ Close, userInfo }) {
           placeholder="0.0"
           className="stakingModalInput"
           onChange={(e) => LpChange(e)}
-          value={lpValue}
+          value={Math.round(100000* parseFloat(lpValue))/100000}
         ></input>
         <button
           className="stakingModalInputBtn"
