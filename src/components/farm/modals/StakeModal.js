@@ -136,7 +136,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           placeholder="0.0"
           className="stakingModalInput"
           onChange={(e) => LpChange(e)}
-          value={lpValue}
+          value={parseFloat(lpValue).toFixed(5)}
         />
 
         <button
