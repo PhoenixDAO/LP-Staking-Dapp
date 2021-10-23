@@ -128,7 +128,7 @@ function UnStakeModal({ Close, userInfo }) {
           placeholder="0.0"
           className="stakingModalInput"
           onChange={(e) => LpChange(e)}
-          value={parseFloat(lpValue).toFixed(5)}
+          value={Math.round(100000* parseFloat(lpValue))/100000}
         ></input>
         <button
           className="stakingModalInputBtn"
