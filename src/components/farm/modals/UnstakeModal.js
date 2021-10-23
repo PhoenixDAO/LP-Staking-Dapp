@@ -65,25 +65,18 @@ function UnStakeModal({ Close, userInfo }) {
     if (lpValue > maxlpValue || lpValue === 0 || isNaN(lpValue)) {
       return;
     } else {
-      let newMaxLpValue= "0";
-      if(lpValue == maxlpValue){
-        newMaxLpValue = lpValue.toString();
-        newMaxLpValue = newMaxLpValue.slice(0,-1)
-        console.log('newMaxLpValue', newMaxLpValue)
-      }
       try {
         await STAKE_SERVICES.unStakeLp(
           web3context,
           contractPhnxStake,
           contractPhnxDao,
-          newMaxLpValue == '0'?lpValue:newMaxLpValue,
+          lpValue,
           handleGetPoolPosition,
           handleGetEthBalance,
           handleGetPhnxBalance,
           setLoading,
           Close
         );
-        newMaxLpValue = "0";
       } catch (e) {
         console.error(e);
       }
