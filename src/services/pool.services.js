@@ -150,19 +150,20 @@ export const getPoolPosition = async (web3context, contractUniswapPair) => {
   _token0 = _token0.dividedBy(conv);
   _token1 = _token1.dividedBy(conv);
 
-  console.log(
-    "balance:",
-    _balance.toFixed(18).toString(),
-    "poolPerc:",
-    fixedWithoutRounding(_poolPercentage, 18).toString(),
-    "eth:",
-    _token1.toString(),
-    "phnx",
-    _token0.toString()
-  );
+  // console.log('balance:',_balance.toFixed(18).toString(),'poolPerc:',fixedWithoutRounding(_poolPercentage,18).toString(),'eth:',_token1.toString(),'phnx',_token0.toString());
+
+  console.log(_balance.toString(), "lp1");
+
+  // const web3 = new Web3(web3context?.library?.currentProvider);
+
+  console.log(parseFloat(_balance, 18), "lp");
+  console.log(fixedWithoutRounding(_balance, 20), "lp");
+
+  // const value= await Web3.utils.fromWei(_balance.toString());
+  //   console.log(value,"lpposition");
 
   return {
-    lp: fixedWithoutRounding(_balance, 18), //.toFixed(2),
+    lp: _balance.toString(), //.toFixed(2),
     poolPerc: fixedWithoutRounding(_poolPercentage, 18),
     eth: fixedWithoutRounding(_token1, 18),
     phnx: fixedWithoutRounding(_token0, 18),
@@ -274,6 +275,7 @@ export const giveApprovalPhnxDao = async (
     alert("Connect your wallet");
     return;
   }
+
   const web3 = new Web3(web3context?.library?.currentProvider);
 
   //before add liquidity
@@ -387,7 +389,7 @@ export const removeLiquidity = async (
   web3context,
   contractUniswapRouter,
   poolPosition,
-  selectedPercentage,
+  // selectedPercentage,
   settransactionProcessModal,
   settransactionConfirmModal,
   settransactionSubmittedModal,
@@ -408,7 +410,7 @@ export const removeLiquidity = async (
     let ethMin;
     let finalPoolPosition;
 
-    if (selectedPercentage == 100) {
+    if (slippageValue == 1) {
       phnxMin = fixedWithoutRounding(
         (poolPosition.phnx - poolPosition.phnx * slippageValue).toFixed(19),
         18
@@ -418,16 +420,15 @@ export const removeLiquidity = async (
         18
       ).toFixed(18);
 
-      finalPoolPosition = fixedWithoutRounding(poolPosition.lp.toFixed(19), 19)
-        .toFixed(18)
-        .toString();
+      // finalPoolPosition = fixedWithoutRounding(poolPosition.lp.toFixed(19),19).toFixed(18).toString();
+      finalPoolPosition = poolPosition.lp;
     } else {
       let ethValue = fixedWithoutRounding(
-        poolPosition.eth * (selectedPercentage / 100),
+        poolPosition.eth * slippageValue,
         18
       ).toString();
       let phnxValue = fixedWithoutRounding(
-        poolPosition.phnx * (selectedPercentage / 100),
+        poolPosition.phnx * slippageValue,
         18
       ).toString();
 
@@ -440,12 +441,15 @@ export const removeLiquidity = async (
         18
       ).toFixed(18);
 
-      finalPoolPosition = fixedWithoutRounding(
-        (poolPosition.lp * slippageValue).toFixed(19),
-        19
-      )
-        .toFixed(18)
-        .toString();
+      // finalPoolPosition = fixedWithoutRounding((poolPosition.lp * (selectedPercentage / 100)).toFixed(19),19).toFixed(18).toString();
+      finalPoolPosition = (
+        fixedWithoutRounding(poolPosition.lp, 18) * slippageValue
+      ).toString();
+
+      finalPoolPosition = finalPoolPosition.slice(
+        0,
+        finalPoolPosition.indexOf(".") + 18
+      );
     }
 
     // finalPoolPosition =BigNumber(finalPoolPosition);
