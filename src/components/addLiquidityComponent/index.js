@@ -38,6 +38,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const [approveStatus, setApproveStatus] = useState(false);
 
+  const[gasPrice,setGasPrice] = useState(0.001);
+
   // const [allowance, setAllowance] = useState(0);
 
   const dispatch = useDispatch();
@@ -219,6 +221,37 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const setTxModalClose = () => {
     settransactionConfirmModal(false);
   };
+
+
+
+
+  const ETH_STATION = "https://ethgasstation.info/json/ethgasAPI.json";
+
+  const getCurrentGasPrices = async () => {
+    try {
+      const res = await fetch(ETH_STATION);
+      const response = await res.json();
+      let prices = {
+        low: response.safeLow / 10,
+        medium: response.average / 10,
+        high: response.fastest / 10,
+      };
+      console.log(prices,'gas fee')
+      setGasPrice(prices.high*0.000000001);
+    } catch (e) {
+
+    }
+  };
+
+
+  useEffect(()=>{
+
+    getCurrentGasPrices()
+
+  },[])
+
+
+
   return (
     <Box sx={styles.containerStyle} className="modal-scroll">
       <div className="addLiquidityBox">
@@ -360,7 +393,13 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                       <IconButton
                         style={styles.iconBtn}
                         onClick={() => {
-                          OnChangeHandler(balanceEth, "eth");
+                          console.log('asdasdasdasd')
+                          console.log(gasPrice,'asdasdasd')
+
+                          if(balanceEth-gasPrice>0){
+                            OnChangeHandler(balanceEth-gasPrice, "eth");
+                          }
+
                         }}
                       >
                         MAX
@@ -413,7 +452,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               backgroundColor:
                 loading ||
                 phnxValue > balancePhnx ||
-                ethValue > balanceEth ||
+                ethValue > (balanceEth-gasPrice) ||
                 lowValue ||
                 phnxValue === 0 ||
                 ethValue === 0 ||
@@ -425,7 +464,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             disabled={
               loading ||
               phnxValue > balancePhnx ||
-              ethValue > balanceEth ||
+              ethValue > (balanceEth-gasPrice) ||
               lowValue ||
               phnxValue === 0 ||
               ethValue === 0 ||
@@ -439,7 +478,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             phnxValue == 0 ||
             ethValue == 0
               ? "Enter an amount"
-              : phnxValue > balancePhnx || ethValue > balanceEth
+              : phnxValue > balancePhnx || ethValue > (balanceEth-gasPrice)
               ? "Insufficient Balance"
               : lowValue
               ? "Low Value"
