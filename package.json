@@ -26,6 +26,7 @@
     "bignumber.js": "^9.0.1",
     "ethers": "^5.4.7",
     "history": "^5.0.1",
+    "millify": "^4.0.0",
     "react": "^17.0.2",
     "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "^17.0.2",

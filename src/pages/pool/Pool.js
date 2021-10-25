@@ -81,5 +81,8 @@ const styles = {
     backgroundColor: "#413AE2",
     marginTop: 10,
     fontSize: 15,
+    borderRadius:"9px",
+    padding:"10px 24px",
+    textTransform:"capitalize"
   },
 };
