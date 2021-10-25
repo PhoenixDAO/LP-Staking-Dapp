@@ -25,11 +25,13 @@ import TransactionProgress from "../connectModal/TransactionProgress";
 import TransactionSubmitted from "../connectModal/TransactionSubmitted";
 import SlippingTolerance from "../connectModal/SlippingTolerance";
 import SettingsLogo from "../../assets/settings.png";
+import { fixedWithoutRounding } from "../../utils/formatters";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [ethValue, setEthValue] = useState("");
+  const [actEthValue, setActEthValue] = useState("");
   const [phnxValue, setPhnxValue] = useState("");
-
+  const [actPhnxValue, setActPhnxValue] = useState("");
   const [lowValue, setLowValue] = useState(false);
 
   const [slippageModal, setSlippageModal] = useState(false);
@@ -164,7 +166,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     }
   };
 
-  const OnChangeHandler = (val, tokenName) => {
+  const OnChangeHandler = (val, tokenName, isMaxButton) => {
     if(val<0){
       return;
     }
@@ -173,8 +175,18 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       let total = parseFloat(reserve1) + v;
       console.log("res" + reserve1);
       setPoolShare(((v / total) * 100).toFixed(3));
-      setPhnxValue(v);
-      setEthValue(parseFloat(ethPerPhnx) * v || num);
+      if(isMaxButton){
+        setPhnxValue(fixedWithoutRounding(v,6));
+        setActPhnxValue(v);
+        setEthValue(fixedWithoutRounding(parseFloat(ethPerPhnx) * v || num,6));
+        setActEthValue(parseFloat(ethPerPhnx) * v || num)
+      }
+      else{
+        setPhnxValue(v);
+        setActPhnxValue(v);
+        setActEthValue(parseFloat(ethPerPhnx) * v || num)
+        setEthValue(parseFloat(ethPerPhnx) * v || num);
+      }
 
       if (v > 0 && v < 0.001) {
         setLowValue(true);
@@ -190,8 +202,20 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       console.log("v", poolShare);
 
       setPoolShare((((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(3));
-      setEthValue(v);
-      setPhnxValue(parseFloat(phnxPerEth) * v || num);
+      if(isMaxButton){
+        setEthValue(fixedWithoutRounding(v,6));
+        setActEthValue(v);
+        setPhnxValue(fixedWithoutRounding(parseFloat(phnxPerEth) * v || num,6));
+        setActPhnxValue(parseFloat(phnxPerEth) * v || num)
+      }
+      else{
+        setPhnxValue(parseFloat(phnxPerEth) * v || num);
+        setActPhnxValue(parseFloat(phnxPerEth) * v || num);
+        setActEthValue(v)
+        setEthValue(v);
+      }
+      // setEthValue(v);
+      // setPhnxValue(parseFloat(phnxPerEth) * v || num);
 
       if (
         (parseFloat(phnxPerEth) * v || num) > 0 &&
@@ -328,7 +352,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   value={phnxValue}
                   type="number"
                   onChange={(event) => {
-                    OnChangeHandler(event.target.value, "phnx");
+                    OnChangeHandler(event.target.value, "phnx", false);
                   }}
                   style={styles.inputStyle}
                   variant="standard"
@@ -337,7 +361,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                       <IconButton
                         style={styles.iconBtn}
                         onClick={() => {
-                          OnChangeHandler(balancePhnx, "phnx");
+                          OnChangeHandler(balancePhnx, "phnx", true);
                         }}
                       >
                         MAX
@@ -386,7 +410,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   value={ethValue}
                   type="number"
                   onChange={(event) => {
-                    OnChangeHandler(event.target.value, "eth");
+                    OnChangeHandler(event.target.value, "eth", false);
                   }}
                   style={styles.inputStyle}
                   className="liq-tab-inputs"
@@ -400,7 +424,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                           console.log(gasPrice,'asdasdasd')
 
                           if(balanceEth-gasPrice>0){
-                            OnChangeHandler(balanceEth-gasPrice, "eth");
+                            OnChangeHandler(balanceEth-gasPrice, "eth",true);
                           }
 
                         }}

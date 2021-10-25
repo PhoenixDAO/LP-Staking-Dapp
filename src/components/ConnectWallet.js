@@ -17,6 +17,7 @@ import * as CONTRACT_TYPES from "../redux/types/contract.types";
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
 import { conciseAddress, fixedWithoutRounding } from "../utils/formatters";
+import millify from "millify";
 import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET } from "../contract/constant";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -307,7 +308,10 @@ export default function ConnectWallet({
               alt="PhnxLogo"
               className="connect-wallet-btn-img"
             ></img>
-            {balancePhnx}
+            {millify(balancePhnx, {
+  precision: 3,
+  lowercase: true
+})}
             &nbsp;
             | &nbsp;
            
@@ -316,7 +320,10 @@ export default function ConnectWallet({
               alt="EthLogo"
               className="connect-wallet-btn-img"
             ></img>
-            {balanceEth}
+             {millify(balanceEth, {
+  precision: 3,
+  lowercase: true
+})}
           </div>
         </button>
       ) : null}

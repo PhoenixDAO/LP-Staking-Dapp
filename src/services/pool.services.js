@@ -429,11 +429,11 @@ export const removeLiquidity = async (
       finalPoolPosition = poolPosition.lp;
     } else {
       let ethValue = fixedWithoutRounding(
-        poolPosition.eth * (slippageValue / 100),
+        poolPosition.eth * (selectedPercentage / 100),
         18
       ).toString();
       let phnxValue = fixedWithoutRounding(
-        poolPosition.phnx * (slippageValue / 100),
+        poolPosition.phnx * (selectedPercentage / 100),
         18
       ).toString();
 
@@ -449,7 +449,7 @@ export const removeLiquidity = async (
       // finalPoolPosition = fixedWithoutRounding((poolPosition.lp * (selectedPercentage / 100)).toFixed(19),19).toFixed(18).toString();
       finalPoolPosition = (
         fixedWithoutRounding(poolPosition.lp, 18) *
-        (slippageValue / 100)
+        (selectedPercentage / 100)
       ).toString();
 
       finalPoolPosition = finalPoolPosition.slice(

@@ -85,13 +85,17 @@ const RemoveLiquidityModaL = ({
   };
 
   const _handleRemoveLiquidity = async (handleMainClose) => {
+
+    console.log('%',selectedPercentage)
+
+
     settransactionProcessModal(true);
     try {
       await POOL_SERVICES.removeLiquidity(
         web3context,
         contractUniswapRouter,
         poolPosition,
-        selectedPercentage == "" ? 10 : selectedPercentage,
+        selectedPercentage == "" ? 1 : selectedPercentage,
         settransactionProcessModal,
         settransactionConfirmModal,
         settransactionSubmittedModal,
@@ -111,13 +115,16 @@ const RemoveLiquidityModaL = ({
   };
 
   const handlePercentageInput = (e) => {
+    console.log('%',e.target.value)
     if (e.target.value === "" || isNaN(e.target.value)) {
       setSelectedPercentage(parseInt(0));
     } else if (e.target.value > 100) {
       setSelectedPercentage(100);
     } else {
       setSelectedPercentage(parseInt(e.target.value));
+
     }
+
   };
 
   const setTxModalOpen = () => {
