@@ -35,6 +35,9 @@ import { toast } from "react-toastify";
 import Notify from "./Notify";
 import TransactionModal from '../components/connectModal/TransactionsModal';
 
+import Web3 from "web3";
+
+
 const style = {
   modalBox: {
     overflowY: "auto",
