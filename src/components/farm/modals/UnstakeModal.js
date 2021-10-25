@@ -20,10 +20,12 @@ import {
 import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
 import { Link } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
+import { fixedWithoutRounding } from "../../../utils/formatters";
 
 function UnStakeModal({ Close, userInfo }) {
 
   const [lpValue, setlpValue] = useState();
+  const [lpValueAct, setlpValueAct] = useState(0);
   const [maxlpValue, setmaxlpValue] = useState(0.0);
   const [loading, setLoading] = useState(false);
 
@@ -41,9 +43,25 @@ function UnStakeModal({ Close, userInfo }) {
   const contractUniswapPair = useSelector(
     (state) => state.contractReducer.contractUniswapPair
   );
-
-  const LpChange = (e) => {
-    setlpValue(e.target.value);
+const maxBigValue = new BigNumber(maxlpValue);
+  const LpChange = (e,f) => {
+    console.log('aaa',e)
+    const inputBigValue = new BigNumber(e.target.value);
+    if(inputBigValue.lt(0)){
+      return;
+    }
+    const bigValue = new BigNumber(maxlpValue);
+    if(f===true){
+      setlpValue(fixedWithoutRounding(maxlpValue,6));
+      setlpValueAct(maxlpValue);
+    }else{
+      setlpValue(e.target.value);
+    }
+    console.log("target value: ", e.target.value);    
+    console.log("lpvalue value: ", lpValue);
+    console.log("Max value: ", maxlpValue);
+    console.log("Max parsed value: ", bigValue.lt(lpValue) );
+    console.log("condition value: ", (lpValue> maxlpValue) );    
   };
 
   useEffect(() => {
@@ -70,7 +88,7 @@ function UnStakeModal({ Close, userInfo }) {
           web3context,
           contractPhnxStake,
           contractPhnxDao,
-          lpValue,
+          lpValueAct,
           handleGetPoolPosition,
           handleGetEthBalance,
           handleGetPhnxBalance,
@@ -111,7 +129,7 @@ function UnStakeModal({ Close, userInfo }) {
       <div style={{ display: "flex", alignItem: "center" }}>
         <div className="stakingModal-details">STAKE</div>
         <div style={{ marginLeft: "auto" }} className="stakingModal-details">
-         <span> Bal: {" "}<span style={{ color: "#000", fontWeight:"600" }}>{parseFloat(maxlpValue).toFixed(5)} PHNX-ETH LP</span></span>
+         <span> Bal: {" "}<span style={{ color: "#000", fontWeight:"600" }}>{maxlpValue.toString().substring(0,7)} PHNX-ETH LP</span></span>
         </div>
       </div>
 
@@ -121,12 +139,18 @@ function UnStakeModal({ Close, userInfo }) {
           placeholder="0.0"
           className="stakingModalInput"
           onChange={(e) => LpChange(e)}
-          value={Math.round(100000* parseFloat(lpValue))/100000}
+          value={lpValue}
+          min={0}
         ></input>
         <button
           className="stakingModalInputBtn"
           onClick={() => {
-            setlpValue(maxlpValue);
+            LpChange({
+              target : {
+                value: maxlpValue && fixedWithoutRounding(maxlpValue,6).toString()
+              }
+            },true)
+
           }}
         >
           MAX
@@ -171,19 +195,19 @@ function UnStakeModal({ Close, userInfo }) {
             marginTop: "25px",
             fontSize:"16px",
             background:
-            loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)
+            loading ||((maxBigValue.lt(lpValue)))|| (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)
                 ? "#ACACAC"
                 : "#413AE2",
             color: "#fff",
             borderColor:
-            loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)
+            loading ||(maxBigValue.lt(lpValue))|| (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)
                 ? "#ACACAC"
                 : "#413AE2",
           }}
           onClick={() => {
             _handleUnstakeLp();
           }}
-          disabled={loading || (lpValue > maxlpValue) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)}
+          disabled={loading || (maxBigValue.lt(lpValue)) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)}
         >
           {loading && "Confirming..."}
           {!loading && "Confirm"}
@@ -194,7 +218,7 @@ function UnStakeModal({ Close, userInfo }) {
         className="get-phnx-eth-lp"
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "14px" }}
       >
-        <Link to="/liquidity" style={{textDecoration:'none',color:'#413ae2'}}>
+        <Link to="/v2/liquidity" style={{textDecoration:'none',color:'#413ae2'}}>
           Get PHNX-ETH LP{" "} &nbsp;
           <img src={ShareLogo}  style={{height:"12px"}}></img>
         </Link>

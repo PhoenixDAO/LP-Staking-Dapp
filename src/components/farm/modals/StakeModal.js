@@ -7,15 +7,18 @@ import ShareLogo from "../../../assets/share.png";
 import CloseIcon from "@mui/icons-material/Close";
 import { useSelector, useDispatch } from "react-redux";
 import * as STAKE_SERVICES from "../../../services/stake.services";
+import BigNumber from "bignumber.js";
 import {
   GetPhnxBalanceAction,
   GetPoolPositionAction,
 } from "../../../redux/actions/contract.actions";
 import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
 import { Link } from "react-router-dom";
+import { fixedWithoutRounding } from "../../../utils/formatters";
 
 function StakeModal({ Close, calculateAPR, Roi }) {
   const [lpValue, setlpValue] = useState();
+  const [lpValueAct, setlpValueAct] = useState(0);
   const [maxlpValue, setmaxlpValue] = useState(0.0);
   const [loading, setLoading] = useState(false);
 
@@ -34,9 +37,20 @@ function StakeModal({ Close, calculateAPR, Roi }) {
     (state) => state.contractReducer.contractUniswapPair
   );
 
-  const LpChange = (e) => {
-    setlpValue(e.target.value);
+  const maxBigValue = new BigNumber(maxlpValue);
 
+  const LpChange = (e,f) => {
+    const inputBigValue = new BigNumber(e.target.value);
+    if(inputBigValue.lt(0)){
+      return;
+    }
+    // setlpValue(e.target.value);
+    if(f===true){
+      setlpValue(fixedWithoutRounding(maxlpValue,6));
+      setlpValueAct(maxlpValue);
+    }else{
+      setlpValue(e.target.value);
+    }
     if (!isNaN(e.target.value) && e.target.value != "") {
       console.log(parseFloat(e.target.value));
       calculateAPR(parseFloat(e.target.value));
@@ -72,7 +86,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           web3context,
           contractPhnxStake,
           contractPhnxDao,
-          lpValue,
+          lpValueAct,
           handleGetPoolPosition,
           handleGetEthBalance,
           handleGetPhnxBalance,
@@ -115,7 +129,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           <span>
             Bal:{" "}
             <span style={{ color: "#000", fontWeight: "600" }}>
-              {parseFloat(maxlpValue).toFixed(5)} PHNX-ETH LP
+            {maxlpValue.toString().substring(0,7)} PHNX-ETH LP
             </span>
           </span>
         </div>
@@ -136,13 +150,18 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           placeholder="0.0"
           className="stakingModalInput"
           onChange={(e) => LpChange(e)}
-          value={Math.round(100000* parseFloat(lpValue))/100000}
+          value={lpValue}
+          min={0}
         />
 
         <button
           className="stakingModalInputBtn"
           onClick={() => {
-            setlpValue((maxlpValue));
+            LpChange({
+              target : {
+                value: maxlpValue && fixedWithoutRounding(maxlpValue,6).toString()
+              }
+            },true);
             if (!isNaN(maxlpValue) && maxlpValue != "") {
               console.log(parseFloat(maxlpValue));
               calculateAPR(parseFloat(maxlpValue));
@@ -197,8 +216,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
             marginTop: "25px",
             fontSize: "16px",
             background:
-              loading ||
-              lpValue > maxlpValue ||
+              loading ||((maxBigValue.lt(lpValue)))||
               lpValue <= 0 ||
               lpValue <= 0.00000000000000001 ||
               isNaN(lpValue)
@@ -206,8 +224,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
                 : "#413AE2",
             color: "#fff",
             borderColor:
-              loading ||
-              lpValue > maxlpValue ||
+              loading ||((maxBigValue.lt(lpValue)))||
               lpValue <= 0 ||
               lpValue <= 0.00000000000000001 ||
               isNaN(lpValue)
@@ -219,8 +236,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
             _handleStakeLp();
           }}
           disabled={
-            loading ||
-            lpValue > maxlpValue ||
+            loading ||((maxBigValue.lt(lpValue)))||
             lpValue <= 0 ||
             lpValue <= 0.00000000000000001 ||
             isNaN(lpValue)
@@ -236,7 +252,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "14px" }}
       >
         <Link
-          to="/liquidity"
+          to="/v2/liquidity"
           style={{ textDecoration: "none", color: "#413ae2" }}
         >
           Get PHNX-ETH LP &nbsp;
