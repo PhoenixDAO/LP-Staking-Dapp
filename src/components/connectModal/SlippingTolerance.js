@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./SlippingTolerance.css";
 import CloseIcon from "@mui/icons-material/Close";
 import percentage from "../../assets/percentage.svg";
@@ -17,6 +17,8 @@ const SlippingTolerance = ({
   slippageType,
 }) => {
   const dispatch = useDispatch();
+  const [slippageVal, setSlippageVal] = useState(0.1);
+  const [warningMsg, setWarningMsg] = useState(false);
   // const slippageAddLiquidity = useSelector(
   //   (state) => state.localReducer.slippageAddLiquidity
   // );
@@ -24,35 +26,59 @@ const SlippingTolerance = ({
   //   (state) => state.localReducer.slippageRemoveLiquidity
   // );
 
-  const handleSlippageValue = (val) => {
-    if (slippageType == "add") {
-      dispatch({
-        type: SET_SLIPPAGE_ADD_LIQUIDITY,
-        payload: val,
-      });
-    } else if (slippageType == "remove") {
-      dispatch({
-        type: SET_SLIPPAGE_REMOVE_LIQUIDITY,
-        payload: val,
-      });
+  useEffect(() => {
+    if (slippageValue) {
+      setSlippageVal(slippageValue);
+    }
+    if (slippageValue > 0 && slippageValue < 0.1) {
+      setWarningMsg(true);
+    } else {
+      setWarningMsg(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (Number(slippageVal) <= 0 || Number(slippageVal) > 1) {
+      return;
+    } else {
+      if (slippageType == "add") {
+        dispatch({
+          type: SET_SLIPPAGE_ADD_LIQUIDITY,
+          payload: slippageVal,
+        });
+      } else if (slippageType == "remove") {
+        dispatch({
+          type: SET_SLIPPAGE_REMOVE_LIQUIDITY,
+          payload: slippageVal,
+        });
+      }
+    }
+  }, [slippageVal]);
+
+  const handleOnChangeSlippageValue = (val) => {
+    // console.log("handleOnChangeSlippageValue ", val);
+    if (val < 0 || val > 1) {
+      return;
+    } else {
+      if (val > 0 && val < 0.1) {
+        setWarningMsg(true);
+      } else {
+        setWarningMsg(false);
+      }
+      setSlippageVal(val);
     }
   };
-
-  const [selectedPercentage, setSelectedPercentage] = useState("");
 
   const [open, setOpen] = useState(status);
   const handleOpen = () => setOpen(true);
 
   const handlePercentageInput = (e) => {
     if (e.target.value === "" || isNaN(e.target.value)) {
-      setSelectedPercentage("");
-      handleSlippageValue("");
-    } else if (e.target.value > 50) {
-      setSelectedPercentage(50);
-      handleSlippageValue(e.target.value);
+      handleOnChangeSlippageValue("");
+    } else if (e.target.value > 0.5) {
+      handleOnChangeSlippageValue(e.target.value);
     } else {
-      setSelectedPercentage(parseInt(e.target.value));
-      handleSlippageValue(e.target.value);
+      handleOnChangeSlippageValue(e.target.value);
     }
   };
 
@@ -86,60 +112,55 @@ const SlippingTolerance = ({
             <div
               className="slippingLiq-ps"
               style={{
-                backgroundColor: selectedPercentage === 5 ? "#413AE2" : "#eee",
-                color: selectedPercentage === 5 ? "#fff" : "#000",
+                backgroundColor: slippageValue === 0.1 ? "#413AE2" : "#eee",
+                color: slippageValue === 0.1 ? "#fff" : "#000",
                 marginRight: "15px",
               }}
               onClick={() => {
-                setSelectedPercentage(5);
-                handleSlippageValue(5);
+                handleOnChangeSlippageValue(0.1);
               }}
             >
-              5%
+              0.1%
             </div>
             <div
               className="slippingLiq-ps"
               style={{
-                backgroundColor: selectedPercentage === 10 ? "#413AE2" : "#eee",
-                color: selectedPercentage === 10 ? "#fff" : "#000",
+                backgroundColor: slippageValue === 0.5 ? "#413AE2" : "#eee",
+                color: slippageValue === 0.5 ? "#fff" : "#000",
                 marginRight: "15px",
               }}
               onClick={() => {
-                setSelectedPercentage(10);
-
-                handleSlippageValue(10);
+                handleOnChangeSlippageValue(0.5);
               }}
             >
-              10%
+              0.5%
             </div>
             <div
               className="slippingLiq-ps"
               style={{
-                backgroundColor: selectedPercentage === 20 ? "#413AE2" : "#eee",
-                color: selectedPercentage === 20 ? "#fff" : "#000",
+                backgroundColor: slippageValue === 1 ? "#413AE2" : "#eee",
+                color: slippageValue === 1 ? "#fff" : "#000",
                 marginRight: "15px",
               }}
               onClick={() => {
-                setSelectedPercentage(20);
-
-                handleSlippageValue(20);
+                handleOnChangeSlippageValue(1);
               }}
             >
-              20%
+              1.0%
             </div>
             <div
               className="slippingLiq-ps"
               style={{
                 backgroundColor:
-                  selectedPercentage != 5 &&
-                  selectedPercentage != 10 &&
-                  selectedPercentage != 20
+                  slippageValue != 0.1 &&
+                  slippageValue != 0.5 &&
+                  slippageValue != 1
                     ? "#413AE2"
                     : "#eee",
                 color:
-                  selectedPercentage != 5 &&
-                  selectedPercentage != 10 &&
-                  selectedPercentage != 20
+                  slippageValue != 0.1 &&
+                  slippageValue != 0.5 &&
+                  slippageValue != 1
                     ? "#fff"
                     : "#000",
               }}
@@ -157,7 +178,6 @@ const SlippingTolerance = ({
           </div>
 
           <br></br>
-          {/* <div className="slippingLiq-ps-input-div"> */}
           <TextField
             sx={{
               borderRadius: "6px",
@@ -173,24 +193,34 @@ const SlippingTolerance = ({
             }}
             className="slippingLiq-ps-input"
             placeholder="Enter a value, default value is 1"
-            // value={selectedPercentage}
-            value={slippageValue == 1 ? "" : slippageValue}
+            value={slippageVal}
             onChange={(e) => {
               handlePercentageInput(e);
             }}
           />
-          {/* </div> */}
+          {warningMsg ? (
+            <p style={{ color: "#ff0000", marginBottom: -20, marginTop: 5 }}>
+              Your transaction may fail!
+            </p>
+          ) : null}
           <br></br>
           <br></br>
 
           <button
             className="slippingLiq-btn"
-            disabled={selectedPercentage == ""}
+            disabled={
+              Number(slippageVal) <= 0 || Number(slippageVal) > 1 ? true : false
+            }
             onClick={() => handleClose(false)}
             style={{
-              backgroundColor: selectedPercentage == "" ? "#afafaf" : "#413ae2",
+              backgroundColor:
+                Number(slippageVal) <= 0 || Number(slippageVal) > 1
+                  ? "#afafaf"
+                  : "#413ae2",
               cursor:
-                selectedPercentage == "" ? "inherit !important" : "pointer",
+                Number(slippageVal) <= 0 || Number(slippageVal) > 1
+                  ? "inherit !important"
+                  : "pointer",
             }}
           >
             Set Slippage

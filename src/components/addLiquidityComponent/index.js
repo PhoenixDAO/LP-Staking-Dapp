@@ -5,8 +5,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import ComponentCss from "../componentCss.css";
 import PhnxLogo from "../../assets/phnxLogo.png";
 import EthLogo from "../../assets/ETH1.png";
-import downArrow from "../../assets/downArrow.svg";
-import blueDownArrow from "../../assets/blueDownArrow.svg";
 import plusLiquidity from "../../assets/plusLiquidity.svg";
 import * as SERVICE from "../../services/pool.services";
 import { useWeb3React } from "@web3-react/core";
@@ -35,11 +33,12 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [lowValue, setLowValue] = useState(false);
 
   const [slippageModal, setSlippageModal] = useState(false);
-  const [slippageValue, setSlippageValue] = useState(1);
 
   const [poolShare, setPoolShare] = useState(0);
 
   const [approveStatus, setApproveStatus] = useState(false);
+
+  const[gasPrice,setGasPrice] = useState(0.001);
 
   // const [allowance, setAllowance] = useState(0);
 
@@ -151,7 +150,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         handleGetEthBalance,
         handleGetPhnxBalance,
         settranHash,
-        slippageValue
+        slippageAddLiquidity
       );
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
       await GetBalances();
@@ -225,13 +224,39 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const setTxModalClose = () => {
     settransactionConfirmModal(false);
   };
-  return (
-    <Box
-      sx={styles.containerStyle}
-      className="modal-scroll"
-      
 
-    >
+
+
+
+  const ETH_STATION = "https://ethgasstation.info/json/ethgasAPI.json";
+
+  const getCurrentGasPrices = async () => {
+    try {
+      const res = await fetch(ETH_STATION);
+      const response = await res.json();
+      let prices = {
+        low: response.safeLow / 10,
+        medium: response.average / 10,
+        high: response.fastest / 10,
+      };
+      console.log(prices,'gas fee')
+      setGasPrice(prices.high*0.000000001);
+    } catch (e) {
+
+    }
+  };
+
+
+  useEffect(()=>{
+
+    getCurrentGasPrices()
+
+  },[])
+
+
+
+  return (
+    <Box sx={styles.containerStyle} className="modal-scroll">
       <div className="addLiquidityBox">
         <div style={{ marginBottom: "9px" }}>
           <div style={styles.divTopHeading}>
@@ -268,24 +293,22 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
           marginBottom: 9,
         }}
       />
-      <div className="dialog-style" style={{marginTop:"25px",}}>
+      <div className="dialog-style" style={{ marginTop: "25px" }}>
         <div style={styles.containerTip}>
           <Typography style={styles.txtTipParagraph}>
-           <span style={{fontWeight:"700"}}> Tip:</span> By adding liquidity, you'll earn 0.25% of all trades on this
-            pair proportional to your share of the pool. Fees are added to the
-            pool, accrue in real time and can be claimed by withdrawing your
-            liquidity.
+            <span style={{ fontWeight: "700" }}> Tip:</span> By adding
+            liquidity, you'll earn 0.25% of all trades on this pair proportional
+            to your share of the pool. Fees are added to the pool, accrue in
+            real time and can be claimed by withdrawing your liquidity.
           </Typography>
         </div>
-        <div style={{ position: "relative", marginTop:"25px" }}>
+        <div style={{ position: "relative", marginTop: "25px" }}>
           <div className="token-container">
             <div style={{ display: "flex", flexDirection: "row" }}>
               <img alt="logo" style={styles.imgLogoPhnx} src={PhnxLogo} />
               <div style={styles.containerImg}>
                 <Typography style={styles.txtInput}>Input</Typography>
-                <Typography style={styles.txtPhnx}>
-                  PHNX
-                </Typography>
+                <Typography style={styles.txtPhnx}>PHNX</Typography>
               </div>
             </div>
             <div style={styles.containerInput}>
@@ -373,7 +396,13 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                       <IconButton
                         style={styles.iconBtn}
                         onClick={() => {
-                          OnChangeHandler(balanceEth, "eth");
+                          console.log('asdasdasdasd')
+                          console.log(gasPrice,'asdasdasd')
+
+                          if(balanceEth-gasPrice>0){
+                            OnChangeHandler(balanceEth-gasPrice, "eth");
+                          }
+
                         }}
                       >
                         MAX
@@ -429,7 +458,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               backgroundColor:
                 loading ||
                 phnxValue > balancePhnx ||
-                ethValue > balanceEth ||
+                ethValue > (balanceEth-gasPrice) ||
                 lowValue ||
                 phnxValue === 0 ||
                 ethValue === 0 ||
@@ -441,7 +470,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             disabled={
               loading ||
               phnxValue > balancePhnx ||
-              ethValue > balanceEth ||
+              ethValue > (balanceEth-gasPrice) ||
               lowValue ||
               phnxValue === 0 ||
               ethValue === 0 ||
@@ -455,7 +484,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             phnxValue == 0 ||
             ethValue == 0
               ? "Enter an amount"
-              : phnxValue > balancePhnx || ethValue > balanceEth
+              : phnxValue > balancePhnx || ethValue > (balanceEth-gasPrice)
               ? "Insufficient Balance"
               : lowValue
               ? "Low Value"
@@ -537,7 +566,7 @@ const styles = {
     borderRadius: 4,
     // boxShadow: 0,
     p: 4,
-    padding: '32px 42px',
+    padding: "32px 42px",
     ["@media (max-width: 650px)"]: {
       width: "98%",
       padding: 2,
@@ -585,7 +614,7 @@ const styles = {
   txtTipParagraph: {
     fontSize: 15,
     color: "#FFFFFF",
-    paddingInline:"15px",
+    paddingInline: "15px",
   },
   btnAddLiquidity: {
     backgroundColor: "#413AE2",
