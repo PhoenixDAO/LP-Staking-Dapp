@@ -76,7 +76,8 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
   const [SocialIcon, setSocialIcon] = useState(false);
 
   useEffect(() => {
-    cT = window.location.href.split("/")[3];
+    console.log("routing:", window.location.href.split("/"));
+    cT = window.location.href.split("/")[4];
     if (cT === "home") {
       setCurrentTab(0);
     } else if (cT === "liquidity") {
@@ -131,12 +132,18 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
             button
             key={text}
             component={Link}
-            to={`/${text}`}
+            to={`/v2/${text}`}
             className={index === currentTab ? "current-tab" : "no-current-tab"}
-            style={{ color: "#73727D", fontWeight: "500",marginBottom:"20px" }}
+            style={{
+              color: "#73727D",
+              fontWeight: "500",
+              marginBottom: "20px",
+            }}
             onClick={() => {
-              handleDrawerClose();
-              setSocialIcon(false);
+              if (window.innerWidth < 500) {
+                handleDrawerClose();
+                setSocialIcon(false);
+              }
             }}
           >
             <ListItemIcon>
@@ -150,12 +157,17 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
           </ListItem>
         ))}
       </List>
-      <div style={{alignSelf:"center",  position: "absolute",
-            bottom: "160px",
-            display: "flex",
-            justifyContent: "space-around",
-            alignItem: "baseline",}}>
-      <VersionSwitch isSidebarOpen = {open}/>
+      <div
+        style={{
+          alignSelf: "center",
+          position: "absolute",
+          bottom: "160px",
+          display: "flex",
+          justifyContent: "space-around",
+          alignItem: "baseline",
+        }}
+      >
+        <VersionSwitch isSidebarOpen={open} />
       </div>
       {SocialIcon ? (
         <div

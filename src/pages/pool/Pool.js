@@ -47,7 +47,7 @@ const Pool = () => {
             </p>
 
             {account && active ? (
-              <Link to="/liquidity" style={{ textDecoration: "none" }}>
+              <Link to="/v2/liquidity" style={{ textDecoration: "none" }}>
                 <Button
                   variant="contained"
                   size="large"
