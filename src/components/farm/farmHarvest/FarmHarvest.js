@@ -162,7 +162,7 @@ function FarmHarvest({
       <br></br> <br></br>
       <div className="get-phnx-eth-lp">
         <Link
-          to="/liquidity"
+          to="/v2/liquidity"
           style={{ textDecoration: "none", color: "#413ae2" }}
         >
           Get PHNX-ETH LP &nbsp;
