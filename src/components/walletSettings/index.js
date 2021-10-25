@@ -243,7 +243,9 @@ export default function WalletSettings({
           Wallet
           </span>
         </MenuItem>
-        <MenuItem style={{margin:'7px 5px',fontSize:'18px'}} onClick={()=>{setTransactionModalStatus(true)}}>
+        <MenuItem style={{margin:'7px 5px',fontSize:'18px'}} 
+        // onClick={()=>{setTransactionModalStatus(true)}}
+        >
           <CompareArrowsIcon sx={{ mr: 1 , color:"#73727D"}} />
           <span style={{color:"#4E4E55"}}>
           Transactions
