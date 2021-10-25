@@ -299,19 +299,21 @@ export default function ConnectWallet({
               alignItems: "center",
             }}
           >
+             <img
+              src={PhnxLogo}
+              alt="PhnxLogo"
+              className="connect-wallet-btn-img"
+            ></img>
+            {balancePhnx}
+            &nbsp;
+            | &nbsp;
+           
             <img
               src={EthLogo}
               alt="EthLogo"
               className="connect-wallet-btn-img"
             ></img>
             {balanceEth}
-            &nbsp; | &nbsp;
-            <img
-              src={PhnxLogo}
-              alt="PhnxLogo"
-              className="connect-wallet-btn-img"
-            ></img>
-            {balancePhnx}
           </div>
         </button>
       ) : null}

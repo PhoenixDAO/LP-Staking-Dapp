@@ -165,6 +165,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   };
 
   const OnChangeHandler = (val, tokenName) => {
+    if(val<0){
+      return;
+    }
     if (tokenName === "phnx") {
       let v = parseFloat(val);
       let total = parseFloat(reserve1) + v;
@@ -370,7 +373,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available ETH:</Typography>
                 <Typography style={styles.txtAmount}>
-                  {balanceEth} ETH
+                  {balanceEth=="0"?"0.0":balanceEth} ETH
                 </Typography>
               </div>
               <div className="wrapper-input">
@@ -406,6 +409,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                       </IconButton>
                     ),
                     disableUnderline: true,
+                    inputProps: {
+                      min: 0,
+                    },
                   }}
                 />
               </div>
