@@ -173,6 +173,9 @@ export default function ConnectWallet({
           true
         );
 
+        
+        // console.log(result);
+
         handleClose();
         dispatch({ type: LOCAL_TYPES.CONNECT_USER });
         // ToastMsg("success", "You are connected to mainnet");
@@ -269,7 +272,7 @@ export default function ConnectWallet({
     }
     const getTotalLiquidity = async () => {
       await axios({
-        url: "https://api.studio.thegraph.com/query/6668/phoenix/v0.0.9",
+        url: "https://api.studio.thegraph.com/query/6668/phoenix/v0.0.11",
         method: "post",
         data: {
           query: `
