@@ -85,13 +85,17 @@ const RemoveLiquidityModaL = ({
   };
 
   const _handleRemoveLiquidity = async (handleMainClose) => {
+
+    console.log('%',selectedPercentage)
+
+
     settransactionProcessModal(true);
     try {
       await POOL_SERVICES.removeLiquidity(
         web3context,
         contractUniswapRouter,
         poolPosition,
-        selectedPercentage == "" ? 10 : selectedPercentage,
+        selectedPercentage == "" ? 1 : selectedPercentage,
         settransactionProcessModal,
         settransactionConfirmModal,
         settransactionSubmittedModal,
@@ -111,13 +115,16 @@ const RemoveLiquidityModaL = ({
   };
 
   const handlePercentageInput = (e) => {
+    console.log('%',e.target.value)
     if (e.target.value === "" || isNaN(e.target.value)) {
       setSelectedPercentage(parseInt(0));
     } else if (e.target.value > 100) {
       setSelectedPercentage(100);
     } else {
       setSelectedPercentage(parseInt(e.target.value));
+
     }
+
   };
 
   const setTxModalOpen = () => {
@@ -152,12 +159,16 @@ const RemoveLiquidityModaL = ({
     setPerEthValue(ethValue);
     setPerPhnxValue(phnxValue);
 
-    _handleCalculateLpToken(ethValue, phnxValue);
+    if (selectedPercentage == 100) {
+      setphnxethburn(poolPosition.lp);
+    } else {
+      _handleCalculateLpToken(ethValue, phnxValue);
+    }
   }, [selectedPercentage, poolPosition]);
 
   return (
     <div className="rm-liq-div">
-      <img className="rm-liq-Logo" src={Logo}></img>
+      <img className="rm-liq-Logo" style={{visibility:"hidden"}}  src={Logo}></img>
       <div className="rm-liq-heading">Remove PHNX-ETH Liquidity</div>
 
       <div
@@ -271,7 +282,7 @@ const RemoveLiquidityModaL = ({
       </div>
 
       <div className="rm-liq-u-will-rec" style={{ textTransform: "uppercase" }}>
-        You will recieve
+        You will receive
       </div>
 
       <div className="rm-liq-phnx-eth-det-div">
@@ -316,8 +327,8 @@ const RemoveLiquidityModaL = ({
           // onClick={() => setTxModalOpen()}
         >
           {approveStatus == false
-            ? "Approve ETH-PHNX LP"
-            : "Approving ETH-PHNX LP..."}
+            ? "Approve PHNX-ETH LP"
+            : "Approving PHNX-ETH LP..."}
         </button>
       ) : selectedPercentage == 0 || selectedPercentage == "" ? (
         <button

@@ -56,6 +56,7 @@ const maxBigValue = new BigNumber(maxlpValue);
       setlpValueAct(maxlpValue);
     }else{
       setlpValue(e.target.value);
+      setlpValueAct(e.target.value);
     }
     console.log("target value: ", e.target.value);    
     console.log("lpvalue value: ", lpValue);
@@ -115,13 +116,14 @@ const maxBigValue = new BigNumber(maxlpValue);
     <div className="stakingModal">
         <div className="displayFlex">
               <div className="confirmPhnxDepositeLogo">
-                <img style={{height:"32px"}} src={Logo}></img>
+                <img style={{height:"32px", visibility:"hidden"}} src={Logo}></img>
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
                   <CloseIcon onClick={() => Close()} />
                 </span>
               </div>
+              {/* <CloseIcon className="icon-btn" onClick={()=>Close()} sx={{transform:"scale(1.2)", marginRight:"10px",cursor:"pointer"}} /> */}
             </div>
 
       <div className="stakingModalHeading">Unstake LP Tokens</div>

@@ -17,6 +17,7 @@ import * as CONTRACT_TYPES from "../redux/types/contract.types";
 import { injected } from "../utils/web3Connectors";
 import { walletconnect, walletlink } from "../utils/web3ConnectFunctions";
 import { conciseAddress, fixedWithoutRounding } from "../utils/formatters";
+import millify from "millify";
 import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET } from "../contract/constant";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -33,10 +34,9 @@ import WalletSettings from "./walletSettings";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Notify from "./Notify";
-import TransactionModal from '../components/connectModal/TransactionsModal';
+import TransactionsModal from "../components/connectModal/TransactionsModal";
 
 import Web3 from "web3";
-
 
 const style = {
   modalBox: {
@@ -91,7 +91,7 @@ export default function ConnectWallet({
   const web3context = useWeb3React();
   const [reserveUSD, setReserveUSD] = useState(0);
 
-  const[TransactionModalStatus,setTransactionModalStatus]=useState(false);
+  const [TransactionModalStatus, setTransactionModalStatus] = useState(false);
 
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
@@ -103,7 +103,13 @@ export default function ConnectWallet({
       if (preWallet == "metaMask") {
         activateWallet(injected);
       } else if (preWallet == "coinBase") {
-        activateWallet(walletlink);
+        // activateWallet(walletlink);
+        dispatch({
+          type: LOCAL_TYPES.RESET_ALL_LOCAL_REDUCER,
+        });
+        dispatch({
+          type: CONTRACT_TYPES.RESET_ALL_CONTRACT_REDUCER,
+        });
       } else if (preWallet == "walletConnect") {
         activateWallet(walletconnect);
       }
@@ -120,7 +126,9 @@ export default function ConnectWallet({
     web3context;
 
   const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const [transactionsData, setTransactionsData] = useState();
 
   const open2 = Boolean(anchorEl);
   const handleClick2 = (event) => {
@@ -164,6 +172,8 @@ export default function ConnectWallet({
           undefined,
           true
         );
+
+        // console.log(result);
 
         handleClose();
         dispatch({ type: LOCAL_TYPES.CONNECT_USER });
@@ -255,6 +265,37 @@ export default function ConnectWallet({
     getTotalLiquidity();
   }, []);
 
+  useEffect(() => {
+    if (!account) {
+      return;
+    }
+    const getTotalLiquidity = async () => {
+      await axios({
+        url: "https://api.studio.thegraph.com/query/6668/phoenix/v0.0.11",
+        method: "post",
+        data: {
+          query: `
+          {
+            users(where:{owner:"${account}"} orderBy: time){
+              amount0,
+              amount1,
+              type,
+              owner,
+              id
+            }
+          }
+          `,
+        },
+      })
+        .then((response) => {
+          console.log("transactions", response.data.data.users);
+          setTransactionsData(response.data.data.users.reverse());
+        })
+        .catch((err) => console.error(err));
+    };
+    getTotalLiquidity();
+  }, [account]);
+
   return (
     <div
       style={{ width: "fit-content", display: "flex", alignItems: "center" }}
@@ -302,21 +343,36 @@ export default function ConnectWallet({
               alignItems: "center",
             }}
           >
+            <div style={{display:"flex", alignItems:"center"}}>
              <img
               src={PhnxLogo}
               alt="PhnxLogo"
               className="connect-wallet-btn-img"
             ></img>
-            {balancePhnx}
+            
+            {millify(balancePhnx, {
+  precision: 3,
+  lowercase: true
+})}</div>
             &nbsp;
-            | &nbsp;
-           
+            <div style={{display:"flex", alignItems:"center"}}>
+              
+              <svg width="4" height="18" viewBox="0 0 2 21" fill="#000000" xmlns="http://www.w3.org/2000/svg">
+<path d="M1 0L1 21" stroke="#000000"/>
+</svg>
+              </div>
+             &nbsp;
+           <div style={{display:"flex", alignItems:"center"}}>
             <img
               src={EthLogo}
               alt="EthLogo"
               className="connect-wallet-btn-img"
             ></img>
-            {balanceEth}
+             {millify(balanceEth, {
+  precision: 3,
+  lowercase: true
+})}
+</div>
           </div>
         </button>
       ) : null}
@@ -366,18 +422,16 @@ export default function ConnectWallet({
       >
         <Box sx={style.modal} className="modal-scroll">
           <div style={style.modalBox}>
-            <button onClick={handleClose} className="icon-btn">
-              <CloseIcon />
-            </button>
-            <Stack sx={{ mt: 5, alignItems: "center" }}>
+          <CloseIcon className="icon-btn" onClick={handleClose} sx={{transform:"scale(1.2)",marginRight:"25px",marginTop:"15px","@media (max-width:500px)":{ marginRight:"15px",marginTop:"05px"},cursor:"pointer"}} />
+            {/* <Stack sx={{ mt: 5, alignItems: "center" }}>
               <img src={Logo} alt="logo" width="192px" height="54px" />
-            </Stack>
+            </Stack> */}
             <Typography
               id="modal-modal-title"
               variant="h6"
               component="h2"
               color="primary"
-              sx={{ mt: 3, color: "#413AE2", fontWeight: "bolder" }}
+              sx={{ color: "#413AE2", fontWeight: "bolder" , fontSize:"24px",marginTop:"20px"}}
               align="center"
               className="connectWalletMsg"
             >
@@ -529,12 +583,11 @@ export default function ConnectWallet({
         setTransactionModalStatus={setTransactionModalStatus}
       />
 
-      <TransactionModal
+      <TransactionsModal
         status={TransactionModalStatus}
         changeStatus={setTransactionModalStatus}
-        
-      ></TransactionModal>
-
+        transactions={transactionsData}
+      ></TransactionsModal>
     </div>
   );
 }

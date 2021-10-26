@@ -81,7 +81,7 @@ const TransactionSubmitted = ({
           <div className="transaction-liq-div">
             <div className="displayFlex">
               <div className="phnxDeposite">
-                <img className="transaction-liq-Logo" src={Logo}></img>
+                <img className="transaction-liq-Logo" style={{visibility:"hidden"}} src={Logo}></img>
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
@@ -89,6 +89,7 @@ const TransactionSubmitted = ({
                 </span>
               </div>
             </div>
+            {/* <CloseIcon className="icon-btn" onClick={handleClose} sx={{transform:"scale(1.2)", marginRight:"10px",cursor:"pointer"}} /> */}
             <div className="">
               <div className="transactionSubmittedCheck">
                 <img
