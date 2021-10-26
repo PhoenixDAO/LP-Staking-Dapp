@@ -33,7 +33,7 @@ const Pool = () => {
             <p className="connect-wallet-txt">
               {(lpValue != 0)?`You have ${fixedWithoutRounding(lpValue,6)} Lp Token`:"You currently do not have any LP Token"},{" "}
               <Link
-                to="/v2/liquidity"
+                to="/liquidity"
                 style={{ textDecoration: "none", color: "#413AE2" }}
               >
                 add
@@ -59,7 +59,7 @@ const Pool = () => {
             </p>
 
             {account && active ? (
-              <Link to="/v2/liquidity" style={{ textDecoration: "none" }}>
+              <Link to="/liquidity" style={{ textDecoration: "none" }}>
                 <Button
                   variant="contained"
                   size="large"
