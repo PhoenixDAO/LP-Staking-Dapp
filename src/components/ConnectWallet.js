@@ -173,6 +173,8 @@ export default function ConnectWallet({
           true
         );
 
+        // console.log(result);
+
         handleClose();
         dispatch({ type: LOCAL_TYPES.CONNECT_USER });
         // ToastMsg("success", "You are connected to mainnet");
@@ -269,12 +271,12 @@ export default function ConnectWallet({
     }
     const getTotalLiquidity = async () => {
       await axios({
-        url: "https://api.studio.thegraph.com/query/6668/phoenix/v0.0.9",
+        url: "https://api.studio.thegraph.com/query/6668/phoenix/v0.0.11",
         method: "post",
         data: {
           query: `
           {
-            users(where:{owner:"${account}"}){
+            users(where:{owner:"${account}"} orderBy: time){
               amount0,
               amount1,
               type,
@@ -287,7 +289,7 @@ export default function ConnectWallet({
       })
         .then((response) => {
           console.log("transactions", response.data.data.users);
-          setTransactionsData(response.data.data.users);
+          setTransactionsData(response.data.data.users.reverse());
         })
         .catch((err) => console.error(err));
     };
