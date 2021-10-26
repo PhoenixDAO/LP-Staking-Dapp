@@ -132,7 +132,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
             button
             key={text}
             component={Link}
-            to={`/${text}`}
+            to={`/v2/${text}`}
             className={index === currentTab ? "current-tab" : "no-current-tab"}
             style={{
               color: "#73727D",
