@@ -104,6 +104,12 @@ export default function ConnectWallet({
         activateWallet(injected);
       } else if (preWallet == "coinBase") {
         // activateWallet(walletlink);
+        dispatch({
+          type: LOCAL_TYPES.RESET_ALL_LOCAL_REDUCER,
+        });
+        dispatch({
+          type: CONTRACT_TYPES.RESET_ALL_CONTRACT_REDUCER,
+        });
       } else if (preWallet == "walletConnect") {
         activateWallet(walletconnect);
       }
