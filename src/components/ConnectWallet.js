@@ -271,16 +271,17 @@ export default function ConnectWallet({
     }
     const getTotalLiquidity = async () => {
       await axios({
-        url: "https://api.studio.thegraph.com/query/6668/phoenix/v0.0.11",
+        url: "https://api.thegraph.com/subgraphs/name/hammadghazi/phoenix",
         method: "post",
         data: {
           query: `
           {
-            users(where:{owner:"${account}"} orderBy: time){
+            users(where:{owner:"${account}"} orderBy:time orderDirection:desc){
               amount0,
               amount1,
               type,
               owner,
+              time,
               id
             }
           }
@@ -289,7 +290,7 @@ export default function ConnectWallet({
       })
         .then((response) => {
           console.log("transactions", response.data.data.users);
-          setTransactionsData(response.data.data.users.reverse());
+          setTransactionsData(response.data.data.users);
         })
         .catch((err) => console.error(err));
     };

@@ -254,7 +254,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "14px" }}
       >
         <Link
-          to="/liquidity"
+          to="/v2/liquidity"
           style={{ textDecoration: "none", color: "#413ae2" }}
         >
           Get PHNX-ETH LP &nbsp;
