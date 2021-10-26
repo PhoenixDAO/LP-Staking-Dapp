@@ -103,7 +103,7 @@ export default function ConnectWallet({
       if (preWallet == "metaMask") {
         activateWallet(injected);
       } else if (preWallet == "coinBase") {
-        activateWallet(walletlink);
+        // activateWallet(walletlink);
       } else if (preWallet == "walletConnect") {
         activateWallet(walletconnect);
       }
