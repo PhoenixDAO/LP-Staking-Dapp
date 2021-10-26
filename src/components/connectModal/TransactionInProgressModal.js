@@ -104,7 +104,7 @@ const ConnectModal = () => {
               ></input>
             </div>
 
-            <div className="rm-liq-u-will-rec">You will recieve</div>
+            <div className="rm-liq-u-will-rec">You will receive</div>
 
             <div className="rm-liq-phnx-eth-det-div">
               <div className="rm-liq-phnx-eth-det">

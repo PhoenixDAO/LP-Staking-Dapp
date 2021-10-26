@@ -73,7 +73,7 @@ const ConfirmModal = ({
                 </span>
               </div>
             </div>
-            <div className="add-liq-heading">YOU WILL RECIEVE</div>
+            <div className="add-liq-heading">YOU WILL RECEIVE</div>
             <div className="priceContainer">
               <div className="confirmModalAddPrice">
                 <div className="displayFlex">

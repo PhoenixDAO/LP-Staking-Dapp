@@ -50,6 +50,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
       setlpValueAct(maxlpValue);
     }else{
       setlpValue(e.target.value);
+      setlpValueAct(e.target.value);
     }
     if (!isNaN(e.target.value) && e.target.value != "") {
       console.log(parseFloat(e.target.value));

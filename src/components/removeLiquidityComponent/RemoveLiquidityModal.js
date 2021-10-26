@@ -278,7 +278,7 @@ const RemoveLiquidityModaL = ({
       </div>
 
       <div className="rm-liq-u-will-rec" style={{ textTransform: "uppercase" }}>
-        You will recieve
+        You will receive
       </div>
 
       <div className="rm-liq-phnx-eth-det-div">
