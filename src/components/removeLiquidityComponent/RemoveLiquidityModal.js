@@ -159,7 +159,11 @@ const RemoveLiquidityModaL = ({
     setPerEthValue(ethValue);
     setPerPhnxValue(phnxValue);
 
-    _handleCalculateLpToken(ethValue, phnxValue);
+    if (selectedPercentage == 100) {
+      setphnxethburn(poolPosition.lp);
+    } else {
+      _handleCalculateLpToken(ethValue, phnxValue);
+    }
   }, [selectedPercentage, poolPosition]);
 
   return (

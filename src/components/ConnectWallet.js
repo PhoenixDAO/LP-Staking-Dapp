@@ -34,10 +34,9 @@ import WalletSettings from "./walletSettings";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Notify from "./Notify";
-import TransactionModal from '../components/connectModal/TransactionsModal';
+import TransactionsModal from "../components/connectModal/TransactionsModal";
 
 import Web3 from "web3";
-
 
 const style = {
   modalBox: {
@@ -92,7 +91,7 @@ export default function ConnectWallet({
   const web3context = useWeb3React();
   const [reserveUSD, setReserveUSD] = useState(0);
 
-  const[TransactionModalStatus,setTransactionModalStatus]=useState(false);
+  const [TransactionModalStatus, setTransactionModalStatus] = useState(false);
 
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
@@ -104,7 +103,13 @@ export default function ConnectWallet({
       if (preWallet == "metaMask") {
         activateWallet(injected);
       } else if (preWallet == "coinBase") {
-        activateWallet(walletlink);
+        // activateWallet(walletlink);
+        dispatch({
+          type: LOCAL_TYPES.RESET_ALL_LOCAL_REDUCER,
+        });
+        dispatch({
+          type: CONTRACT_TYPES.RESET_ALL_CONTRACT_REDUCER,
+        });
       } else if (preWallet == "walletConnect") {
         activateWallet(walletconnect);
       }
@@ -121,7 +126,9 @@ export default function ConnectWallet({
     web3context;
 
   const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const [transactionsData, setTransactionsData] = useState();
 
   const open2 = Boolean(anchorEl);
   const handleClick2 = (event) => {
@@ -165,6 +172,8 @@ export default function ConnectWallet({
           undefined,
           true
         );
+
+        // console.log(result);
 
         handleClose();
         dispatch({ type: LOCAL_TYPES.CONNECT_USER });
@@ -255,6 +264,37 @@ export default function ConnectWallet({
     };
     getTotalLiquidity();
   }, []);
+
+  useEffect(() => {
+    if (!account) {
+      return;
+    }
+    const getTotalLiquidity = async () => {
+      await axios({
+        url: "https://api.studio.thegraph.com/query/6668/phoenix/v0.0.11",
+        method: "post",
+        data: {
+          query: `
+          {
+            users(where:{owner:"${account}"} orderBy: time){
+              amount0,
+              amount1,
+              type,
+              owner,
+              id
+            }
+          }
+          `,
+        },
+      })
+        .then((response) => {
+          console.log("transactions", response.data.data.users);
+          setTransactionsData(response.data.data.users.reverse());
+        })
+        .catch((err) => console.error(err));
+    };
+    getTotalLiquidity();
+  }, [account]);
 
   return (
     <div
@@ -543,12 +583,11 @@ export default function ConnectWallet({
         setTransactionModalStatus={setTransactionModalStatus}
       />
 
-      <TransactionModal
+      <TransactionsModal
         status={TransactionModalStatus}
         changeStatus={setTransactionModalStatus}
-        
-      ></TransactionModal>
-
+        transactions={transactionsData}
+      ></TransactionsModal>
     </div>
   );
 }
