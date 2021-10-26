@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import PoolCss from "./Pool.css";
 import handsImg from "../../assets/handPic.svg";
@@ -7,21 +7,33 @@ import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import ConnectWallet from "../../components/ConnectWallet";
 import { Link } from "react-router-dom";
+import { fixedWithoutRounding } from "../../utils/formatters";
 
 const Pool = () => {
   const { account, active } = useWeb3React();
   // const dispatch = useDispatch();
   const balanceEth = useSelector((state) => state.localReducer.balanceEth);
+  const poolPosition = useSelector(
+    (state) => state.contractReducer.poolPosition
+  );
+  const [lpValue, setlpValue] = useState(0.0);
+
+  useEffect(()=>{
+    if(active && account && poolPosition){
+      setlpValue(poolPosition.lp);
+    }
+  },[account,poolPosition]);
 
   return (
     <div>
+      {console.log("lp tokens: ",lpValue)}
       <div className="container-div">
         <div className="gradient-div" style={{ fontWeight: "bold" }}>
           {account ? (
             <p className="connect-wallet-txt">
-              You currently do not have any LP Token,{" "}
+              {(lpValue != 0)?`You have ${fixedWithoutRounding(lpValue,6)} Lp Token`:"You currently do not have any LP Token"},{" "}
               <Link
-                to="/liquidity"
+                to="/v2/liquidity"
                 style={{ textDecoration: "none", color: "#413AE2" }}
               >
                 add

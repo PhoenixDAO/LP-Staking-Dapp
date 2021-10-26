@@ -65,7 +65,7 @@ const ConfirmModal = ({
           <div className="add-liq-div">
             <div className="displayFlex">
               <div className="confirmPhnxDepositeLogo">
-                <img className="add-liq-Logo" src={Logo}></img>
+                <img className="add-liq-Logo" style={{visibility:"hidden"}} src={Logo}></img>
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
@@ -73,6 +73,7 @@ const ConfirmModal = ({
                 </span>
               </div>
             </div>
+             {/* <CloseIcon className="icon-btn" onClick={setTxModalClose} sx={{transform:"scale(1.2)", marginRight:"10px", cursor:"pointer"}} /> */}
             <div className="add-liq-heading">YOU WILL RECEIVE</div>
             <div className="priceContainer">
               <div className="confirmModalAddPrice">

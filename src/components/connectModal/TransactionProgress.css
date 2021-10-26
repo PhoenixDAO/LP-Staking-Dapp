@@ -48,7 +48,7 @@ text-align:center;
 
   .transactionSubmittedCheck{
     text-align: center;
-      padding-top: 60px;
+      padding-top: 10px !important;
   }
 }
 

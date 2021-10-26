@@ -168,7 +168,7 @@ const RemoveLiquidityModaL = ({
 
   return (
     <div className="rm-liq-div">
-      <img className="rm-liq-Logo" src={Logo}></img>
+      <img className="rm-liq-Logo" style={{visibility:"hidden"}}  src={Logo}></img>
       <div className="rm-liq-heading">Remove PHNX-ETH Liquidity</div>
 
       <div
@@ -327,8 +327,8 @@ const RemoveLiquidityModaL = ({
           // onClick={() => setTxModalOpen()}
         >
           {approveStatus == false
-            ? "Approve ETH-PHNX LP"
-            : "Approving ETH-PHNX LP..."}
+            ? "Approve PHNX-ETH LP"
+            : "Approving PHNX-ETH LP..."}
         </button>
       ) : selectedPercentage == 0 || selectedPercentage == "" ? (
         <button

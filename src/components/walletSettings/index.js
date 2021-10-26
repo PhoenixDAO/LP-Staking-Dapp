@@ -69,7 +69,7 @@ export default function WalletSettings({
         <div className="add-liq-div">
           <div className="displayFlex">
             <div className="confirmPhnxDepositeLogo">
-              <img className="add-liq-Logo" src={Logo}></img>
+              <img className="add-liq-Logo" style={{visibility:"hidden"}} src={Logo}></img>
             </div>
             <div className="closeModalIcon">
               <span className="cursorPointer">
@@ -81,12 +81,15 @@ export default function WalletSettings({
             </div>
           </div>
 
-          <br />
+{/* <button onClick={handleClose}> */}
+              {/* <CloseIcon className="icon-btn" onClick={handleClose} sx={{transform:"scale(1.2)", marginRight:"10px",cursor:"pointer"}} /> */}
+            {/* </button> */}
+          {/* <br /> */}
           <Typography
             variant="h5"
             component="h2"
             color="primary"
-            sx={{ color: "#413ae2", fontWeight: "bold" }}
+            sx={{ color: "#413ae2", fontWeight: "bold", fontSize:"26px" }}
           >
             Wallet
           </Typography>
@@ -188,7 +191,7 @@ export default function WalletSettings({
               <div className="displayFlex etherScan">
                 <div className="cursorPointer">
                   <a
-                    href={ETHERSCAN_ACCOUNT_LINK_RINKBY + web3context.active}
+                    href={ETHERSCAN_ACCOUNT_LINK_RINKBY + web3context.account}
                     rel="external nofollow noopener"
                     target="_blank"
                     style={{ textDecoration: "none", color: "#413AE2" }}
