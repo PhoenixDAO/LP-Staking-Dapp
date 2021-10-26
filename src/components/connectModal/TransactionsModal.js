@@ -21,7 +21,7 @@ function TransactionsModal({status,changeStatus}) {
           
             <div className="rm-liq-div" style={{marginBottom:'30px',padding:'35px'}}>
          
-          <img className="rm-liq-Logo" src={Logo}></img> <br></br>
+          <img className="rm-liq-Logo" style={{visibility:"hidden"}} src={Logo}></img> <br></br>
           <div className="rm-liq-heading" style={{fontSize:'30px',marginTop:'20px'}}>Transaction history</div>
     
           <div

@@ -38,7 +38,7 @@ const ConnectModal = () => {
           aria-describedby="modal-modal-description"
         >
           <div className="rm-liq-div">
-            <img className="rm-liq-Logo" src={Logo}></img>
+            <img className="rm-liq-Logo" style={{visibility:"hidden"}} src={Logo}></img>
             <div className="rm-liq-heading">Remove PHNX-ETH Liquidity</div>
 
             <div className="rm-liq-ps-div">

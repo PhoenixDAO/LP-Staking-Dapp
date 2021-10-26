@@ -303,21 +303,26 @@ export default function ConnectWallet({
               alignItems: "center",
             }}
           >
+            <div style={{display:"flex", alignItems:"center"}}>
              <img
               src={PhnxLogo}
               alt="PhnxLogo"
               className="connect-wallet-btn-img"
             ></img>
+            
             {millify(balancePhnx, {
   precision: 3,
   lowercase: true
-})}
+})}</div>
             &nbsp;
-            <span style={{marginBottom:"4px"}}>
-              |
-              </span>
+            <div style={{display:"flex", alignItems:"center"}}>
+              
+              <svg width="4" height="18" viewBox="0 0 2 21" fill="#000000" xmlns="http://www.w3.org/2000/svg">
+<path d="M1 0L1 21" stroke="#000000"/>
+</svg>
+              </div>
              &nbsp;
-           
+           <div style={{display:"flex", alignItems:"center"}}>
             <img
               src={EthLogo}
               alt="EthLogo"
@@ -327,6 +332,7 @@ export default function ConnectWallet({
   precision: 3,
   lowercase: true
 })}
+</div>
           </div>
         </button>
       ) : null}
@@ -376,18 +382,16 @@ export default function ConnectWallet({
       >
         <Box sx={style.modal} className="modal-scroll">
           <div style={style.modalBox}>
-            <button onClick={handleClose} className="icon-btn">
-              <CloseIcon />
-            </button>
-            <Stack sx={{ mt: 5, alignItems: "center" }}>
+          <CloseIcon className="icon-btn" onClick={handleClose} sx={{transform:"scale(1.2)",marginRight:"25px",marginTop:"15px","@media (max-width:500px)":{ marginRight:"15px",marginTop:"05px"},cursor:"pointer"}} />
+            {/* <Stack sx={{ mt: 5, alignItems: "center" }}>
               <img src={Logo} alt="logo" width="192px" height="54px" />
-            </Stack>
+            </Stack> */}
             <Typography
               id="modal-modal-title"
               variant="h6"
               component="h2"
               color="primary"
-              sx={{ mt: 3, color: "#413AE2", fontWeight: "bolder" }}
+              sx={{ color: "#413AE2", fontWeight: "bolder" , fontSize:"24px",marginTop:"20px"}}
               align="center"
               className="connectWalletMsg"
             >

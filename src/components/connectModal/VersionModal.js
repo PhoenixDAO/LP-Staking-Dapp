@@ -49,7 +49,7 @@ const VersionModal = ({ status, setStatus }) => {
           <div className="version-div">
             <div className="displayFlex">
               <div className="phnxDeposite">
-                <img className="version-Logo" src={Logo}></img>
+                <img className="version-Logo" style={{visibility:"hidden"}} src={Logo}></img>
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
