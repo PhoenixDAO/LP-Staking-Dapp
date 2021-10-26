@@ -33,14 +33,14 @@ import Notify from "../Notify";
 import { Link } from "react-router-dom";
 
 const style = {
-  greyBalance:{
+  greyBalance: {
     color: "#4E4E55",
   },
-  address:{
-    "& .Mui-disabled.Mui-disabled":{
+  address: {
+    "& .Mui-disabled.Mui-disabled": {
       color: "black !important",
-    }
-  }
+    },
+  },
 };
 
 export default function WalletSettings({
@@ -48,7 +48,7 @@ export default function WalletSettings({
   open2,
   handleClose2,
   deactivateWallet,
-  setTransactionModalStatus
+  setTransactionModalStatus,
 }) {
   const web3context = useWeb3React();
   const [open, setOpen] = React.useState(false);
@@ -73,7 +73,10 @@ export default function WalletSettings({
             </div>
             <div className="closeModalIcon">
               <span className="cursorPointer">
-                <CloseIcon sx={{transform:"scale(1.2)"}} onClick={handleClose} />
+                <CloseIcon
+                  sx={{ transform: "scale(1.2)" }}
+                  onClick={handleClose}
+                />
               </span>
             </div>
           </div>
@@ -88,7 +91,11 @@ export default function WalletSettings({
             Wallet
           </Typography>
           <br />
-          <Typography sx={{marginBottom:"10px", color:"#4E4E55"}} variant="body2" component="h2">
+          <Typography
+            sx={{ marginBottom: "10px", color: "#4E4E55" }}
+            variant="body2"
+            component="h2"
+          >
             YOUR ADDRESS
           </Typography>
           <TextField
@@ -96,7 +103,7 @@ export default function WalletSettings({
             fullWidth
             variant="outlined"
             disabled
-            sx={{marginBottom:"38px"}}
+            sx={{ marginBottom: "38px" }}
             value={web3context?.account}
             InputProps={{
               endAdornment: (
@@ -130,33 +137,55 @@ export default function WalletSettings({
             alignItems="center"
             mb={1.8}
           >
-            <Typography id="modal-modal-title" variant="body1" component="h2" style={{color:"#4E4E55"}}>
+            <Typography
+              id="modal-modal-title"
+              variant="body1"
+              component="h2"
+              style={{ color: "#4E4E55" }}
+            >
               PHNX BALANCE
             </Typography>
             <div className="rm-liq-phnx-eth-det">
-          <img src={PhnxLogo} style={{  height:"20px",
-             width: "20px", marginRight:"5px"}}></img>
-          <div style={style.greyBalance}>{balancePhnx}</div>
-        </div>
+              <img
+                src={PhnxLogo}
+                style={{ height: "20px", width: "20px", marginRight: "5px" }}
+              ></img>
+              <div style={style.greyBalance}>{balancePhnx}</div>
+            </div>
           </Stack>
           <Stack
             direction="row"
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography id="modal-modal-title" variant="body1" component="h2" style={{color:"#4E4E55"}}>
+            <Typography
+              id="modal-modal-title"
+              variant="body1"
+              component="h2"
+              style={{ color: "#4E4E55" }}
+            >
               ETH BALANCE
             </Typography>
             <div className="rm-liq-phnx-eth-det">
-          <img src={EthLogo} style={{  height:"20px",
-  width: "20px", marginRight:"5px"}}></img>
-          <div style={style.greyBalance}>{balanceEth}</div>
-        </div>
+              <img
+                src={EthLogo}
+                style={{ height: "20px", width: "20px", marginRight: "5px" }}
+              ></img>
+              <div style={style.greyBalance}>{balanceEth}</div>
+            </div>
           </Stack>
           <br />
-          <div >
-        <a target="_blank" href={`${ETHERSCAN_ACCOUNT_LINK_RINKBY}${web3context.account}`} style={{textDecoration:'none' ,color:'#413ae2', cursor:"pointer"}}>
-        <div className="displayFlex etherScan">
+          <div>
+            <a
+              target="_blank"
+              href={`${ETHERSCAN_ACCOUNT_LINK_RINKBY}${web3context.account}`}
+              style={{
+                textDecoration: "none",
+                color: "#413ae2",
+                cursor: "pointer",
+              }}
+            >
+              <div className="displayFlex etherScan">
                 <div className="cursorPointer">
                   <a
                     href={ETHERSCAN_ACCOUNT_LINK_RINKBY + web3context.active}
@@ -182,8 +211,8 @@ export default function WalletSettings({
                   </svg>
                 </div>
               </div>
-        </a>
-      </div>
+            </a>
+          </div>
           <br />
 
           <button
@@ -237,21 +266,27 @@ export default function WalletSettings({
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleOpen} style={{margin:'7px 5px',fontSize:'18px'}}>
-          <AccountBalanceWalletIcon sx={{ mr: 1, color:"#73727D" }}/>
-          <span style={{color:"#4E4E55"}}>
-          Wallet
-          </span>
-        </MenuItem>
-        <MenuItem style={{margin:'7px 5px',fontSize:'18px'}} 
-        // onClick={()=>{setTransactionModalStatus(true)}}
+        <MenuItem
+          onClick={handleOpen}
+          style={{ margin: "7px 5px", fontSize: "18px" }}
         >
-          <CompareArrowsIcon sx={{ mr: 1 , color:"#73727D"}} />
-          <span style={{color:"#4E4E55"}}>
-          Transactions
-          </span>
+          <AccountBalanceWalletIcon sx={{ mr: 1, color: "#73727D" }} />
+          <span style={{ color: "#4E4E55" }}>Wallet</span>
         </MenuItem>
-        <MenuItem sx={{ color: "#F43C3C" }} onClick={deactivateWallet} style={{margin:'7px 5px',fontSize:'18px'}}>
+        <MenuItem
+          style={{ margin: "7px 5px", fontSize: "18px" }}
+          onClick={() => {
+            setTransactionModalStatus(true);
+          }}
+        >
+          <CompareArrowsIcon sx={{ mr: 1, color: "#73727D" }} />
+          <span style={{ color: "#4E4E55" }}>Transactions</span>
+        </MenuItem>
+        <MenuItem
+          sx={{ color: "#F43C3C" }}
+          onClick={deactivateWallet}
+          style={{ margin: "7px 5px", fontSize: "18px" }}
+        >
           <LogoutIcon sx={{ mr: 1 }} />
           Disconnect
         </MenuItem>

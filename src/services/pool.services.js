@@ -560,21 +560,15 @@ export const calculateLpToken = async (
   );
   console.log("1234");
 
-  amount0 = Web3.utils.toWei(
-    fixedWithoutRounding(parseFloat(amount0).toFixed(19), 18).toString()
-  );
-  amount1 = Web3.utils.toWei(
-    fixedWithoutRounding(amount1.toFixed(20), 18).toFixed(18).toString()
-  );
+  amount0 = Web3.utils.toWei(fixedWithoutRounding(amount0, 18).toString());
+  amount1 = Web3.utils.toWei(fixedWithoutRounding(amount1, 18).toString());
 
   const liquidity = Math.min(
     (amount0 * _totalSupply) / _reserve0,
     (amount1 * _totalSupply) / _reserve1
   );
-  console.log(liquidity, "1234");
-  console.log(setphnxethburn, "aaa");
+  // console.log(liquidity, "1234");
+  // console.log(setphnxethburn, "aaa");
   console.log(fixedWithoutRounding(liquidity, 18).toString(), "ether");
-  setphnxethburn(
-    Web3.utils.fromWei(fixedWithoutRounding(liquidity, 18).toString(), "ether")
-  );
+  setphnxethburn((liquidity * 0.000000000000000001).toString());
 };
