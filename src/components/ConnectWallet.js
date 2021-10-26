@@ -34,10 +34,9 @@ import WalletSettings from "./walletSettings";
 import axios from "axios";
 import { toast } from "react-toastify";
 import Notify from "./Notify";
-import TransactionModal from '../components/connectModal/TransactionsModal';
+import TransactionsModal from "../components/connectModal/TransactionsModal";
 
 import Web3 from "web3";
-
 
 const style = {
   modalBox: {
@@ -92,7 +91,7 @@ export default function ConnectWallet({
   const web3context = useWeb3React();
   const [reserveUSD, setReserveUSD] = useState(0);
 
-  const[TransactionModalStatus,setTransactionModalStatus]=useState(false);
+  const [TransactionModalStatus, setTransactionModalStatus] = useState(false);
 
   const contractPhnxDao = useSelector(
     (state) => state.contractReducer.contractPhnxDao
@@ -121,7 +120,9 @@ export default function ConnectWallet({
     web3context;
 
   const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const [transactionsData, setTransactionsData] = useState();
 
   const open2 = Boolean(anchorEl);
   const handleClick2 = (event) => {
@@ -256,6 +257,37 @@ export default function ConnectWallet({
     getTotalLiquidity();
   }, []);
 
+  useEffect(() => {
+    if (!account) {
+      return;
+    }
+    const getTotalLiquidity = async () => {
+      await axios({
+        url: "https://api.studio.thegraph.com/query/6668/phoenix/v0.0.9",
+        method: "post",
+        data: {
+          query: `
+          {
+            users(where:{owner:"${account}"}){
+              amount0,
+              amount1,
+              type,
+              owner,
+              id
+            }
+          }
+          `,
+        },
+      })
+        .then((response) => {
+          console.log("transactions", response.data.data.users);
+          setTransactionsData(response.data.data.users);
+        })
+        .catch((err) => console.error(err));
+    };
+    getTotalLiquidity();
+  }, [account]);
+
   return (
     <div
       style={{ width: "fit-content", display: "flex", alignItems: "center" }}
@@ -303,30 +335,22 @@ export default function ConnectWallet({
               alignItems: "center",
             }}
           >
-             <img
+            <img
               src={PhnxLogo}
               alt="PhnxLogo"
               className="connect-wallet-btn-img"
             ></img>
-            {millify(balancePhnx, {
-  precision: 3,
-  lowercase: true
-})}
-            &nbsp;
-            <span style={{marginBottom:"4px"}}>
-              |
-              </span>
-             &nbsp;
-           
+            {balancePhnx}
+            &nbsp; | &nbsp;
             <img
               src={EthLogo}
               alt="EthLogo"
               className="connect-wallet-btn-img"
             ></img>
-             {millify(balanceEth, {
-  precision: 3,
-  lowercase: true
-})}
+            {millify(balanceEth, {
+              precision: 3,
+              lowercase: true,
+            })}
           </div>
         </button>
       ) : null}
@@ -539,12 +563,11 @@ export default function ConnectWallet({
         setTransactionModalStatus={setTransactionModalStatus}
       />
 
-      <TransactionModal
+      <TransactionsModal
         status={TransactionModalStatus}
         changeStatus={setTransactionModalStatus}
-        
-      ></TransactionModal>
-
+        transactions={transactionsData}
+      ></TransactionsModal>
     </div>
   );
 }
