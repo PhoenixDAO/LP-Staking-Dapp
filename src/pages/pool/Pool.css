@@ -63,7 +63,7 @@ p.phnx-heading {
   
 }
 p.phnx-subheading {
-  font-size: 16px;
+  font-size: 18px;
   color: #565656;
 }
 img.img-landing-logo {
@@ -174,7 +174,7 @@ img.img-landing-logo {
   }
 
   p.phnx-subheading {
-    font-size: 15px;
+    font-size: 18px;
   }
   p.phnx-heading {
     font-size: 30px;
@@ -259,7 +259,7 @@ img.img-landing-logo {
 @media (max-width: 645px) {
 
   p.phnx-subheading {
-    font-size: 14px;
+    font-size: 15px;
   }
   p.phnx-heading {
     font-size: 23px;

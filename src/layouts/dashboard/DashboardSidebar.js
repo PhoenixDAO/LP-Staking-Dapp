@@ -153,7 +153,9 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
                 alt="icon"
               ></img>
             </ListItemIcon>
-            <ListItemText primary={capitalizeFirstLetter(text)} />
+            <ListItemText sx={{"& .MuiListItemText-primary":{
+              fontWeight:"900"
+            }}} primary={capitalizeFirstLetter(text)} />
           </ListItem>
         ))}
       </List>

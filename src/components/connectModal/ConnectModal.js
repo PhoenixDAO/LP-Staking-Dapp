@@ -103,7 +103,7 @@ const ConnectModal = ({
                 </span>
               </div>
             </div>
-            <div className="add-liq-heading">YOU WILL RECIEVE</div>
+            <div className="add-liq-heading">YOU WILL RECEIVE</div>
 
             <div
               className="add-liq-ps-div"

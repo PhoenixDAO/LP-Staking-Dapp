@@ -313,7 +313,10 @@ export default function ConnectWallet({
   lowercase: true
 })}
             &nbsp;
-            | &nbsp;
+            <span style={{marginBottom:"4px"}}>
+              |
+              </span>
+             &nbsp;
            
             <img
               src={EthLogo}

@@ -56,6 +56,7 @@ const maxBigValue = new BigNumber(maxlpValue);
       setlpValueAct(maxlpValue);
     }else{
       setlpValue(e.target.value);
+      setlpValueAct(e.target.value);
     }
     console.log("target value: ", e.target.value);    
     console.log("lpvalue value: ", lpValue);
