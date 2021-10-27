@@ -72,8 +72,9 @@
   width: 100%;
   background-color: #413ae2;
   text-align: center;
-  font-size: medium;
+  font-size: 18px;
   font-weight: 500;
+  height: 55px;
   color: #fff;
   border-radius: 9px;
   border: 0;
@@ -86,9 +87,10 @@
   width: 100%;
   background-color: #413ae2;
   text-align: center;
-  font-size: medium;
+  font-size: 18px;
   font-weight: bold;
   color: #fff;
+  height: 55px;
   border-radius: 9px;
   border: 0;
   padding: 11px;

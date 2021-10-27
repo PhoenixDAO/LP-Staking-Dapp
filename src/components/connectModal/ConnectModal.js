@@ -60,8 +60,8 @@ const ConnectModal = ({
     const _reserve0 = getReserves._reserve0;
     const _reserve1 = getReserves._reserve1;
 
-    amount0 = Web3.utils.toWei(amount0.toFixed(4).toString());
-    amount1 = Web3.utils.toWei(amount1.toFixed(4).toString());
+    amount0 = Web3.utils.toWei(fixedWithoutRounding(amount0, 18).toString());
+    amount1 = Web3.utils.toWei(fixedWithoutRounding(amount1, 18).toString());
 
     const liquidity = Math.min(
       (amount0 * _totalSupply) / _reserve0,

@@ -178,7 +178,7 @@ const VersionModal = ({ status, setStatus }) => {
         <div className="version-phnx-eth-con">1 PHNX = 0.2335 ETH</div>
         <div className="version-phnx-eth-con">1 ETH = 0.3456665 PHNX</div>
       </div> */}
-
+            <a href="https://staking.phoenixdao.io/v1" style={{textDecoration:"none"}}>
             <Button
               disabled={!checked}
               sx={{
@@ -209,6 +209,7 @@ const VersionModal = ({ status, setStatus }) => {
             >
               Continue to V1
             </Button>
+            </a>
           </div>
         </Modal>
       </div>
