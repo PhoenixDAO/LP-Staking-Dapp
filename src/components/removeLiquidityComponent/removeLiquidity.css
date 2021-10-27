@@ -117,10 +117,11 @@
   width: 100%;
   background-color: #413AE2;
   color: #fff;
-  font-size: 15px;
+  font-size: 18px;
   text-align: center;
   border: none;
-  border-radius: 5px;
+  height: 55px;
+  border-radius: 9px;
   padding: 15px;
   margin: 13px 0px;
   margin-top: 0px;
