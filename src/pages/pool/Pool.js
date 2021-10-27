@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useWeb3React } from "@web3-react/core";
 import PoolCss from "./Pool.css";
 import handsImg from "../../assets/handPic.svg";
+import Web3 from "web3";
 import landingImg from "../../assets/landingScreenLogo.svg";
 import { Button } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,12 +16,26 @@ import millify from "millify";
 const Pool = () => {
   const { account, active } = useWeb3React();
   // const dispatch = useDispatch();
+  const contractUniswapPair = useSelector(
+    (state) => state.contractReducer.contractUniswapPair
+  );
   const [reserveUSD, setReserveUSD] = useState(0);
-  const balanceEth = useSelector((state) => state.localReducer.balanceEth);
+  const [tokenSupply, setTokenSupply] = useState(0);
+  const userInfo = useSelector((state) => state.localReducer.userInfo);
   const poolPosition = useSelector(
     (state) => state.contractReducer.poolPosition
   );
-  const [lpValue, setlpValue] = useState(0.0);
+  const [stakedLp, setstakedLp] = useState(0.0);
+  useEffect(() => {
+    if (contractUniswapPair) {
+      GetTokenSupply();
+    }
+  }, [contractUniswapPair]);
+
+  const GetTokenSupply = async () => {
+    let ts = await contractUniswapPair.methods.totalSupply().call();
+    setTokenSupply(Web3.utils.fromWei(ts));
+  };
   useEffect(() => {
     const getTotalLiquidity = async () => {
       await axios({
@@ -47,19 +62,19 @@ const Pool = () => {
     getTotalLiquidity();
   }, []);
   useEffect(()=>{
-    if(active && account && poolPosition){
-      setlpValue(poolPosition.lp);
+    if(active && account && userInfo){
+      setstakedLp(userInfo.amount);
     }
-  },[account,poolPosition]);
+  },[account,userInfo]);
 
   return (
     <div>
-      {console.log("lp tokens: ", lpValue)}
+      {console.log("lp tokens: ", stakedLp)}
       <div className="container-div">
         <div className="gradient-div" style={{ fontWeight: "bold" }}>
           {account ? (
             // <p className="connect-wallet-txt">
-            //   {(lpValue != 0)?`You have ${fixedWithoutRounding(lpValue,6)} Lp Token`:"You currently do not have any LP Token"},{" "}
+            //   {(stakedLp != 0)?`You have ${fixedWithoutRounding(stakedLp,6)} Lp Token`:"You currently do not have any LP Token"},{" "}
             //   <Link
             //     to="/liquidity"
             //     style={{ textDecoration: "none", color: "#413AE2" }}
@@ -77,13 +92,14 @@ const Pool = () => {
                       className="cardPara"
                     >
                       &#36;
-                      {poolPosition != null
-                        ? lpValue==0?"0.00":millify(
-                            fixedWithoutRounding(
-                              parseFloat(poolPosition.poolPerc) *
-                                (parseFloat(reserveUSD) / 100),
-                              4
-                            ),
+                      {userInfo != null
+                        ? stakedLp==0?"0.00":tokenSupply&&millify(
+                          (
+                            parseFloat(reserveUSD / (tokenSupply)) *
+                            (userInfo.amount
+                              ? parseFloat(Web3.utils.fromWei(userInfo.amount))
+                              : 0)
+                          ).toFixed(3) ,
                             {
                               precision: 3,
                               lowercase: true,
@@ -104,8 +120,8 @@ const Pool = () => {
                         marginLeft: "10px",
                       }}
                     >
-                      ({lpValue==0?"0.00":
-                    millify(fixedWithoutRounding(lpValue, 6), {
+                      ({userInfo.amount==0 || !userInfo.amount ?"0.00":
+                    millify(  fixedWithoutRounding(parseFloat(Web3.utils.fromWei(userInfo.amount)),6), {
                         precision: 3,
                         lowercase: true,
                       })}{" "}
@@ -116,7 +132,7 @@ const Pool = () => {
               </div>
             </div>
           ) : (
-            <p className="connect-wallet-txt">
+            <p className="connect-wallet-txt" style={{fontSize:"20px", width:"60%"}}>
               Connect your wallet to provide liquidity and start earning PHNX
               tokens
             </p>
