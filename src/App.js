@@ -14,10 +14,11 @@ const App = () => {
   const [verified, setVerified] = useState(false);
 
   useEffect(() => {
-    let pass = window.prompt("Enter Password.");
-    if (pass == "xordphnx") {
-      setVerified(true);
-    }
+    // let pass = window.prompt("Enter Password.");
+    // if (pass == "xordphnx") {
+    //   setVerified(true);
+    // }
+    setVerified(true);
   },[]);
 
   return (
@@ -28,10 +29,9 @@ const App = () => {
             {verified ? <Router /> : null}
             <ToastContainer
               style={{
-                width: "400px",
-                borderRadius: "20px",
-                textAlign: "center",
+
               }}
+              className="toastCustomStyle"
             />
           </Web3ReactProvider>
         </PersistGate>

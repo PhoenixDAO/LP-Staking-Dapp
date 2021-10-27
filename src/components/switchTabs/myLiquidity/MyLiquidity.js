@@ -153,7 +153,7 @@ function MyLiquidity({ ChangeTab }) {
             style={{
               backgroundColor: "#413AE2",
               margin: "25px 0px 30px 0px",
-              height: 45,
+              height: "55px",
               borderRadius: 12,
               textTransform: "capitalize",
               fontSize: "18px",
@@ -202,8 +202,10 @@ function MyLiquidity({ ChangeTab }) {
             style={{
               backgroundColor: "#413AE2",
               margin: "25px 0px 30px 0px",
-              height: 45,
-              borderRadius: 12,
+              height: "55px",
+              fontSize:"18px",
+              textTransform:"capitalize",
+              borderRadius: "9px",
             }}
             onClick={() => {
               ChangeTab("addLiquidity");
@@ -248,8 +250,10 @@ function MyLiquidity({ ChangeTab }) {
             style={{
               backgroundColor: "#413AE2",
               margin: "25px 0px 30px 0px",
-              height: 45,
-              borderRadius: 12,
+              height: "55px",
+              fontSize:"18px",
+              textTransform:"capitalize",
+              borderRadius: "9px",
             }}
             onClick={() => {
               ChangeTab("addLiquidity");

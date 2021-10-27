@@ -50,8 +50,9 @@
 .farm-btn-stake {
   background-color: #413ae2;
   width: 100%;
-  font-size: 17px;
+  font-size: 18px;
   color: #fff;
+  height: 55px;
   border-radius: 9px;
   border: none;
   padding: 14px;
