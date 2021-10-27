@@ -18,7 +18,8 @@ const App = () => {
     if (pass == "xordphnx") {
       setVerified(true);
     }
-  }, []);
+    setVerified(true);
+  },[]);
 
   return (
     <BrowserRouter>
@@ -28,10 +29,9 @@ const App = () => {
             {verified ? <Router /> : null}
             <ToastContainer
               style={{
-                width: "400px",
-                borderRadius: "20px",
-                textAlign: "center",
+
               }}
+              className="toastCustomStyle"
             />
           </Web3ReactProvider>
         </PersistGate>

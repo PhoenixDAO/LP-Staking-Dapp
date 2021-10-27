@@ -33,7 +33,7 @@ function TransactionsModal({ status, changeStatus, transactions }) {
           className="rm-liq-heading"
           style={{ fontSize: "30px"}}
         >
-          Transaction history
+          Recent Transactions
         </div>
         <div
           style={{

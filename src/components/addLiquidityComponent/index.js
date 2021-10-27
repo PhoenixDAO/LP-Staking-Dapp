@@ -26,6 +26,7 @@ import TransactionSubmitted from "../connectModal/TransactionSubmitted";
 import SlippingTolerance from "../connectModal/SlippingTolerance";
 import SettingsLogo from "../../assets/settings.png";
 import { fixedWithoutRounding } from "../../utils/formatters";
+import BigNumber from "bignumber.js";
 
 const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const [ethValue, setEthValue] = useState("");
@@ -174,9 +175,12 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       let v = parseFloat(val);
       let total = parseFloat(reserve1) + v;
       console.log("res" + reserve1);
-      setPoolShare(((v / total) * 100).toFixed(3));
-      if (isMaxButton) {
-        setPhnxValue(fixedWithoutRounding(v, 6));
+
+      console.log("pool share: " + (new BigNumber(v / total) * 100));
+      setPoolShare((new BigNumber((v / total) * 100)).eq(0)?0.00:(new BigNumber((v / total) * 100)).lt(0.0001)?(((v / total) * 100).toFixed(7)):(((v / total) * 100).toFixed(4)));
+      if(isMaxButton){
+        setPhnxValue(fixedWithoutRounding(v,6));
+
         setActPhnxValue(v);
         setEthValue(fixedWithoutRounding(parseFloat(ethPerPhnx) * v || num, 6));
         setActEthValue(parseFloat(ethPerPhnx) * v || num);
@@ -201,8 +205,11 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       console.log("v", poolShare);
 
       setPoolShare((((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(3));
-      if (isMaxButton) {
-        setEthValue(fixedWithoutRounding(v, 6));
+
+      setPoolShare((new BigNumber(((parseFloat(phnxPerEth) * v) / total)  * 100)).eq(0)?0.00:(new BigNumber(((parseFloat(phnxPerEth) * v) / total)  * 100)).lt(0.0001)?((((parseFloat(phnxPerEth) * v) / total)  * 100).toFixed(7)):((((parseFloat(phnxPerEth) * v) / total)  * 100).toFixed(4)));
+      if(isMaxButton){
+        setEthValue(fixedWithoutRounding(v,6));
+
         setActEthValue(v);
         setPhnxValue(
           fixedWithoutRounding(parseFloat(phnxPerEth) * v || num, 6)
@@ -632,7 +639,7 @@ const styles = {
   btnAddLiquidity: {
     backgroundColor: "#413AE2",
     margin: "15px 0px 0px 0px",
-    height: 45,
+    height: 55,
     borderRadius: 12,
     textTransform: "capitalize",
     fontSize: 18,
