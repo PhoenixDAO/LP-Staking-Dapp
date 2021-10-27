@@ -3,6 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Logo from "../../assets/Logo.png";
 import Check from "../../assets/tick.png";
 import Share from "../../assets/share.png";
+import { conciseAddress, fixedWithoutRounding } from "../../utils/formatters";
 import Modal from "@mui/material/Modal";
 import "./ConfirmModal.css";
 import "./transactionsModal.css";
@@ -45,7 +46,7 @@ function TransactionsModal({ status, changeStatus, transactions }) {
           </span>
         </div>
         <div className="transactions-div">
-          {transactions ? (
+          {transactions && transactions.length>0 ? (
             transactions.map((e, i) => {
               return (
                 <div key={i}>
@@ -59,14 +60,36 @@ function TransactionsModal({ status, changeStatus, transactions }) {
                     </div>
 
                     <div>
-                      {e.type}
+                      {/* {e.type}
                       <br></br>
                       amount0: &nbsp;
                       {e.amount0 * 0.0000000000000000001}
                       <br></br>
                       amount1: &nbsp;
-                      {e.amount1 * 0.0000000000000000001}
-                      {/* : "Unstaked! Your earnings has been harvested to your wallet"} */}
+                      {e.amount1 * 0.0000000000000000001} */}
+                      {console.log(
+                        "hello e.type",
+                        e.type,
+                        typeof e.type,
+                        " e.amount: ",
+                        e.amount0,
+                        typeof e.amount0
+                      )}
+                      {e.type == "Deposit" && e.amount0 == "0"
+                        ? "Unstaked! Your earnings has been harvested to your wallet"
+                        : e.type == "Deposit" && e.amount0 != "0"
+                        ? "Your funds has been staked in the farm"
+                        : e.type == "Withdraw"
+                        ? "Your funds has been unstaked"
+                        : e.type == "addLiquidity"
+                        ? `Added ${fixedWithoutRounding(e.amount1 * 0.0000000000000000001,6)}PHNX and ${
+                          fixedWithoutRounding(e.amount0 * 0.0000000000000000001,6)
+                          }Eth`
+                        : e.type == "removeLiquidity"
+                        ? `Removed ${
+                          fixedWithoutRounding( e.amount1 * 0.0000000000000000001,6)
+                          }PHNX and ${fixedWithoutRounding(e.amount0 * 0.0000000000000000001,6)}Eth`
+                        : ""}
                     </div>
 
                     <div style={{ marginLeft: "auto" }}>
@@ -91,7 +114,9 @@ function TransactionsModal({ status, changeStatus, transactions }) {
             })
           ) : (
             <div>
-              <div className="trans-div-child">
+              <div className="trans-div-child">{
+                console.log("hello No transaction")
+              }
                 <div>
                   <img
                     alt=""

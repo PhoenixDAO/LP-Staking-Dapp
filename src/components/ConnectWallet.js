@@ -103,13 +103,8 @@ export default function ConnectWallet({
       if (preWallet == "metaMask") {
         activateWallet(injected);
       } else if (preWallet == "coinBase") {
-        // activateWallet(walletlink);
-        dispatch({
-          type: LOCAL_TYPES.RESET_ALL_LOCAL_REDUCER,
-        });
-        dispatch({
-          type: CONTRACT_TYPES.RESET_ALL_CONTRACT_REDUCER,
-        });
+        activateWallet(walletlink);
+        // deactivateWallet(true);
       } else if (preWallet == "walletConnect") {
         activateWallet(walletconnect);
       }
@@ -173,12 +168,21 @@ export default function ConnectWallet({
           true
         );
 
+        console.log("aaa", result);
+
         // console.log(result);
 
         handleClose();
         dispatch({ type: LOCAL_TYPES.CONNECT_USER });
         // ToastMsg("success", "You are connected to mainnet");
       } catch (e) {
+        window.localStorage.setItem("previousWallet", "");
+        console.log("aaa", e);
+        if (connector instanceof WalletLinkConnector) {
+          console.log("aaaaaaaaa2");
+    
+          await connector.close();
+        }
         const err = getErrorMessage(e);
         console.error("ERROR activateWallet -> ", err);
         toast(<Notify text={err} severity="success" />, {
@@ -189,15 +193,19 @@ export default function ConnectWallet({
     [web3context]
   );
 
-  const deactivateWallet = async () => {
+  const deactivateWallet = async (flag) => {
     window.localStorage.setItem("previousWallet", "");
-
+    console.log("aaaa", connector);
     await deactivate();
     console.log(web3context, "deactivateWallet", active);
     if (connector instanceof WalletConnectConnector) {
+      console.log("aaaaaaaaa1");
       await connector.close();
     }
+
     if (connector instanceof WalletLinkConnector) {
+      console.log("aaaaaaaaa2");
+
       await connector.close();
     }
 
@@ -271,16 +279,17 @@ export default function ConnectWallet({
     }
     const getTotalLiquidity = async () => {
       await axios({
-        url: "https://api.studio.thegraph.com/query/6668/phoenix/v0.0.11",
+        url: "https://api.thegraph.com/subgraphs/name/hammadghazi/phoenix",
         method: "post",
         data: {
           query: `
           {
-            users(where:{owner:"${account}"} orderBy: time){
+            users(where:{owner:"${account}"} orderBy:time orderDirection:desc){
               amount0,
               amount1,
               type,
               owner,
+              time,
               id
             }
           }
@@ -289,7 +298,7 @@ export default function ConnectWallet({
       })
         .then((response) => {
           console.log("transactions", response.data.data.users);
-          setTransactionsData(response.data.data.users.reverse());
+          setTransactionsData(response.data.data.users);
         })
         .catch((err) => console.error(err));
     };
@@ -343,36 +352,42 @@ export default function ConnectWallet({
               alignItems: "center",
             }}
           >
-            <div style={{display:"flex", alignItems:"center"}}>
-             <img
-              src={PhnxLogo}
-              alt="PhnxLogo"
-              className="connect-wallet-btn-img"
-            ></img>
-            
-            {millify(balancePhnx, {
-  precision: 3,
-  lowercase: true
-})}</div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <img
+                src={PhnxLogo}
+                alt="PhnxLogo"
+                className="connect-wallet-btn-img"
+              ></img>
+
+              {millify(balancePhnx, {
+                precision: 3,
+                lowercase: true,
+              })}
+            </div>
             &nbsp;
-            <div style={{display:"flex", alignItems:"center"}}>
-              
-              <svg width="4" height="18" viewBox="0 0 2 21" fill="#000000" xmlns="http://www.w3.org/2000/svg">
-<path d="M1 0L1 21" stroke="#000000"/>
-</svg>
-              </div>
-             &nbsp;
-           <div style={{display:"flex", alignItems:"center"}}>
-            <img
-              src={EthLogo}
-              alt="EthLogo"
-              className="connect-wallet-btn-img"
-            ></img>
-             {millify(balanceEth, {
-  precision: 3,
-  lowercase: true
-})}
-</div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <svg
+                width="4"
+                height="18"
+                viewBox="0 0 2 21"
+                fill="#000000"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M1 0L1 21" stroke="#000000" />
+              </svg>
+            </div>
+            &nbsp;
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <img
+                src={EthLogo}
+                alt="EthLogo"
+                className="connect-wallet-btn-img"
+              ></img>
+              {millify(balanceEth, {
+                precision: 3,
+                lowercase: true,
+              })}
+            </div>
           </div>
         </button>
       ) : null}
@@ -422,7 +437,20 @@ export default function ConnectWallet({
       >
         <Box sx={style.modal} className="modal-scroll">
           <div style={style.modalBox}>
-          <CloseIcon className="icon-btn" onClick={handleClose} sx={{transform:"scale(1.2)",marginRight:"25px",marginTop:"15px","@media (max-width:500px)":{ marginRight:"15px",marginTop:"05px"},cursor:"pointer"}} />
+            <CloseIcon
+              className="icon-btn"
+              onClick={handleClose}
+              sx={{
+                transform: "scale(1.2)",
+                marginRight: "25px",
+                marginTop: "15px",
+                "@media (max-width:500px)": {
+                  marginRight: "15px",
+                  marginTop: "05px",
+                },
+                cursor: "pointer",
+              }}
+            />
             {/* <Stack sx={{ mt: 5, alignItems: "center" }}>
               <img src={Logo} alt="logo" width="192px" height="54px" />
             </Stack> */}
@@ -431,7 +459,12 @@ export default function ConnectWallet({
               variant="h6"
               component="h2"
               color="primary"
-              sx={{ color: "#413AE2", fontWeight: "bolder" , fontSize:"24px",marginTop:"20px"}}
+              sx={{
+                color: "#413AE2",
+                fontWeight: "bolder",
+                fontSize: "24px",
+                marginTop: "20px",
+              }}
               align="center"
               className="connectWalletMsg"
             >
@@ -439,7 +472,7 @@ export default function ConnectWallet({
             </Typography>
             <Stack spacing={2} sx={{ mt: 5 }}>
               <Item
-                onClick={() => {
+                onClick={async () => {
                   !active &&
                     !(connector instanceof InjectedConnector) &&
                     activateWallet(injected);
@@ -466,7 +499,7 @@ export default function ConnectWallet({
               <Divider style={{ marginTop: "5px" }} />
               <Item
                 style={{ marginTop: "5px", textAlign: "left" }}
-                onClick={() => {
+                onClick={async () => {
                   !active &&
                     !(connector instanceof WalletConnectConnector) &&
                     activateWallet(walletconnect);
@@ -496,7 +529,7 @@ export default function ConnectWallet({
               <Divider style={{ marginTop: "5px" }} />
               <Item
                 style={{ marginTop: "5px", textAlign: "left" }}
-                onClick={() => {
+                onClick={async () => {
                   !active &&
                     !(connector instanceof WalletLinkConnector) &&
                     activateWallet(walletlink);

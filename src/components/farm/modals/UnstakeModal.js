@@ -220,7 +220,7 @@ const maxBigValue = new BigNumber(maxlpValue);
         className="get-phnx-eth-lp"
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "14px" }}
       >
-        <Link to="/liquidity" style={{textDecoration:'none',color:'#413ae2'}}>
+        <Link to="/v2/liquidity" style={{textDecoration:'none',color:'#413ae2'}}>
           Get PHNX-ETH LP{" "} &nbsp;
           <img src={ShareLogo}  style={{height:"12px"}}></img>
         </Link>
