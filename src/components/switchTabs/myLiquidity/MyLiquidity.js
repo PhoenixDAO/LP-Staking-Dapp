@@ -81,7 +81,7 @@ function MyLiquidity({ ChangeTab }) {
   };
 
   useEffect(() => {
-    // console.log(poolPosition.lp,'aaa');
+    console.log("aaa", poolPosition);
     if (contractUniswapPair) {
       console.log("asdasdasdasdasdasdads");
       handleCheckApprovalUniswapPairAction(setAllowance);
@@ -382,7 +382,6 @@ function MyLiquidity({ ChangeTab }) {
         slippageValue={slippageRemoveLiquidity}
         slippageType="remove"
       />
-      
     </div>
   );
 }

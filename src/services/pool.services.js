@@ -142,12 +142,15 @@ export const getPoolPosition = async (web3context, contractUniswapPair) => {
 
   let _poolPercentage = _balance.dividedBy(_totalSupply).multipliedBy(100);
 
+  BigNumber.config({ ROUNDING_MODE: 0 });
+
   let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot();
   let _token1 = _balance.pow(2).dividedBy(_token0);
 
   const conv = new BigNumber("1e+18");
 
   _balance = _balance.dividedBy(conv);
+
   _token0 = _token0.dividedBy(conv);
   _token1 = _token1.dividedBy(conv);
 
@@ -165,9 +168,9 @@ export const getPoolPosition = async (web3context, contractUniswapPair) => {
 
   return {
     lp: _balance.toString(), //.toFixed(2),
-    poolPerc: fixedWithoutRounding(_poolPercentage, 18),
-    eth: fixedWithoutRounding(_token1, 18),
-    phnx: fixedWithoutRounding(_token0, 18),
+    poolPerc: fixedWithoutRounding(_poolPercentage, 19),
+    eth: fixedWithoutRounding(_token0, 18), //1
+    phnx: fixedWithoutRounding(_token1, 18), //0
   };
 };
 

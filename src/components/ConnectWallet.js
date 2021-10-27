@@ -357,7 +357,7 @@ export default function ConnectWallet({
           console.log("transactions", response.data.data.users);
           setTransactionsData(response.data.data.users);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.error("transaction error:", err));
     };
     getTotalLiquidity();
   }, [account]);
