@@ -85,9 +85,7 @@ const RemoveLiquidityModaL = ({
   };
 
   const _handleRemoveLiquidity = async (handleMainClose) => {
-
-    console.log('%',selectedPercentage)
-
+    console.log("%", selectedPercentage);
 
     settransactionProcessModal(true);
     try {
@@ -115,16 +113,14 @@ const RemoveLiquidityModaL = ({
   };
 
   const handlePercentageInput = (e) => {
-    console.log('%',e.target.value)
+    console.log("%", e.target.value);
     if (e.target.value === "" || isNaN(e.target.value)) {
       setSelectedPercentage(parseInt(0));
     } else if (e.target.value > 100) {
       setSelectedPercentage(100);
     } else {
       setSelectedPercentage(parseInt(e.target.value));
-
     }
-
   };
 
   const setTxModalOpen = () => {
@@ -152,6 +148,8 @@ const RemoveLiquidityModaL = ({
     if (!poolPosition) {
       return;
     }
+
+    console.log("poolposition111:", poolPosition);
     const ethValue = (poolPosition.eth * (selectedPercentage / 100)).toString();
     const phnxValue =
       parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();
@@ -162,13 +160,18 @@ const RemoveLiquidityModaL = ({
     if (selectedPercentage == 100) {
       setphnxethburn(poolPosition.lp);
     } else {
-      _handleCalculateLpToken(ethValue, phnxValue);
+      // _handleCalculateLpToken(ethValue, phnxValue);
+      setphnxethburn((poolPosition.lp * (selectedPercentage / 100)).toString());
     }
   }, [selectedPercentage, poolPosition]);
 
   return (
     <div className="rm-liq-div">
-      <img className="rm-liq-Logo" style={{visibility:"hidden"}}  src={Logo}></img>
+      <img
+        className="rm-liq-Logo"
+        style={{ visibility: "hidden" }}
+        src={Logo}
+      ></img>
       <div className="rm-liq-heading">Remove PHNX-ETH Liquidity</div>
 
       <div

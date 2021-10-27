@@ -41,7 +41,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const [approveStatus, setApproveStatus] = useState(false);
 
-  const[gasPrice,setGasPrice] = useState(0.001);
+  const [gasPrice, setGasPrice] = useState(0.001);
 
   // const [allowance, setAllowance] = useState(0);
 
@@ -168,25 +168,26 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   };
 
   const OnChangeHandler = (val, tokenName, isMaxButton) => {
-    if(val<0){
+    if (val < 0) {
       return;
     }
     if (tokenName === "phnx") {
       let v = parseFloat(val);
       let total = parseFloat(reserve1) + v;
       console.log("res" + reserve1);
+
       console.log("pool share: " + (new BigNumber(v / total) * 100));
       setPoolShare((new BigNumber((v / total) * 100)).eq(0)?0.00:(new BigNumber((v / total) * 100)).lt(0.0001)?(((v / total) * 100).toFixed(7)):(((v / total) * 100).toFixed(4)));
       if(isMaxButton){
         setPhnxValue(fixedWithoutRounding(v,6));
+
         setActPhnxValue(v);
-        setEthValue(fixedWithoutRounding(parseFloat(ethPerPhnx) * v || num,6));
-        setActEthValue(parseFloat(ethPerPhnx) * v || num)
-      }
-      else{
+        setEthValue(fixedWithoutRounding(parseFloat(ethPerPhnx) * v || num, 6));
+        setActEthValue(parseFloat(ethPerPhnx) * v || num);
+      } else {
         setPhnxValue(v);
         setActPhnxValue(v);
-        setActEthValue(parseFloat(ethPerPhnx) * v || num)
+        setActEthValue(parseFloat(ethPerPhnx) * v || num);
         setEthValue(parseFloat(ethPerPhnx) * v || num);
       }
 
@@ -204,17 +205,20 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       console.log("v", poolShare);
 
       setPoolShare((((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(3));
+
       setPoolShare((new BigNumber(((parseFloat(phnxPerEth) * v) / total)  * 100)).eq(0)?0.00:(new BigNumber(((parseFloat(phnxPerEth) * v) / total)  * 100)).lt(0.0001)?((((parseFloat(phnxPerEth) * v) / total)  * 100).toFixed(7)):((((parseFloat(phnxPerEth) * v) / total)  * 100).toFixed(4)));
       if(isMaxButton){
         setEthValue(fixedWithoutRounding(v,6));
+
         setActEthValue(v);
-        setPhnxValue(fixedWithoutRounding(parseFloat(phnxPerEth) * v || num,6));
-        setActPhnxValue(parseFloat(phnxPerEth) * v || num)
-      }
-      else{
+        setPhnxValue(
+          fixedWithoutRounding(parseFloat(phnxPerEth) * v || num, 6)
+        );
+        setActPhnxValue(parseFloat(phnxPerEth) * v || num);
+      } else {
         setPhnxValue(parseFloat(phnxPerEth) * v || num);
         setActPhnxValue(parseFloat(phnxPerEth) * v || num);
-        setActEthValue(v)
+        setActEthValue(v);
         setEthValue(v);
       }
       // setEthValue(v);
@@ -252,9 +256,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     settransactionConfirmModal(false);
   };
 
-
-
-
   const ETH_STATION = "https://ethgasstation.info/json/ethgasAPI.json";
 
   const getCurrentGasPrices = async () => {
@@ -266,21 +267,14 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         medium: response.average / 10,
         high: response.fastest / 10,
       };
-      console.log(prices,'gas fee')
-      setGasPrice(prices.high*0.000000001);
-    } catch (e) {
-
-    }
+      console.log(prices, "gas fee");
+      setGasPrice(prices.high * 0.000000001);
+    } catch (e) {}
   };
 
-
-  useEffect(()=>{
-
-    getCurrentGasPrices()
-
-  },[])
-
-
+  useEffect(() => {
+    getCurrentGasPrices();
+  }, []);
 
   return (
     <Box sx={styles.containerStyle} className="modal-scroll">
@@ -400,7 +394,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available ETH:</Typography>
                 <Typography style={styles.txtAmount}>
-                  {balanceEth=="0"?"0.0":balanceEth} ETH
+                  {balanceEth == "0" ? "0.0" : balanceEth} ETH
                 </Typography>
               </div>
               <div className="wrapper-input">
@@ -423,13 +417,12 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                       <IconButton
                         style={styles.iconBtn}
                         onClick={() => {
-                          console.log('asdasdasdasd')
-                          console.log(gasPrice,'asdasdasd')
+                          console.log("asdasdasdasd");
+                          console.log(gasPrice, "asdasdasd");
 
-                          if(balanceEth-gasPrice>0){
-                            OnChangeHandler(balanceEth-gasPrice, "eth",true);
+                          if (balanceEth - gasPrice > 0) {
+                            OnChangeHandler(balanceEth - gasPrice, "eth", true);
                           }
-
                         }}
                       >
                         MAX
@@ -485,7 +478,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               backgroundColor:
                 loading ||
                 phnxValue > balancePhnx ||
-                ethValue > (balanceEth-gasPrice) ||
+                ethValue > balanceEth - gasPrice ||
                 lowValue ||
                 phnxValue === 0 ||
                 ethValue === 0 ||
@@ -497,7 +490,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             disabled={
               loading ||
               phnxValue > balancePhnx ||
-              ethValue > (balanceEth-gasPrice) ||
+              ethValue > balanceEth - gasPrice ||
               lowValue ||
               phnxValue === 0 ||
               ethValue === 0 ||
@@ -511,7 +504,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             phnxValue == 0 ||
             ethValue == 0
               ? "Enter an amount"
-              : phnxValue > balancePhnx || ethValue > (balanceEth-gasPrice)
+              : phnxValue > balancePhnx || ethValue > balanceEth - gasPrice
               ? "Insufficient Balance"
               : lowValue
               ? "Low Value"

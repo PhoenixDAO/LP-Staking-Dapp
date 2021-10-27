@@ -14,10 +14,10 @@ const App = () => {
   const [verified, setVerified] = useState(false);
 
   useEffect(() => {
-    // let pass = window.prompt("Enter Password.");
-    // if (pass == "xordphnx") {
-    //   setVerified(true);
-    // }
+    let pass = window.prompt("Enter Password.");
+    if (pass == "xordphnx") {
+      setVerified(true);
+    }
     setVerified(true);
   },[]);
 
