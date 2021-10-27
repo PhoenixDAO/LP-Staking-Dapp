@@ -103,8 +103,34 @@ export default function ConnectWallet({
       if (preWallet == "metaMask") {
         activateWallet(injected);
       } else if (preWallet == "coinBase") {
-        activateWallet(walletlink);
+        // activateWallet(walletlink);
         // deactivateWallet(true);
+
+        window.localStorage.removeItem(
+          "-walletlink:https://www.walletlink.org:version"
+        );
+        window.localStorage.removeItem(
+          "-walletlink:https://www.walletlink.org:session:id"
+        );
+        window.localStorage.removeItem(
+          "-walletlink:https://www.walletlink.org:session:secret"
+        );
+        window.localStorage.removeItem(
+          "-walletlink:https://www.walletlink.org:session:linked"
+        );
+        window.localStorage.removeItem(
+          "-walletlink:https://www.walletlink.org:walletUsername"
+        );
+        window.localStorage.removeItem(
+          "-walletlink:https://www.walletlink.org:DefaultChainId"
+        );
+        window.localStorage.removeItem(
+          "-walletlink:https://www.walletlink.org:Addresses"
+        );
+
+        window.localStorage.removeItem(
+          "-walletlink:https://www.walletlink.org:IsStandaloneSigning"
+        );
       } else if (preWallet == "walletConnect") {
         activateWallet(walletconnect);
       }
@@ -162,7 +188,8 @@ export default function ConnectWallet({
           connector
             ? connector
             : new InjectedConnector({
-                supportedChainIds: [1, 4],
+                // supportedChainIds: [1, 4],
+                supportedChainIds: [1],
               }),
           undefined,
           true
@@ -177,13 +204,43 @@ export default function ConnectWallet({
         // ToastMsg("success", "You are connected to mainnet");
       } catch (e) {
         window.localStorage.setItem("previousWallet", "");
-        console.log("aaa", e);
-        if (connector instanceof WalletLinkConnector) {
-          console.log("aaaaaaaaa2");
-    
-          await connector.close();
-        }
+        console.log("aaa", e.Error);
+
+        // await connector.close();
+
         const err = getErrorMessage(e);
+
+        console.log("aaa11111111111111111", e.code);
+
+        if (e.code == 4001) {
+          console.log("aaa11111111111111111", err);
+          window.localStorage.removeItem(
+            "-walletlink:https://www.walletlink.org:version"
+          );
+          window.localStorage.removeItem(
+            "-walletlink:https://www.walletlink.org:session:id"
+          );
+          window.localStorage.removeItem(
+            "-walletlink:https://www.walletlink.org:session:secret"
+          );
+          window.localStorage.removeItem(
+            "-walletlink:https://www.walletlink.org:session:linked"
+          );
+          window.localStorage.removeItem(
+            "-walletlink:https://www.walletlink.org:walletUsername"
+          );
+          window.localStorage.removeItem(
+            "-walletlink:https://www.walletlink.org:DefaultChainId"
+          );
+          window.localStorage.removeItem(
+            "-walletlink:https://www.walletlink.org:Addresses"
+          );
+
+          window.localStorage.removeItem(
+            "-walletlink:https://www.walletlink.org:IsStandaloneSigning"
+          );
+        }
+
         console.error("ERROR activateWallet -> ", err);
         toast(<Notify text={err} severity="success" />, {
           position: "bottom-right",

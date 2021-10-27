@@ -67,6 +67,22 @@ p.phnx-heading {
   margin-bottom: 0;
 }
 
+@media (max-width:500px){
+  div.gradient-div {
+    display: flex;
+    flex-direction: row;
+    padding:35px 0px;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(90deg, rgba(65, 58, 226, 0.3) 0%, rgba(255, 0, 247, 0.080) 70.13%);
+    border: 0.5px solid #413ae24d;
+    box-sizing: border-box;
+    backdrop-filter: blur(2px);
+    /* -webkit-filter: ; */
+    border-radius: 13px;
+    position:relative;
+  }
+}
 @media (min-width:1400px){
   p.phnx-heading {
     font-size: 50px;
@@ -383,7 +399,7 @@ img.img-landing-logo {
   img.img-hands {
     width: 80px;
     left: 0px;
-    top: 0px;
+    top: 60%;
   }
   .yourStakeHeading{
     font-size: 15px;
