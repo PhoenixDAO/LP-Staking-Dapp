@@ -6,6 +6,11 @@
   height: 40vmin;
   pointer-events: none;
 }
+.toastCustomStyle{
+  width: 400px;
+  border-radius: 20px;
+  text-align: center;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -52,6 +57,14 @@
     margin: 0 !important;
   }
 
+  .toastCustomStyle{
+    width: 90% !important;
+    /* border-radius: 20px;
+    text-align: center; */
+    margin-left: 20px !important;
+    border-radius: 9px;
+    /* margin-right: 20px !important; */
+  }
   .appBarFlex{
     display: flex !important;
     flex-direction: row !important;

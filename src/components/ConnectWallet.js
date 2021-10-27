@@ -656,7 +656,7 @@ export default function ConnectWallet({
               }}
             >
               By connecting, I accept PhoenixDAO’s{" "}
-              <Link to="/terms" onClick={handleClose}>
+              <Link to="/v2/terms" onClick={handleClose}>
                 {" "}
                 Terms of service{" "}
               </Link>
