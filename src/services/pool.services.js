@@ -17,7 +17,7 @@ import { PHNX_LP_STAKING_CONTRACT_ADDRESS_RINKEBY } from "../contract/constant";
 import { toast } from "react-toastify";
 import Notify from "../components/Notify";
 
-const chainId = ChainId.RINKEBY;
+const chainId = ChainId.MAINNET;
 const customHttpProvider = new ethers.providers.JsonRpcProvider(
   URL_INFURA_RINKEBY
 );
@@ -31,6 +31,7 @@ export const getDataMain = async () => {
   );
   const weth = WETH[chainId];
   const pair = await Fetcher.fetchPairData(phnx, weth, customHttpProvider);
+  console.log("pair", pair);
   const route = new Route([pair], weth);
   // console.log(pair.reserve1.toFixed(2), "pairrrrrrrgdfgdfgdfgr");
   return { weth, pair, route };

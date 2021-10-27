@@ -336,7 +336,7 @@ export default function ConnectWallet({
     }
     const getTotalLiquidity = async () => {
       await axios({
-        url: "https://api.thegraph.com/subgraphs/name/hammadghazi/phoenix",
+        url: "https://api.thegraph.com/subgraphs/name/hammadghazi/phoenix-mainnet/graphql",
         method: "post",
         data: {
           query: `
