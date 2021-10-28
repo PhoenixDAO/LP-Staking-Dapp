@@ -125,13 +125,13 @@ function Farm() {
       console.error(e, "err in handleGiveApprovalPhnxStakingAction");
     }
   };
-  
+
   useEffect(() => {
     const interval = setInterval(async () => {
       await getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
     }, 5000);
   }, []);
- 
+
   useEffect(() => {
     if (
       web3context?.account &&
@@ -227,9 +227,16 @@ function Farm() {
         ?.lpTokenSupply()
         ?.call();
 
+        if (lpTokenSupply == 0) {
+          setRoi(0);
+          return;
+        }
+
       const apr =
         (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
         Web3.utils.fromWei(lpTokenSupply);
+
+        
 
       let rewardDebt = userInfo.rewardDebt;
       rewardDebt = Number(Web3.utils.fromWei(rewardDebt.toString()));
@@ -278,9 +285,19 @@ function Farm() {
       const phxPerBlock = await contractPhnxStake?.methods
         ?.phxPerBlock()
         ?.call();
+
       const lpTokenSupply = await contractPhnxStake?.methods
         ?.lpTokenSupply()
         ?.call();
+
+      if (lpTokenSupply == 0) {
+        setAPR(0);
+        return;
+      }
+
+      console.log("phnxaaa", phxPerBlock);
+
+      console.log("phnxaaa", lpTokenSupply);
 
       const apr =
         (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
@@ -378,7 +395,7 @@ function Farm() {
         aria-describedby="modal-modal-description"
       >
         <UnStakingModal Close={handleUnStackClose} userInfo={userInfo} />
-      </Modal> 
+      </Modal>
     </div>
   );
 }

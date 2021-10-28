@@ -95,7 +95,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           Close
         );
       } catch (e) {
-        console.error(e);
+        console.error('error staking',e);
       }
     }
   };
