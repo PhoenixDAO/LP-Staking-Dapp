@@ -48,7 +48,7 @@ function Farm() {
   const [isStackVisible, setStackVisible] = useState(false);
   const [isUnStackVisible, setUnStackVisible] = useState(false);
   // const [allowance, setAllowance] = useState(0);
-  const [pendingPHX, setPendingPHX] = useState({ 0: 0, 1: 0 });
+  const [pendingPHX, setPendingPHX] = useState(0);
   const [reserveUSD, setReserveUSD] = useState(0);
   const [loading, setLoading] = useState(false);
   const [APR, setAPR] = useState(0);

@@ -29,10 +29,7 @@ function TransactionsModal({ status, changeStatus, transactions }) {
           src={Logo}
         ></img>{" "}
         <br></br>
-        <div
-          className="rm-liq-heading"
-          style={{ fontSize: "30px"}}
-        >
+        <div className="rm-liq-heading" style={{ fontSize: "30px" }}>
           Recent Transactions
         </div>
         <div
@@ -86,18 +83,18 @@ function TransactionsModal({ status, changeStatus, transactions }) {
                         ? "Your funds has been unstaked"
                         : e.type == "addLiquidity"
                         ? `Added ${fixedWithoutRounding(
-                            e.amount1 * 0.0000000000000000001,
+                            e.amount0 * 0.0000000000000000001,
                             6
                           )}PHNX and ${fixedWithoutRounding(
-                            e.amount0 * 0.0000000000000000001,
+                            e.amount1 * 0.0000000000000000001,
                             6
                           )}Eth`
                         : e.type == "removeLiquidity"
                         ? `Removed ${fixedWithoutRounding(
-                            e.amount1 * 0.0000000000000000001,
+                            e.amount0 * 0.0000000000000000001,
                             6
                           )}PHNX and ${fixedWithoutRounding(
-                            e.amount0 * 0.0000000000000000001,
+                            e.amount1 * 0.0000000000000000001,
                             6
                           )}Eth`
                         : ""}
