@@ -18,7 +18,9 @@ const App = () => {
     if (pass == "xordphnx") {
       setVerified(true);
     }
+    else{
     setVerified(false);
+    }
   },[]);
 
   return (
