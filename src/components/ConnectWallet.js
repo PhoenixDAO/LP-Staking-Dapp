@@ -188,7 +188,8 @@ export default function ConnectWallet({
           connector
             ? connector
             : new InjectedConnector({
-                supportedChainIds: [1, 4],
+                // supportedChainIds: [1, 4],
+                supportedChainIds: [1],
               }),
           undefined,
           true
@@ -208,10 +209,10 @@ export default function ConnectWallet({
         // await connector.close();
 
         const err = getErrorMessage(e);
-        console.log("aaa", err);
-        console.log("aaa", typeof err);
 
-        if (e instanceof UserRejectedRequestError) {
+        console.log("aaa11111111111111111", e.code);
+
+        if (e.code == 4001) {
           console.log("aaa11111111111111111", err);
           window.localStorage.removeItem(
             "-walletlink:https://www.walletlink.org:version"
