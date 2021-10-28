@@ -29,7 +29,7 @@ const App = () => {
             {verified ? <Router /> : null}
             <ToastContainer
               style={{
-
+                borderRadius:"15px"
               }}
               className="toastCustomStyle"
             />

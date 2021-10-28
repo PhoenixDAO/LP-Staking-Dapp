@@ -128,7 +128,7 @@ div.container-pool-share {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 10px 10px 10px 15px;
+  padding: 10px 25px 10px 25px;
   margin-top: 15px;
   margin-bottom: 10px;
   border: 1px solid #e2e1ff;
@@ -431,7 +431,7 @@ div.liq-modal-res > div > .css-196kcza{
     background-color: #fff;
     color: #413AE2;
     border: solid 1px #413ae2;
-    border-radius: 5px;
+    border-radius: 9px;
     
   }
   .connect-wallet-modal-btn{
