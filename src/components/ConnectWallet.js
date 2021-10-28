@@ -188,8 +188,8 @@ export default function ConnectWallet({
           connector
             ? connector
             : new InjectedConnector({
-                supportedChainIds: [1, 4],
-                // supportedChainIds: [1],
+                // supportedChainIds: [1, 4],
+                supportedChainIds: [1],
               }),
           undefined,
           true
@@ -210,7 +210,7 @@ export default function ConnectWallet({
 
         const err = getErrorMessage(e);
 
-        console.log("aaa11111111111111111", e.code);
+        // console.log("aaa11111111111111111", e.code);
 
         if (e.code == 4001) {
           console.log("aaa11111111111111111", err);
