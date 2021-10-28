@@ -173,8 +173,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     }
     if (tokenName === "phnx") {
       let v = parseFloat(val);
-      let total = parseFloat(reserve1.toFixed(2)) + v;
-      console.log("res" + reserve1);
+      let total = parseFloat(reserve0.toFixed(2)) + v;
 
       console.log("pool share: " + new BigNumber(v / total) * 100);
       setPoolShare(
