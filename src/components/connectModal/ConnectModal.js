@@ -60,12 +60,12 @@ const ConnectModal = ({
     const _reserve0 = getReserves._reserve0;
     const _reserve1 = getReserves._reserve1;
 
-    amount0 = Web3.utils.toWei(fixedWithoutRounding(amount0, 18).toString());
-    amount1 = Web3.utils.toWei(fixedWithoutRounding(amount1, 18).toString());
+    amount0 = Web3.utils.toWei(fixedWithoutRounding(amount1, 18).toString());
+    amount1 = Web3.utils.toWei(fixedWithoutRounding(amount0, 18).toString());
 
     const liquidity = Math.min(
-      (amount0 * _totalSupply) / _reserve0,
-      (amount1 * _totalSupply) / _reserve1
+      (amount1 * _totalSupply) / _reserve1,
+      (amount0 * _totalSupply) / _reserve0
     );
     setlp(Web3.utils.fromWei(parseInt(liquidity).toString(), "ether"));
   };
@@ -95,7 +95,11 @@ const ConnectModal = ({
           <div className="add-liq-div">
             <div className="displayFlex">
               <div className="phnxDeposite">
-                <img className="add-liq-Logo" style={{visibility:"hidden"}} src={Logo}></img>
+                <img
+                  className="add-liq-Logo"
+                  style={{ visibility: "hidden" }}
+                  src={Logo}
+                ></img>
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
@@ -103,14 +107,14 @@ const ConnectModal = ({
                 </span>
               </div>
             </div>
-             {/* <CloseIcon className="icon-btn" onClick={setTxModalClose} sx={{transform:"scale(1.2)", marginRight:"10px",cursor:"pointer"}} /> */}
+            {/* <CloseIcon className="icon-btn" onClick={setTxModalClose} sx={{transform:"scale(1.2)", marginRight:"10px",cursor:"pointer"}} /> */}
             <div className="add-liq-heading">YOU WILL RECEIVE</div>
 
             <div
               className="add-liq-ps-div"
               style={{ display: "flex", alignItems: "center" }}
             >
-              {fixedWithoutRounding(lp,7)}
+              {fixedWithoutRounding(lp, 7)}
               {/* <span className="iconMargin"> */}
               <img
                 src={PhnxLogo}
