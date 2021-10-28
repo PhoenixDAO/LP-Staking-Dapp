@@ -30,7 +30,7 @@ function FarmHarvest({
   return (
     <div>
       <div className="farm-heading">Farm</div>
-      <div className="farm-sub-heading">Stake LP Tokens to earn</div>
+      <div className="farm-sub-heading">Stake PHNX/ETH-LP Tokens to earn</div>
       <div className="farm-divider"></div>
       <div className="farm-phnx-eth">
         <div>
@@ -74,7 +74,7 @@ function FarmHarvest({
           className="farm-details-txt-right"
           style={{ color: "#73727D", fontWeight: "normal" }}
         >
-          PHNX + fees
+          PHNX + Fees
         </div>
       </div>
       <div className="farm-details-div">
@@ -97,9 +97,9 @@ function FarmHarvest({
           >
             {pendingPHX &&
               // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
-              (
-                parseFloat(Web3.utils.fromWei(pendingPHX)) * UsdRate
-              ).toFixed(3) + " USD"}
+              (parseFloat(Web3.utils.fromWei(pendingPHX)) * UsdRate).toFixed(
+                3
+              ) + " USD"}
           </span>
         </div>
       </div>
@@ -137,7 +137,7 @@ function FarmHarvest({
           className="farm-btn-stake-outline"
           onClick={() => UnstakeModalOpen()}
         >
-          <b>-</b> UnStake PHNX-ETH LP
+          <b>-</b> UnStake
         </button>
         <button
           className="farm-btn-stake-outline"
@@ -151,11 +151,12 @@ function FarmHarvest({
         className="farm-btn-stake"
         style={{
           marginTop: "20px",
-          backgroundColor: loading || pendingPHX["0"]=="0" ? "#acacac" : "#413ae2",
+          backgroundColor:
+            loading || pendingPHX["0"] == "0" ? "#acacac" : "#413ae2",
           fontSize: "18px",
         }}
         onClick={harvestPHNX}
-        disabled={loading || pendingPHX["0"]=="0"}
+        disabled={loading || pendingPHX["0"] == "0"}
       >
         {loading && "Harvesting..."}
         {!loading && "Harvest"}
