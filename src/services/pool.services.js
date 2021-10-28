@@ -136,23 +136,29 @@ export const getPoolPosition = async (web3context, contractUniswapPair) => {
 
   let _balance = new BigNumber(balanceOf);
   let _totalSupply = new BigNumber(totalSupply);
-  const _reserve0 = new BigNumber(getReserves._reserve0);
-  const _reserve1 = new BigNumber(getReserves._reserve1);
+  let _reserve0 = new BigNumber(getReserves._reserve0);
+  let _reserve1 = new BigNumber(getReserves._reserve1);
   const _ratio = _reserve0.dividedBy(_reserve1);
 
   let _poolPercentage = _balance.dividedBy(_totalSupply).multipliedBy(100);
 
   BigNumber.config({ ROUNDING_MODE: 0 });
 
-  let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot();
-  let _token1 = _balance.pow(2).dividedBy(_token0);
+  // let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot();
+  // let _token1 = _balance.pow(2).dividedBy(_token0);
 
   const conv = new BigNumber("1e+18");
 
   _balance = _balance.dividedBy(conv);
+  _reserve0 = _reserve0.dividedBy(conv);
+  _reserve1 = _reserve1.dividedBy(conv);
+  _totalSupply = _totalSupply.dividedBy(conv);
 
-  _token0 = _token0.dividedBy(conv);
-  _token1 = _token1.dividedBy(conv);
+  // _token0 = _token0.dividedBy(conv);
+  // _token1 = _token1.dividedBy(conv);
+
+  let _token0 = (_balance * _reserve1) / _totalSupply;
+  let _token1 = (_balance * _reserve0) / _totalSupply;
 
   // console.log('balance:',_balance.toFixed(18).toString(),'poolPerc:',fixedWithoutRounding(_poolPercentage,18).toString(),'eth:',_token1.toString(),'phnx',_token0.toString());
 
