@@ -85,7 +85,7 @@ function FarmHarvest({
           <span style={{ fontWeight: "bolder", color: "#4E4E55" }}>
             {pendingPHX["0"] &&
               // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
-              parseFloat(Web3.utils.fromWei(pendingPHX["0"])).toFixed(6)}
+              parseFloat(Web3.utils.fromWei(pendingPHX)).toFixed(6)}
           </span>
         </div>
       </div>
@@ -94,10 +94,10 @@ function FarmHarvest({
           <span
             style={{ fontSize: "14px", fontWeight: "100", color: "#4E4E55" }}
           >
-            {pendingPHX["0"] &&
+            {pendingPHX &&
               // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
               (
-                parseFloat(Web3.utils.fromWei(pendingPHX["0"])) * UsdRate
+                parseFloat(Web3.utils.fromWei(pendingPHX)) * UsdRate
               ).toFixed(3) + " USD"}
           </span>
         </div>

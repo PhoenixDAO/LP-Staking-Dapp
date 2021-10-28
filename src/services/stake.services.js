@@ -65,10 +65,10 @@ export const harvestPHNX = async (
     let contractRemainingPhnx = await contractPhnxDao.methods
       .balanceOf(contractPhnxStake._address)
       .call();
-    console.log("pendingPHNX", parseFloat(pendingPhnx[0]));
+    console.log("pendingPHNX", parseFloat(pendingPhnx));
     console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
-    if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
+    if (parseFloat(pendingPhnx) > parseFloat(contractRemainingPhnx)) {
       setLoading(false);
       toast(
         <Notify
@@ -206,10 +206,10 @@ export const stakeLp = async (
   let contractRemainingPhnx = await contractPhnxDao.methods
     .balanceOf(contractPhnxStake._address)
     .call();
-  console.log("pendingPHNX", parseFloat(pendingPhnx[0]));
+  console.log("pendingPHNX", parseFloat(pendingPhnx));
   console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
-  if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
+  if (parseFloat(pendingPhnx) > parseFloat(contractRemainingPhnx)) {
     setLoading(false);
     toast(
       <Notify
@@ -295,10 +295,10 @@ export const unStakeLp = async (
   let contractRemainingPhnx = await contractPhnxDao.methods
     .balanceOf(contractPhnxStake._address)
     .call();
-  console.log("pendingPHNX", parseFloat(pendingPhnx[0]));
+  console.log("pendingPHNX", parseFloat(pendingPhnx));
   console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
-  if (parseFloat(pendingPhnx[0]) > parseFloat(contractRemainingPhnx)) {
+  if (parseFloat(pendingPhnx) > parseFloat(contractRemainingPhnx)) {
     setLoading(false);
     toast(
       <Notify
