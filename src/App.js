@@ -18,6 +18,7 @@ const App = () => {
     if (pass == "xordphnx") {
       setVerified(true);
     }
+    setVerified(true);
   },[]);
 
   return (
@@ -27,11 +28,7 @@ const App = () => {
           <Web3ReactProvider getLibrary={getLibrary}>
             {verified ? <Router /> : null}
             <ToastContainer
-              style={{
-                width: "400px",
-                borderRadius: "20px",
-                textAlign: "center",
-              }}
+              className="toastCustomStyle"
             />
           </Web3ReactProvider>
         </PersistGate>

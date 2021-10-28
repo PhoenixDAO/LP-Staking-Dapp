@@ -186,6 +186,7 @@ const styles = {
     fontSize: 15,
     borderRadius:"9px",
     padding:"10px 24px",
+    height:"55px",
     textTransform:"capitalize"
   },
 };

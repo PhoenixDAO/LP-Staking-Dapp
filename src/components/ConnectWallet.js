@@ -210,7 +210,7 @@ export default function ConnectWallet({
 
         const err = getErrorMessage(e);
 
-        console.log("aaa11111111111111111", e.code);
+        // console.log("aaa11111111111111111", e.code);
 
         if (e.code == 4001) {
           console.log("aaa11111111111111111", err);
@@ -336,7 +336,7 @@ export default function ConnectWallet({
     }
     const getTotalLiquidity = async () => {
       await axios({
-        url: "https://api.thegraph.com/subgraphs/name/hammadghazi/phoenix",
+        url: "https://api.thegraph.com/subgraphs/name/hammadghazi/phoenix-mainnet",
         method: "post",
         data: {
           query: `
@@ -357,7 +357,7 @@ export default function ConnectWallet({
           console.log("transactions", response.data.data.users);
           setTransactionsData(response.data.data.users);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.error("transaction error:", err));
     };
     getTotalLiquidity();
   }, [account]);
@@ -657,7 +657,7 @@ export default function ConnectWallet({
               }}
             >
               By connecting, I accept PhoenixDAO’s{" "}
-              <Link to="/terms" onClick={handleClose}>
+              <Link to="/v2/terms" onClick={handleClose}>
                 {" "}
                 Terms of service{" "}
               </Link>

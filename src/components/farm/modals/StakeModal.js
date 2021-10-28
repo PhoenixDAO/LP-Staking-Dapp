@@ -95,7 +95,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           Close
         );
       } catch (e) {
-        console.error(e);
+        console.error('error staking',e);
       }
     }
   };
@@ -203,7 +203,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
       <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
         <button
           className="farm-btn-stake-outline"
-          style={{ marginTop: "25px", fontSize: "16px" }}
+          style={{ marginTop: "25px", fontSize: "18px", height:"50px",fontWeight:"700", }}
           onClick={() => {
             calculateAPR(0);
             Close();
@@ -215,8 +215,10 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           className="farm-btn-stake-outline stakingModalConfirm"
           style={{
             marginLeft: "auto",
+            height:"50px",
             marginTop: "25px",
-            fontSize: "16px",
+            fontWeight:"700",
+            fontSize: "18px",
             background:
               loading ||((maxBigValue.lt(lpValue)))||
               lpValue <= 0 ||

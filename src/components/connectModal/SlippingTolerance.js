@@ -181,6 +181,10 @@ const SlippingTolerance = ({
           <TextField
             sx={{
               borderRadius: "6px",
+              "& .MuiOutlinedInput-input":{
+                fontSize:"20px",
+                fontWeight:"500"
+              }
             }}
             InputProps={{
               endAdornment: (
@@ -217,6 +221,9 @@ const SlippingTolerance = ({
                 Number(slippageVal) <= 0 || Number(slippageVal) > 1
                   ? "#afafaf"
                   : "#413ae2",
+                  fontSize:"18px",
+                  height:"50px",
+                  fontWeight:"700",
               cursor:
                 Number(slippageVal) <= 0 || Number(slippageVal) > 1
                   ? "inherit !important"

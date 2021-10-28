@@ -1,12 +1,12 @@
 .farm-heading {
   color: #413ae2;
-  font-size: 25px;
+  font-size: 24px;
   font-weight: bold;
 }
 
 .farm-sub-heading {
   margin-top: 15px;
-  font-size: 16px;
+  font-size: 18px;
   color: #5F5F5F;
 }
 
@@ -50,8 +50,9 @@
 .farm-btn-stake {
   background-color: #413ae2;
   width: 100%;
-  font-size: 17px;
+  font-size: 18px;
   color: #fff;
+  height: 55px;
   border-radius: 9px;
   border: none;
   padding: 14px;
@@ -80,5 +81,19 @@
 @media only screen and (max-width: 700px) {
   .farm-details-txt {
     font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .farm-btn-stake-outline {
+    background-color: #fff;
+    font-size: 12px;
+    font-weight: bolder;
+    color: #413ae2;
+    border: solid 1px #413ae2;
+    border-radius: 9px;
+    width: 49%;
+    padding: 13px;
+    margin-top: 40px;
   }
 }

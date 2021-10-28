@@ -106,7 +106,7 @@ export default function WalletSettings({
             fullWidth
             variant="outlined"
             disabled
-            sx={{ marginBottom: "38px" }}
+            sx={{ marginBottom: "38px", "& .MuiOutlinedInput-input":{letterSpacing:"0.5px", fontWeight:"500", fontSize:"20px"} }}
             value={web3context?.account}
             InputProps={{
               endAdornment: (
@@ -144,14 +144,14 @@ export default function WalletSettings({
               id="modal-modal-title"
               variant="body1"
               component="h2"
-              style={{ color: "#4E4E55" }}
+              style={{ color: "#4E4E55", fontWeight:"500" }}
             >
               PHNX BALANCE
             </Typography>
             <div className="rm-liq-phnx-eth-det">
               <img
                 src={PhnxLogo}
-                style={{ height: "20px", width: "20px", marginRight: "5px" }}
+                style={{ height: "20px", width: "20px", marginRight: "5px", fontWeight:"500" }}
               ></img>
               <div style={style.greyBalance}>{balancePhnx}</div>
             </div>
@@ -165,14 +165,14 @@ export default function WalletSettings({
               id="modal-modal-title"
               variant="body1"
               component="h2"
-              style={{ color: "#4E4E55" }}
+              style={{ color: "#4E4E55", fontWeight:"500" }}
             >
               ETH BALANCE
             </Typography>
             <div className="rm-liq-phnx-eth-det">
               <img
                 src={EthLogo}
-                style={{ height: "20px", width: "20px", marginRight: "5px" }}
+                style={{ height: "20px", width: "20px", marginRight: "5px", fontWeight:"500" }}
               ></img>
               <div style={style.greyBalance}>{balanceEth}</div>
             </div>

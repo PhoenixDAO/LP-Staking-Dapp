@@ -75,7 +75,7 @@ function FarmStake({
           <span style={{ color: "#4E4E55" }}>EARN</span>
         </div>
         <div className="farm-details-txt-right" style={{ color: "#73727D" }}>
-          PHNX + fees
+          PHNX + Fees
         </div>
       </div>
 

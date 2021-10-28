@@ -30,7 +30,7 @@ function FarmHarvest({
   return (
     <div>
       <div className="farm-heading">Farm</div>
-      <div className="farm-sub-heading">Stake LP Tokens to earn</div>
+      <div className="farm-sub-heading">Stake PHNX/ETH-LP Tokens to earn</div>
       <div className="farm-divider"></div>
       <div className="farm-phnx-eth">
         <div>
@@ -46,19 +46,20 @@ function FarmHarvest({
           style={{
             marginLeft: "auto",
             fontWeight: "bolder",
-            fontSize: "18px",
+            fontSize: "22px",
             color: "#1E1E22",
           }}
+           className="pooled-item-right-txt"
         >
           PHNX/ETH
         </div>
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#4E4E55", fontWeight: "normal" }}>APR</span>
+          <span style={{ color: "#4E4E55", fontWeight: "normal" }} className="pooled-item-txt">APR</span>
         </div>
         <div className="farm-details-txt-right">
-          <span style={{ color: "#73727D" }}>
+          <span style={{ color: "#73727D" }} className="pooled-item-right-txt">
             {web3context.active ? APR : "--- "}%{" "}
           </span>{" "}
           &nbsp;
@@ -67,17 +68,17 @@ function FarmHarvest({
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#4E4E55" }}>EARN</span>
+          <span style={{ color: "#4E4E55" }} className="pooled-item-txt">EARN</span>
         </div>
         <div
           className="farm-details-txt-right"
           style={{ color: "#73727D", fontWeight: "normal" }}
         >
-          PHNX + fees
+          PHNX + Fees
         </div>
       </div>
       <div className="farm-details-div">
-        <div className="farm-details-txt">
+        <div className="pooled-item-txt">
           <span style={{ color: "#413AE2" }}>PHNX</span>{" "}
           <span style={{ color: "#4E4E55" }}>EARNED</span>
         </div>
@@ -85,7 +86,7 @@ function FarmHarvest({
           <span style={{ fontWeight: "bolder", color: "#4E4E55" }}>
             {pendingPHX["0"] &&
               // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
-              parseFloat(Web3.utils.fromWei(pendingPHX["0"])).toFixed(6)}
+              parseFloat(Web3.utils.fromWei(pendingPHX)).toFixed(6)}
           </span>
         </div>
       </div>
@@ -94,16 +95,16 @@ function FarmHarvest({
           <span
             style={{ fontSize: "14px", fontWeight: "100", color: "#4E4E55" }}
           >
-            {pendingPHX["0"] &&
+            {pendingPHX &&
               // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
-              (
-                parseFloat(Web3.utils.fromWei(pendingPHX["0"])) * UsdRate
-              ).toFixed(3) + " USD"}
+              (parseFloat(Web3.utils.fromWei(pendingPHX)) * UsdRate).toFixed(
+                3
+              ) + " USD"}
           </span>
         </div>
       </div>
       <div className="farm-details-div">
-        <div className="farm-details-txt">
+        <div className="pooled-item-txt">
           <span style={{ color: "#413AE2" }}>PHNX-ETH</span>{" "}
           <span style={{ color: "#4E4E55" }}>LP STAKED</span>
         </div>
@@ -136,7 +137,7 @@ function FarmHarvest({
           className="farm-btn-stake-outline"
           onClick={() => UnstakeModalOpen()}
         >
-          <b>-</b> UnStake PHNX-ETH LP
+          <b>-</b> UnStake
         </button>
         <button
           className="farm-btn-stake-outline"
@@ -150,11 +151,12 @@ function FarmHarvest({
         className="farm-btn-stake"
         style={{
           marginTop: "20px",
-          backgroundColor: loading || pendingPHX["0"]=="0" ? "#acacac" : "#413ae2",
+          backgroundColor:
+            loading || pendingPHX["0"] == "0" ? "#acacac" : "#413ae2",
           fontSize: "18px",
         }}
         onClick={harvestPHNX}
-        disabled={loading || pendingPHX["0"]=="0"}
+        disabled={loading || pendingPHX["0"] == "0"}
       >
         {loading && "Harvesting..."}
         {!loading && "Harvest"}

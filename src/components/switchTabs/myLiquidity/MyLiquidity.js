@@ -21,6 +21,7 @@ import {
 import SlippingTolerance from "../../connectModal/SlippingTolerance";
 import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
 import * as POOL_SERVICES from "../../../services/pool.services";
+import { fixedWithoutRounding } from "../../../utils/formatters";
 
 function MyLiquidity({ ChangeTab }) {
   const web3context = useWeb3React();
@@ -81,7 +82,7 @@ function MyLiquidity({ ChangeTab }) {
   };
 
   useEffect(() => {
-    // console.log(poolPosition.lp,'aaa');
+    console.log("aaa", poolPosition);
     if (contractUniswapPair) {
       console.log("asdasdasdasdasdasdads");
       handleCheckApprovalUniswapPairAction(setAllowance);
@@ -153,7 +154,7 @@ function MyLiquidity({ ChangeTab }) {
             style={{
               backgroundColor: "#413AE2",
               margin: "25px 0px 30px 0px",
-              height: 45,
+              height: "55px",
               borderRadius: 12,
               textTransform: "capitalize",
               fontSize: "18px",
@@ -202,8 +203,10 @@ function MyLiquidity({ ChangeTab }) {
             style={{
               backgroundColor: "#413AE2",
               margin: "25px 0px 30px 0px",
-              height: 45,
-              borderRadius: 12,
+              height: "55px",
+              fontSize: "18px",
+              textTransform: "capitalize",
+              borderRadius: "9px",
             }}
             onClick={() => {
               ChangeTab("addLiquidity");
@@ -248,8 +251,10 @@ function MyLiquidity({ ChangeTab }) {
             style={{
               backgroundColor: "#413AE2",
               margin: "25px 0px 30px 0px",
-              height: 45,
-              borderRadius: 12,
+              height: "55px",
+              fontSize: "18px",
+              textTransform: "capitalize",
+              borderRadius: "9px",
             }}
             onClick={() => {
               ChangeTab("addLiquidity");
@@ -272,7 +277,7 @@ function MyLiquidity({ ChangeTab }) {
           <br></br>
           <div className="phnx-eth">
             <p className="phnx-eth-no">
-              {parseFloat(poolPosition.lp).toFixed(5)}
+              {fixedWithoutRounding(poolPosition.lp, 6)}
             </p>
             <img src={PhnxLogo} className="phnx-eth-logo"></img>
             <img src={EthLogo} className="phnx-eth-logo"></img>
@@ -294,7 +299,7 @@ function MyLiquidity({ ChangeTab }) {
             >
               <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
               <div className="pooled-item-txt">
-                <span style={{ fontSize: "18px" }}>
+                <span className="pooled-item-right-txt">
                   {parseFloat(poolPosition.phnx).toFixed(5)}
                 </span>
               </div>
@@ -315,7 +320,7 @@ function MyLiquidity({ ChangeTab }) {
             >
               <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
               <div className="pooled-item-txt">
-                <span style={{ fontSize: "18px" }}>
+                <span className="pooled-item-right-txt">
                   {parseFloat(poolPosition.eth).toFixed(5)}
                 </span>
               </div>
@@ -335,7 +340,7 @@ function MyLiquidity({ ChangeTab }) {
               }}
             >
               <div className="pooled-item-txt">
-                <span style={{ fontSize: "18px" }}>
+                <span className="pooled-item-right-txt">
                   {parseFloat(poolPosition.poolPerc).toFixed(5)}%
                 </span>
               </div>
@@ -382,7 +387,6 @@ function MyLiquidity({ ChangeTab }) {
         slippageValue={slippageRemoveLiquidity}
         slippageType="remove"
       />
-      
     </div>
   );
 }
