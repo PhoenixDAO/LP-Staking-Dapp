@@ -15,6 +15,6 @@ export const walletconnect = new WalletConnectConnector({
 export const walletlink = new WalletLinkConnector({
   url: [URL_INFURA_MAINNET, URL_INFURA_RINKEBY],
   appName: "PhoenixDao Staking dApp",
-  // supportedChainIds: [1, 3, 4, 5, 42, 10, 137, 69, 420, 80001],
-  supportedChainIds: [1],
+  supportedChainIds: [1, 3, 4, 5, 42, 10, 137, 69, 420, 80001],
+  // supportedChainIds: [1],
 });

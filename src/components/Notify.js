@@ -4,7 +4,7 @@ import ErrorIcon from '@mui/icons-material/Error';
 
 function Notify({ text, severity }) {
   return (
-    <div className="notify2" style={{borderRadius:"9px"}}>
+    <div className="notify2">
       <div style={{ width: "100%" }}>
         {severity == "success" ? (
           <CheckCircleIcon

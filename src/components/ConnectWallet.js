@@ -188,8 +188,8 @@ export default function ConnectWallet({
           connector
             ? connector
             : new InjectedConnector({
-                // supportedChainIds: [1, 4],
-                supportedChainIds: [1],
+                supportedChainIds: [1, 4],
+                // supportedChainIds: [1],
               }),
           undefined,
           true
