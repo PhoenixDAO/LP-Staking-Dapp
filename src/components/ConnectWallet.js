@@ -210,7 +210,7 @@ export default function ConnectWallet({
 
         const err = getErrorMessage(e);
 
-        console.log("aaa11111111111111111", e.code);
+        // console.log("aaa11111111111111111", e.code);
 
         if (e.code == 4001) {
           console.log("aaa11111111111111111", err);

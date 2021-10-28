@@ -298,7 +298,7 @@ function MyLiquidity({ ChangeTab }) {
             >
               <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
               <div className="pooled-item-txt">
-                <span style={{ fontSize: "18px" }}>
+                <span  className="pooled-item-right-txt">
                   {parseFloat(poolPosition.phnx).toFixed(5)}
                 </span>
               </div>
@@ -319,7 +319,7 @@ function MyLiquidity({ ChangeTab }) {
             >
               <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
               <div className="pooled-item-txt">
-                <span style={{ fontSize: "18px" }}>
+                <span  className="pooled-item-right-txt">
                   {parseFloat(poolPosition.eth).toFixed(5)}
                 </span>
               </div>
@@ -339,7 +339,7 @@ function MyLiquidity({ ChangeTab }) {
               }}
             >
               <div className="pooled-item-txt">
-                <span style={{ fontSize: "18px" }}>
+                <span  className="pooled-item-right-txt">
                   {parseFloat(poolPosition.poolPerc).toFixed(5)}%
                 </span>
               </div>

@@ -29,7 +29,7 @@ export default function Router() {
         { path: "*", element: <Navigate to="/v2/404" /> },
       ],
     },
-    // { path: "/", element: <Navigate to="/v2/home" replace /> },
+    { path: "/", element: <Navigate to="/v2/home" replace /> },
     // { path: "*", element: <Navigate to="/v2/404" replace /> },
   ]);
 }

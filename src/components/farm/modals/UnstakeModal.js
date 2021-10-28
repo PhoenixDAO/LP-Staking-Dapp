@@ -185,7 +185,7 @@ const maxBigValue = new BigNumber(maxlpValue);
         <button
           className="farm-btn-stake-outline"
           style={{ marginTop: "25px",
-        fontSize:"16px" }}
+        fontSize:"18px", height:"50px",fontWeight:"700", }}
           onClick={() => Close()}
         >
           Close
@@ -195,7 +195,9 @@ const maxBigValue = new BigNumber(maxlpValue);
           style={{
             marginLeft: "auto",
             marginTop: "25px",
-            fontSize:"16px",
+            fontSize:"18px",
+            height:"50px",
+            fontWeight:"700",
             background:
             loading ||((maxBigValue.lt(lpValue)))|| (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)
                 ? "#ACACAC"

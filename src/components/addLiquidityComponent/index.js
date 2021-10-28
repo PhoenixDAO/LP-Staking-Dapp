@@ -647,11 +647,12 @@ const styles = {
   txtTipParagraph: {
     fontSize: 15,
     color: "#FFFFFF",
-    paddingInline: "15px",
+    paddingInline: "16px",
+    textAlign:"justify"
   },
   btnAddLiquidity: {
     backgroundColor: "#413AE2",
-    margin: "15px 0px 0px 0px",
+    margin: "6px 0px 0px 0px",
     height: 55,
     borderRadius: 12,
     textTransform: "capitalize",
@@ -739,6 +740,6 @@ const styles = {
     backgroundColor: "#C3B7FF",
     borderRadius: 5,
     color: "#413AE2",
-    fontSize: 9,
+    fontSize: "10px",
   },
 };

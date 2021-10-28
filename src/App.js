@@ -28,9 +28,6 @@ const App = () => {
           <Web3ReactProvider getLibrary={getLibrary}>
             {verified ? <Router /> : null}
             <ToastContainer
-              style={{
-
-              }}
               className="toastCustomStyle"
             />
           </Web3ReactProvider>

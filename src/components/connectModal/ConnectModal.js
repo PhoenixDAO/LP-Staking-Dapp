@@ -140,7 +140,7 @@ const ConnectModal = ({
                         className="phnxDepositePriceImage"
                       ></img>
                     </div>
-                    <div>{phnxValue}</div>
+                    <div className="phnxConfirmValues">{phnxValue}</div>
                   </div>
                 </div>
               </div>
@@ -154,7 +154,7 @@ const ConnectModal = ({
                         className="phnxDepositePriceImage"
                       ></img>
                     </div>
-                    <div>{ethValue}</div>
+                    <div className="phnxConfirmValues">{ethValue}</div>
                   </div>
                 </div>
               </div>
@@ -174,7 +174,7 @@ const ConnectModal = ({
               <div className="addPrice">
                 <div className="displayFlex">
                   <div className="phnxDeposite">Pool Share</div>
-                  <div className="phnxDepositePrice displayFlex">
+                  <div className="phnxDepositePrice displayFlex phnxConfirmValues">
                     {poolShare}%
                   </div>
                 </div>
