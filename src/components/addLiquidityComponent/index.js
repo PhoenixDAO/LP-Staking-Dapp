@@ -173,13 +173,19 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     }
     if (tokenName === "phnx") {
       let v = parseFloat(val);
-      let total = parseFloat(reserve1) + v;
+      let total = parseFloat(reserve1.toFixed(2)) + v;
       console.log("res" + reserve1);
 
-      console.log("pool share: " + (new BigNumber(v / total) * 100));
-      setPoolShare((new BigNumber((v / total) * 100)).eq(0)?0.00:(new BigNumber((v / total) * 100)).lt(0.0001)?(((v / total) * 100).toFixed(7)):(((v / total) * 100).toFixed(4)));
-      if(isMaxButton){
-        setPhnxValue(fixedWithoutRounding(v,6));
+      console.log("pool share: " + new BigNumber(v / total) * 100);
+      setPoolShare(
+        new BigNumber((v / total) * 100).eq(0)
+          ? 0.0
+          : new BigNumber((v / total) * 100).lt(0.0001)
+          ? ((v / total) * 100).toFixed(7)
+          : ((v / total) * 100).toFixed(4)
+      );
+      if (isMaxButton) {
+        setPhnxValue(fixedWithoutRounding(v, 6));
 
         setActPhnxValue(v);
         setEthValue(fixedWithoutRounding(parseFloat(ethPerPhnx) * v || num, 6));
@@ -201,14 +207,22 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     } else if (tokenName === "eth") {
       let v = parseFloat(val);
       let total = parseFloat(phnxPerEth) * v;
-      total = total + parseFloat(reserve1);
-      console.log("v", poolShare);
+      total = total + parseFloat(reserve0.toFixed(2));
+      console.log("v", reserve0);
 
-      setPoolShare((((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(3));
+      // setPoolShare((((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(3));
 
-      setPoolShare((new BigNumber(((parseFloat(phnxPerEth) * v) / total)  * 100)).eq(0)?0.00:(new BigNumber(((parseFloat(phnxPerEth) * v) / total)  * 100)).lt(0.0001)?((((parseFloat(phnxPerEth) * v) / total)  * 100).toFixed(7)):((((parseFloat(phnxPerEth) * v) / total)  * 100).toFixed(4)));
-      if(isMaxButton){
-        setEthValue(fixedWithoutRounding(v,6));
+      setPoolShare(
+        new BigNumber(((parseFloat(phnxPerEth) * v) / total) * 100).eq(0)
+          ? 0.0
+          : new BigNumber(((parseFloat(phnxPerEth) * v) / total) * 100).lt(
+              0.0001
+            )
+          ? (((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(7)
+          : (((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(4)
+      );
+      if (isMaxButton) {
+        setEthValue(fixedWithoutRounding(v, 6));
 
         setActEthValue(v);
         setPhnxValue(
