@@ -21,6 +21,7 @@ import {
 import SlippingTolerance from "../../connectModal/SlippingTolerance";
 import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
 import * as POOL_SERVICES from "../../../services/pool.services";
+import { fixedWithoutRounding } from "../../../utils/formatters";
 
 function MyLiquidity({ ChangeTab }) {
   const web3context = useWeb3React();
@@ -203,8 +204,8 @@ function MyLiquidity({ ChangeTab }) {
               backgroundColor: "#413AE2",
               margin: "25px 0px 30px 0px",
               height: "55px",
-              fontSize:"18px",
-              textTransform:"capitalize",
+              fontSize: "18px",
+              textTransform: "capitalize",
               borderRadius: "9px",
             }}
             onClick={() => {
@@ -251,8 +252,8 @@ function MyLiquidity({ ChangeTab }) {
               backgroundColor: "#413AE2",
               margin: "25px 0px 30px 0px",
               height: "55px",
-              fontSize:"18px",
-              textTransform:"capitalize",
+              fontSize: "18px",
+              textTransform: "capitalize",
               borderRadius: "9px",
             }}
             onClick={() => {
@@ -276,7 +277,7 @@ function MyLiquidity({ ChangeTab }) {
           <br></br>
           <div className="phnx-eth">
             <p className="phnx-eth-no">
-              {parseFloat(poolPosition.lp).toFixed(5)}
+              {fixedWithoutRounding(poolPosition.lp, 6)}
             </p>
             <img src={PhnxLogo} className="phnx-eth-logo"></img>
             <img src={EthLogo} className="phnx-eth-logo"></img>
@@ -298,7 +299,7 @@ function MyLiquidity({ ChangeTab }) {
             >
               <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
               <div className="pooled-item-txt">
-                <span  className="pooled-item-right-txt">
+                <span className="pooled-item-right-txt">
                   {parseFloat(poolPosition.phnx).toFixed(5)}
                 </span>
               </div>
@@ -319,7 +320,7 @@ function MyLiquidity({ ChangeTab }) {
             >
               <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
               <div className="pooled-item-txt">
-                <span  className="pooled-item-right-txt">
+                <span className="pooled-item-right-txt">
                   {parseFloat(poolPosition.eth).toFixed(5)}
                 </span>
               </div>
@@ -339,7 +340,7 @@ function MyLiquidity({ ChangeTab }) {
               }}
             >
               <div className="pooled-item-txt">
-                <span  className="pooled-item-right-txt">
+                <span className="pooled-item-right-txt">
                   {parseFloat(poolPosition.poolPerc).toFixed(5)}%
                 </span>
               </div>
