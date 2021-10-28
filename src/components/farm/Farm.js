@@ -227,16 +227,14 @@ function Farm() {
         ?.lpTokenSupply()
         ?.call();
 
-        if (lpTokenSupply == 0) {
-          setRoi(0);
-          return;
-        }
+      if (lpTokenSupply == 0) {
+        setRoi(0);
+        return;
+      }
 
       const apr =
         (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
         Web3.utils.fromWei(lpTokenSupply);
-
-        
 
       let rewardDebt = userInfo.rewardDebt;
       rewardDebt = Number(Web3.utils.fromWei(rewardDebt.toString()));
@@ -260,10 +258,12 @@ function Farm() {
       let _token1 = _balance.pow(2).dividedBy(_token0);
       const conv = new BigNumber("1e+18");
 
-      _token0 = _token0.dividedBy(conv).toString(); //phnx this
+      _token0 = _token0.dividedBy(conv).toString();
+      _token1 = _token1.dividedBy(conv); //phnx this
+
       let usd = PhoenixDAO_market.usd;
 
-      let roi = _token0 * apr * usd;
+      let roi = _token1 * apr * usd;
 
       console.log("a", roi);
       // let reward = Number(apr) * Number(amount) - Number(rewardDebt); // Phnx rewrd in a year

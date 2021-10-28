@@ -81,7 +81,11 @@ const TransactionSubmitted = ({
           <div className="transaction-liq-div">
             <div className="displayFlex">
               <div className="phnxDeposite">
-                <img className="transaction-liq-Logo" style={{visibility:"hidden"}} src={Logo}></img>
+                <img
+                  className="transaction-liq-Logo"
+                  style={{ visibility: "hidden" }}
+                  src={Logo}
+                ></img>
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
@@ -140,7 +144,7 @@ const TransactionSubmitted = ({
                 onClick={registerToken}
               >
                 <div className="displayFlex metamaskIconCenter">
-                  <div>Add PHNX-LP to Metamask </div>
+                  <div>Add PHNX/ETH-LP to Metamask </div>
                   <div>
                     <img src={metamask} className="metamaskIcon"></img>
                   </div>
@@ -155,9 +159,9 @@ const TransactionSubmitted = ({
             <div className="transactionCloseButton">
               <button
                 className="transaction-liq-btn cursorPointer"
-                onClick={()=>{
+                onClick={() => {
                   handleClose();
-                  if(handleMainClose){
+                  if (handleMainClose) {
                     handleMainClose(false);
                   }
                 }}
