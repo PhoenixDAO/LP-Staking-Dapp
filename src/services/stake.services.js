@@ -27,7 +27,7 @@ export const giveApprovalPhnxStaking = async (
       .send({ from: web3context?.account })
       .on("transactionHash", (hash) => {
         // hash of tx
-        console.log("transactionHash", hash);
+        // console.log("transactionHash", hash);
       })
       .on("confirmation", async function (confirmationNumber, receipt) {
         if (confirmationNumber == 0) {
@@ -39,7 +39,7 @@ export const giveApprovalPhnxStaking = async (
       })
       .on("error", function (err) {
         setApproveStatus(false);
-        console.log("err", err);
+        // console.log("err", err);
       });
   } else {
     throw "Invalid credentials of giveApprovalFarming";
@@ -65,8 +65,8 @@ export const harvestPHNX = async (
     let contractRemainingPhnx = await contractPhnxDao.methods
       .balanceOf(contractPhnxStake._address)
       .call();
-    console.log("pendingPHNX", parseFloat(pendingPhnx));
-    console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
+    // console.log("pendingPHNX", parseFloat(pendingPhnx));
+    // console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
     if (parseFloat(pendingPhnx) > parseFloat(contractRemainingPhnx)) {
       setLoading(false);
@@ -88,7 +88,7 @@ export const harvestPHNX = async (
       .send({ from: web3context.account })
       .on("transactionHash", (hash) => {
         // hash of tx
-        console.log("tx hash", hash);
+        // console.log("tx hash", hash);
         toast(
           <Notify
             text={"Transaction in Progress 😃, you'll be notified soon."}
@@ -148,7 +148,7 @@ export const checkApprovalPhnxStaking = async (
       setApproveStatus(false);
     }
 
-    console.log("al checkApprovalPhnxStaking", al);
+    // console.log("al checkApprovalPhnxStaking", al);
     return al;
     // setAllowance(al);
   } else {
@@ -161,7 +161,7 @@ export const getUserInfo = async (web3context, contractPhnxStake) => {
     const info = await contractPhnxStake?.methods
       ?.userInfo(web3context.account)
       .call();
-    console.log("infooo", info);
+    // console.log("infooo", info);
     return info;
   } else {
     throw "Invalid credentials of getUserInfo";
@@ -177,7 +177,7 @@ export const getPendingPHX = async (
     const pending = await contractPhnxStake?.methods
       ?.pendingPHX(web3context?.account)
       .call();
-    console.log("getPendingPHX response", pending);
+    // console.log("getPendingPHX response", pending);
     setPendingPHX(pending);
   } else {
     throw "Invalid credentials of getPendingPHX";
@@ -206,8 +206,8 @@ export const stakeLp = async (
   let contractRemainingPhnx = await contractPhnxDao.methods
     .balanceOf(contractPhnxStake._address)
     .call();
-  console.log("pendingPHNX", parseFloat(pendingPhnx));
-  console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
+  // console.log("pendingPHNX", parseFloat(pendingPhnx));
+  // console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
   if (parseFloat(pendingPhnx) > parseFloat(contractRemainingPhnx)) {
     setLoading(false);
@@ -224,14 +224,14 @@ export const stakeLp = async (
     return;
   }
 
-  console.log(lpValue);
+  // console.log(lpValue);
 
   await contractPhnxStake.methods
     .deposit(web3.utils.toWei(lpValue.toString()))
     .send({ from: web3context.account })
     .on("transactionHash", (hash) => {
       // hash of tx
-      console.log("tx hash", hash);
+      // console.log("tx hash", hash);
       toast(
         <Notify
           text={"Transaction in Progress 😃, you'll be notified soon."}
@@ -295,8 +295,8 @@ export const unStakeLp = async (
   let contractRemainingPhnx = await contractPhnxDao.methods
     .balanceOf(contractPhnxStake._address)
     .call();
-  console.log("pendingPHNX", parseFloat(pendingPhnx));
-  console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
+  // console.log("pendingPHNX", parseFloat(pendingPhnx));
+  // console.log("contractRemainingPhnx", parseFloat(contractRemainingPhnx));
 
   if (parseFloat(pendingPhnx) > parseFloat(contractRemainingPhnx)) {
     setLoading(false);
@@ -312,14 +312,14 @@ export const unStakeLp = async (
 
     return;
   }
-  console.log(lpValue);
+  // console.log(lpValue);
 
   await contractPhnxStake.methods
     .withdraw(web3.utils.toWei(lpValue.toString()))
     .send({ from: web3context.account })
     .on("transactionHash", (hash) => {
       // hash of tx
-      console.log("tx hash", hash);
+      // console.log("tx hash", hash);
       toast(
         <Notify
           text={"Transaction in Progress 😃, you'll be notified soon."}

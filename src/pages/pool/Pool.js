@@ -53,7 +53,7 @@ const Pool = () => {
       })
         .then((response) => {
           if (response.data) {
-            console.log(parseInt(response.data.data.pairs[0]["reserveUSD"]));
+            // console.log(parseInt(response.data.data.pairs[0]["reserveUSD"]));
             setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
           }
         })
@@ -69,7 +69,7 @@ const Pool = () => {
 
   return (
     <div>
-      {console.log("lp tokens: ", stakedLp)}
+      {/* {console.log("lp tokens: ", stakedLp)} */}
       <div className="container-div">
         <div className="gradient-div" style={{ fontWeight: "bold" }}>
           {account ? (

@@ -12,7 +12,7 @@ import { EmojiPeople } from "@mui/icons-material";
 
 function TransactionsModal({ status, changeStatus, transactions }) {
   useEffect(() => {
-    console.log("tra", transactions);
+    // console.log("tra", transactions);
   }, [transactions]);
 
   return (
@@ -67,14 +67,14 @@ function TransactionsModal({ status, changeStatus, transactions }) {
                       <br></br>
                       amount1: &nbsp;
                       {e.amount1 * 0.0000000000000000001} */}
-                      {console.log(
-                        "hello e.type",
+                      {/* {console.log( */}
+                        {/* "hello e.type",
                         e.type,
                         typeof e.type,
                         " e.amount: ",
                         e.amount0,
                         typeof e.amount0
-                      )}
+                      )} */}
                       {e.type == "Deposit" && e.amount0 == "0"
                         ? "Unstaked! Your earnings has been harvested to your wallet"
                         : e.type == "Deposit" && e.amount0 != "0"
@@ -123,7 +123,7 @@ function TransactionsModal({ status, changeStatus, transactions }) {
           ) : (
             <div>
               <div className="trans-div-child">
-                {console.log("hello No transaction")}
+                {/* {console.log("hello No transaction")} */}
                 <div>
                   <img
                     alt=""

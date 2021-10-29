@@ -87,11 +87,11 @@ function Farm() {
     dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
   };
   const handleCheckApprovalUniswapPairAction = async () => {
-    console.log("coming to handleCheckApprovalUniswapPairAction");
+    // console.log("coming to handleCheckApprovalUniswapPairAction");
     dispatch(CheckApprovalUniswapPairAction(web3context, contractUniswapPair));
   };
   const handleCheckApprovalPhnxStakingAction = (setApproveStatus) => {
-    console.log("handleCheckApprovalPhnxStakingAction iiii");
+    // console.log("handleCheckApprovalPhnxStakingAction iiii");
     dispatch(
       CheckApprovalPhnxStakingAction(
         web3context,
@@ -172,7 +172,7 @@ function Farm() {
       })
         .then((response) => {
           if (response.data) {
-            console.log(response.data, "aaa");
+            // console.log(response.data, "aaa");
             setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
           }
         })
@@ -246,7 +246,7 @@ function Farm() {
       let _balance = Number(Web3.utils.toWei(amount.toFixed(4).toString()));
 
       _balance = new BigNumber(_balance);
-      console.log(_balance, "_balance 222222222");
+      // console.log(_balance, "_balance 222222222");
 
       const _reserve0 = new BigNumber(getReserves._reserve0);
       const _reserve1 = new BigNumber(getReserves._reserve1);
@@ -265,7 +265,7 @@ function Farm() {
 
       let roi = _token1 * apr * usd;
 
-      console.log("a", roi);
+      // console.log("a", roi);
       // let reward = Number(apr) * Number(amount) - Number(rewardDebt); // Phnx rewrd in a year
 
       // let netProfit = Number(Number(reward) - Number(_token0));
@@ -295,9 +295,9 @@ function Farm() {
         return;
       }
 
-      console.log("phnxaaa", phxPerBlock);
+      // console.log("phnxaaa", phxPerBlock);
 
-      console.log("phnxaaa", lpTokenSupply);
+      // console.log("phnxaaa", lpTokenSupply);
 
       const apr =
         (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
@@ -317,7 +317,7 @@ function Farm() {
       calculateAPR();
     }
 
-    console.log(userInfo.amount, "111");
+    // console.log(userInfo.amount, "111");
   }, [poolPosition, contractPhnxStake, contractUniswapPair, PhoenixDAO_market]);
 
   useEffect(() => {
@@ -329,7 +329,7 @@ function Farm() {
   const GetTokenSupply = async () => {
     let ts = await contractUniswapPair.methods.totalSupply().call();
     setTokenSupply(Web3.utils.fromWei(ts));
-    console.log(TokenSupply, "aaa");
+    // console.log(TokenSupply, "aaa");
   };
 
   return (

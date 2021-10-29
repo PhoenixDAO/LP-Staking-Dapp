@@ -115,7 +115,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   };
   // This will be replaced with allowance state
   const handleCheckApprovalPhnxDaoAction = async (setApproveStatus) => {
-    console.log(setApproveStatus, "aaa2");
+    // console.log(setApproveStatus, "aaa2");
     dispatch(
       CheckApprovalPhnxDaoAction(web3context, contractPhnxDao, setApproveStatus)
     );
@@ -175,7 +175,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       let v = parseFloat(val);
       let total = parseFloat(reserve0.toFixed(2)) + v;
 
-      console.log("pool share: " + new BigNumber(v / total) * 100);
+      // console.log("pool share: " + new BigNumber(v / total) * 100);
       setPoolShare(
         new BigNumber((v / total) * 100).eq(0)
           ? 0.0
@@ -207,7 +207,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       let v = parseFloat(val);
       let total = parseFloat(phnxPerEth) * v;
       total = total + parseFloat(reserve0.toFixed(2));
-      console.log("v", reserve0);
+      // console.log("v", reserve0);
 
       // setPoolShare((((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(3));
 
@@ -280,7 +280,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         medium: response.average / 10,
         high: response.fastest / 10,
       };
-      console.log(prices, "gas fee");
+      // console.log(prices, "gas fee");
       setGasPrice(prices.high * 0.000000001);
     } catch (e) {}
   };
@@ -430,8 +430,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                       <IconButton
                         style={styles.iconBtn}
                         onClick={() => {
-                          console.log("asdasdasdasd");
-                          console.log(gasPrice, "asdasdasd");
+                          // console.log("asdasdasdasd");
+                          // console.log(gasPrice, "asdasdasd");
 
                           if (balanceEth - gasPrice > 0) {
                             OnChangeHandler(balanceEth - gasPrice, "eth", true);
