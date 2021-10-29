@@ -48,7 +48,7 @@ export const usePoolControl = () => {
 
   useEffect(() => {
     const init = async () => {
-      console.log("init");
+      // console.log("init");
       const web3 = new Web3(web3context?.library?.currentProvider);
       const contract = new web3.eth.Contract(
         PhoenixDaoABI,
@@ -66,7 +66,7 @@ export const usePoolControl = () => {
     getDataMain();
   }, [web3context]);
 
-  console.log("values", values);
+  // console.log("values", values);
 
   const getDataMain = async () => {
     const phnx = await Fetcher.fetchTokenData(
@@ -77,7 +77,7 @@ export const usePoolControl = () => {
     const weth = WETH[chainId];
     const pair = await Fetcher.fetchPairData(phnx, weth, customHttpProvider);
     const route = new Route([pair], weth);
-    console.log(weth, pair, route);
+    // console.log(weth, pair, route);
 
     return { weth, pair, route };
   };

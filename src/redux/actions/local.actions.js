@@ -10,7 +10,7 @@ export const GetMainDataAction = () => {
     });
     try {
       let response = await getDataMain();
-      console.log("GetMainDataAction response", response);
+      // console.log("GetMainDataAction response", response);
       dispatch({
         type: types.GET_MAIN_DATA_SUCCESS,
         payload: response,
@@ -28,7 +28,7 @@ export const GetEthBalanceAction = (web3context) => {
   return async (dispatch) => {
     try {
       let response = await getEthBalance(web3context);
-      console.log(response);
+      // console.log(response);
 
       // console.log("GetEthBalaceAction response", response);
       dispatch({
@@ -48,13 +48,13 @@ export const GetUserInfoAction = (contractPhnxStake, web3context) => {
   return async (dispatch) => {
     try {
       let response = await getUserInfo(contractPhnxStake, web3context);
-      console.log("res in GetUserInfoAction", response);
+      // console.log("res in GetUserInfoAction", response);
       dispatch({
         type: types.GET_USER_INFO_SUCCESS,
         payload: response,
       });
     } catch (e) {
-      console.log("Err at GetUserInfoAction", e);
+      // console.log("Err at GetUserInfoAction", e);
       dispatch({
         type: types.GET_USER_INFO_ERROR,
         payload: e?.response?.data?.message || e.message,

@@ -76,7 +76,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
   const [SocialIcon, setSocialIcon] = useState(false);
 
   useEffect(() => {
-    console.log("routing:", window.location.href.split("/"));
+    // console.log("routing:", window.location.href.split("/"));
     cT = window.location.href.split("/")[4];
     if (cT === "home") {
       setCurrentTab(0);

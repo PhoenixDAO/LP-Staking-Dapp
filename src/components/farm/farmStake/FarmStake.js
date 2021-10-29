@@ -27,7 +27,7 @@ function FarmStake({
     // setApproveStatus(false);
   };
 
-  console.log("allowance1:", allowance);
+  // console.log("allowance1:", allowance);
   const web3context = useWeb3React();
   //   const userIsActive = useSelector((state) => state.localReducer.userIsActive);
   //  nsole.log(userIsActive, "userIsActive");
