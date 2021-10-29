@@ -111,7 +111,7 @@ const Terms = (props) => {
 			block: "center",
 		});
 	}
-	console.log("hello")
+	// console.log("hello")
 	return (
 		// test comment
 		<div className={`event-page-wrapper ${classes.termsPage}`}>

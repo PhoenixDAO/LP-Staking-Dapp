@@ -82,9 +82,9 @@ function MyLiquidity({ ChangeTab }) {
   };
 
   useEffect(() => {
-    console.log("aaa", poolPosition);
+    // console.log("aaa", poolPosition);
     if (contractUniswapPair) {
-      console.log("asdasdasdasdasdasdads");
+      // console.log("asdasdasdasdasdasdads");
       handleCheckApprovalUniswapPairAction(setAllowance);
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
     }
@@ -94,14 +94,14 @@ function MyLiquidity({ ChangeTab }) {
     setAllowance,
     setApproveStatus
   ) => {
-    console.log("coming to handleCheckApprovalUniswapPairAction");
+    // console.log("coming to handleCheckApprovalUniswapPairAction");
     POOL_SERVICES.checkApprovalUniswapPair(
       web3context,
       contractUniswapPair,
       setAllowance,
       setApproveStatus
     );
-    console.log(allowance, "999999999");
+    // console.log(allowance, "999999999");
   };
 
   return (

@@ -27,8 +27,8 @@ const RemoveLiquidityModaL = ({
   giveApproval,
   handleClose,
 }) => {
-  console.log(allowance, "asdasdasd");
-  console.log(slippageValue, "asdasdasd");
+  // console.log(allowance, "asdasdasd");
+  // console.log(slippageValue, "asdasdasd");
   const web3context = useWeb3React();
   const dispatch = useDispatch();
   const phnxPerEth = useSelector((state) => state.localReducer.phnxPerEth);
@@ -61,7 +61,7 @@ const RemoveLiquidityModaL = ({
   const [approveStatus, setApproveStatus] = useState(false);
 
   const handleCheckApprovalUniswapPairAction = async () => {
-    console.log("coming to handleCheckApprovalUniswapPairAction");
+    // console.log("coming to handleCheckApprovalUniswapPairAction");
     dispatch(
       CheckApprovalUniswapPairAction(
         web3context,
@@ -85,7 +85,7 @@ const RemoveLiquidityModaL = ({
   };
 
   const _handleRemoveLiquidity = async (handleMainClose) => {
-    console.log("%", selectedPercentage);
+    // console.log("%", selectedPercentage);
 
     settransactionProcessModal(true);
     try {
@@ -113,7 +113,7 @@ const RemoveLiquidityModaL = ({
   };
 
   const handlePercentageInput = (e) => {
-    console.log("%", e.target.value);
+    // console.log("%", e.target.value);
     if (e.target.value === "" || isNaN(e.target.value)) {
       setSelectedPercentage(parseInt(0));
     } else if (e.target.value > 100) {
@@ -149,7 +149,7 @@ const RemoveLiquidityModaL = ({
       return;
     }
 
-    console.log("poolposition111:", poolPosition);
+    // console.log("poolposition111:", poolPosition);
     const ethValue = (poolPosition.eth * (selectedPercentage / 100)).toString();
     const phnxValue =
       parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();

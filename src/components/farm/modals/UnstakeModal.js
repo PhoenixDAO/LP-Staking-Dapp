@@ -45,7 +45,7 @@ function UnStakeModal({ Close, userInfo }) {
   );
 const maxBigValue = new BigNumber(maxlpValue);
   const LpChange = (e,f) => {
-    console.log('aaa',e)
+    // console.log('aaa',e)
     const inputBigValue = new BigNumber(e.target.value);
     if(inputBigValue.lt(0)){
       return;
@@ -58,11 +58,11 @@ const maxBigValue = new BigNumber(maxlpValue);
       setlpValue(e.target.value);
       setlpValueAct(e.target.value);
     }
-    console.log("target value: ", e.target.value);    
-    console.log("lpvalue value: ", lpValue);
-    console.log("Max value: ", maxlpValue);
-    console.log("Max parsed value: ", bigValue.lt(lpValue) );
-    console.log("condition value: ", (lpValue> maxlpValue) );    
+    // console.log("target value: ", e.target.value);    
+    // console.log("lpvalue value: ", lpValue);
+    // console.log("Max value: ", maxlpValue);
+    // console.log("Max parsed value: ", bigValue.lt(lpValue) );
+    // console.log("condition value: ", (lpValue> maxlpValue) );    
   };
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const maxBigValue = new BigNumber(maxlpValue);
     if (web3context.active && web3context.account && poolPosition) {
       // setmaxlpValue(poolPosition.lp);
       setmaxlpValue(Web3.utils.fromWei(userInfo.amount));
-      console.log("poolPosition.lp", poolPosition.lp);
+      // console.log("poolPosition.lp", poolPosition.lp);
     }
   }, [web3context.account, poolPosition]);
 

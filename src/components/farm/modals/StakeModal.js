@@ -53,7 +53,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
       setlpValueAct(e.target.value);
     }
     if (!isNaN(e.target.value) && e.target.value != "") {
-      console.log(parseFloat(e.target.value));
+      // console.log(parseFloat(e.target.value));
       calculateAPR(parseFloat(e.target.value));
     } else {
       calculateAPR(0);
@@ -74,7 +74,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
   useEffect(() => {
     if (web3context.active && web3context.account && poolPosition) {
       setmaxlpValue(poolPosition.lp);
-      console.log("poolPosition.lp", poolPosition.lp);
+      // console.log("poolPosition.lp", poolPosition.lp);
     }
   }, [web3context.account, poolPosition]);
 
@@ -95,7 +95,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           Close
         );
       } catch (e) {
-        console.error('error staking',e);
+        // console.error('error staking',e);
       }
     }
   };
@@ -165,7 +165,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
               }
             },true);
             if (!isNaN(maxlpValue) && maxlpValue != "") {
-              console.log(parseFloat(maxlpValue));
+              // console.log(parseFloat(maxlpValue));
               calculateAPR(parseFloat(maxlpValue));
             } else {
               calculateAPR(parseFloat(0));

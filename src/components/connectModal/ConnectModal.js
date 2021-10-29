@@ -44,7 +44,7 @@ const ConnectModal = ({
   // );
 
   const calculateLpToken = async (amount0, amount1) => {
-    console.log(amount0, amount1);
+    // console.log(amount0, amount1);
 
     if (!uniswapV2PairContract || !amount0 || !amount1) {
       return;
