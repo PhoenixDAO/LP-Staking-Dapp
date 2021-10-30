@@ -1,4 +1,4 @@
-.rm-liq-div{
+.rm-liq-div {
   width: 550px;
   max-height: 600px;
   overflow-y: auto;
@@ -12,110 +12,104 @@
   padding: 25px;
 }
 
-.rm-liq-Logo{
+.rm-liq-Logo {
   width: 125px;
 }
 
-.rm-liq-heading{
-  color: #413AE2;
+.rm-liq-heading {
+  color: #413ae2;
   font-size: 20px;
   font-weight: bold;
   margin-top: 7px;
 }
 
-.rm-liq-ps-div{
+.rm-liq-ps-div {
   display: flex;
   margin-top: 20px;
   align-items: center;
-  
 }
 
-.rm-liq-ps{
+.rm-liq-ps {
   color: #000;
   font-weight: bold;
   font-size: 20px;
   background-color: #f2f2fd;
   padding: 5px 10px;
-  border-radius: 20px ;
+  border-radius: 20px;
   margin-right: 15px;
   cursor: pointer;
   user-select: none;
   width: 60px;
 }
 
-.rm-liq-ps-input-div{
+.rm-liq-ps-input-div {
   margin-top: 20px;
 }
 
-.rm-liq-ps-input{
+.rm-liq-ps-input {
   width: 100%;
   background-color: #fff;
   border: solid 1px #eee;
   border-radius: 5px;
   font-size: 15px;
   padding: 13px;
-
-
 }
 
-.rm-liq-u-will-rec{
+.rm-liq-u-will-rec {
   margin-top: 15px;
   margin-left: 5px;
   font-size: 15px;
   margin-bottom: 9px;
-  font-weight: bold;
-  color: #73727D;
+  font-weight: 500;
+  color: #73727d;
 }
 
-.rm-liq-phnx-eth-det-div{
-  background:  #c3b7ff2b;
-  border :solid 1px #E2E1FF;
+.rm-liq-phnx-eth-det-div {
+  background: #c3b7ff2b;
+  border: solid 1px #e2e1ff;
   border-radius: 10px;
   padding: 10px;
 }
 
-.rm-liq-phnx-eth-det{
+.rm-liq-phnx-eth-det {
   display: flex;
   align-items: center;
 }
 
-.rm-liq-phnx-eth-img{
+.rm-liq-phnx-eth-img {
   height: 22px;
   width: 22px;
 }
 
-.rm-liq-phnx-eth-name{
+.rm-liq-phnx-eth-name {
   font-size: 16px;
   margin-left: 10px;
-  color:#4E4E55;
+  color: #4e4e55;
 }
 
-.rm-liq-phnx-eth-number{
+.rm-liq-phnx-eth-number {
   font-size: 18px;
   margin-left: auto;
-  color: #4E4E55;
-  
+  color: #4e4e55;
 }
 
-.rm-liq-phnx-eth-con-div{
+.rm-liq-phnx-eth-con-div {
   width: 100%;
   margin-top: 17px;
-  margin-bottom:30px;
+  margin-bottom: 30px;
 }
 
-.rm-liq-phnx-eth-con{
-
+.rm-liq-phnx-eth-con {
   margin-left: auto;
   text-align: end;
-  color: #4E4E55;
-  font-size:18px;
+  color: #4e4e55;
+  font-size: 18px;
   margin-bottom: 2px;
-  
 }
 
-.rm-liq-btn{
+.rm-liq-btn {
   width: 100%;
-  background-color: #413AE2;
+  background-color: #413ae2;
   color: #fff;
   font-size: 18px;
   text-align: center;
@@ -127,14 +121,14 @@
   margin-top: 0px;
 }
 
-.rm-liq-divider{
+.rm-liq-divider {
   height: 1px;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.15);
   margin-top: 15px;
 }
 
-.rm-liq-phnx-eth-lp-div{
+.rm-liq-phnx-eth-lp-div {
   display: flex;
   align-items: center;
 }
@@ -145,29 +139,21 @@
   margin: 5px 3px;
 }
 
-.rm-liq-phnx-eth-lp-sub{
+.rm-liq-phnx-eth-lp-sub {
   margin-left: 7px;
-  color: #4E4E55;
-  
+  color: #4e4e55;
 }
 
-.rm-liq-phnx-eth-lp-sub-no{
+.rm-liq-phnx-eth-lp-sub-no {
   margin-left: auto;
-  color: #4E4E55;
+  color: #4e4e55;
 }
-
-
-
-
-
-
-
 
 .rm-liq-div::-webkit-scrollbar {
   width: 20px;
 }
 
-.rm-liq-div::-webkit-scrollbar-track{
+.rm-liq-div::-webkit-scrollbar-track {
   background-color: transparent;
   height: 300px !important;
   margin: 15px 0px;
@@ -181,19 +167,14 @@
   margin-bottom: 10px;
 }
 
-
-
-
 @media (max-width: 600px) {
- 
-  .rm-liq-div{
+  .rm-liq-div {
     width: 95%;
     padding-left: 25px 15px;
     max-height: 500px;
   }
-  
-  .rm-liq-ps{
-   font-size: 15px;
-  }
 
+  .rm-liq-ps {
+    font-size: 15px;
+  }
 }

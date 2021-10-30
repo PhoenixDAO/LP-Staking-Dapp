@@ -1,4 +1,4 @@
-.slippingLiq-div{
+.slippingLiq-div {
   width: 400px;
   max-height: 600px;
   overflow-y: auto;
@@ -12,56 +12,55 @@
   padding: 25px;
 }
 
-.slippingLiq-Logo{
+.slippingLiq-Logo {
   width: 100px;
 }
 
-.slippingLiq-heading{
-  color: #413AE2;
+.slippingLiq-heading {
+  color: #413ae2;
   font-size: 22px;
   font-weight: bolder;
   margin-top: 7px;
   display: flex;
-    align-items: center;
+  align-items: center;
 }
 
-.slippingLiq-ps-div{
+.slippingLiq-ps-div {
   display: flex;
   margin-top: 20px;
   align-items: center;
   justify-content: space-around;
-  
 }
-.closeModalSlipper{
+.closeModalSlipper {
   color: rgba(0, 0, 0, 0.6);
   font-weight: 900;
   text-align: end;
   width: 100%;
 }
-.textFieldIcon{
+.textFieldIcon {
   height: 20px;
   width: 20px;
 }
-.slippingLiq-ps{
+.slippingLiq-ps {
   color: #000;
-  width:100%;
+  width: 100%;
   text-align: center;
   font-weight: bold;
-  font-size: 17px;
+  font-size: 18px;
   background-color: #eee;
   padding: 7px 10px;
-  border-radius: 50px ;
+  border-radius: 50px;
   /* margin-right: 15px; */
   cursor: pointer;
   user-select: none;
 }
 
-.slippingLiq-ps-input-div{
+.slippingLiq-ps-input-div {
   margin-top: 30px;
   margin-bottom: 30px;
 }
 
-.slippingLiq-ps-input{
+.slippingLiq-ps-input {
   width: 100%;
   background-color: #fff;
   border: solid 1px #eee;
@@ -69,7 +68,7 @@
   font-size: 15px;
   padding: 13px;
 }
-.slippingLiq-ps-input{
+.slippingLiq-ps-input {
   width: 100%;
   background-color: #fff;
   border: solid 1px #eee;
@@ -77,60 +76,58 @@
   font-size: 15px;
   padding: 13px;
 }
-.slippingLiq-u-will-rec{
+.slippingLiq-u-will-rec {
   margin-top: 15px;
   margin-left: 5px;
   font-size: 15px;
   margin-bottom: 9px;
   font-weight: bold;
-  color: #73727D;
+  color: #73727d;
 }
 
-.slippingLiq-phnx-eth-det-div{
-  background:  #c3b7ff2b;
-  border :solid 1px #E2E1FF;
+.slippingLiq-phnx-eth-det-div {
+  background: #c3b7ff2b;
+  border: solid 1px #e2e1ff;
   border-radius: 10px;
   padding: 10px;
 }
 
-.slippingLiq-phnx-eth-det{
+.slippingLiq-phnx-eth-det {
   display: flex;
   align-items: center;
 }
 
-.slippingLiq-phnx-eth-img{
+.slippingLiq-phnx-eth-img {
   height: 30px;
   width: 30px;
 }
 
-.slippingLiq-phnx-eth-name{
+.slippingLiq-phnx-eth-name {
   font-size: 18px;
   margin-left: 10px;
 }
 
-.slippingLiq-phnx-eth-number{
+.slippingLiq-phnx-eth-number {
   font-size: 18px;
   margin-left: auto;
-  color: #4E4E55;
-  
+  color: #4e4e55;
 }
 
-.slippingLiq-phnx-eth-con-div{
+.slippingLiq-phnx-eth-con-div {
   width: 100%;
   margin-top: 9px;
 }
 
-.slippingLiq-phnx-eth-con{
-
+.slippingLiq-phnx-eth-con {
   margin-left: auto;
   text-align: end;
-  color: #4E4E55;
+  color: #4e4e55;
   margin-bottom: 9px;
 }
 
-.slippingLiq-btn{
+.slippingLiq-btn {
   width: 100%;
-  background-color: #413AE2;
+  background-color: #413ae2;
   color: #fff;
   font-size: 15px;
   font-weight: 600;
@@ -142,14 +139,14 @@
   margin-top: 0px;
 }
 
-.slippingLiq-divider{
+.slippingLiq-divider {
   width: 100%;
-  background-color: #73727D;
+  background-color: #73727d;
   margin: 7px 0px;
   height: 1px;
 }
 
-.slippingLiq-phnx-eth-lp-div{
+.slippingLiq-phnx-eth-lp-div {
   display: flex;
   align-items: center;
 }
@@ -160,30 +157,22 @@
   margin: 5px 3px;
 }
 
-.slippingLiq-phnx-eth-lp-sub{
+.slippingLiq-phnx-eth-lp-sub {
   margin-left: 7px;
-  color: #4E4E55;
-  
+  color: #4e4e55;
 }
 
-.slippingLiq-phnx-eth-lp-sub-no{
+.slippingLiq-phnx-eth-lp-sub-no {
   margin-left: auto;
-  color: #4E4E55;
+  color: #4e4e55;
   font-weight: 900;
 }
-
-
-
-
-
-
-
 
 .slippingLiq-div::-webkit-scrollbar {
   width: 20px;
 }
 
-.slippingLiq-div::-webkit-scrollbar-track{
+.slippingLiq-div::-webkit-scrollbar-track {
   background-color: transparent;
   height: 300px !important;
   margin: 15px 0px;
@@ -197,19 +186,14 @@
   margin-bottom: 10px;
 }
 
-
-
-
 @media (max-width: 600px) {
- 
-  .slippingLiq-div{
+  .slippingLiq-div {
     width: 95%;
     padding-left: 25px 15px;
     max-height: 500px;
   }
-  
-  .slippingLiq-ps{
-   font-size: 15px;
-  }
 
+  .slippingLiq-ps {
+    font-size: 15px;
+  }
 }
