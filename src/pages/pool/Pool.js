@@ -91,7 +91,7 @@ const Pool = () => {
                     <p
                       className="cardPara"
                     >
-                      &#36;
+                      <span style={{fontSize:stakedLp==0?"30px":""}}>&#36;</span>
                       {userInfo != null
                         ? stakedLp==0?"0.00":tokenSupply&&millify(
                           (

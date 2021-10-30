@@ -45,6 +45,9 @@ function StakeModal({ Close, calculateAPR, Roi }) {
       return;
     }
     // setlpValue(e.target.value);
+    if(e.target.value.toString().includes(".") && !(/^[0-9]*[.,]?[0-9]{0,10}$/.test(e.target.value)) ){
+      return;
+    }
     if(f===true){
       setlpValue(fixedWithoutRounding(maxlpValue,6));
       setlpValueAct(maxlpValue);

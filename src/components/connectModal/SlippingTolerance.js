@@ -65,7 +65,9 @@ const SlippingTolerance = ({
       } else {
         setWarningMsg(false);
       }
-      setSlippageVal(val);
+      setSlippageVal(
+        val.slice(val.indexOf(".") + 1, -1).length < 15 ? val : slippageVal
+      );
     }
   };
 
@@ -73,7 +75,7 @@ const SlippingTolerance = ({
   const handleOpen = () => setOpen(true);
 
   const handlePercentageInput = (e) => {
-    if (e.target.value === "" || isNaN(e.target.value)) {
+    if (e.target.value == "" || isNaN(e.target.value)) {
       handleOnChangeSlippageValue("");
     } else if (e.target.value > 0.5) {
       handleOnChangeSlippageValue(e.target.value);
@@ -112,8 +114,8 @@ const SlippingTolerance = ({
             <div
               className="slippingLiq-ps"
               style={{
-                backgroundColor: slippageValue === 0.1 ? "#413AE2" : "#eee",
-                color: slippageValue === 0.1 ? "#fff" : "#000",
+                backgroundColor: slippageValue == 0.1 ? "#413AE2" : "#eee",
+                color: slippageValue == 0.1 ? "#fff" : "#000",
                 marginRight: "15px",
               }}
               onClick={() => {
@@ -125,8 +127,8 @@ const SlippingTolerance = ({
             <div
               className="slippingLiq-ps"
               style={{
-                backgroundColor: slippageValue === 0.5 ? "#413AE2" : "#eee",
-                color: slippageValue === 0.5 ? "#fff" : "#000",
+                backgroundColor: slippageValue == 0.5 ? "#413AE2" : "#eee",
+                color: slippageValue == 0.5 ? "#fff" : "#000",
                 marginRight: "15px",
               }}
               onClick={() => {
@@ -138,8 +140,8 @@ const SlippingTolerance = ({
             <div
               className="slippingLiq-ps"
               style={{
-                backgroundColor: slippageValue === 1 ? "#413AE2" : "#eee",
-                color: slippageValue === 1 ? "#fff" : "#000",
+                backgroundColor: slippageValue == 1 ? "#413AE2" : "#eee",
+                color: slippageValue == 1 ? "#fff" : "#000",
                 marginRight: "15px",
               }}
               onClick={() => {
@@ -181,10 +183,10 @@ const SlippingTolerance = ({
           <TextField
             sx={{
               borderRadius: "6px",
-              "& .MuiOutlinedInput-input":{
-                fontSize:"20px",
-                fontWeight:"500"
-              }
+              "& .MuiOutlinedInput-input": {
+                fontSize: "20px",
+                fontWeight: "500",
+              },
             }}
             InputProps={{
               endAdornment: (
@@ -196,7 +198,7 @@ const SlippingTolerance = ({
               ),
             }}
             className="slippingLiq-ps-input"
-            placeholder="Enter a value, default value is 1"
+            placeholder="Enter a value, 0.1 is default value"
             value={slippageVal}
             onChange={(e) => {
               handlePercentageInput(e);
@@ -221,9 +223,9 @@ const SlippingTolerance = ({
                 Number(slippageVal) <= 0 || Number(slippageVal) > 1
                   ? "#afafaf"
                   : "#413ae2",
-                  fontSize:"18px",
-                  height:"50px",
-                  fontWeight:"700",
+              fontSize: "16px",
+              height: "50px",
+              fontWeight: "700",
               cursor:
                 Number(slippageVal) <= 0 || Number(slippageVal) > 1
                   ? "inherit !important"
