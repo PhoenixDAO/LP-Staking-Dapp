@@ -66,7 +66,9 @@ const SlippingTolerance = ({
         setWarningMsg(false);
       }
       setSlippageVal(
-        val.slice(val.indexOf(".") + 1, -1).length < 15 ? val : slippageVal
+        val.toString().slice(val.toString().indexOf(".") + 1, -1).length < 15
+          ? val
+          : slippageVal
       );
     }
   };
