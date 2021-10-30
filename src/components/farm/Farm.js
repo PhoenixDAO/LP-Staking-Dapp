@@ -227,14 +227,21 @@ function Farm() {
         ?.lpTokenSupply()
         ?.call();
 
+      let apr;
       if (lpTokenSupply == 0) {
-        setRoi(0);
-        return;
-      }
+        // setRoi();
+        // return;
+        apr=200;
+        
+      }else{
 
-      const apr =
+        apr=
         (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
         Web3.utils.fromWei(lpTokenSupply);
+
+      }
+
+      
 
       let rewardDebt = userInfo.rewardDebt;
       rewardDebt = Number(Web3.utils.fromWei(rewardDebt.toString()));
@@ -291,7 +298,7 @@ function Farm() {
         ?.call();
 
       if (lpTokenSupply == 0) {
-        setAPR(0);
+        setAPR(200);
         return;
       }
 
