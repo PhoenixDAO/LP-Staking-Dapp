@@ -39,7 +39,7 @@ function FarmStake({
   return (
     <div>
       <div className="farm-heading">Farm</div>
-      <div className="farm-sub-heading">Stake LP Tokens to earn</div>
+      <div className="farm-sub-heading">Stake PHNX/ETH-LP Tokens to earn</div>
 
       <div className="farm-divider"></div>
 
