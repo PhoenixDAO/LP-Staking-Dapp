@@ -177,6 +177,7 @@ export default function ConnectWallet({
 
   const activateWallet = useCallback(
     async (connector, onClose = () => {}) => {
+      console.log("abcd");
       if (
         connector instanceof WalletConnectConnector &&
         connector.walletConnectProvider?.wc?.uri
@@ -210,7 +211,7 @@ export default function ConnectWallet({
 
         const err = getErrorMessage(e);
 
-        // console.log("aaa11111111111111111", e.code);
+        console.log("aaa11111111111111111", e.code);
 
         if (e.code == 4001) {
           // console.log("aaa11111111111111111", err);
@@ -530,10 +531,35 @@ export default function ConnectWallet({
             <Stack spacing={2} sx={{ mt: 5 }}>
               <Item
                 onClick={async () => {
-                  !active &&
-                    !(connector instanceof InjectedConnector) &&
-                    activateWallet(injected);
-
+                  if (!active) {
+                    if (!(connector instanceof InjectedConnector)) {
+                      activateWallet(injected);
+                    } else {
+                      toast(
+                        <Notify
+                          text={
+                            "You are connected to wrong network 😔, Connect to Ethereum Mainnet."
+                          }
+                          severity="success"
+                        />,
+                        {
+                          position: "bottom-right",
+                        }
+                      );
+                    }
+                  } else {
+                    toast(
+                      <Notify
+                        text={
+                          "You are connected to wrong network 😔, Connect to Ethereum Mainnet."
+                        }
+                        severity="success"
+                      />,
+                      {
+                        position: "bottom-right",
+                      }
+                    );
+                  }
                   window.localStorage.setItem("previousWallet", "metaMask");
                 }}
               >
