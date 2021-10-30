@@ -253,6 +253,9 @@ const RemoveLiquidityModaL = ({
             borderRadius: "6px",
             marginBottom: "20px",
             border: "1px solid #fff",
+            "& .MuiOutlinedInput-input": {
+              fontSize: "20px",
+            },
           }}
           InputProps={{
             classes: {

@@ -167,7 +167,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     }
   };
 
-  const OnChangeHandler = (val, tokenName, isMaxButton) => {
+  const OnChangeHandler = async (val, tokenName, isMaxButton) => {
     if (val < 0) {
       return;
     }
@@ -190,6 +190,15 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         setEthValue(fixedWithoutRounding(parseFloat(ethPerPhnx) * v || num, 6));
         setActEthValue(parseFloat(ethPerPhnx) * v || num);
       } else {
+        v = Number(v);
+        console.log("phnx value: ", v);
+        console.log("phnx value: test", v, /^[0-9]*[.,]?[0-9]{0,10}$/.test(v));
+        if (
+          v.toString().includes(".") &&
+          (await !/^[0-9]*[.,]?[0-9]{0,10}$/.test(v))
+        ) {
+          return;
+        }
         setPhnxValue(v);
         setActPhnxValue(v);
         setActEthValue(parseFloat(ethPerPhnx) * v || num);
@@ -229,6 +238,12 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         );
         setActPhnxValue(parseFloat(phnxPerEth) * v || num);
       } else {
+        if (
+          v.toString().includes(".") &&
+          (await !/^[0-9]*[.,]?[0-9]{0,10}$/.test(v))
+        ) {
+          return;
+        }
         setPhnxValue(parseFloat(phnxPerEth) * v || num);
         setActPhnxValue(parseFloat(phnxPerEth) * v || num);
         setActEthValue(v);
@@ -648,7 +663,7 @@ const styles = {
     fontSize: 15,
     color: "#FFFFFF",
     paddingInline: "16px",
-    textAlign:"justify"
+    textAlign: "justify",
   },
   btnAddLiquidity: {
     backgroundColor: "#413AE2",
