@@ -202,7 +202,7 @@ function FarmHarvest({
               <span style={{ color: "#413AE2" }}>
                 <a
                   target="_blank"
-                  href="https://github.com/PhoenixDAO/Lp-staking-contract"
+                  href="https://etherscan.io/address/0x66663724b50f4ea40e5ced7fc5181fe1816ce0c4"
                   style={{ textDecoration: "none", color: "#413ae2" }}
                 >
                   View Contract&nbsp;

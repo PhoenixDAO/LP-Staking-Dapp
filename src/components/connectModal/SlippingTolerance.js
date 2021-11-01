@@ -39,7 +39,7 @@ const SlippingTolerance = ({
       setWarningMsg(false);
     }
     // console.log("slippageVal", slippageVal);
-    console.log("slippageValue", slippageValue);
+    // console.log("slippageValue", slippageValue);
   }, [slippageVal]);
 
   // useEffect(() => {
