@@ -242,7 +242,7 @@ export default function ConnectWallet({
           );
         }
 
-        console.error("ERROR activateWallet -> ", err);
+        // console.error("ERROR activateWallet -> ", err);
         toast(<Notify text={err} severity="success" />, {
           position: "bottom-right",
         });
