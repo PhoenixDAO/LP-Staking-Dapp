@@ -19,12 +19,12 @@ const SlippingTolerance = ({
   const dispatch = useDispatch();
   const [slippageVal, setSlippageVal] = useState(0.1);
   const [warningMsg, setWarningMsg] = useState(false);
-  // const slippageAddLiquidity = useSelector(
-  //   (state) => state.localReducer.slippageAddLiquidity
-  // );
-  // const slippageRemoveLiquidity = useSelector(
-  //   (state) => state.localReducer.slippageRemoveLiquidity
-  // );
+  const slippageAddLiquidity = useSelector(
+    (state) => state.localReducer.slippageAddLiquidity
+  );
+  const slippageRemoveLiquidity = useSelector(
+    (state) => state.localReducer.slippageRemoveLiquidity
+  );
 
   useEffect(() => {
     if (slippageValue) {
@@ -37,7 +37,25 @@ const SlippingTolerance = ({
     }
   }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (Number(slippageVal) <= 0 || Number(slippageVal) > 1) {
+  //     return;
+  //   } else {
+  //     if (slippageType == "add") {
+  //       dispatch({
+  //         type: SET_SLIPPAGE_ADD_LIQUIDITY,
+  //         payload: slippageVal,
+  //       });
+  //     } else if (slippageType == "remove") {
+  //       dispatch({
+  //         type: SET_SLIPPAGE_REMOVE_LIQUIDITY,
+  //         payload: slippageVal,
+  //       });
+  //     }
+  //   }
+  // }, [slippageVal]);
+
+  const handleOnPressSetSlippage = () => {
     if (Number(slippageVal) <= 0 || Number(slippageVal) > 1) {
       return;
     } else {
@@ -52,10 +70,11 @@ const SlippingTolerance = ({
           payload: slippageVal,
         });
       }
+      handlePressClose();
     }
-  }, [slippageVal]);
+  };
 
-  const handleOnChangeSlippageValue = (val) => {
+  const handleSetSlippageValue = (val) => {
     // console.log("handleOnChangeSlippageValue ", val);
     if (val < 0 || val > 1) {
       return;
@@ -75,14 +94,22 @@ const SlippingTolerance = ({
 
   const [open, setOpen] = useState(status);
   const handleOpen = () => setOpen(true);
+  const handlePressClose = () => {
+    handleClose(false);
+    if (slippageType == "add") {
+      setSlippageVal(slippageAddLiquidity);
+    } else if (slippageType == "remove") {
+      setSlippageVal(slippageRemoveLiquidity);
+    }
+  };
 
   const handlePercentageInput = (e) => {
     if (e.target.value == "" || isNaN(e.target.value)) {
-      handleOnChangeSlippageValue("");
+      handleSetSlippageValue("");
     } else if (e.target.value > 0.5) {
-      handleOnChangeSlippageValue(e.target.value);
+      handleSetSlippageValue(e.target.value);
     } else {
-      handleOnChangeSlippageValue(e.target.value);
+      handleSetSlippageValue(e.target.value);
     }
   };
 
@@ -90,7 +117,7 @@ const SlippingTolerance = ({
     <div>
       <Modal
         open={status}
-        onClose={() => handleClose(false)}
+        onClose={handlePressClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -100,7 +127,7 @@ const SlippingTolerance = ({
               <span className="cursorPointer">
                 <CloseIcon
                   sx={{ transform: "scale(1.2)" }}
-                  onClick={() => handleClose(false)}
+                  onClick={handlePressClose}
                 />
               </span>
             </div>
@@ -121,7 +148,7 @@ const SlippingTolerance = ({
                 marginRight: "15px",
               }}
               onClick={() => {
-                handleOnChangeSlippageValue(0.1);
+                handleSetSlippageValue(0.1);
               }}
             >
               0.1%
@@ -134,7 +161,7 @@ const SlippingTolerance = ({
                 marginRight: "15px",
               }}
               onClick={() => {
-                handleOnChangeSlippageValue(0.5);
+                handleSetSlippageValue(0.5);
               }}
             >
               0.5%
@@ -147,7 +174,7 @@ const SlippingTolerance = ({
                 marginRight: "15px",
               }}
               onClick={() => {
-                handleOnChangeSlippageValue(1);
+                handleSetSlippageValue(1);
               }}
             >
               1.0%
@@ -169,12 +196,7 @@ const SlippingTolerance = ({
                     : "#000",
               }}
               onClick={() => {
-                // setSelectedPercentage(100);
-                // dispatch({
-                //   type: SET_SLIPPAGE_VALUE,
-                //   payload: "50",
-                // });
-                // handleSlippageValue(5)
+                return;
               }}
             >
               Auto
@@ -219,7 +241,7 @@ const SlippingTolerance = ({
             disabled={
               Number(slippageVal) <= 0 || Number(slippageVal) > 1 ? true : false
             }
-            onClick={() => handleClose(false)}
+            onClick={handleOnPressSetSlippage}
             style={{
               backgroundColor:
                 Number(slippageVal) <= 0 || Number(slippageVal) > 1
