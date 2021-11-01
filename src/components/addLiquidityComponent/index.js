@@ -143,8 +143,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       settransactionConfirmModal(false);
       settransactionProcessModal(true);
       await SERVICE.supply(
-        phnxValue,
-        ethValue,
+        actPhnxValue,
+        actEthValue,
         web3context,
         contractUniswapRouter,
         settransactionProcessModal,
@@ -168,6 +168,17 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   };
 
   const OnChangeHandler = async (val, tokenName, isMaxButton) => {
+    console.log("asdasd", val.toString() == "");
+
+    if (val.toString() == "") {
+      setEthValue("");
+      setPhnxValue("");
+      setActEthValue(0);
+      setActPhnxValue(0);
+      setPoolShare(0);
+      return;
+    }
+
     if (val < 0) {
       return;
     }
@@ -191,18 +202,24 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         setActEthValue(parseFloat(ethPerPhnx) * v || num);
       } else {
         v = Number(v);
-        console.log("phnx value: ", v);
-        console.log("phnx value: test", v, /^[0-9]*[.,]?[0-9]{0,10}$/.test(v));
+        // console.log("phnx value: ", v);
+        // console.log("phnx value: test", v, /^[0-9]*[.,]?[0-9]{0,10}$/.test(v));
         if (
           v.toString().includes(".") &&
-          (await !/^[0-9]*[.,]?[0-9]{0,10}$/.test(v))
+          v.toString().split(".")[1].length > 9
         ) {
           return;
         }
         setPhnxValue(v);
         setActPhnxValue(v);
         setActEthValue(parseFloat(ethPerPhnx) * v || num);
-        setEthValue(parseFloat(ethPerPhnx) * v || num);
+        if (v < 0.001) {
+          setEthValue(parseFloat(ethPerPhnx) * v || num);
+        } else {
+          setEthValue(
+            fixedWithoutRounding(parseFloat(ethPerPhnx) * v || num, 10)
+          );
+        }
       }
 
       if (v > 0 && v < 0.01) {
@@ -240,7 +257,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       } else {
         if (
           v.toString().includes(".") &&
-          (await !/^[0-9]*[.,]?[0-9]{0,10}$/.test(v))
+          v.toString().split(".")[1].length > 9
+
+          // (await !/^[0-9]*[.,]?[0-9]{0,10}$/.test(v))
         ) {
           return;
         }
