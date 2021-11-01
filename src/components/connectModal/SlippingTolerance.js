@@ -30,12 +30,17 @@ const SlippingTolerance = ({
     if (slippageValue) {
       setSlippageVal(slippageValue);
     }
+  }, [slippageValue]);
+
+  useEffect(() => {
     if (slippageValue > 0 && slippageValue < 0.1) {
       setWarningMsg(true);
     } else {
       setWarningMsg(false);
     }
-  }, []);
+    // console.log("slippageVal", slippageVal);
+    console.log("slippageValue", slippageValue);
+  }, [slippageVal]);
 
   // useEffect(() => {
   //   if (Number(slippageVal) <= 0 || Number(slippageVal) > 1) {
@@ -70,8 +75,8 @@ const SlippingTolerance = ({
           payload: slippageVal,
         });
       }
-      handlePressClose();
     }
+    handlePressClose();
   };
 
   const handleSetSlippageValue = (val) => {
@@ -94,13 +99,14 @@ const SlippingTolerance = ({
 
   const [open, setOpen] = useState(status);
   const handleOpen = () => setOpen(true);
+
   const handlePressClose = () => {
-    handleClose(false);
     if (slippageType == "add") {
       setSlippageVal(slippageAddLiquidity);
     } else if (slippageType == "remove") {
       setSlippageVal(slippageRemoveLiquidity);
     }
+    handleClose(false);
   };
 
   const handlePercentageInput = (e) => {
@@ -183,15 +189,11 @@ const SlippingTolerance = ({
               className="slippingLiq-ps"
               style={{
                 backgroundColor:
-                  slippageVal != 0.1 &&
-                  slippageVal != 0.5 &&
-                  slippageVal != 1
+                  slippageVal != 0.1 && slippageVal != 0.5 && slippageVal != 1
                     ? "#413AE2"
                     : "#eee",
                 color:
-                  slippageVal != 0.1 &&
-                  slippageVal != 0.5 &&
-                  slippageVal != 1
+                  slippageVal != 0.1 && slippageVal != 0.5 && slippageVal != 1
                     ? "#fff"
                     : "#000",
               }}
