@@ -30,6 +30,8 @@ import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET } from "../../contract/constan
 function Farm() {
   const dispatch = useDispatch();
   const web3context = useWeb3React();
+  let [refreshCount, setRefreshCount] = useState(0);
+
   const contractPhnxStake = useSelector(
     (state) => state.contractReducer.contractPhnxStake
   );
@@ -127,12 +129,6 @@ function Farm() {
   };
 
   useEffect(() => {
-    const interval = setInterval(async () => {
-      await getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
-    }, 5000);
-  }, []);
-
-  useEffect(() => {
     if (
       web3context?.account &&
       web3context?.active &&
@@ -156,6 +152,29 @@ function Farm() {
   ]);
 
   useEffect(() => {
+    let fun = async (web3context) => {
+      // console.log("contractPhnxStake==>", contractPhnxStake);
+
+      if (contractPhnxStake) {
+        await getPendingPHX(contractPhnxStake, web3context, setPendingPHX);
+      } else {
+        // console.log("web3", web3context);
+        if (web3context.active) {
+          dispatch(PhnxStakeContractInitAction(web3context));
+        }
+      }
+    };
+    fun(web3context);
+  }, [refreshCount]);
+
+  useEffect(() => {
+    setInterval(() => {
+      setRefreshCount(refreshCount++);
+      // console.log(refreshCount);
+    }, 5000);
+  }, []);
+
+  useEffect(() => {
     const getTotalLiquidity = async () => {
       await axios({
         url: "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2",
@@ -176,7 +195,9 @@ function Farm() {
             setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          // console.error(err)
+        });
     };
 
     getTotalLiquidity();
@@ -194,7 +215,7 @@ function Farm() {
         setLoading
       );
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
   };
 
