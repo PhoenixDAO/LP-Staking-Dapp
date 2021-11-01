@@ -223,25 +223,22 @@ function Farm() {
       const phxPerBlock = await contractPhnxStake?.methods
         ?.phxPerBlock()
         ?.call();
-      const lpTokenSupply = await contractPhnxStake?.methods
+      const lpTokenSupplyStaking = await contractPhnxStake?.methods
         ?.lpTokenSupply()
         ?.call();
 
+      const lpTokenSupply = await contractUniswapPair.methods
+        .totalSupply()
+        .call();
+
       let apr;
-      if (lpTokenSupply == 0) {
-        // setRoi();
-        // return;
-        apr=200;
-        
-      }else{
-
-        apr=
-        (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
-        Web3.utils.fromWei(lpTokenSupply);
-
+      if (lpTokenSupplyStaking == 0) {
+        apr = 200;
+      } else {
+        apr =
+          (blockInAYear * Web3.utils.fromWei(phxPerBlock)) /
+          Web3.utils.fromWei(lpTokenSupplyStaking);
       }
-
-      
 
       let rewardDebt = userInfo.rewardDebt;
       rewardDebt = Number(Web3.utils.fromWei(rewardDebt.toString()));
@@ -260,17 +257,26 @@ function Farm() {
 
       const _ratio = _reserve0.dividedBy(_reserve1);
 
-      let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot(); //this
+      // let _token0 = _balance.pow(2).dividedBy(_ratio).squareRoot(); //this
 
-      let _token1 = _balance.pow(2).dividedBy(_token0);
+      // let _token1 = _balance.pow(2).dividedBy(_token0);
+
+      let _token0 = (_balance * _reserve1) / lpTokenSupply;
+      let _token1 = (_balance * _reserve0) / lpTokenSupply;
+
       const conv = new BigNumber("1e+18");
 
-      _token0 = _token0.dividedBy(conv).toString();
-      _token1 = _token1.dividedBy(conv); //phnx this
+      // console.log("staking", _token1, apr);
+
+      // _token0 = _token0.dividedBy(conv).toString();
+      _token1 = _token1 * 0.000000000000000001; //phnx this
+
+      // console.log("staking", _token1, apr);
 
       let usd = PhoenixDAO_market.usd;
 
       let roi = _token1 * apr * usd;
+      // console.log("staking", roi);
 
       // console.log("a", roi);
       // let reward = Number(apr) * Number(amount) - Number(rewardDebt); // Phnx rewrd in a year
