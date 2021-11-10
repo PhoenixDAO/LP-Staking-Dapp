@@ -95,7 +95,6 @@ export default function DashboardLayout() {
         open={open}
         handleDrawerClose={handleDrawerClose}
         handleDrawerOpen={handleDrawerOpen}
-        className="sideBarFullScreen"
       />
       <Box className="main-div">
         <DrawerHeader />

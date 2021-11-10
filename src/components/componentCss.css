@@ -222,7 +222,6 @@ div.dialog-style {
   }
   div.container-pool-share {
     display: flex;
-    flex-direction: column;
     align-items: flex-start;
   }
   div.pool-share {
@@ -296,13 +295,25 @@ div.liq-modal-res > div > .css-196kcza {
   max-width: 38px !important;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
+  .btn-div-header {
+    width: 80%;
+  }
   .connect-wallet-btn {
     font-size: 18px !important;
-    padding: 3px !important;
-    max-width: 140px;
+    width: 100%;
+  }
+  div.container-pool-share {
+    padding: 9px;
   }
 
+  div.container-pool-share > div > p {
+    font-size: 14px !important;
+  }
+  
+}
+
+@media (max-width: 400px) {
   .balance-wallet-btn {
     font-size: 8px;
     font-weight: 500;
@@ -344,6 +355,19 @@ div.liq-modal-res > div > .css-196kcza {
     max-width: 25px !important;
   }
 }
+
+.navBar-Logo {
+  display: none;
+}
+
+.navCloseHeaderCross {
+  display: none;
+}
+
+.smallScreenConnectBtn {
+  display: none;
+}
+
 @media (max-width: 500px) {
   .navLogo {
     width: 120px;
@@ -358,6 +382,68 @@ div.liq-modal-res > div > .css-196kcza {
     /* padding-inline:15px !important; */
     background-color: #fff !important;
   }
+
+  .current-tab {
+    border-left: none !important;
+    background: none !important;
+  }
+  .no-current-tab {
+    border-left: none !important;
+  }
+
+  .no-current-tab:hover {
+    border-left: none !important;
+    background: none !important;
+  }
+
+  .navBar-Logo {
+    display: block;
+    width: 150px;
+    margin: 20px;
+  }
+
+  .navCloseHeader {
+    display: none;
+  }
+
+  .navCloseHeaderCross {
+    display: block;
+    margin: 10px;
+  }
+
+  .minWidth > div {
+    min-width: 40px;
+  }
+
+  .smallScreenConnectBtn {
+    width: 80% !important;
+    display: block;
+  }
+
+  .connect-wallet-btn > div {
+    text-align: center !important;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .navBarConnectWalletButton {
+    display: none;
+  }
+
+  .social-icons-sidebar {
+    position: relative !important;
+    bottom: 0px !important;
+  }
+
+  .social-icons-sidebar1 {
+    position: relative !important;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0px !important;
+    width: fit-content;
+    padding-bottom: 30px !important;
+  }
 }
 
 @media (max-width: 760px) {
@@ -366,34 +452,13 @@ div.liq-modal-res > div > .css-196kcza {
   }
 }
 
-.css-bshv44-MuiButtonBase-root-MuiListItem-root {
-  border-left: solid 5px #fff !important;
-  /* background-color: none !important; */
-  /* background: linear-gradient(-270.37deg, rgba(65, 58, 226, 0.3) -144.64%, rgba(65, 58, 226, 0) 99.7%); */
-}
-
-.css-bshv44-MuiButtonBase-root-MuiListItem-root:hover {
-  border-left: solid 5px #413ae2 !important;
-  /* background-color: none !important; */
-  background: linear-gradient(
-    -270.37deg,
-    rgba(65, 58, 226, 0.3) -144.64%,
-    rgba(65, 58, 226, 0) 99.7%
-  );
-}
-
-.css-bshv44-MuiButtonBase-root-MuiListItem-root :hover {
-  filter: brightness(0) saturate(100%) invert(16%) sepia(100%) saturate(3774%)
-    hue-rotate(244deg) brightness(91%) contrast(93%);
-}
-
 /* .css-i4bv87-MuiSvgIcon-root:hover{
   filter: brightness(0) saturate(100%) invert(16%) sepia(100%) saturate(3774%) hue-rotate(244deg) brightness(91%) contrast(93%);} */
 
 .current-tab {
   filter: brightness(0) saturate(100%) invert(16%) sepia(100%) saturate(3774%)
     hue-rotate(244deg) brightness(91%) contrast(93%);
-  border-left: solid 5px #413ae2 !important;
+  border-left: solid 5px #413ae2;
   background: linear-gradient(
     -270.37deg,
     rgba(65, 58, 226, 0.3) -144.64%,
@@ -401,7 +466,19 @@ div.liq-modal-res > div > .css-196kcza {
   );
 }
 .no-current-tab {
-  border-left: solid 5px #fff !important;
+  border-left: solid 5px #fff;
+}
+
+.no-current-tab:hover {
+  border-left: solid 5px #413ae2;
+  /* background-color: none !important; */
+  background: linear-gradient(
+    -270.37deg,
+    rgba(65, 58, 226, 0.3) -144.64%,
+    rgba(65, 58, 226, 0) 99.7%
+  );
+  filter: brightness(0) saturate(100%) invert(16%) sepia(100%) saturate(3774%)
+    hue-rotate(244deg) brightness(91%) contrast(93%);
 }
 
 .connect-wallet-btn {
@@ -467,4 +544,25 @@ div.liq-modal-res > div > .css-196kcza {
 .connect-wallet-btn-reverse:hover {
   background-color: #fff;
   color: #413ae2;
+}
+
+.social-icons-sidebar {
+  position: absolute;
+  bottom: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+  width: 100%;
+  padding: 0px 10px;
+}
+
+.social-icons-sidebar1 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 160px;
+  display: flex;
+  justify-content: space-around;
+  align-items: baseline;
+  padding: 0px 10px;
 }

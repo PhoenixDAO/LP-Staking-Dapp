@@ -364,9 +364,7 @@ export default function ConnectWallet({
   }, [account]);
 
   return (
-    <div
-      style={{ width: "fit-content", display: "flex", alignItems: "center" }}
-    >
+    <div style={{ display: "flex", alignItems: "center" }}>
       {active && account && justModal != true ? (
         <div className="usdBalance">
           <img

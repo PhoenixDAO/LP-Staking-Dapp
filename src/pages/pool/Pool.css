@@ -6,31 +6,35 @@ div.container-div {
   margin-top: 70px;
   padding-bottom: 100px;
 }
-.cardPara{
-  color: #413AE2;
+.cardPara {
+  color: #413ae2;
   font-size: 50px;
   font-weight: bold;
-  text-shadow: 0px 0px 1px #413AE2;
+  text-shadow: 0px 0px 1px #413ae2;
   padding: 0px;
   margin: 0px;
 }
-.cardContent{
+.cardContent {
   display: flex;
   flex-flow: column;
 }
 div.gradient-div {
   display: flex;
   flex-direction: row;
-  padding:35px 50px;
+  padding: 35px 50px;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(90deg, rgba(65, 58, 226, 0.3) 0%, rgba(255, 0, 247, 0.080) 70.13%);
+  background: linear-gradient(
+    90deg,
+    rgba(65, 58, 226, 0.3) 0%,
+    rgba(255, 0, 247, 0.08) 70.13%
+  );
   border: 0.5px solid rgba(65, 58, 226, 0.3);
   box-sizing: border-box;
   backdrop-filter: blur(2px);
   /* -webkit-filter: ; */
   border-radius: 13px;
-  position:relative;
+  position: relative;
 }
 
 div.connect-wallet-txt {
@@ -44,7 +48,7 @@ img.img-hands {
   position: absolute;
   right: 47px;
   width: 250px;
-  top:-40px;
+  top: -40px;
   height: auto;
 }
 div.container-div2 {
@@ -67,30 +71,33 @@ p.phnx-heading {
   margin-bottom: 0;
 }
 
-@media (max-width:500px){
+@media (max-width: 500px) {
   div.gradient-div {
     display: flex;
     flex-direction: row;
-    padding:35px 0px;
+    padding: 35px 0px;
     align-items: center;
     justify-content: space-between;
-    background: linear-gradient(90deg, rgba(65, 58, 226, 0.3) 0%, rgba(255, 0, 247, 0.080) 70.13%);
+    background: linear-gradient(
+      90deg,
+      rgba(65, 58, 226, 0.3) 0%,
+      rgba(255, 0, 247, 0.08) 70.13%
+    );
     border: 0.5px solid #413ae24d;
     box-sizing: border-box;
     backdrop-filter: blur(2px);
     /* -webkit-filter: ; */
     border-radius: 13px;
-    position:relative;
+    position: relative;
   }
 }
-@media (min-width:1400px){
+@media (min-width: 1400px) {
   p.phnx-heading {
     font-size: 50px;
     font-weight: bolder;
     text-shadow: 0px 0px 0px #000000;
     margin-bottom: 0;
   }
-  
 }
 p.phnx-subheading {
   font-size: 18px;
@@ -104,8 +111,6 @@ img.img-landing-logo {
   width: 400px;
   height: auto;
 }
-
-
 
 @media (max-width: 1220px) {
   img.img-landing-logo {
@@ -192,23 +197,23 @@ img.img-landing-logo {
   }
 
 } */
-.cardContent{
+.cardContent {
   display: flex;
   flex-flow: column;
 }
-.pricesAlignment{
+.pricesAlignment {
   display: flex;
 }
 @media (max-width: 1000px) {
-  .pricesAlignment{
+  .pricesAlignment {
     display: flex;
     flex-direction: column;
   }
-  div.container-div{
+  div.container-div {
     margin-top: 50px;
   }
 
-  .gradient-div{
+  .gradient-div {
     flex-direction: column !important;
   }
 
@@ -227,14 +232,12 @@ img.img-landing-logo {
     margin-right: auto;
     text-align: center;
     /* margin-bottom: 90px; */
-    
   }
 
   img.img-landing-logo {
     width: 310px;
     top: -70px;
     margin-top: -10px;
-    
   }
 
   img.img-hands {
@@ -242,7 +245,6 @@ img.img-landing-logo {
     left: 10px;
     top: 90px;
   }
-
 }
 
 @media (max-width: 780px) {
@@ -279,9 +281,7 @@ img.img-landing-logo {
   }
   div.connect-wallet-txt {
     font-size: 18px;
-    
   }
-
 }
 
 @media (max-width: 660px) {
@@ -296,7 +296,6 @@ img.img-landing-logo {
 }
 
 @media (max-width: 645px) {
-
   p.phnx-subheading {
     font-size: 15px;
   }
@@ -307,7 +306,6 @@ img.img-landing-logo {
   }
   div.connect-wallet-txt {
     font-size: 18px;
-    
   }
 
   img.img-landing-logo {
@@ -321,17 +319,15 @@ img.img-landing-logo {
     top: 85px;
   }
 
-  div.container-div{
+  div.container-div {
     width: 80%;
   }
-
 }
-.yourStakeHeading{
+.yourStakeHeading {
   font-size: 20px;
 }
 
 @media (max-width: 550px) {
-
   p.phnx-subheading {
     font-size: 14px;
   }
@@ -345,7 +341,6 @@ img.img-landing-logo {
     margin: 15px;
     margin-top: 20px;
     /* margin-bottom: 60px; */
-    
   }
 
   img.img-landing-logo {
@@ -358,19 +353,17 @@ img.img-landing-logo {
     left: 17px;
     top: 70px;
   }
-
 }
 
 @media (max-width: 480px) {
-
-  div.container-div{
+  div.container-div {
     margin-top: 30px;
   }
-  .cardPara{
-    color: #413AE2;
+  .cardPara {
+    color: #413ae2;
     font-size: 35px;
     font-weight: bold;
-    text-shadow: 0px 0px 1px #413AE2;
+    text-shadow: 0px 0px 1px #413ae2;
     padding: 0px;
     margin: 0px;
   }
@@ -380,7 +373,7 @@ img.img-landing-logo {
   }
   p.phnx-heading {
     font-size: 20px;
-    margin-top: 150px;
+    margin-top: 0px;
     font-weight: bold;
   }
   div.connect-wallet-txt {
@@ -388,21 +381,20 @@ img.img-landing-logo {
     margin: 5px;
     margin-top: 20px;
     /* margin-bottom: 60px; */
-    
   }
 
   img.img-landing-logo {
-    width: 180px;
-    top: -40px;
+    width: 90%;
+    top: 180px;
+    left: 0;
+    right: 0;
   }
 
   img.img-hands {
-    width: 80px;
-    left: 0px;
+    left: 55%;
     top: 60%;
   }
-  .yourStakeHeading{
+  .yourStakeHeading {
     font-size: 15px;
   }
 }
-
