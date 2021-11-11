@@ -49,14 +49,19 @@ function FarmHarvest({
             fontSize: "22px",
             color: "#1E1E22",
           }}
-           className="pooled-item-right-txt"
+          className="pooled-item-right-txt"
         >
           PHNX/ETH
         </div>
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#4E4E55", fontWeight: "normal" }} className="pooled-item-txt">APR</span>
+          <span
+            style={{ color: "#4E4E55", fontWeight: "normal" }}
+            className="pooled-item-txt"
+          >
+            APR
+          </span>
         </div>
         <div className="farm-details-txt-right">
           <span style={{ color: "#73727D" }} className="pooled-item-right-txt">
@@ -68,7 +73,9 @@ function FarmHarvest({
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#4E4E55" }} className="pooled-item-txt">EARN</span>
+          <span style={{ color: "#4E4E55" }} className="pooled-item-txt">
+            EARN
+          </span>
         </div>
         <div
           className="farm-details-txt-right"
@@ -132,10 +139,13 @@ function FarmHarvest({
           </span>
         </div>
       </div>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div
+        style={{ display: "flex", alignItems: "center", height: "fit-content" }}
+      >
         <button
-          className="farm-btn-stake-outline"
+          className="farm-btn-stake-outline farm-btn-stake-outline1"
           onClick={() => UnstakeModalOpen()}
+          
         >
           <b>-</b> UnStake
         </button>

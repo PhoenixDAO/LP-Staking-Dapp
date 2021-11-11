@@ -237,7 +237,7 @@ text-align:center;
     font-size: 16px;
     justify-content: end;
 }
-@media (max-width:400px){
+@media (max-width:520px){
   .phnxDepositePrice{
     align-items: center;
     color:#4E4E55;

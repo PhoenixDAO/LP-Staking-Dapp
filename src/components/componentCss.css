@@ -224,9 +224,9 @@ div.dialog-style {
     display: flex;
     align-items: flex-start;
   }
-  div.pool-share {
+  /* div.pool-share {
     align-items: flex-start;
-  }
+  } */
   /* div.dialog-style {
     padding: "0px 0px 0px 0px";
   } */
@@ -254,6 +254,15 @@ div.dialog-style {
   .homeScreenConnectBtnDiv {
     width: 220px;
   }
+}
+
+@media (max-width: 341px) {
+
+  .settingSlippage1 {
+    position: relative;
+    top: -40px;
+  }
+
 }
 
 /* .makeStyles-hideScroll-7::-webkit-scrollbar{

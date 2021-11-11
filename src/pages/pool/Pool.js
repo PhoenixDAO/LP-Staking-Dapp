@@ -61,11 +61,11 @@ const Pool = () => {
     };
     getTotalLiquidity();
   }, []);
-  useEffect(()=>{
-    if(active && account && userInfo){
+  useEffect(() => {
+    if (active && account && userInfo) {
       setstakedLp(userInfo.amount);
     }
-  },[account,userInfo]);
+  }, [account, userInfo]);
 
   return (
     <div>
@@ -84,27 +84,32 @@ const Pool = () => {
             //   liquidity to the ETH/PHNX pool on Uniswap to get some.
             // </p>
             <div className="connect-wallet-txt">
-              <div style={{  }} className="cardContent">
+              <div style={{}} className="cardContent">
                 <span className="yourStakeHeading">Your Stake</span>
                 <div className="pricesAlignment">
                   <div>
-                    <p
-                      className="cardPara"
-                    >
-                      <span style={{fontSize:stakedLp==0?"30px":""}}>&#36;</span>
+                    <p className="cardPara">
+                      <span style={{ fontSize: stakedLp == 0 ? "30px" : "" }}>
+                        &#36;
+                      </span>
                       {userInfo != null
-                        ? stakedLp==0?"0.00":tokenSupply&&millify(
-                          (
-                            parseFloat(reserveUSD / (tokenSupply)) *
-                            (userInfo.amount
-                              ? parseFloat(Web3.utils.fromWei(userInfo.amount))
-                              : 0)
-                          ).toFixed(3) ,
-                            {
-                              precision: 3,
-                              lowercase: true,
-                            }
-                          )
+                        ? stakedLp == 0
+                          ? "0.00"
+                          : tokenSupply &&
+                            millify(
+                              (
+                                parseFloat(reserveUSD / tokenSupply) *
+                                (userInfo.amount
+                                  ? parseFloat(
+                                      Web3.utils.fromWei(userInfo.amount)
+                                    )
+                                  : 0)
+                              ).toFixed(3),
+                              {
+                                precision: 3,
+                                lowercase: true,
+                              }
+                            )
                         : "0.00"}
                     </p>
                   </div>
@@ -120,11 +125,19 @@ const Pool = () => {
                         marginLeft: "10px",
                       }}
                     >
-                      ({userInfo.amount==0 || !userInfo.amount ?"0.00":
-                    millify(  fixedWithoutRounding(parseFloat(Web3.utils.fromWei(userInfo.amount)),6), {
-                        precision: 3,
-                        lowercase: true,
-                      })}{" "}
+                      (
+                      {userInfo.amount == 0 || !userInfo.amount
+                        ? "0.00"
+                        : millify(
+                            fixedWithoutRounding(
+                              parseFloat(Web3.utils.fromWei(userInfo.amount)),
+                              6
+                            ),
+                            {
+                              precision: 3,
+                              lowercase: true,
+                            }
+                          )}{" "}
                       PHNX-ETH LP)
                     </p>
                   </div>
@@ -132,7 +145,10 @@ const Pool = () => {
               </div>
             </div>
           ) : (
-            <p className="connect-wallet-txt" style={{fontSize:"20px", width:"60%"}}>
+            <p
+              className="connect-wallet-txt"
+              style={{ fontSize: "20px", width: "60%" }}
+            >
               Connect your wallet to provide liquidity and start earning PHNX
               tokens
             </p>
@@ -158,6 +174,7 @@ const Pool = () => {
                     // fullWidth={true}
                     style={{
                       ...styles.btnCollectWallet,
+                      fontSize: "13px",
                       // backgroundColor: loading ? "#eee" : "#413AE2",
                     }}
                     // disabled={loading}
@@ -169,7 +186,7 @@ const Pool = () => {
               </div>
             ) : (
               <div className="homeScreenConnectBtnDiv">
-               <ConnectWallet landingScreenBtn={true} />
+                <ConnectWallet landingScreenBtn={true} />
               </div>
             )}
           </div>
@@ -188,9 +205,9 @@ const styles = {
     backgroundColor: "#413AE2",
     marginTop: 10,
     fontSize: 15,
-    borderRadius:"9px",
-    padding:"10px 24px",
-    height:"55px",
-    textTransform:"capitalize"
+    borderRadius: "9px",
+    padding: "10px 24px",
+    height: "55px",
+    textTransform: "capitalize",
   },
 };

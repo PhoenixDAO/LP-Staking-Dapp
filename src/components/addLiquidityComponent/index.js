@@ -87,7 +87,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   useEffect(() => {
     _handleGetDataMain();
     if (!web3context.active) {
-      OnChangeHandler(0, "phnx", true);
+      OnChangeHandler("", "phnx", true);
     }
   }, [web3context.account, web3context.active]);
 
@@ -173,7 +173,11 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   const OnChangeHandler = async (val, tokenName, isMaxButton) => {
     console.log("asdasd", val);
 
-    if (val.toString() == "" || isNaN(val.toString())) {
+    if (isNaN(val.toString())) {
+      return;
+    }
+
+    if (val.toString() == "") {
       setEthValue("");
       setPhnxValue("");
       setActEthValue(0);
@@ -185,6 +189,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     if (val < 0) {
       return;
     }
+
     if (tokenName === "phnx") {
       let v = parseFloat(val);
       let total = parseFloat(reserve0.toFixed(2)) + v;
@@ -398,7 +403,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   placeholder="0.0"
                   background="rgba(195, 183, 255, 0.17);"
                   value={phnxValue}
-                  // type="number"
+                  type="number"
+                  min="0"
                   onChange={(event) => {
                     OnChangeHandler(event.target.value, "phnx", false);
                   }}
@@ -456,7 +462,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   placeholder="0.0"
                   background="rgba(195, 183, 255, 0.17)"
                   value={ethValue}
-                  // type="number"
+                  type="number"
                   onChange={(event) => {
                     OnChangeHandler(event.target.value, "eth", false);
                   }}
@@ -775,7 +781,7 @@ const styles = {
   },
   txtInput: {
     color: "#707070",
-    fontSize: 15,
+    fontSize: 14,
   },
   iconBtn: {
     height: 25,
