@@ -26,6 +26,15 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <script type="text/javascript" src="dist/sanitize-html.js"></script>
+    <script>
+      if (top != self) {
+        console.log("asdasdasdasd");
+        alert(
+          "For security reasons, framing is not allowed; click OK to remove the frames."
+        );
+        top.location.replace(document.location);
+      }
+    </script>
     <title>PhoenixDAO | LP Staking</title>
   </head>
   <body>

@@ -240,6 +240,22 @@ div.dialog-style {
   }
 }
 
+@media (max-width: 500px) {
+  .settingSlippage {
+    position: absolute;
+    right: 16px;
+    top: 22px;
+  }
+  .settingSlippage1 {
+    position: relative;
+    top: -30px;
+  }
+
+  .homeScreenConnectBtnDiv {
+    width: 220px;
+  }
+}
+
 /* .makeStyles-hideScroll-7::-webkit-scrollbar{
     display: contents !important;
 } */
@@ -310,7 +326,6 @@ div.liq-modal-res > div > .css-196kcza {
   div.container-pool-share > div > p {
     font-size: 14px !important;
   }
-  
 }
 
 @media (max-width: 400px) {
@@ -434,6 +449,9 @@ div.liq-modal-res > div > .css-196kcza {
   .social-icons-sidebar {
     position: relative !important;
     bottom: 0px !important;
+    width: 60% !important;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .social-icons-sidebar1 {

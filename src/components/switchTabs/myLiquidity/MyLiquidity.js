@@ -121,6 +121,7 @@ function MyLiquidity({ ChangeTab }) {
             width: "20px",
             cursor: "pointer",
           }}
+          className="settingSlippage1"
         ></img>
       </div>
 

@@ -150,23 +150,27 @@ const Pool = () => {
             </p>
 
             {account && active ? (
-              <Link to="/v2/liquidity" style={{ textDecoration: "none" }}>
-                <Button
-                  variant="contained"
-                  size="large"
-                  // fullWidth={true}
-                  style={{
-                    ...styles.btnCollectWallet,
-                    // backgroundColor: loading ? "#eee" : "#413AE2",
-                  }}
-                  // disabled={loading}
-                  // onClick={_handleSupply}
-                >
-                  Get PHNX/ETH LP Token
-                </Button>
-              </Link>
+              <div className="homeScreenConnectBtnDiv">
+                <Link to="/v2/liquidity" style={{ textDecoration: "none" }}>
+                  <Button
+                    variant="contained"
+                    size="large"
+                    // fullWidth={true}
+                    style={{
+                      ...styles.btnCollectWallet,
+                      // backgroundColor: loading ? "#eee" : "#413AE2",
+                    }}
+                    // disabled={loading}
+                    // onClick={_handleSupply}
+                  >
+                    Get PHNX/ETH LP Token
+                  </Button>
+                </Link>
+              </div>
             ) : (
-              <ConnectWallet landingScreenBtn={true} />
+              <div className="homeScreenConnectBtnDiv">
+               <ConnectWallet landingScreenBtn={true} />
+              </div>
             )}
           </div>
 

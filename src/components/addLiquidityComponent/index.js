@@ -86,6 +86,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   useEffect(() => {
     _handleGetDataMain();
+    if (!web3context.active) {
+      OnChangeHandler(0, "phnx", true);
+    }
   }, [web3context.account, web3context.active]);
 
   useEffect(() => {
@@ -168,9 +171,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   };
 
   const OnChangeHandler = async (val, tokenName, isMaxButton) => {
-    console.log("asdasd", val.toString() == "");
+    console.log("asdasd", val);
 
-    if (val.toString() == "") {
+    if (val.toString() == "" || isNaN(val.toString())) {
       setEthValue("");
       setPhnxValue("");
       setActEthValue(0);
@@ -343,6 +346,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   width: "20px",
                   cursor: "pointer",
                 }}
+                className="settingSlippage"
               ></img>
             </p>
 
@@ -394,7 +398,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   placeholder="0.0"
                   background="rgba(195, 183, 255, 0.17);"
                   value={phnxValue}
-                  type="number"
+                  // type="number"
                   onChange={(event) => {
                     OnChangeHandler(event.target.value, "phnx", false);
                   }}
@@ -452,7 +456,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   placeholder="0.0"
                   background="rgba(195, 183, 255, 0.17)"
                   value={ethValue}
-                  type="number"
+                  // type="number"
                   onChange={(event) => {
                     OnChangeHandler(event.target.value, "eth", false);
                   }}
@@ -469,6 +473,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
                           if (balanceEth - gasPrice > 0) {
                             OnChangeHandler(balanceEth - gasPrice, "eth", true);
+                          }
+
+                          if (!web3context.active) {
+                            OnChangeHandler(0, "eth", true);
                           }
                         }}
                       >
