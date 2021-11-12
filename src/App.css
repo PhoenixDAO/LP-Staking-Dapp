@@ -409,8 +409,4 @@ html {
   }
 }
 
-a:focus {
-  color: #282c34;
-  /* text-decoration: none !important; */
-  /* transition: none !important; */
-}
+

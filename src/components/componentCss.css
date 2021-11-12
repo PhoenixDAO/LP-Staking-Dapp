@@ -483,6 +483,7 @@ div.liq-modal-res > div > .css-196kcza {
 .current-tab {
   filter: brightness(0) saturate(100%) invert(16%) sepia(100%) saturate(3774%)
     hue-rotate(244deg) brightness(91%) contrast(93%);
+  fill: #413ae2;
   border-left: solid 5px #413ae2;
   background: linear-gradient(
     -270.37deg,
