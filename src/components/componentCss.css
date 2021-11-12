@@ -257,12 +257,10 @@ div.dialog-style {
 }
 
 @media (max-width: 341px) {
-
   .settingSlippage1 {
     position: relative;
     top: -40px;
   }
-
 }
 
 /* .makeStyles-hideScroll-7::-webkit-scrollbar{
@@ -492,6 +490,7 @@ div.liq-modal-res > div > .css-196kcza {
     rgba(65, 58, 226, 0) 99.7%
   );
 }
+
 .no-current-tab {
   border-left: solid 5px #fff;
 }

@@ -68,7 +68,7 @@ function FarmHarvest({
             {web3context.active ? APR : "--- "}%{" "}
           </span>{" "}
           &nbsp;
-          <img src={CalculatorLogo} style={{ height: "15px" }}></img>
+          <img src={CalculatorLogo}></img>
         </div>
       </div>
       <div className="farm-details-div">
@@ -145,7 +145,6 @@ function FarmHarvest({
         <button
           className="farm-btn-stake-outline farm-btn-stake-outline1"
           onClick={() => UnstakeModalOpen()}
-          
         >
           <b>-</b> UnStake
         </button>

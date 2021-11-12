@@ -411,6 +411,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   style={styles.inputStyle}
                   variant="standard"
                   InputProps={{
+                    inputmode: "numeric",
+                    // pattern: "[0-9]+.[0-9]+",
                     endAdornment: (
                       <IconButton
                         style={styles.iconBtn}
