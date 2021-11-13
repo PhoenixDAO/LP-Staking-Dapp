@@ -63,6 +63,7 @@ const VersionModal = ({ status, setStatus }) => {
             </div>
 
             <div className="VersionMainHeading">
+
               <div className="version-ps-div">
                 V1 Undergoing Maintenance
               </div>
