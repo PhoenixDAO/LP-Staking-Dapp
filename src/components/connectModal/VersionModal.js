@@ -63,11 +63,10 @@ const VersionModal = ({ status, setStatus }) => {
             </div>
 
             <div className="VersionMainHeading">
-              <div className="version-ps-div">
-                V1 is no longer actively supported
-              </div>
+              <div className="version-ps-div">V1 Undergoing Maintenance</div>
               <div style={{ color: "#73727d" }} className="versionParagraph">
-                Use the V2 Staking dApp instead for better experience
+                V.1 smart contract upgrade due, service available but may be
+                slightly disrupted.
               </div>
             </div>
 
