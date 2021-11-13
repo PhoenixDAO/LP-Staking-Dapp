@@ -6,12 +6,12 @@
   height: 40vmin;
   pointer-events: none;
 }
-.toastCustomStyle{
+.toastCustomStyle {
   width: 400px !important;
   border-radius: 9px !important;
   text-align: center;
 }
-.Toastify__toast{
+.Toastify__toast {
   border-radius: 9px !important;
 }
 
@@ -60,7 +60,7 @@
     margin: 0 !important;
   }
 
-  .toastCustomStyle{
+  .toastCustomStyle {
     width: 90% !important;
     /* border-radius: 20px;
     text-align: center; */
@@ -68,7 +68,7 @@
     border-radius: 9px !important;
     /* margin-right: 20px !important; */
   }
-  .appBarFlex{
+  .appBarFlex {
     display: flex !important;
     flex-direction: row !important;
     align-items: center !important;
@@ -85,10 +85,22 @@
     font-size: 11px !important;
     /* padding: 5px !important; */
   }
+
+  .menuBtnNavbar {
+    display: none;
+  }
+
+  .menuBtnNavbar1 {
+    display: block !important;
+  }
 }
 
-*{
-  font-family: 'Aeonik' !important;
+.menuBtnNavbar1 {
+  display: none;
+}
+
+* {
+  font-family: "Aeonik" !important;
 }
 
 .css-tzssek-MuiSvgIcon-root {
@@ -125,14 +137,14 @@
   margin-bottom: 20px !important;
 }
 
-@media (max-width:400px){
+@media (max-width: 400px) {
   .css-1jeep95-MuiTypography-root {
     font-size: 10px;
     margin-top: 40px !important;
     margin-bottom: 20px !important;
   }
 }
-@media (max-width:330px){
+@media (max-width: 330px) {
   .css-1jeep95-MuiTypography-root {
     font-size: 9px;
     margin-top: 40px !important;
@@ -168,87 +180,101 @@
   height: 50px !important;
 }
 
-.versionButtons{
-  cursor:pointer;
-  display:flex;
+.versionButtons {
+  cursor: pointer;
+  display: flex;
   justify-content: center;
-  border: 1px solid #E9E9E9;
+  border: 1px solid #e9e9e9;
   width: fit-content;
   height: 40px;
-  background-color:#fff;
-  border-radius:7px;
-  padding:2px
+  background-color: #fff;
+  border-radius: 7px;
+  padding: 2px;
 }
-.versionSingleButton{
+.versionSingleButton {
   padding: 5px 20px;
   border-radius: 7px;
 }
-@media(max-width: 500px){
-  .versionSingleButton{
-    padding: 5px 15px;
+@media (max-width: 500px) {
+  .versionSingleButton {
+    padding: 5px 35px;
     border-radius: 7px;
   }
 }
-@media(max-width: 900px){
-  .versionButtons{
-    cursor:pointer;
-    display:flex;
+@media (max-width: 900px) {
+  .versionButtons {
+    cursor: pointer;
+    display: flex;
     justify-content: center;
-    border: 1px solid #E9E9E9;
+    border: 1px solid #e9e9e9;
     width: fit-content;
     height: 40px;
-    background-color:#fff;
-    border-radius:7px;
-    padding:2px
+    background-color: #fff;
+    border-radius: 7px;
+    padding: 2px;
   }
 }
 
-button{
-  font-family: 'Aeonik' !important;
+button {
+  font-family: "Aeonik" !important;
   cursor: pointer !important;
 }
 
-input{
-  font-family: 'Aeonik' !important;
+input {
+  font-family: "Aeonik" !important;
   padding-right: 4px !important;
 }
 
-input[type=number] {
-  -moz-appearance:textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
-.css-nz481w-MuiInputBase-input-MuiInput-input{
+.css-nz481w-MuiInputBase-input-MuiInput-input {
   font-weight: 900 !important;
   font-size: 20px !important;
 }
 
-.css-9mgopn-MuiDivider-root{
+.css-9mgopn-MuiDivider-root {
   /* display: none !important; */
 }
 
-.css-11o2879-MuiDrawer-docked, .MuiDrawer-paper{
- border: none !important;
+.css-11o2879-MuiDrawer-docked,
+.MuiDrawer-paper {
+  border: none !important;
 }
 
-
-.navIconsList{
+.navIconsList {
   margin-top: 80px !important;
 }
 
-@media ( max-width: 500px ){
-  .sideBarFullScreen{
+@media (max-width: 500px) {
+  .sideBarFullScreen {
     width: 100% !important;
-    position : fixed !important;
+    position: fixed !important;
     z-index: 1201;
   }
 
-  .sideBarFullScreen > div{
+  .sideBarFullScreen > div {
     width: 100% !important;
-
   }
 
-  
+  .sideBarFullScreenClose {
+    width: 0% !important;
+  }
 
+  .sideBarFullScreenClose > div {
+    width: 0% !important;
+  }
+
+  .Navbar-Mobile-Screen {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .navIconsList {
+    margin-top: 30px !important;
+  }
 }
 
 /* 
@@ -269,53 +295,47 @@ input[type=number] {
   box-shadow: none !important;
 } */
 
-*:focus{
+*:focus {
   outline: none !important;
 }
 
-input:hover{
+input:hover {
   outline: none !important;
 }
 
 .notify {
-	font-size: 90%;
+  font-size: 90%;
 }
-​
-.notify2 {
-	font-size: 90%;
-	justify-content: center;
-	text-align: center;
-	color: #4e4e55;
+​ .notify2 {
+  font-size: 90%;
+  justify-content: center;
+  text-align: center;
+  color: #4e4e55;
 }
-​
-.notify2 a {
-	color: #4e4e55;
+​ .notify2 a {
+  color: #4e4e55;
 }
-​
-.Toastify__toast--default {
-	background: rgb(243, 243, 243);
-	/* border: 1px solid rgb(10, 53, 88); */
-	border-radius: 9px !important;
+​ .Toastify__toast--default {
+  background: rgb(243, 243, 243);
+  /* border: 1px solid rgb(10, 53, 88); */
+  border-radius: 9px !important;
 }
-​
-.notify2 i {
-	margin-bottom: 10px;
+​ .notify2 i {
+  margin-bottom: 10px;
 }
-​
-.notify p {
-	color: black;
-	text-align: center;
+​ .notify p {
+  color: black;
+  text-align: center;
 }
-​
-.notify img {
-	width: 50px;
-	height: 50px;
-	border-radius: 50%;
-	margin-right: 10px;
+​ .notify img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
-input[type=number] {
-  -moz-appearance:textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 /* ::-webkit-scrollbar {
@@ -335,37 +355,32 @@ input[type=number] {
   border: solid 5px white;
 } */
 
-
 ::-webkit-scrollbar {
-	width: 8px;
-  
+  width: 8px;
 }
 
 /* Track */
 
 ::-webkit-scrollbar-track {
-
 }
 
 ::-webkit-scrollbar-track {
-	border-radius: 10px;
+  border-radius: 10px;
   background: #fafafa;
 }
 
-.modal-scroll::-webkit-scrollbar-track{
+.modal-scroll::-webkit-scrollbar-track {
   margin: 15px 0px;
-
 }
 
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
-	background: #9391ff;
-	border-radius: 8px;
+  background: #9391ff;
+  border-radius: 8px;
 }
 
 html {
-  
   overflow-y: scroll;
   scrollbar-color: rgba(56, 16, 255, 0.55) #fff;
   scrollbar-width: thin;
@@ -375,22 +390,23 @@ html {
   margin-bottom: 10px;
 }
 
-.addLiquidityBox{
+.addLiquidityBox {
   overflow: hidden;
-  }
+}
 
-*{
+* {
   scrollbar-color: #9391ff;
   scrollbar-width: thin;
-
 }
-  
-  @media (max-width: 650px) {
-      .addLiquidityBox{
-          overflow: auto;
-          }
 
-          .modal-scroll{
-            overflow-y: scroll !important;
-          }
-   }
+@media (max-width: 650px) {
+  .addLiquidityBox {
+    overflow: auto;
+  }
+
+  .modal-scroll {
+    overflow-y: scroll !important;
+  }
+}
+
+

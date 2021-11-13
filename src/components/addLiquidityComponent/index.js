@@ -86,6 +86,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   useEffect(() => {
     _handleGetDataMain();
+    if (!web3context.active) {
+      OnChangeHandler("", "phnx", true);
+    }
   }, [web3context.account, web3context.active]);
 
   useEffect(() => {
@@ -168,7 +171,11 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   };
 
   const OnChangeHandler = async (val, tokenName, isMaxButton) => {
-    console.log("asdasd", val.toString() == "");
+    console.log("asdasd", val);
+
+    if (isNaN(val.toString())) {
+      return;
+    }
 
     if (val.toString() == "") {
       setEthValue("");
@@ -182,6 +189,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     if (val < 0) {
       return;
     }
+
     if (tokenName === "phnx") {
       let v = parseFloat(val);
       let total = parseFloat(reserve0.toFixed(2)) + v;
@@ -343,6 +351,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   width: "20px",
                   cursor: "pointer",
                 }}
+                className="settingSlippage"
               ></img>
             </p>
 
@@ -395,12 +404,15 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   background="rgba(195, 183, 255, 0.17);"
                   value={phnxValue}
                   type="number"
+                  min="0"
                   onChange={(event) => {
                     OnChangeHandler(event.target.value, "phnx", false);
                   }}
                   style={styles.inputStyle}
                   variant="standard"
                   InputProps={{
+                    inputmode: "numeric",
+                    // pattern: "[0-9]+.[0-9]+",
                     endAdornment: (
                       <IconButton
                         style={styles.iconBtn}
@@ -469,6 +481,10 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
                           if (balanceEth - gasPrice > 0) {
                             OnChangeHandler(balanceEth - gasPrice, "eth", true);
+                          }
+
+                          if (!web3context.active) {
+                            OnChangeHandler(0, "eth", true);
                           }
                         }}
                       >
@@ -767,7 +783,7 @@ const styles = {
   },
   txtInput: {
     color: "#707070",
-    fontSize: 15,
+    fontSize: 14,
   },
   iconBtn: {
     height: 25,

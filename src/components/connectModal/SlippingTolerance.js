@@ -33,11 +33,11 @@ const SlippingTolerance = ({
   }, [slippageValue]);
 
   useEffect(() => {
-    if (slippageValue > 0 && slippageValue < 0.1) {
-      setWarningMsg(true);
-    } else {
-      setWarningMsg(false);
-    }
+    // if (slippageValue > 0 && slippageValue < 0.1) {
+    //   setWarningMsg(true);
+    // } else {
+    //   setWarningMsg(false);
+    // }
     // console.log("slippageVal", slippageVal);
     // console.log("slippageValue", slippageValue);
   }, [slippageVal]);

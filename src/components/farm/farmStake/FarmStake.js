@@ -66,7 +66,7 @@ function FarmStake({
         </div>
         <div className="farm-details-txt-right" style={{ color: "#73727D" }}>
           {web3context.active ? APR : "--- "}% &nbsp;
-          <img style={{ height: "15px" }} src={CalculatorLogo} />
+          <img src={CalculatorLogo} />
         </div>
       </div>
 

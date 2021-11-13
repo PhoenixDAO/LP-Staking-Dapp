@@ -29,6 +29,7 @@
     "history": "^5.0.1",
     "millify": "^4.0.0",
     "react": "^17.0.2",
+    "react-app-rewired": "^2.1.8",
     "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.5",
@@ -40,14 +41,15 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
+    "sanitize-html-react": "^1.13.0",
     "sweetalert2": "^11.1.7",
     "web-vitals": "^1.0.1",
     "web3": "^1.5.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
