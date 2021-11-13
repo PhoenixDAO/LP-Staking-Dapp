@@ -63,10 +63,12 @@ const VersionModal = ({ status, setStatus }) => {
             </div>
 
             <div className="VersionMainHeading">
-              <div className="version-ps-div">V1 Undergoing Maintenance</div>
+
+              <div className="version-ps-div">
+                V1 Undergoing Maintenance
+              </div>
               <div style={{ color: "#73727d" }} className="versionParagraph">
-                V.1 smart contract upgrade due, service available but may be
-                slightly disrupted.
+              V.1 smart contract upgrade due, service available but may be slightly disrupted.
               </div>
             </div>
 
