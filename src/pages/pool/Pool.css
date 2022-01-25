@@ -1,35 +1,54 @@
 div.container-div {
   margin-left: auto;
   margin-right: auto;
-  width: 70%;
+  width: 77%;
   height: 100%;
   margin-top: 70px;
   padding-bottom: 100px;
 }
+.cardPara {
+  color: #413ae2;
+  font-size: 50px;
+  font-weight: bold;
+  text-shadow: 0px 0px 1px #413ae2;
+  padding: 0px;
+  margin: 0px;
+}
+.cardContent {
+  display: flex;
+  flex-flow: column;
+}
 div.gradient-div {
   display: flex;
   flex-direction: row;
+  padding: 35px 50px;
   align-items: center;
   justify-content: space-between;
-  background: linear-gradient(90deg, rgba(65, 58, 226, 0.3) 0%, rgba(255, 0, 247, 0.080) 70.13%);
-  border: 1px solid rgba(65, 58, 226, 0.41);
+  background: linear-gradient(
+    90deg,
+    rgba(65, 58, 226, 0.3) 0%,
+    rgba(255, 0, 247, 0.08) 70.13%
+  );
+  border: 0.5px solid rgba(65, 58, 226, 0.3);
   box-sizing: border-box;
   backdrop-filter: blur(2px);
   /* -webkit-filter: ; */
   border-radius: 13px;
-  position:relative;
+  position: relative;
 }
-p.connect-wallet-txt {
+
+div.connect-wallet-txt {
   font-size: 20px;
   text-align: left;
   width: 55%;
-  margin: 34px 0px 40px 36px;
-  font-weight: 900;
+  /* margin: 34px 0px 40px 36px; */
+  font-weight: 600;
 }
 img.img-hands {
   position: absolute;
-  right: 20px;
-  width: 200px;
+  right: 47px;
+  width: 250px;
+  top: -40px;
   height: auto;
 }
 div.container-div2 {
@@ -46,24 +65,52 @@ div.connect-wallet-div {
   align-items: flex-start;
 }
 p.phnx-heading {
-  font-size: 35px;
+  font-size: 40px;
   font-weight: bolder;
+  text-shadow: 0px 0px 0px #000000;
   margin-bottom: 0;
 }
+
+@media (max-width: 500px) {
+  div.gradient-div {
+    display: flex;
+    flex-direction: row;
+    padding: 35px 0px;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(
+      90deg,
+      rgba(65, 58, 226, 0.3) 0%,
+      rgba(255, 0, 247, 0.08) 70.13%
+    );
+    border: 0.5px solid #413ae24d;
+    box-sizing: border-box;
+    backdrop-filter: blur(2px);
+    /* -webkit-filter: ; */
+    border-radius: 13px;
+    position: relative;
+  }
+}
+@media (min-width: 1400px) {
+  p.phnx-heading {
+    font-size: 50px;
+    font-weight: bolder;
+    text-shadow: 0px 0px 0px #000000;
+    margin-bottom: 0;
+  }
+}
 p.phnx-subheading {
-  font-size: 16px;
+  font-size: 18px;
   color: #565656;
 }
 img.img-landing-logo {
   position: absolute;
   right: 0px;
-  margin-top: 60px;
+  margin-top: 40px;
   z-index: -100;
-  width: 370px;
+  width: 400px;
   height: auto;
 }
-
-
 
 @media (max-width: 1220px) {
   img.img-landing-logo {
@@ -131,7 +178,7 @@ img.img-landing-logo {
   p.phnx-heading {
     font-size: 27px;
   }
-  p.connect-wallet-txt {
+  div.connect-wallet-txt {
     font-size: 18px;
   }
 
@@ -145,45 +192,52 @@ img.img-landing-logo {
   p.phnx-heading {
     font-size: 25px;
   }
-  p.connect-wallet-txt {
+  div.connect-wallet-txt {
     font-size: 17px;
   }
 
 } */
-
+.cardContent {
+  display: flex;
+  flex-flow: column;
+}
+.pricesAlignment {
+  display: flex;
+}
 @media (max-width: 1000px) {
-  
-  div.container-div{
+  .pricesAlignment {
+    display: flex;
+    flex-direction: column;
+  }
+  div.container-div {
     margin-top: 50px;
   }
 
-  .gradient-div{
+  .gradient-div {
     flex-direction: column !important;
   }
 
   p.phnx-subheading {
-    font-size: 15px;
+    font-size: 18px;
   }
   p.phnx-heading {
     font-size: 30px;
     margin-top: 200px;
     font-weight: bolder;
   }
-  p.connect-wallet-txt {
+  div.connect-wallet-txt {
     width: 50%;
     font-size: 20px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
-    margin-bottom: 90px;
-    
+    /* margin-bottom: 90px; */
   }
 
   img.img-landing-logo {
     width: 310px;
     top: -70px;
     margin-top: -10px;
-    
   }
 
   img.img-hands {
@@ -191,7 +245,6 @@ img.img-landing-logo {
     left: 10px;
     top: 90px;
   }
-
 }
 
 @media (max-width: 780px) {
@@ -226,11 +279,9 @@ img.img-landing-logo {
     margin-top: 140px;
     font-weight: bold;
   }
-  p.connect-wallet-txt {
+  div.connect-wallet-txt {
     font-size: 18px;
-    
   }
-
 }
 
 @media (max-width: 660px) {
@@ -245,18 +296,16 @@ img.img-landing-logo {
 }
 
 @media (max-width: 645px) {
-
   p.phnx-subheading {
-    font-size: 14px;
+    font-size: 15px;
   }
   p.phnx-heading {
     font-size: 23px;
     margin-top: 150px;
     font-weight: bold;
   }
-  p.connect-wallet-txt {
+  div.connect-wallet-txt {
     font-size: 18px;
-    
   }
 
   img.img-landing-logo {
@@ -270,14 +319,15 @@ img.img-landing-logo {
     top: 85px;
   }
 
-  div.container-div{
+  div.container-div {
     width: 80%;
   }
-
+}
+.yourStakeHeading {
+  font-size: 20px;
 }
 
 @media (max-width: 550px) {
-
   p.phnx-subheading {
     font-size: 14px;
   }
@@ -286,12 +336,11 @@ img.img-landing-logo {
     margin-top: 130px;
     font-weight: bold;
   }
-  p.connect-wallet-txt {
+  div.connect-wallet-txt {
     font-size: 17px;
     margin: 15px;
     margin-top: 20px;
-    margin-bottom: 60px;
-    
+    /* margin-bottom: 60px; */
   }
 
   img.img-landing-logo {
@@ -304,13 +353,19 @@ img.img-landing-logo {
     left: 17px;
     top: 70px;
   }
-
 }
 
 @media (max-width: 480px) {
-
-  div.container-div{
+  div.container-div {
     margin-top: 30px;
+  }
+  .cardPara {
+    color: #413ae2;
+    font-size: 35px;
+    font-weight: bold;
+    text-shadow: 0px 0px 1px #413ae2;
+    padding: 0px;
+    margin: 0px;
   }
 
   p.phnx-subheading {
@@ -318,26 +373,28 @@ img.img-landing-logo {
   }
   p.phnx-heading {
     font-size: 20px;
-    margin-top: 150px;
+    margin-top: 0px;
     font-weight: bold;
   }
-  p.connect-wallet-txt {
+  div.connect-wallet-txt {
     font-size: 16px;
     margin: 5px;
     margin-top: 20px;
-    margin-bottom: 60px;
-    
+    /* margin-bottom: 60px; */
   }
 
   img.img-landing-logo {
-    width: 180px;
-    top: -40px;
+    width: 90%;
+    top: 180px;
+    left: 0;
+    right: 0;
   }
 
   img.img-hands {
-    width: 80px;
-    left: 10px;
-    top: 65px;
+    left: 55%;
+    top: 60%;
   }
-
+  .yourStakeHeading {
+    font-size: 15px;
+  }
 }

@@ -27,8 +27,8 @@ const RemoveLiquidityModaL = ({
   giveApproval,
   handleClose,
 }) => {
-  console.log(allowance, "asdasdasd");
-  console.log(slippageValue, "asdasdasd");
+  // console.log(allowance, "asdasdasd");
+  // console.log(slippageValue, "asdasdasd");
   const web3context = useWeb3React();
   const dispatch = useDispatch();
   const phnxPerEth = useSelector((state) => state.localReducer.phnxPerEth);
@@ -60,12 +60,8 @@ const RemoveLiquidityModaL = ({
   const [tranHash, settranHash] = useState("");
   const [approveStatus, setApproveStatus] = useState(false);
 
-  useEffect(() => {
-    console.log(allowance, "aaaaa");
-  });
-
   const handleCheckApprovalUniswapPairAction = async () => {
-    console.log("coming to handleCheckApprovalUniswapPairAction");
+    // console.log("coming to handleCheckApprovalUniswapPairAction");
     dispatch(
       CheckApprovalUniswapPairAction(
         web3context,
@@ -74,6 +70,9 @@ const RemoveLiquidityModaL = ({
       )
     );
   };
+  // const handleCheckApprovalPhnxStakingAction = () => {
+  //   dispatch(CheckApprovalPhnxStakingAction(web3context, contractUniswapPair,setAllowance));
+  // };
 
   const handleGetPoolPositionAction = () => {
     dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
@@ -86,13 +85,15 @@ const RemoveLiquidityModaL = ({
   };
 
   const _handleRemoveLiquidity = async (handleMainClose) => {
+    // console.log("%", selectedPercentage);
+
     settransactionProcessModal(true);
     try {
       await POOL_SERVICES.removeLiquidity(
         web3context,
         contractUniswapRouter,
         poolPosition,
-        selectedPercentage == "" ? 10 : selectedPercentage,
+        selectedPercentage == "" ? 1 : selectedPercentage,
         settransactionProcessModal,
         settransactionConfirmModal,
         settransactionSubmittedModal,
@@ -103,12 +104,16 @@ const RemoveLiquidityModaL = ({
         settranHash,
         handleMainClose
       );
+      dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
+      dispatch(GetEthBalanceAction(web3context));
+      dispatch(GetPhnxBalanceAction(web3context, contractPhnxDao));
     } catch (e) {
       console.error(e);
     }
   };
 
   const handlePercentageInput = (e) => {
+    // console.log("%", e.target.value);
     if (e.target.value === "" || isNaN(e.target.value)) {
       setSelectedPercentage(parseInt(0));
     } else if (e.target.value > 100) {
@@ -143,19 +148,30 @@ const RemoveLiquidityModaL = ({
     if (!poolPosition) {
       return;
     }
-    const ethValue = poolPosition.eth * (selectedPercentage / 100).toString();
+
+    // console.log("poolposition111:", poolPosition);
+    const ethValue = (poolPosition.eth * (selectedPercentage / 100)).toString();
     const phnxValue =
       parseFloat(poolPosition.phnx) * (selectedPercentage / 100).toString();
 
     setPerEthValue(ethValue);
     setPerPhnxValue(phnxValue);
 
-    _handleCalculateLpToken(ethValue, phnxValue);
+    if (selectedPercentage == 100) {
+      setphnxethburn(poolPosition.lp);
+    } else {
+      // _handleCalculateLpToken(ethValue, phnxValue);
+      setphnxethburn((poolPosition.lp * (selectedPercentage / 100)).toString());
+    }
   }, [selectedPercentage, poolPosition]);
 
   return (
     <div className="rm-liq-div">
-      <img className="rm-liq-Logo" src={Logo}></img>
+      <img
+        className="rm-liq-Logo"
+        style={{ visibility: "hidden" }}
+        src={Logo}
+      ></img>
       <div className="rm-liq-heading">Remove PHNX-ETH Liquidity</div>
 
       <div
@@ -237,6 +253,9 @@ const RemoveLiquidityModaL = ({
             borderRadius: "6px",
             marginBottom: "20px",
             border: "1px solid #fff",
+            "& .MuiOutlinedInput-input": {
+              fontSize: "20px",
+            },
           }}
           InputProps={{
             classes: {
@@ -269,14 +288,16 @@ const RemoveLiquidityModaL = ({
       </div>
 
       <div className="rm-liq-u-will-rec" style={{ textTransform: "uppercase" }}>
-        You will recieve
+        You will receive
       </div>
 
       <div className="rm-liq-phnx-eth-det-div">
         <div className="rm-liq-phnx-eth-det">
           <img src={PhnxLogo} className="rm-liq-phnx-eth-img"></img>
           <div className="rm-liq-phnx-eth-name">PHNX</div>
-          <div className="rm-liq-phnx-eth-number">{perPhnxVal}</div>
+          <div className="rm-liq-phnx-eth-number">
+            {parseFloat(perPhnxVal).toFixed(5)}
+          </div>
         </div>
 
         <div style={{ height: "10px" }}></div>
@@ -284,7 +305,9 @@ const RemoveLiquidityModaL = ({
         <div className="rm-liq-phnx-eth-det">
           <img src={EthLogo} className="rm-liq-phnx-eth-img"></img>
           <div className="rm-liq-phnx-eth-name">ETH</div>
-          <div className="rm-liq-phnx-eth-number">{perEthVal}</div>
+          <div className="rm-liq-phnx-eth-number">
+            {parseFloat(perEthVal).toFixed(5)}
+          </div>
         </div>
       </div>
 
@@ -310,8 +333,8 @@ const RemoveLiquidityModaL = ({
           // onClick={() => setTxModalOpen()}
         >
           {approveStatus == false
-            ? "Approve ETH-PHNX LP"
-            : "Approving ETH-PHNX LP..."}
+            ? "Approve PHNX-ETH LP"
+            : "Approving PHNX-ETH LP..."}
         </button>
       ) : selectedPercentage == 0 || selectedPercentage == "" ? (
         <button
@@ -346,7 +369,7 @@ const RemoveLiquidityModaL = ({
             fontFamily: "AeonikBold",
           }}
         >
-          {poolPosition?.lp}
+          {parseFloat(poolPosition?.lp).toFixed(5)}
         </div>
       </div>
 
@@ -357,7 +380,7 @@ const RemoveLiquidityModaL = ({
           className="rm-liq-phnx-eth-lp-sub-no"
           style={{ marginLeft: "4px" }}
         >
-          {poolPosition?.phnx}
+          {parseFloat(poolPosition?.phnx).toFixed(5)}
         </div>
       </div>
 
@@ -368,14 +391,14 @@ const RemoveLiquidityModaL = ({
           className="rm-liq-phnx-eth-lp-sub-no"
           style={{ marginLeft: "4px" }}
         >
-          {poolPosition?.eth}
+          {parseFloat(poolPosition?.eth).toFixed(5)}
         </div>
       </div>
 
       <div className="rm-liq-phnx-eth-lp-div" style={{ marginTop: "7px" }}>
         <div className="rm-liq-phnx-eth-lp-sub">Pool Share</div>
         <div className="rm-liq-phnx-eth-lp-sub-no">
-          {poolPosition.poolPerc}%
+          {parseFloat(poolPosition.poolPerc).toFixed(5)}%
         </div>
       </div>
 
@@ -397,6 +420,7 @@ const RemoveLiquidityModaL = ({
       <TransactionSubmitted
         transactionSubmittedModal={transactionSubmittedModal}
         hash={tranHash}
+        handleMainClose={handleClose}
         removeLiquidity={true}
       />
     </div>

@@ -4,9 +4,7 @@ import Logo from "../../assets/Logo.png";
 import PhnxLogo from "../../assets/PhnxLogo1.png";
 import EthLogo from "../../assets/ETH1.png";
 
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
 const ConnectModal = () => {
@@ -40,7 +38,7 @@ const ConnectModal = () => {
           aria-describedby="modal-modal-description"
         >
           <div className="rm-liq-div">
-            <img className="rm-liq-Logo" src={Logo}></img>
+            <img className="rm-liq-Logo" style={{visibility:"hidden"}} src={Logo}></img>
             <div className="rm-liq-heading">Remove PHNX-ETH Liquidity</div>
 
             <div className="rm-liq-ps-div">
@@ -106,7 +104,7 @@ const ConnectModal = () => {
               ></input>
             </div>
 
-            <div className="rm-liq-u-will-rec">You will recieve</div>
+            <div className="rm-liq-u-will-rec">You will receive</div>
 
             <div className="rm-liq-phnx-eth-det-div">
               <div className="rm-liq-phnx-eth-det">

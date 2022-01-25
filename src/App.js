@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Web3ReactProvider } from "@web3-react/core";
 import { getLibrary } from "./utils/getLibrary";
 import { Provider } from "react-redux";
@@ -11,19 +11,25 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
+  const [verified, setVerified] = useState(false);
+
+  // useEffect(() => {
+  //   let pass = window.prompt("Enter Password.");
+  //   if (pass == "xordphnx") {
+  //     setVerified(true);
+  //   } else {
+  //     setVerified(false);
+  //   }
+  // }, []);
+
   return (
     <BrowserRouter>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Web3ReactProvider getLibrary={getLibrary}>
+            {/* {verified ? <Router /> : null} */}
             <Router />
-            <ToastContainer
-              style={{
-                width: "400px",
-                borderRadius: "20px",
-                textAlign: "center",
-              }}
-            />
+            <ToastContainer className="toastCustomStyle" />
           </Web3ReactProvider>
         </PersistGate>
       </Provider>

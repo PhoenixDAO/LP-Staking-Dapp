@@ -9,7 +9,8 @@ import CalculatorLogo from "../../../assets/calculator.png";
 import Web3 from "web3";
 import { Link } from "react-router-dom";
 import { useWeb3React } from "@web3-react/core";
-import { Button } from "@mui/material";
+import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET } from "../../../contract/constant";
+// import { Button } from "@mui/material";
 
 function FarmHarvest({
   stakeModalOpen,
@@ -29,7 +30,7 @@ function FarmHarvest({
   return (
     <div>
       <div className="farm-heading">Farm</div>
-      <div className="farm-sub-heading">Stake LP Tokens to earn</div>
+      <div className="farm-sub-heading">Stake PHNX/ETH-LP Tokens to earn</div>
       <div className="farm-divider"></div>
       <div className="farm-phnx-eth">
         <div>
@@ -41,34 +42,59 @@ function FarmHarvest({
             alt="PhnxLogo"
           ></img>
         </div>
-        <div style={{ marginLeft: "auto", fontWeight: "bolder",fontSize:"18px" ,color:"#1E1E22"}}>PHNX/ETH</div>
-      </div>
-      <div className="farm-details-div">
-        <div className="farm-details-txt">APR</div>
-        <div className="farm-details-txt-right">
-
-<span style={{color:"#73727D"}}>
-          {web3context.active ? APR : "--- "}% </span> &nbsp;
-          <img src={CalculatorLogo}></img>
-
+        <div
+          style={{
+            marginLeft: "auto",
+            fontWeight: "bolder",
+            fontSize: "22px",
+            color: "#1E1E22",
+          }}
+          className="pooled-item-right-txt"
+        >
+          PHNX/ETH
         </div>
-      </div>
-      <div className="farm-details-div">
-        <div className="farm-details-txt">EARN</div>
-        <div className="farm-details-txt-right" style={{color:"#73727D"}}>PHNX + fees</div>
       </div>
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#413AE2" }}>PHNX</span> EARNED
+          <span
+            style={{ color: "#4E4E55", fontWeight: "normal" }}
+            className="pooled-item-txt"
+          >
+            APR
+          </span>
         </div>
         <div className="farm-details-txt-right">
-
+          <span style={{ color: "#73727D" }} className="pooled-item-right-txt">
+            {web3context.active ? APR : "--- "}%{" "}
+          </span>{" "}
+          &nbsp;
+          <img src={CalculatorLogo}></img>
+        </div>
+      </div>
+      <div className="farm-details-div">
+        <div className="farm-details-txt">
+          <span style={{ color: "#4E4E55" }} className="pooled-item-txt">
+            EARN
+          </span>
+        </div>
+        <div
+          className="farm-details-txt-right"
+          style={{ color: "#73727D", fontWeight: "normal" }}
+        >
+          PHNX + Fees
+        </div>
+      </div>
+      <div className="farm-details-div">
+        <div className="pooled-item-txt">
+          <span style={{ color: "#413AE2" }}>PHNX</span>{" "}
+          <span style={{ color: "#4E4E55" }}>EARNED</span>
+        </div>
+        <div className="farm-details-txt-right">
           <span style={{ fontWeight: "bolder", color: "#4E4E55" }}>
             {pendingPHX["0"] &&
               // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
-              parseFloat(Web3.utils.fromWei(pendingPHX["0"])).toFixed(6)}
+              parseFloat(Web3.utils.fromWei(pendingPHX)).toFixed(6)}
           </span>
-
         </div>
       </div>
       <div className="farm-details-div" style={{ marginTop: "1px" }}>
@@ -76,17 +102,18 @@ function FarmHarvest({
           <span
             style={{ fontSize: "14px", fontWeight: "100", color: "#4E4E55" }}
           >
-            {pendingPHX["0"] &&
+            {pendingPHX &&
               // fixedWithoutRounding(Web3.utils.fromWei(pendingPHX["0"]), 4)
-              (
-                parseFloat(Web3.utils.fromWei(pendingPHX["0"])) * UsdRate
-              ).toFixed(3) + " USD"}
+              (parseFloat(Web3.utils.fromWei(pendingPHX)) * UsdRate).toFixed(
+                3
+              ) + " USD"}
           </span>
         </div>
       </div>
       <div className="farm-details-div">
-        <div className="farm-details-txt">
-          <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
+        <div className="pooled-item-txt">
+          <span style={{ color: "#413AE2" }}>PHNX-ETH</span>{" "}
+          <span style={{ color: "#4E4E55" }}>LP STAKED</span>
         </div>
         <div className="farm-details-txt-right">
           <span style={{ fontWeight: "bolder", color: "#4E4E55" }}>
@@ -112,12 +139,14 @@ function FarmHarvest({
           </span>
         </div>
       </div>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div
+        style={{ display: "flex", alignItems: "center", height: "fit-content" }}
+      >
         <button
-          className="farm-btn-stake-outline"
+          className="farm-btn-stake-outline farm-btn-stake-outline1"
           onClick={() => UnstakeModalOpen()}
         >
-          <b>-</b> UnStake PHNX-ETH LP
+          <b>-</b> UnStake
         </button>
         <button
           className="farm-btn-stake-outline"
@@ -129,11 +158,14 @@ function FarmHarvest({
       </div>
       <button
         className="farm-btn-stake"
-
-        style={{ marginTop: "20px" , backgroundColor: loading ? '#acacac' : '#413ae2', fontSize:"18px" }}
-
+        style={{
+          marginTop: "20px",
+          backgroundColor:
+            loading || pendingPHX["0"] == "0" ? "#acacac" : "#413ae2",
+          fontSize: "18px",
+        }}
         onClick={harvestPHNX}
-        disabled={loading}
+        disabled={loading || pendingPHX["0"] == "0"}
       >
         {loading && "Harvesting..."}
         {!loading && "Harvest"}
@@ -141,7 +173,7 @@ function FarmHarvest({
       <br></br> <br></br>
       <div className="get-phnx-eth-lp">
         <Link
-          to="/liquidity"
+          to="/v2/liquidity"
           style={{ textDecoration: "none", color: "#413ae2" }}
         >
           Get PHNX-ETH LP &nbsp;
@@ -179,7 +211,7 @@ function FarmHarvest({
               <span style={{ color: "#413AE2" }}>
                 <a
                   target="_blank"
-                  href="https://github.com/XORD-one/phoenix-LP-staking-contract"
+                  href="https://etherscan.io/address/0x66663724b50f4ea40e5ced7fc5181fe1816ce0c4"
                   style={{ textDecoration: "none", color: "#413ae2" }}
                 >
                   View Contract&nbsp;
@@ -194,7 +226,7 @@ function FarmHarvest({
               <span style={{ color: "#413AE2" }}>
                 <a
                   target="_blank"
-                  href=" https://v2.info.uniswap.org/pair/0xdfe317f907ca9bf6202cddec3def756438a3b3f7"
+                  href={` https://v2.info.uniswap.org/pair/${UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET}`}
                   style={{ textDecoration: "none", color: "#413ae2" }}
                 >
                   See Pair Info&nbsp;

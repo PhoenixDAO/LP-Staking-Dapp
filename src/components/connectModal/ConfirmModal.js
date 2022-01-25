@@ -15,7 +15,7 @@ const ConfirmModal = ({
   phnxethburn,
   handleRemoveLiquidity,
   slippageValue,
-  handleMainClose
+  handleMainClose,
 }) => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -23,18 +23,20 @@ const ConfirmModal = ({
   // const[phnxethburn,setphnxethburn] = useState(0);
 
   const phnxpereth = useSelector((state) => state.localReducer.phnxPerEth);
-
   const ethperphnx = useSelector((state) => state.localReducer.ethPerPhnx);
+  // const slippageTolerance = useSelector(
+  //   (state) => state.localReducer.slippageTolerance
+  // );
 
   useEffect(() => {
     setOpen(transactionConfirmModal);
   }, [transactionConfirmModal]);
 
   const handleConfirm = () => {
-    if (eth == 0 || phnx == 0) {
-      return;
-    }
-    console.log("asdasddsad");
+    // if (eth == 0 || phnx == 0) {
+    //   return;
+    // }
+    // console.log("asdasddsad");
     handleRemoveLiquidity(handleMainClose);
   };
 
@@ -63,7 +65,7 @@ const ConfirmModal = ({
           <div className="add-liq-div">
             <div className="displayFlex">
               <div className="confirmPhnxDepositeLogo">
-                <img className="add-liq-Logo" src={Logo}></img>
+                <img className="add-liq-Logo" style={{visibility:"hidden"}} src={Logo}></img>
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
@@ -71,7 +73,8 @@ const ConfirmModal = ({
                 </span>
               </div>
             </div>
-            <div className="add-liq-heading">YOU WILL RECIEVE</div>
+             {/* <CloseIcon className="icon-btn" onClick={setTxModalClose} sx={{transform:"scale(1.2)", marginRight:"10px", cursor:"pointer"}} /> */}
+            <div className="add-liq-heading">YOU WILL RECEIVE</div>
             <div className="priceContainer">
               <div className="confirmModalAddPrice">
                 <div className="displayFlex">
@@ -81,7 +84,7 @@ const ConfirmModal = ({
                     </div>
                     <div>PHNX</div>
                   </div>
-                  <div className="confirmPhnxDeposite confirmPrice">{phnx}</div>
+                  <div className="confirmPhnxDeposite confirmPrice">{parseFloat(phnx).toFixed(5)}</div>
                 </div>
               </div>
               <div className="confirmModalAddPrice">
@@ -92,7 +95,7 @@ const ConfirmModal = ({
                     </div>
                     <div>ETH</div>
                   </div>
-                  <div className="confirmPhnxDeposite confirmPrice">{eth}</div>
+                  <div className="confirmPhnxDeposite confirmPrice">{parseFloat(eth).toFixed(5)}</div>
                 </div>
               </div>
               <div className="confirmModalAddPrice">
@@ -113,7 +116,7 @@ const ConfirmModal = ({
                     <div>PHNX-ETH BURNED</div>
                   </div>
                   <div className="confirmPhnxDeposite confirmPhnxDepositeFontSize">
-                    {phnxethburn}
+                    {parseFloat(phnxethburn).toFixed(5)}
                   </div>
                 </div>
               </div>

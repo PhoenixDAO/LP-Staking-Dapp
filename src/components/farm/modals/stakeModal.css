@@ -22,27 +22,26 @@
   margin-top: 7px;
 }
 
-.stakingModal-details{
-    font-size: 15px;
-    margin-top: 30px;
-    color: #4E4E55;
-    /* font-weight: bold; */
-    display: flex;
-    justify-content: center;
+.stakingModal-details {
+  font-size: 16px;
+  margin-top: 30px;
+  color: #4e4e55;
+  /* font-weight: bold; */
+  display: flex;
+  justify-content: center;
 }
 
-.stakingModalInput{
-    font-size: 20px;
-    font-weight: bolder;
-    padding: 7px;
-    flex-grow: 1;
-    margin-right: 9px;
-    color:#000000;
-    border-radius: 3px;
-    border: none;
-    padding:13px;
-    color: #4E4E4E;
-
+.stakingModalInput {
+  font-size: 20px;
+  font-weight: bolder;
+  padding: 7px;
+  flex-grow: 1;
+  margin-right: 9px;
+  color: #000000;
+  border-radius: 3px;
+  border: none;
+  padding: 13px;
+  color: #4e4e4e;
 }
 
 .stakingModalInput:focus {
@@ -51,15 +50,15 @@
 
 .stakingModalInputBtn {
   background-color: #c3b7ff;
-    color: #413ae2;
-    border-radius: 7px;
-    border: none;
-    font-weight: bold;
-    height: 23px;
-    font-size: 10px;
-    height: 23px;
-    width: 36px;
-    padding: 4px 7px;
+  color: #413ae2;
+  border-radius: 7px;
+  border: none;
+  font-weight: bold;
+  height: 23px;
+  font-size: 10px;
+  height: 23px;
+  width: 36px;
+  padding: 4px 7px;
 }
 
 .stakingModalConfirm {
@@ -74,5 +73,11 @@
 
   .stakingModalInput {
     width: 50%;
+  }
+}
+
+@media (max-width: 500px) {
+  .stakingModal-details {
+    font-size: 13px;
   }
 }

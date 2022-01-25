@@ -11,6 +11,11 @@ const INITIAL_STATE = {
   reserve0: 0,
   reserve1: 0,
   userIsActive: false,
+
+  slippageAddLiquidity: 0.1,
+  slippageRemoveLiquidity: 0.1,
+
+  userInfo: { amount: 0, rewardDebt: 0 },
 };
 
 const localReducer = (state = INITIAL_STATE, action) => {
@@ -41,6 +46,21 @@ const localReducer = (state = INITIAL_STATE, action) => {
 
     case types.DISCONNECT_USER:
       return { ...state, userIsActive: false };
+
+    case types.SET_SLIPPAGE_ADD_LIQUIDITY:
+      return { ...state, slippageAddLiquidity: action.payload };
+
+    case types.SET_SLIPPAGE_REMOVE_LIQUIDITY:
+      return { ...state, slippageRemoveLiquidity: action.payload };
+
+    case types.GET_USER_INFO_SUCCESS:
+      return { ...state, userInfo: action.payload, error: "" };
+    case types.GET_USER_INFO_ERROR:
+      return {
+        ...state,
+        userInfo: INITIAL_STATE.userInfo,
+        error: action.payload,
+      };
 
     case types.RESET_ALL_LOCAL_REDUCER:
       return { ...INITIAL_STATE };

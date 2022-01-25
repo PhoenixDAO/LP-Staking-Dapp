@@ -1,4 +1,5 @@
 import Web3 from "web3";
+import BigNumber from "bignumber.js";
 
 export const conciseAddress = (address) => {
   if (Web3.utils.isAddress(address)) {

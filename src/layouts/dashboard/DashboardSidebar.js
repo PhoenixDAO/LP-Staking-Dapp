@@ -10,15 +10,19 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import VersionSwitch from "../../components/versionSwitch/versionSwitch";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import HomeLogo from "../../assets/home.png";
+import Logo from "../../assets/Logo.png";
 import DropLogo from "../../assets/drop.png";
 import FarmLogo from "../../assets/farm.png";
 import TelegramLogo from "../../assets/telegram.png";
 import TwitterLogo from "../../assets/twitter.png";
 import GithubLogo from "../../assets/github.png";
 import { drawerWidth } from "./constants";
+import CloseIcon from "@mui/icons-material/Close";
+import ConnectWallet from "../../components/ConnectWallet";
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -75,7 +79,8 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
   const [SocialIcon, setSocialIcon] = useState(false);
 
   useEffect(() => {
-    cT = window.location.href.split("/")[3];
+    // console.log("routing:", window.location.href.split("/"));
+    cT = window.location.href.split("/")[4];
     if (cT === "home") {
       setCurrentTab(0);
     } else if (cT === "liquidity") {
@@ -97,7 +102,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
     <Drawer
       variant="permanent"
       open={open}
-      className={SocialIcon ? "sideBarFullScreen" : ""}
+      className={SocialIcon ? "sideBarFullScreen" : "sideBarFullScreenClose"}
       sx={{
         "@media (min-width:500px)": {
           "& .MuiPaper-root": {
@@ -109,59 +114,107 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
         },
       }}
     >
-      <DrawerHeader>
-        <IconButton
-          onClick={() => {
-            handleDrawerClose();
-            setSocialIcon(false);
-          }}
-        >
-          {theme.direction === "rtl" ? (
-            <ChevronRightIcon />
-          ) : (
-            <ChevronLeftIcon />
-          )}
-        </IconButton>
-      </DrawerHeader>
-      {/* <Divider /> */}
-      <List className="navIconsList">
-        {["home", "liquidity", "farm"].map((text, index) => (
-          <ListItem
-            button
-            key={text}
-            component={Link}
-            to={`/${text}`}
-            className={index === currentTab ? "current-tab" : "no-current-tab"}
-            style={{ color: "#73727D", fontWeight: "500" }}
+      <div className="navCloseHeader">
+        <DrawerHeader>
+          <IconButton
             onClick={() => {
               handleDrawerClose();
               setSocialIcon(false);
             }}
           >
-            <ListItemIcon>
-              <img
-                src={index === 0 ? HomeLogo : index === 1 ? DropLogo : FarmLogo}
-                style={{ height: "20px", marginLeft: "5px" }}
-                alt="icon"
-              ></img>
-            </ListItemIcon>
-            <ListItemText primary={capitalizeFirstLetter(text)} />
-          </ListItem>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+      </div>
+      <div style={{ display: "flex" }}>
+        <img src={Logo} alt="" className="navBar-Logo"></img>
+        <div className="navCloseHeaderCross" style={{ marginLeft: "auto" }}>
+          <DrawerHeader>
+            <IconButton
+              onClick={() => {
+                handleDrawerClose();
+                setSocialIcon(false);
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </DrawerHeader>
+        </div>
+      </div>
+
+      <br></br>
+
+      <div
+        className="smallScreenConnectBtn"
+        style={{
+          width: "fit-content",
+          marginLeft: "auto",
+          marginRight: "auto",
+          textAlign: "center",
+        }}
+      >
+        <ConnectWallet landingScreenBtn={true} />
+      </div>
+      {/* <Divider /> */}
+      <List className={"navIconsList"}>
+        {["home", "liquidity", "farm"].map((text, index) => (
+          <div
+            className={
+              index === currentTab
+                ? "current-tab Navbar-Mobile-Screen"
+                : "no-current-tab Navbar-Mobile-Screen"
+            }
+          >
+            <ListItem
+              button
+              key={text}
+              component={Link}
+              to={`/v2/${text}`}
+              style={{
+                color: "#73727D",
+                fontWeight: "500",
+                marginBottom: "20px",
+              }}
+              onClick={() => {
+                if (window.innerWidth < 500) {
+                  handleDrawerClose();
+                  setSocialIcon(false);
+                }
+              }}
+            >
+              <div className="minWidth">
+                <ListItemIcon>
+                  <img
+                    src={
+                      index === 0 ? HomeLogo : index === 1 ? DropLogo : FarmLogo
+                    }
+                    style={{ height: "20px", marginLeft: "5px" }}
+                    alt="icon"
+                  ></img>
+                </ListItemIcon>
+              </div>
+
+              <ListItemText
+                sx={{
+                  "& .MuiListItemText-primary": {
+                    fontWeight: "900",
+                  },
+                }}
+                primary={capitalizeFirstLetter(text)}
+              />
+            </ListItem>
+          </div>
         ))}
       </List>
-
+      <div className="social-icons-sidebar1">
+        <VersionSwitch isSidebarOpen={open} />
+      </div>
       {SocialIcon ? (
-        <div
-          style={{
-            position: "absolute",
-            bottom: "100px",
-            display: "flex",
-            justifyContent: "space-around",
-            alignItem: "baseline",
-            width: "100%",
-            padding: "0px 10px",
-          }}
-        >
+        <div className="social-icons-sidebar">
           <a href="https://t.me/PHNXDAO" target="_blank">
             <img src={TelegramLogo}></img>
           </a>
@@ -171,7 +224,7 @@ const DashboardSidebar = ({ open, handleDrawerClose }) => {
           </a>
 
           <a
-            href="https://github.com/XORD-one/phoenixdao-lp-staking-dapp"
+            href="https://github.com/PhoenixDAO/LP-Staking-Dapp/tree/main"
             target="_blank"
           >
             <img src={GithubLogo}></img>

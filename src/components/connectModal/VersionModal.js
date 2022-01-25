@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Checkbox, IconButton, InputAdornment, TextField } from "@mui/material";
 
-const VersionModal = ({status,setStatus}) => {
+const VersionModal = ({ status, setStatus }) => {
   const [selectedPercentage, setSelectedPercentage] = useState(0);
   const [allowance, setAllowance] = useState(0);
 
@@ -42,42 +42,49 @@ const VersionModal = ({status,setStatus}) => {
         {/* <Button onClick={handleOpen}>Version Modal</Button> */}
         <Modal
           open={status}
-          onClose={()=>setStatus(false)}
+          onClose={() => setStatus(false)}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
           <div className="version-div">
             <div className="displayFlex">
               <div className="phnxDeposite">
-                <img className="version-Logo" src={Logo}></img>
+                <img
+                  className="version-Logo"
+                  style={{ visibility: "hidden" }}
+                  src={Logo}
+                ></img>
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
-                  <CloseIcon onClick={()=>setStatus(false)} />
+                  <CloseIcon onClick={() => setStatus(false)} />
                 </span>
               </div>
             </div>
 
             <div className="VersionMainHeading">
+
               <div className="version-ps-div">
-                V1 is no longer actively supported
+                V1 Undergoing Maintenance
               </div>
-              <div style={{color:'#73727d'}} className="versionParagraph">Use the V2 Staking dApp instead for better experience</div>
+              <div style={{ color: "#73727d" }} className="versionParagraph">
+              V.1 smart contract upgrade due, service available but may be slightly disrupted.
+              </div>
             </div>
 
             <Button
               sx={{
                 backgroundColor: "#413AE2",
                 borderColor: "#413AE2",
-                color:"#fff",
-                padding:"15px",
-                borderRadius:"9px",
-                fontWeight:"bold",
-                fontSize:"16px",
-                padding:"15px",
-                textTransform:"inherit",
-                marginBottom:"30px",
-                textTransform:"inherit",
+                color: "#fff",
+                padding: "15px",
+                borderRadius: "9px",
+                fontWeight: "bold",
+                fontSize: "16px",
+                padding: "15px",
+                textTransform: "inherit",
+                marginBottom: "30px",
+                textTransform: "inherit",
                 "&:hover": {
                   backgroundColor: "#413AE2",
                   borderColor: "#413AE2",
@@ -90,7 +97,7 @@ const VersionModal = ({status,setStatus}) => {
                 },
               }}
               className="version-btn cursorPointer"
-              onClick={()=>setStatus(false)}
+              onClick={() => setStatus(false)}
             >
               Go to V2 Staking dApp
             </Button>
@@ -166,9 +173,9 @@ const VersionModal = ({status,setStatus}) => {
                   }}
                 />
               </div>
-              <div style={{color:'#73727d'}} className="versionParagraph">
-                I understand that V1 is no longer supported and may lead to high
-                slippage fees or a loss in capital
+              <div style={{ color: "#73727d" }} className="versionParagraph">
+                I understand that V.1 smart contract upgrade due, service
+                available but may be slightly disrupted.
               </div>
             </div>
 
@@ -176,37 +183,41 @@ const VersionModal = ({status,setStatus}) => {
         <div className="version-phnx-eth-con">1 PHNX = 0.2335 ETH</div>
         <div className="version-phnx-eth-con">1 ETH = 0.3456665 PHNX</div>
       </div> */}
-
-            <Button
-            disabled={!checked}
-              sx={{
-                backgroundColor: "#FFFFFF",
-                border:"1px solid #413AE2",
-                color:"#413AE2",
-                fontWeight:"bold",
-                fontSize:"16px",
-                padding:"15px",
-                textTransform:"inherit",
-                marginBottom:"30px",
-                borderRadius:"9px",
-                "&:hover": {
-                  backgroundColor: "#FFFFFF",
-                border:"1px solid #413AE2",
-                color:"#413AE2",
-                  boxShadow: "none",
-                },
-                "&:disabled":{
-                  boxShadow: "none",
-                  backgroundColor: "#AAAAAA",
-                  borderColor: "#AAAAAA",
-                  color:"#FFFFFF",
-                },
-              }}
-              className="version-btn cursorPointer"
-              onClick={()=>setStatus(false)}
+            <a
+              href="https://staking.phoenixdao.io/v1"
+              style={{ textDecoration: "none" }}
             >
-              Continue to V1
-            </Button>
+              <Button
+                disabled={!checked}
+                sx={{
+                  backgroundColor: "#FFFFFF",
+                  border: "1px solid #413AE2",
+                  color: "#413AE2",
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  padding: "15px",
+                  textTransform: "inherit",
+                  marginBottom: "30px",
+                  borderRadius: "9px",
+                  "&:hover": {
+                    backgroundColor: "#FFFFFF",
+                    border: "1px solid #413AE2",
+                    color: "#413AE2",
+                    boxShadow: "none",
+                  },
+                  "&:disabled": {
+                    boxShadow: "none",
+                    backgroundColor: "#AAAAAA",
+                    borderColor: "#AAAAAA",
+                    color: "#FFFFFF",
+                  },
+                }}
+                className="version-btn cursorPointer"
+                onClick={() => setStatus(false)}
+              >
+                Continue to V1
+              </Button>
+            </a>
           </div>
         </Modal>
       </div>

@@ -1,7 +1,7 @@
 .my-liquidity-div {
   margin-left: auto;
   margin-right: auto;
-  width: 500px;
+  width: 600px;
   background-color: #fff;
   border-radius: 13px;
   height: fit-content;
@@ -11,7 +11,7 @@
 }
 
 .my-liq-head {
-  font-size: 22px;
+  font-size: 24px;
   font-style: normal;
   font-weight: bolder;
   text-align: left;
@@ -19,9 +19,10 @@
 }
 
 .my-liq-sub-head {
-  font-size: 16px;
+  font-size: 18px;
   font-style: normal;
   text-align: left;
+  font-weight: 500;
   color: #5f5f5f;
   margin-top: 8px;
 }
@@ -63,17 +64,34 @@
 
 .pooled-item-txt {
   text-transform: uppercase;
-  font-size: medium;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 500;
   color:#4E4E55;
 }
+.pooled-item-right-txt{
+font-size: 20px;
+font-weight:600;
+}
+@media (max-width:480px){
 
+  .pooled-item-txt {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: 500;
+    color:#4E4E55;
+  }
+  .pooled-item-right-txt{
+    font-size: 18px;
+  }
+  
+}
 .remove-btn {
   width: 100%;
   background-color: #413ae2;
   text-align: center;
-  font-size: medium;
+  font-size: 18px;
   font-weight: 500;
+  height: 55px;
   color: #fff;
   border-radius: 9px;
   border: 0;
@@ -86,9 +104,10 @@
   width: 100%;
   background-color: #413ae2;
   text-align: center;
-  font-size: medium;
+  font-size: 18px;
   font-weight: bold;
   color: #fff;
+  height: 55px;
   border-radius: 9px;
   border: 0;
   padding: 11px;

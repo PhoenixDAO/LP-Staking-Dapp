@@ -21,6 +21,7 @@ import {
 import SlippingTolerance from "../../connectModal/SlippingTolerance";
 import { GetEthBalanceAction } from "../../../redux/actions/local.actions";
 import * as POOL_SERVICES from "../../../services/pool.services";
+import { fixedWithoutRounding } from "../../../utils/formatters";
 
 function MyLiquidity({ ChangeTab }) {
   const web3context = useWeb3React();
@@ -32,11 +33,13 @@ function MyLiquidity({ ChangeTab }) {
   const contractUniswapPair = useSelector(
     (state) => state.contractReducer.contractUniswapPair
   );
+  const slippageRemoveLiquidity = useSelector(
+    (state) => state.localReducer.slippageRemoveLiquidity
+  );
 
   const [allowance, setAllowance] = useState(0);
 
   const [slippageModal, setSlippageModal] = useState(false);
-  const [slippageValue, setSlippageValue] = useState(1);
 
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -79,8 +82,9 @@ function MyLiquidity({ ChangeTab }) {
   };
 
   useEffect(() => {
+    // console.log("aaa", poolPosition);
     if (contractUniswapPair) {
-      console.log("asdasdasdasdasdasdads");
+      // console.log("asdasdasdasdasdasdads");
       handleCheckApprovalUniswapPairAction(setAllowance);
       dispatch(GetPoolPositionAction(web3context, contractUniswapPair));
     }
@@ -90,14 +94,14 @@ function MyLiquidity({ ChangeTab }) {
     setAllowance,
     setApproveStatus
   ) => {
-    console.log("coming to handleCheckApprovalUniswapPairAction");
+    // console.log("coming to handleCheckApprovalUniswapPairAction");
     POOL_SERVICES.checkApprovalUniswapPair(
       web3context,
       contractUniswapPair,
       setAllowance,
       setApproveStatus
     );
-    console.log(allowance, "999999999");
+    // console.log(allowance, "999999999");
   };
 
   return (
@@ -117,6 +121,7 @@ function MyLiquidity({ ChangeTab }) {
             width: "20px",
             cursor: "pointer",
           }}
+          className="settingSlippage1"
         ></img>
       </div>
 
@@ -150,10 +155,10 @@ function MyLiquidity({ ChangeTab }) {
             style={{
               backgroundColor: "#413AE2",
               margin: "25px 0px 30px 0px",
-              height: 45,
+              height: "55px",
               borderRadius: 12,
-              textTransform:"capitalize",
-              fontSize:"18px",
+              textTransform: "capitalize",
+              fontSize: "18px",
             }}
             onClick={() =>
               setConnectWalletModalStatus(!ConnectWalletModalStatus)
@@ -199,8 +204,10 @@ function MyLiquidity({ ChangeTab }) {
             style={{
               backgroundColor: "#413AE2",
               margin: "25px 0px 30px 0px",
-              height: 45,
-              borderRadius: 12,
+              height: "55px",
+              fontSize: "18px",
+              textTransform: "capitalize",
+              borderRadius: "9px",
             }}
             onClick={() => {
               ChangeTab("addLiquidity");
@@ -219,7 +226,7 @@ function MyLiquidity({ ChangeTab }) {
           ></ConnectWallet>
         </div>
       ) : // poolPosition !== null ?
-      poolPosition.lp == 0 ? (
+      parseFloat(poolPosition.lp) <= 0.00001 ? (
         <div>
           <br></br>
           <br></br>
@@ -245,8 +252,10 @@ function MyLiquidity({ ChangeTab }) {
             style={{
               backgroundColor: "#413AE2",
               margin: "25px 0px 30px 0px",
-              height: 45,
-              borderRadius: 12,
+              height: "55px",
+              fontSize: "18px",
+              textTransform: "capitalize",
+              borderRadius: "9px",
             }}
             onClick={() => {
               ChangeTab("addLiquidity");
@@ -268,7 +277,9 @@ function MyLiquidity({ ChangeTab }) {
         <div>
           <br></br>
           <div className="phnx-eth">
-            <p className="phnx-eth-no">{poolPosition.lp}</p>
+            <p className="phnx-eth-no">
+              {fixedWithoutRounding(poolPosition.lp, 6)}
+            </p>
             <img src={PhnxLogo} className="phnx-eth-logo"></img>
             <img src={EthLogo} className="phnx-eth-logo"></img>
           </div>
@@ -280,9 +291,19 @@ function MyLiquidity({ ChangeTab }) {
           <div className="pooled-item">
             <div className="pooled-item-txt">pooled phnx</div>
 
-            <div style={{ display: "flex", marginLeft: "auto", alignItems:"center" }}>
+            <div
+              style={{
+                display: "flex",
+                marginLeft: "auto",
+                alignItems: "center",
+              }}
+            >
               <img src={PhnxLogo} className="phnx-eth-logo"></img> &nbsp;
-              <div className="pooled-item-txt"><span style={{fontSize:"18px"}}>{poolPosition.phnx}</span></div>
+              <div className="pooled-item-txt">
+                <span className="pooled-item-right-txt">
+                  {parseFloat(poolPosition.phnx).toFixed(5)}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -291,9 +312,19 @@ function MyLiquidity({ ChangeTab }) {
           <div className="pooled-item">
             <div className="pooled-item-txt">pooled eth</div>
 
-            <div style={{ display: "flex", marginLeft: "auto", alignItems:"center" }}>
+            <div
+              style={{
+                display: "flex",
+                marginLeft: "auto",
+                alignItems: "center",
+              }}
+            >
               <img src={EthLogo} className="phnx-eth-logo"></img> &nbsp;
-              <div className="pooled-item-txt"><span style={{fontSize:"18px"}}>{poolPosition.eth}</span></div>
+              <div className="pooled-item-txt">
+                <span className="pooled-item-right-txt">
+                  {parseFloat(poolPosition.eth).toFixed(5)}
+                </span>
+              </div>
             </div>
           </div>
 
@@ -302,8 +333,18 @@ function MyLiquidity({ ChangeTab }) {
           <div className="pooled-item">
             <div className="pooled-item-txt">pool share</div>
 
-            <div style={{ display: "flex", marginLeft: "auto", alignItems:"center" }}>
-              <div className="pooled-item-txt"><span style={{fontSize:"18px"}}>{poolPosition.poolPerc}%</span></div>
+            <div
+              style={{
+                display: "flex",
+                marginLeft: "auto",
+                alignItems: "center",
+              }}
+            >
+              <div className="pooled-item-txt">
+                <span className="pooled-item-right-txt">
+                  {parseFloat(poolPosition.poolPerc).toFixed(5)}%
+                </span>
+              </div>
             </div>
           </div>
 
@@ -334,7 +375,7 @@ function MyLiquidity({ ChangeTab }) {
           aria-describedby="modal-modal-description"
         >
           <RemoveLiquidityModal
-            slippageValue={slippageValue}
+            slippageValue={slippageRemoveLiquidity}
             allowance={allowance}
             giveApproval={handleGiveApprovalUniswapPair}
             handleClose={handleModalClose}
@@ -344,7 +385,8 @@ function MyLiquidity({ ChangeTab }) {
       <SlippingTolerance
         status={slippageModal}
         handleClose={setSlippageModal}
-        setSlippageValue={setSlippageValue}
+        slippageValue={slippageRemoveLiquidity}
+        slippageType="remove"
       />
     </div>
   );

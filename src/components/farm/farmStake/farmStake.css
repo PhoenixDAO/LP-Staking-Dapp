@@ -1,14 +1,13 @@
 .farm-heading {
   color: #413ae2;
-  font-size: 25px;
+  font-size: 24px;
   font-weight: bold;
 }
 
 .farm-sub-heading {
   margin-top: 15px;
-  font-size: 16px;
-  font-weight: 600;
-  color: #5F5F5F;
+  font-size: 18px;
+  color: #5f5f5f;
 }
 
 .farm-divider {
@@ -39,7 +38,6 @@
 
 .farm-details-txt {
   font-size: 17px;
-  font-weight: 600;
 }
 
 .farm-details-txt-right {
@@ -47,24 +45,23 @@
   font-size: 18px;
   align-items: center;
   margin-left: auto;
-  font-weight: 900;
 }
 
 .farm-btn-stake {
   background-color: #413ae2;
   width: 100%;
-  font-size: medium;
+  font-size: 18px;
   color: #fff;
+  height: 55px;
   border-radius: 9px;
   border: none;
-  padding: 13px;
-  margin-top: 50px;
+  padding: 14px;
+  margin-top: 35px;
 }
 
 .get-phnx-eth-lp {
   font-size: 16px;
   text-align: center;
-  margin-top: 5px;
   color: #413ae2;
   /* margin-right: 5px !important; */
 }
@@ -84,5 +81,28 @@
 @media only screen and (max-width: 700px) {
   .farm-details-txt {
     font-size: 12px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .farm-btn-stake-outline {
+    background-color: #fff;
+    font-size: 12px;
+    font-weight: bolder;
+    color: #413ae2;
+    border: solid 1px #413ae2;
+    border-radius: 9px;
+    width: 49%;
+    padding: 13px;
+    margin-top: 40px;
+  }
+}
+
+@media only screen and (max-width: 393px) {
+  .farm-btn-stake-outline1 {
+    height: 56px;
+  }
+  .farm-btn-stake-outline {
+    height: 56px;
   }
 }

@@ -11,7 +11,9 @@
   transform: translateY(-50%);
   padding: 25px;
 }
-
+.phnxConfirmValues{
+  font-weight: 500;
+}
 
 .cursorPointer{
   cursor: pointer;
@@ -136,7 +138,7 @@ text-align:center;
   width: 100%;
   background-color: #413AE2;
   color: #fff;
-  font-size: 17px !important;
+  font-size: 18px !important;
    font-weight: bolder;
   text-align: center;
   border: none;
@@ -191,6 +193,7 @@ text-align:center;
 .phnxDeposite{
   font-size: 14px;
   display: flex;
+  font-weight: 500;
   width: 50%;;
   color:#4E4E55;
   text-transform: uppercase;
@@ -206,6 +209,7 @@ text-align:center;
     font-size: 12px;
     display: flex;
     width: 50%;;
+    font-weight:500;
     color:#4E4E55;
     text-transform: uppercase;
   }

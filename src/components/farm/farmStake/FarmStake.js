@@ -9,9 +9,7 @@ import CalculatorLogo from "../../../assets/calculator.png";
 import { Link } from "react-router-dom";
 import ConnectWallet from "../../ConnectWallet";
 import { useWeb3React } from "@web3-react/core";
-import { useSelector } from "react-redux";
-import Web3 from "web3";
-
+import { UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET } from "../../../contract/constant";
 
 function FarmStake({
   stakeModalOpen,
@@ -21,16 +19,15 @@ function FarmStake({
   reserveUSD,
   APR,
 }) {
+  const [approveStatus, setApproveStatus] = useState(false);
 
-  const [approveStatus,setApproveStatus] = useState(false);
-  
-  const handleApproval = async () =>{
-      setApproveStatus(true);
-      await giveApproval(setApproveStatus);
-      // setApproveStatus(false);
-  }
+  const handleApproval = async () => {
+    setApproveStatus(true);
+    await giveApproval(setApproveStatus);
+    // setApproveStatus(false);
+  };
 
-  console.log('allowance1:',allowance);
+  // console.log("allowance1:", allowance);
   const web3context = useWeb3React();
   //   const userIsActive = useSelector((state) => state.localReducer.userIsActive);
   //  nsole.log(userIsActive, "userIsActive");
@@ -39,13 +36,10 @@ function FarmStake({
   const [ConnectWalletModalStatus, setConnectWalletModalStatus] =
     useState(false);
 
-
-
-
   return (
     <div>
       <div className="farm-heading">Farm</div>
-      <div className="farm-sub-heading">Stake LP Tokens to earn</div>
+      <div className="farm-sub-heading">Stake PHNX/ETH-LP Tokens to earn</div>
 
       <div className="farm-divider"></div>
 
@@ -59,48 +53,68 @@ function FarmStake({
             alt="PhnxLogo"
           ></img>
         </div>
-        <div style={{ marginLeft: "auto", fontWeight: "bolder", fontSize:"17px" }}>PHNX/ETH</div>
-      </div>
-
-      <div className="farm-details-div">
-        <div className="farm-details-txt">APR</div>
-        <div className="farm-details-txt-right" style={{color:"#73727D"}}>
-          {web3context.active ? APR : '--- '}% &nbsp;
-          <img style={{ height: "16px" }} src={CalculatorLogo} />
+        <div
+          style={{ marginLeft: "auto", fontWeight: "bolder", fontSize: "17px" }}
+        >
+          PHNX/ETH
         </div>
       </div>
 
       <div className="farm-details-div">
-        <div className="farm-details-txt">EARN</div>
-        <div className="farm-details-txt-right"  style={{color:"#73727D"}}>PHNX + fees</div>
+        <div className="farm-details-txt">
+          <span style={{ color: "#4E4E55" }}>APR</span>
+        </div>
+        <div className="farm-details-txt-right" style={{ color: "#73727D" }}>
+          {web3context.active ? APR : "--- "}% &nbsp;
+          <img src={CalculatorLogo} />
+        </div>
       </div>
 
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#413AE2" }}>PHNX</span> EARNED
+          <span style={{ color: "#4E4E55" }}>EARN</span>
         </div>
-        <div className="farm-details-txt-right">  <span style={{fontWeight:"bolder", color:"#4E4E55"}}>0.000</span></div>
+        <div className="farm-details-txt-right" style={{ color: "#73727D" }}>
+          PHNX + Fees
+        </div>
       </div>
+
       <div className="farm-details-div">
         <div className="farm-details-txt">
-          <span style={{ color: "#413AE2" }}>PHNX-ETH</span> LP STAKED
+          <span style={{ color: "#413AE2" }}>PHNX</span>{" "}
+          <span style={{ color: "#4E4E55" }}>EARNED</span>
         </div>
         <div className="farm-details-txt-right">
-        <span style={{fontWeight:"bolder", color:"#4E4E55"}}>
-          {/* {userInfo.amount && Web3.utils.fromWei(userInfo.amount)} */}
-          0.000
+          {" "}
+          <span style={{ fontWeight: "bolder", color: "#4E4E55" }}>0.000</span>
+        </div>
+      </div>
+      <div className="farm-details-div">
+        <div className="farm-details-txt">
+          <span style={{ color: "#413AE2" }}>PHNX-ETH</span>{" "}
+          <span style={{ color: "#4E4E55" }}>LP STAKED</span>
+        </div>
+        <div className="farm-details-txt-right">
+          <span style={{ fontWeight: "bolder", color: "#4E4E55" }}>
+            {/* {userInfo.amount && Web3.utils.fromWei(userInfo.amount)} */}
+            0.000
           </span>
         </div>
       </div>
       {web3context.active ? (
-        
         allowance != 0 ? (
           <button className="farm-btn-stake" onClick={stakeModalOpen}>
             Stake LP
           </button>
         ) : (
-          <button className="farm-btn-stake" onClick={approveStatus==false ? handleApproval : null} style={{backgroundColor: approveStatus==false ? '#413ae2' : '#AAAAAA', }}>
-           {approveStatus==false ? 'Approve' : 'Approving...'}
+          <button
+            className="farm-btn-stake"
+            onClick={approveStatus == false ? handleApproval : null}
+            style={{
+              backgroundColor: approveStatus == false ? "#413ae2" : "#AAAAAA",
+            }}
+          >
+            {approveStatus == false ? "Approve" : "Approving..."}
           </button>
         )
       ) : (
@@ -118,7 +132,10 @@ function FarmStake({
       <ConnectWallet justModal={true} openModal={ConnectWalletModalStatus} />
 
       <div className="get-phnx-eth-lp">
-        <Link to="/liquidity" style={{textDecoration:'none' ,color:'#413ae2'}}>
+        <Link
+          to="/v2/liquidity"
+          style={{ textDecoration: "none", color: "#413ae2" }}
+        >
           Get PHNX-ETH LP &nbsp;
           <img src={ShareLogo}></img>
         </Link>
@@ -146,7 +163,9 @@ function FarmStake({
 
           <div className="farm-details-div">
             <div className="farm-details-txt">Total Liquidity</div>
-            <div className="farm-details-txt-right" style={{color:'#000'}}>${reserveUSD.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</div>
+            <div className="farm-details-txt-right" style={{ color: "#000" }}>
+              ${reserveUSD.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            </div>
           </div>
 
           <div className="farm-details-div">
@@ -154,8 +173,8 @@ function FarmStake({
               <span style={{ color: "#413AE2" }}>
                 <a
                   target="_blank"
-                  href="https://github.com/XORD-one/phoenix-LP-staking-contract"
-                  style={{textDecoration:'none' ,color:'#413ae2'}}
+                  href="https://etherscan.io/address/0x66663724b50f4ea40e5ced7fc5181fe1816ce0c4"
+                  style={{ textDecoration: "none", color: "#413ae2" }}
                 >
                   View Contract&nbsp;
                   <img src={ShareLogo}></img>
@@ -169,8 +188,8 @@ function FarmStake({
               <span style={{ color: "#413AE2" }}>
                 <a
                   target="_blank"
-                  href=" https://v2.info.uniswap.org/pair/0xdfe317f907ca9bf6202cddec3def756438a3b3f7"
-                  style={{textDecoration:'none' ,color:'#413ae2'}}
+                  href={`https://v2.info.uniswap.org/pair/${UNISWAP_V2_PHNX_ETH_PAIR_ADDRESS_MAINNET}`}
+                  style={{ textDecoration: "none", color: "#413ae2" }}
                 >
                   See Pair Info&nbsp;
                   <img src={ShareLogo}></img>
@@ -178,7 +197,6 @@ function FarmStake({
               </span>
             </div>
           </div>
-
         </div>
       )}
     </div>
