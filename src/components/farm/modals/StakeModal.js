@@ -45,6 +45,9 @@ function StakeModal({ Close, calculateAPR, Roi }) {
       return;
     }
     // setlpValue(e.target.value);
+    if(e.target.value.toString().includes(".") && !(/^[0-9]*[.,]?[0-9]{0,10}$/.test(e.target.value)) ){
+      return;
+    }
     if(f===true){
       setlpValue(fixedWithoutRounding(maxlpValue,6));
       setlpValueAct(maxlpValue);
@@ -53,7 +56,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
       setlpValueAct(e.target.value);
     }
     if (!isNaN(e.target.value) && e.target.value != "") {
-      console.log(parseFloat(e.target.value));
+      // console.log(parseFloat(e.target.value));
       calculateAPR(parseFloat(e.target.value));
     } else {
       calculateAPR(0);
@@ -74,7 +77,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
   useEffect(() => {
     if (web3context.active && web3context.account && poolPosition) {
       setmaxlpValue(poolPosition.lp);
-      console.log("poolPosition.lp", poolPosition.lp);
+      // console.log("poolPosition.lp", poolPosition.lp);
     }
   }, [web3context.account, poolPosition]);
 
@@ -95,7 +98,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           Close
         );
       } catch (e) {
-        console.error(e);
+        // console.error('error staking',e);
       }
     }
   };
@@ -165,7 +168,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
               }
             },true);
             if (!isNaN(maxlpValue) && maxlpValue != "") {
-              console.log(parseFloat(maxlpValue));
+              // console.log(parseFloat(maxlpValue));
               calculateAPR(parseFloat(maxlpValue));
             } else {
               calculateAPR(parseFloat(0));
@@ -203,7 +206,7 @@ function StakeModal({ Close, calculateAPR, Roi }) {
       <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
         <button
           className="farm-btn-stake-outline"
-          style={{ marginTop: "25px", fontSize: "16px" }}
+          style={{ marginTop: "25px", fontSize: "18px", height:"50px",fontWeight:"700", }}
           onClick={() => {
             calculateAPR(0);
             Close();
@@ -215,8 +218,10 @@ function StakeModal({ Close, calculateAPR, Roi }) {
           className="farm-btn-stake-outline stakingModalConfirm"
           style={{
             marginLeft: "auto",
+            height:"50px",
             marginTop: "25px",
-            fontSize: "16px",
+            fontWeight:"700",
+            fontSize: "18px",
             background:
               loading ||((maxBigValue.lt(lpValue)))||
               lpValue <= 0 ||

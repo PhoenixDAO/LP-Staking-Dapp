@@ -49,7 +49,11 @@ const VersionModal = ({ status, setStatus }) => {
           <div className="version-div">
             <div className="displayFlex">
               <div className="phnxDeposite">
-                <img className="version-Logo" style={{visibility:"hidden"}} src={Logo}></img>
+                <img
+                  className="version-Logo"
+                  style={{ visibility: "hidden" }}
+                  src={Logo}
+                ></img>
               </div>
               <div className="closeModalIcon">
                 <span className="cursorPointer">
@@ -59,11 +63,12 @@ const VersionModal = ({ status, setStatus }) => {
             </div>
 
             <div className="VersionMainHeading">
+
               <div className="version-ps-div">
-                V1 is no longer actively supported
+                V1 Undergoing Maintenance
               </div>
               <div style={{ color: "#73727d" }} className="versionParagraph">
-                Use the V2 Staking dApp instead for better experience
+              V.1 smart contract upgrade due, service available but may be slightly disrupted.
               </div>
             </div>
 
@@ -169,8 +174,8 @@ const VersionModal = ({ status, setStatus }) => {
                 />
               </div>
               <div style={{ color: "#73727d" }} className="versionParagraph">
-                I understand that V1 is no longer supported and may lead to high
-                slippage fees or a loss in capital
+                I understand that V.1 smart contract upgrade due, service
+                available but may be slightly disrupted.
               </div>
             </div>
 
@@ -178,37 +183,40 @@ const VersionModal = ({ status, setStatus }) => {
         <div className="version-phnx-eth-con">1 PHNX = 0.2335 ETH</div>
         <div className="version-phnx-eth-con">1 ETH = 0.3456665 PHNX</div>
       </div> */}
-            <a href="https://staking.phoenixdao.io/v1" style={{textDecoration:"none"}}>
-            <Button
-              disabled={!checked}
-              sx={{
-                backgroundColor: "#FFFFFF",
-                border: "1px solid #413AE2",
-                color: "#413AE2",
-                fontWeight: "bold",
-                fontSize: "16px",
-                padding: "15px",
-                textTransform: "inherit",
-                marginBottom: "30px",
-                borderRadius: "9px",
-                "&:hover": {
+            <a
+              href="https://staking.phoenixdao.io/v1"
+              style={{ textDecoration: "none" }}
+            >
+              <Button
+                disabled={!checked}
+                sx={{
                   backgroundColor: "#FFFFFF",
                   border: "1px solid #413AE2",
                   color: "#413AE2",
-                  boxShadow: "none",
-                },
-                "&:disabled": {
-                  boxShadow: "none",
-                  backgroundColor: "#AAAAAA",
-                  borderColor: "#AAAAAA",
-                  color: "#FFFFFF",
-                },
-              }}
-              className="version-btn cursorPointer"
-              onClick={() => setStatus(false)}
-            >
-              Continue to V1
-            </Button>
+                  fontWeight: "bold",
+                  fontSize: "16px",
+                  padding: "15px",
+                  textTransform: "inherit",
+                  marginBottom: "30px",
+                  borderRadius: "9px",
+                  "&:hover": {
+                    backgroundColor: "#FFFFFF",
+                    border: "1px solid #413AE2",
+                    color: "#413AE2",
+                    boxShadow: "none",
+                  },
+                  "&:disabled": {
+                    boxShadow: "none",
+                    backgroundColor: "#AAAAAA",
+                    borderColor: "#AAAAAA",
+                    color: "#FFFFFF",
+                  },
+                }}
+                className="version-btn cursorPointer"
+                onClick={() => setStatus(false)}
+              >
+                Continue to V1
+              </Button>
             </a>
           </div>
         </Modal>

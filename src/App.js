@@ -13,26 +13,23 @@ import "react-toastify/dist/ReactToastify.css";
 const App = () => {
   const [verified, setVerified] = useState(false);
 
-  useEffect(() => {
-    // let pass = window.prompt("Enter Password.");
-    // if (pass == "xordphnx") {
-    //   setVerified(true);
-    // }
-    setVerified(true);
-  },[]);
+  // useEffect(() => {
+  //   let pass = window.prompt("Enter Password.");
+  //   if (pass == "xordphnx") {
+  //     setVerified(true);
+  //   } else {
+  //     setVerified(false);
+  //   }
+  // }, []);
 
   return (
     <BrowserRouter>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Web3ReactProvider getLibrary={getLibrary}>
-            {verified ? <Router /> : null}
-            <ToastContainer
-              style={{
-
-              }}
-              className="toastCustomStyle"
-            />
+            {/* {verified ? <Router /> : null} */}
+            <Router />
+            <ToastContainer className="toastCustomStyle" />
           </Web3ReactProvider>
         </PersistGate>
       </Provider>

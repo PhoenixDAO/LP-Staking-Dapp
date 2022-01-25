@@ -70,7 +70,7 @@
 }
 .transactionSubmitted{
   color: #1E1E22;
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 900;
   letter-spacing: 0em;
   text-align: center;
@@ -118,6 +118,7 @@
   background: #FFFFFF;
   border :solid 1px #413AE2;
   border-radius: 9px;
+  height: 50px;
   padding-top: 12px;
   padding-bottom: 12px;
   padding-inline: 35px;
@@ -137,6 +138,7 @@ text-align:center;
   padding-top: 12px;
   padding-bottom: 12px;
   padding-inline: 35px;
+  height: 50px;
   font-size: 12px;
   font-weight: bolder;
   text-align: center;
@@ -203,7 +205,8 @@ text-align:center;
   width: 40%;
   background-color: #413AE2;
   color: #fff;
-  font-size: 15px;
+  font-size: 18px;
+  height: 50px;
   text-align: center;
   font-weight: bolder;
   border: none;
@@ -234,12 +237,12 @@ text-align:center;
     font-size: 16px;
     justify-content: end;
 }
-@media (max-width:400px){
+@media (max-width:520px){
   .phnxDepositePrice{
     align-items: center;
     color:#4E4E55;
       width: 60%;
-      font-size: 13px;
+      font-size: 9px;
       justify-content: end;
   }
 }
@@ -256,6 +259,7 @@ text-align:center;
 }
 .phnxDeposite{
   font-size: 14px;
+  font-weight: 500;
   display: flex;
   width: 50%;;
   color:#4E4E55;
@@ -271,6 +275,7 @@ text-align:center;
   .phnxDeposite{
     font-size: 12px;
     display: flex;
+    font-weight: 500;
     width: 50%;;
     color:#4E4E55;
     text-transform: uppercase;

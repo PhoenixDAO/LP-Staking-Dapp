@@ -177,6 +177,7 @@ export default function ConnectWallet({
 
   const activateWallet = useCallback(
     async (connector, onClose = () => {}) => {
+      console.log("abcd");
       if (
         connector instanceof WalletConnectConnector &&
         connector.walletConnectProvider?.wc?.uri
@@ -195,7 +196,7 @@ export default function ConnectWallet({
           true
         );
 
-        console.log("aaa", result);
+        // console.log("aaa", result);
 
         // console.log(result);
 
@@ -204,7 +205,7 @@ export default function ConnectWallet({
         // ToastMsg("success", "You are connected to mainnet");
       } catch (e) {
         window.localStorage.setItem("previousWallet", "");
-        console.log("aaa", e.Error);
+        // console.log("aaa", e.Error);
 
         // await connector.close();
 
@@ -213,7 +214,7 @@ export default function ConnectWallet({
         console.log("aaa11111111111111111", e.code);
 
         if (e.code == 4001) {
-          console.log("aaa11111111111111111", err);
+          // console.log("aaa11111111111111111", err);
           window.localStorage.removeItem(
             "-walletlink:https://www.walletlink.org:version"
           );
@@ -241,7 +242,7 @@ export default function ConnectWallet({
           );
         }
 
-        console.error("ERROR activateWallet -> ", err);
+        // console.error("ERROR activateWallet -> ", err);
         toast(<Notify text={err} severity="success" />, {
           position: "bottom-right",
         });
@@ -252,16 +253,16 @@ export default function ConnectWallet({
 
   const deactivateWallet = async (flag) => {
     window.localStorage.setItem("previousWallet", "");
-    console.log("aaaa", connector);
+    // console.log("aaaa", connector);
     await deactivate();
-    console.log(web3context, "deactivateWallet", active);
+    // console.log(web3context, "deactivateWallet", active);
     if (connector instanceof WalletConnectConnector) {
-      console.log("aaaaaaaaa1");
+      // console.log("aaaaaaaaa1");
       await connector.close();
     }
 
     if (connector instanceof WalletLinkConnector) {
-      console.log("aaaaaaaaa2");
+      // console.log("aaaaaaaaa2");
 
       await connector.close();
     }
@@ -321,7 +322,7 @@ export default function ConnectWallet({
       })
         .then((response) => {
           if (response.data) {
-            console.log(parseInt(response.data.data.pairs[0]["reserveUSD"]));
+            // console.log(parseInt(response.data.data.pairs[0]["reserveUSD"]));
             setReserveUSD(parseInt(response.data.data.pairs[0]["reserveUSD"]));
           }
         })
@@ -336,7 +337,7 @@ export default function ConnectWallet({
     }
     const getTotalLiquidity = async () => {
       await axios({
-        url: "https://api.thegraph.com/subgraphs/name/hammadghazi/phoenix",
+        url: "https://api.thegraph.com/subgraphs/name/hammadghazi/phoenix-mainnet",
         method: "post",
         data: {
           query: `
@@ -354,18 +355,16 @@ export default function ConnectWallet({
         },
       })
         .then((response) => {
-          console.log("transactions", response.data.data.users);
+          // console.log("transactions", response.data.data.users);
           setTransactionsData(response.data.data.users);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.error("transaction error:", err));
     };
     getTotalLiquidity();
   }, [account]);
 
   return (
-    <div
-      style={{ width: "fit-content", display: "flex", alignItems: "center" }}
-    >
+    <div style={{ display: "flex", alignItems: "center" }}>
       {active && account && justModal != true ? (
         <div className="usdBalance">
           <img
@@ -530,10 +529,35 @@ export default function ConnectWallet({
             <Stack spacing={2} sx={{ mt: 5 }}>
               <Item
                 onClick={async () => {
-                  !active &&
-                    !(connector instanceof InjectedConnector) &&
-                    activateWallet(injected);
-
+                  if (!active) {
+                    if (!(connector instanceof InjectedConnector)) {
+                      activateWallet(injected);
+                    } else {
+                      toast(
+                        <Notify
+                          text={
+                            "You are connected to wrong network 😔, Connect to Ethereum Mainnet."
+                          }
+                          severity="success"
+                        />,
+                        {
+                          position: "bottom-right",
+                        }
+                      );
+                    }
+                  } else {
+                    toast(
+                      <Notify
+                        text={
+                          "You are connected to wrong network 😔, Connect to Ethereum Mainnet."
+                        }
+                        severity="success"
+                      />,
+                      {
+                        position: "bottom-right",
+                      }
+                    );
+                  }
                   window.localStorage.setItem("previousWallet", "metaMask");
                 }}
               >

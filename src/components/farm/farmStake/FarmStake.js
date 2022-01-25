@@ -27,7 +27,7 @@ function FarmStake({
     // setApproveStatus(false);
   };
 
-  console.log("allowance1:", allowance);
+  // console.log("allowance1:", allowance);
   const web3context = useWeb3React();
   //   const userIsActive = useSelector((state) => state.localReducer.userIsActive);
   //  nsole.log(userIsActive, "userIsActive");
@@ -39,7 +39,7 @@ function FarmStake({
   return (
     <div>
       <div className="farm-heading">Farm</div>
-      <div className="farm-sub-heading">Stake LP Tokens to earn</div>
+      <div className="farm-sub-heading">Stake PHNX/ETH-LP Tokens to earn</div>
 
       <div className="farm-divider"></div>
 
@@ -66,7 +66,7 @@ function FarmStake({
         </div>
         <div className="farm-details-txt-right" style={{ color: "#73727D" }}>
           {web3context.active ? APR : "--- "}% &nbsp;
-          <img style={{ height: "15px" }} src={CalculatorLogo} />
+          <img src={CalculatorLogo} />
         </div>
       </div>
 
@@ -75,7 +75,7 @@ function FarmStake({
           <span style={{ color: "#4E4E55" }}>EARN</span>
         </div>
         <div className="farm-details-txt-right" style={{ color: "#73727D" }}>
-          PHNX + fees
+          PHNX + Fees
         </div>
       </div>
 
@@ -173,7 +173,7 @@ function FarmStake({
               <span style={{ color: "#413AE2" }}>
                 <a
                   target="_blank"
-                  href="https://github.com/PhoenixDAO/Lp-staking-contract"
+                  href="https://etherscan.io/address/0x66663724b50f4ea40e5ced7fc5181fe1816ce0c4"
                   style={{ textDecoration: "none", color: "#413ae2" }}
                 >
                   View Contract&nbsp;

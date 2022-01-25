@@ -41,24 +41,24 @@ const DashboardNavbar = ({ open, handleDrawerOpen }) => {
       className="hello"
       style={{ boxShadow: "10px 0px 7px 2px rgb(0, 0, 0, 0.1)" }}
       sx={{
-        width:open?"calc(100% - 200px) !important":"100%",
+        width: open ? "calc(100% - 200px) !important" : "100%",
       }}
     >
       <Toolbar>
-        <IconButton
-          // color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-          sx={{
-
-            ...(open && { display: "none" }),
-            
-          }}
-        >
-          {/* <MenuIcon /> */}
-          <img src={menuHamburger} style={{margin:"2px"}}></img>
-        </IconButton>
+        <div className="menuBtnNavbar">
+          <IconButton
+            // color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              ...(open && { display: "none" }),
+            }}
+          >
+            {/* <MenuIcon /> */}
+            <img src={menuHamburger} style={{ margin: "2px" }}></img>
+          </IconButton>
+        </div>
 
         <Stack
           direction={{ xs: "column", sm: "row" }}
@@ -68,13 +68,30 @@ const DashboardNavbar = ({ open, handleDrawerOpen }) => {
           width="100%"
           className="appBarFlex"
         >
-          <Item sx={{"@media (min-width:450px)":{marginLeft:"50px"}}}>
+          <Item sx={{ "@media (min-width:450px)": { marginLeft: "50px" } }}>
             <img src={Logo} className="navLogo" alt="logo" />
           </Item>
           <Item>
-            <ConnectWallet landingScreenBtn={false} />
+            <div className="navBarConnectWalletButton">
+              <ConnectWallet landingScreenBtn={false} />
+            </div>
           </Item>
         </Stack>
+
+        <div className="menuBtnNavbar1">
+          <IconButton
+            // color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              ...(open && { display: "none" }),
+            }}
+          >
+            {/* <MenuIcon /> */}
+            <img src={menuHamburger} style={{ margin: "2px" }}></img>
+          </IconButton>
+        </div>
       </Toolbar>
     </AppBar>
   );

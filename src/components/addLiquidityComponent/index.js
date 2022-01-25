@@ -41,7 +41,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   const [approveStatus, setApproveStatus] = useState(false);
 
-  const[gasPrice,setGasPrice] = useState(0.001);
+  const [gasPrice, setGasPrice] = useState(0.001);
 
   // const [allowance, setAllowance] = useState(0);
 
@@ -86,6 +86,9 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
 
   useEffect(() => {
     _handleGetDataMain();
+    if (!web3context.active) {
+      OnChangeHandler("", "phnx", true);
+    }
   }, [web3context.account, web3context.active]);
 
   useEffect(() => {
@@ -115,7 +118,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
   };
   // This will be replaced with allowance state
   const handleCheckApprovalPhnxDaoAction = async (setApproveStatus) => {
-    console.log(setApproveStatus, "aaa2");
+    // console.log(setApproveStatus, "aaa2");
     dispatch(
       CheckApprovalPhnxDaoAction(web3context, contractPhnxDao, setApproveStatus)
     );
@@ -143,8 +146,8 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
       settransactionConfirmModal(false);
       settransactionProcessModal(true);
       await SERVICE.supply(
-        phnxValue,
-        ethValue,
+        actPhnxValue,
+        actEthValue,
         web3context,
         contractUniswapRouter,
         settransactionProcessModal,
@@ -167,27 +170,64 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     }
   };
 
-  const OnChangeHandler = (val, tokenName, isMaxButton) => {
-    if(val<0){
+  const OnChangeHandler = async (val, tokenName, isMaxButton) => {
+    console.log("asdasd", val);
+
+    if (isNaN(val.toString())) {
       return;
     }
+
+    if (val.toString() == "") {
+      setEthValue("");
+      setPhnxValue("");
+      setActEthValue(0);
+      setActPhnxValue(0);
+      setPoolShare(0);
+      return;
+    }
+
+    if (val < 0) {
+      return;
+    }
+
     if (tokenName === "phnx") {
       let v = parseFloat(val);
-      let total = parseFloat(reserve1) + v;
-      console.log("res" + reserve1);
-      console.log("pool share: " + (new BigNumber(v / total) * 100));
-      setPoolShare((new BigNumber((v / total) * 100)).eq(0)?0.00:(new BigNumber((v / total) * 100)).lt(0.0001)?(((v / total) * 100).toFixed(7)):(((v / total) * 100).toFixed(4)));
-      if(isMaxButton){
-        setPhnxValue(fixedWithoutRounding(v,6));
+      let total = parseFloat(reserve0.toFixed(2)) + v;
+
+      // console.log("pool share: " + new BigNumber(v / total) * 100);
+      setPoolShare(
+        new BigNumber((v / total) * 100).eq(0)
+          ? 0.0
+          : new BigNumber((v / total) * 100).lt(0.0001)
+          ? ((v / total) * 100).toFixed(7)
+          : ((v / total) * 100).toFixed(4)
+      );
+      if (isMaxButton) {
+        setPhnxValue(fixedWithoutRounding(v, 6));
+
         setActPhnxValue(v);
-        setEthValue(fixedWithoutRounding(parseFloat(ethPerPhnx) * v || num,6));
-        setActEthValue(parseFloat(ethPerPhnx) * v || num)
-      }
-      else{
+        setEthValue(fixedWithoutRounding(parseFloat(ethPerPhnx) * v || num, 6));
+        setActEthValue(parseFloat(ethPerPhnx) * v || num);
+      } else {
+        v = Number(v);
+        // console.log("phnx value: ", v);
+        // console.log("phnx value: test", v, /^[0-9]*[.,]?[0-9]{0,10}$/.test(v));
+        if (
+          v.toString().includes(".") &&
+          v.toString().split(".")[1].length > 9
+        ) {
+          return;
+        }
         setPhnxValue(v);
         setActPhnxValue(v);
-        setActEthValue(parseFloat(ethPerPhnx) * v || num)
-        setEthValue(parseFloat(ethPerPhnx) * v || num);
+        setActEthValue(parseFloat(ethPerPhnx) * v || num);
+        if (v < 0.001) {
+          setEthValue(parseFloat(ethPerPhnx) * v || num);
+        } else {
+          setEthValue(
+            fixedWithoutRounding(parseFloat(ethPerPhnx) * v || num, 10)
+          );
+        }
       }
 
       if (v > 0 && v < 0.01) {
@@ -200,21 +240,40 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     } else if (tokenName === "eth") {
       let v = parseFloat(val);
       let total = parseFloat(phnxPerEth) * v;
-      total = total + parseFloat(reserve1);
-      console.log("v", poolShare);
+      total = total + parseFloat(reserve0.toFixed(2));
+      // console.log("v", reserve0);
 
-      setPoolShare((((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(3));
-      setPoolShare((new BigNumber(((parseFloat(phnxPerEth) * v) / total)  * 100)).eq(0)?0.00:(new BigNumber(((parseFloat(phnxPerEth) * v) / total)  * 100)).lt(0.0001)?((((parseFloat(phnxPerEth) * v) / total)  * 100).toFixed(7)):((((parseFloat(phnxPerEth) * v) / total)  * 100).toFixed(4)));
-      if(isMaxButton){
-        setEthValue(fixedWithoutRounding(v,6));
+      // setPoolShare((((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(3));
+
+      setPoolShare(
+        new BigNumber(((parseFloat(phnxPerEth) * v) / total) * 100).eq(0)
+          ? 0.0
+          : new BigNumber(((parseFloat(phnxPerEth) * v) / total) * 100).lt(
+              0.0001
+            )
+          ? (((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(7)
+          : (((parseFloat(phnxPerEth) * v) / total) * 100).toFixed(4)
+      );
+      if (isMaxButton) {
+        setEthValue(fixedWithoutRounding(v, 6));
+
         setActEthValue(v);
-        setPhnxValue(fixedWithoutRounding(parseFloat(phnxPerEth) * v || num,6));
-        setActPhnxValue(parseFloat(phnxPerEth) * v || num)
-      }
-      else{
+        setPhnxValue(
+          fixedWithoutRounding(parseFloat(phnxPerEth) * v || num, 6)
+        );
+        setActPhnxValue(parseFloat(phnxPerEth) * v || num);
+      } else {
+        if (
+          v.toString().includes(".") &&
+          v.toString().split(".")[1].length > 9
+
+          // (await !/^[0-9]*[.,]?[0-9]{0,10}$/.test(v))
+        ) {
+          return;
+        }
         setPhnxValue(parseFloat(phnxPerEth) * v || num);
         setActPhnxValue(parseFloat(phnxPerEth) * v || num);
-        setActEthValue(v)
+        setActEthValue(v);
         setEthValue(v);
       }
       // setEthValue(v);
@@ -252,9 +311,6 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
     settransactionConfirmModal(false);
   };
 
-
-
-
   const ETH_STATION = "https://ethgasstation.info/json/ethgasAPI.json";
 
   const getCurrentGasPrices = async () => {
@@ -266,21 +322,14 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         medium: response.average / 10,
         high: response.fastest / 10,
       };
-      console.log(prices,'gas fee')
-      setGasPrice(prices.high*0.000000001);
-    } catch (e) {
-
-    }
+      // console.log(prices, "gas fee");
+      setGasPrice(prices.high * 0.000000001);
+    } catch (e) {}
   };
 
-
-  useEffect(()=>{
-
-    getCurrentGasPrices()
-
-  },[])
-
-
+  useEffect(() => {
+    getCurrentGasPrices();
+  }, []);
 
   return (
     <Box sx={styles.containerStyle} className="modal-scroll">
@@ -302,6 +351,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   width: "20px",
                   cursor: "pointer",
                 }}
+                className="settingSlippage"
               ></img>
             </p>
 
@@ -324,7 +374,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
         <div style={styles.containerTip}>
           <Typography style={styles.txtTipParagraph}>
             <span style={{ fontWeight: "700" }}> Tip:</span> By adding
-            liquidity, you'll earn 0.25% of all trades on this pair proportional
+            liquidity, you'll earn 0.30% of all trades on this pair proportional
             to your share of the pool. Fees are added to the pool, accrue in
             real time and can be claimed by withdrawing your liquidity.
           </Typography>
@@ -354,12 +404,15 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                   background="rgba(195, 183, 255, 0.17);"
                   value={phnxValue}
                   type="number"
+                  min="0"
                   onChange={(event) => {
                     OnChangeHandler(event.target.value, "phnx", false);
                   }}
                   style={styles.inputStyle}
                   variant="standard"
                   InputProps={{
+                    inputmode: "numeric",
+                    // pattern: "[0-9]+.[0-9]+",
                     endAdornment: (
                       <IconButton
                         style={styles.iconBtn}
@@ -400,7 +453,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               <div style={styles.divPhnxAmount}>
                 <Typography style={styles.txtInput}>Available ETH:</Typography>
                 <Typography style={styles.txtAmount}>
-                  {balanceEth=="0"?"0.0":balanceEth} ETH
+                  {balanceEth == "0" ? "0.0" : balanceEth} ETH
                 </Typography>
               </div>
               <div className="wrapper-input">
@@ -423,13 +476,16 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
                       <IconButton
                         style={styles.iconBtn}
                         onClick={() => {
-                          console.log('asdasdasdasd')
-                          console.log(gasPrice,'asdasdasd')
+                          // console.log("asdasdasdasd");
+                          // console.log(gasPrice, "asdasdasd");
 
-                          if(balanceEth-gasPrice>0){
-                            OnChangeHandler(balanceEth-gasPrice, "eth",true);
+                          if (balanceEth - gasPrice > 0) {
+                            OnChangeHandler(balanceEth - gasPrice, "eth", true);
                           }
 
+                          if (!web3context.active) {
+                            OnChangeHandler(0, "eth", true);
+                          }
                         }}
                       >
                         MAX
@@ -485,7 +541,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
               backgroundColor:
                 loading ||
                 phnxValue > balancePhnx ||
-                ethValue > (balanceEth-gasPrice) ||
+                ethValue > balanceEth - gasPrice ||
                 lowValue ||
                 phnxValue === 0 ||
                 ethValue === 0 ||
@@ -497,7 +553,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             disabled={
               loading ||
               phnxValue > balancePhnx ||
-              ethValue > (balanceEth-gasPrice) ||
+              ethValue > balanceEth - gasPrice ||
               lowValue ||
               phnxValue === 0 ||
               ethValue === 0 ||
@@ -511,7 +567,7 @@ const LiquidityModal = ({ isVisible, handleClose, closeBtn }) => {
             phnxValue == 0 ||
             ethValue == 0
               ? "Enter an amount"
-              : phnxValue > balancePhnx || ethValue > (balanceEth-gasPrice)
+              : phnxValue > balancePhnx || ethValue > balanceEth - gasPrice
               ? "Insufficient Balance"
               : lowValue
               ? "Low Value"
@@ -641,11 +697,12 @@ const styles = {
   txtTipParagraph: {
     fontSize: 15,
     color: "#FFFFFF",
-    paddingInline: "15px",
+    paddingInline: "16px",
+    textAlign: "justify",
   },
   btnAddLiquidity: {
     backgroundColor: "#413AE2",
-    margin: "15px 0px 0px 0px",
+    margin: "6px 0px 0px 0px",
     height: 55,
     borderRadius: 12,
     textTransform: "capitalize",
@@ -726,13 +783,13 @@ const styles = {
   },
   txtInput: {
     color: "#707070",
-    fontSize: 15,
+    fontSize: 14,
   },
   iconBtn: {
     height: 25,
     backgroundColor: "#C3B7FF",
     borderRadius: 5,
     color: "#413AE2",
-    fontSize: 9,
+    fontSize: "10px",
   },
 };

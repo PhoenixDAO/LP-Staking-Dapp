@@ -12,7 +12,7 @@ import { EmojiPeople } from "@mui/icons-material";
 
 function TransactionsModal({ status, changeStatus, transactions }) {
   useEffect(() => {
-    console.log("tra", transactions);
+    // console.log("tra", transactions);
   }, [transactions]);
 
   return (
@@ -29,10 +29,7 @@ function TransactionsModal({ status, changeStatus, transactions }) {
           src={Logo}
         ></img>{" "}
         <br></br>
-        <div
-          className="rm-liq-heading"
-          style={{ fontSize: "30px"}}
-        >
+        <div className="rm-liq-heading" style={{ fontSize: "30px" }}>
           Recent Transactions
         </div>
         <div
@@ -70,14 +67,14 @@ function TransactionsModal({ status, changeStatus, transactions }) {
                       <br></br>
                       amount1: &nbsp;
                       {e.amount1 * 0.0000000000000000001} */}
-                      {console.log(
-                        "hello e.type",
+                      {/* {console.log( */}
+                        {/* "hello e.type",
                         e.type,
                         typeof e.type,
                         " e.amount: ",
                         e.amount0,
                         typeof e.amount0
-                      )}
+                      )} */}
                       {e.type == "Deposit" && e.amount0 == "0"
                         ? "Unstaked! Your earnings has been harvested to your wallet"
                         : e.type == "Deposit" && e.amount0 != "0"
@@ -86,18 +83,18 @@ function TransactionsModal({ status, changeStatus, transactions }) {
                         ? "Your funds has been unstaked"
                         : e.type == "addLiquidity"
                         ? `Added ${fixedWithoutRounding(
-                            e.amount1 * 0.0000000000000000001,
+                            e.amount0 * 0.000000000000000001,
                             6
                           )}PHNX and ${fixedWithoutRounding(
-                            e.amount0 * 0.0000000000000000001,
+                            e.amount1 * 0.000000000000000001,
                             6
                           )}Eth`
                         : e.type == "removeLiquidity"
                         ? `Removed ${fixedWithoutRounding(
-                            e.amount1 * 0.0000000000000000001,
+                            e.amount0 * 0.000000000000000001,
                             6
                           )}PHNX and ${fixedWithoutRounding(
-                            e.amount0 * 0.0000000000000000001,
+                            e.amount1 * 0.000000000000000001,
                             6
                           )}Eth`
                         : ""}
@@ -126,7 +123,7 @@ function TransactionsModal({ status, changeStatus, transactions }) {
           ) : (
             <div>
               <div className="trans-div-child">
-                {console.log("hello No transaction")}
+                {/* {console.log("hello No transaction")} */}
                 <div>
                   <img
                     alt=""

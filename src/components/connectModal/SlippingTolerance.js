@@ -19,25 +19,48 @@ const SlippingTolerance = ({
   const dispatch = useDispatch();
   const [slippageVal, setSlippageVal] = useState(0.1);
   const [warningMsg, setWarningMsg] = useState(false);
-  // const slippageAddLiquidity = useSelector(
-  //   (state) => state.localReducer.slippageAddLiquidity
-  // );
-  // const slippageRemoveLiquidity = useSelector(
-  //   (state) => state.localReducer.slippageRemoveLiquidity
-  // );
+  const slippageAddLiquidity = useSelector(
+    (state) => state.localReducer.slippageAddLiquidity
+  );
+  const slippageRemoveLiquidity = useSelector(
+    (state) => state.localReducer.slippageRemoveLiquidity
+  );
 
   useEffect(() => {
     if (slippageValue) {
       setSlippageVal(slippageValue);
     }
-    if (slippageValue > 0 && slippageValue < 0.1) {
-      setWarningMsg(true);
-    } else {
-      setWarningMsg(false);
-    }
-  }, []);
+  }, [slippageValue]);
 
   useEffect(() => {
+    // if (slippageValue > 0 && slippageValue < 0.1) {
+    //   setWarningMsg(true);
+    // } else {
+    //   setWarningMsg(false);
+    // }
+    // console.log("slippageVal", slippageVal);
+    // console.log("slippageValue", slippageValue);
+  }, [slippageVal]);
+
+  // useEffect(() => {
+  //   if (Number(slippageVal) <= 0 || Number(slippageVal) > 1) {
+  //     return;
+  //   } else {
+  //     if (slippageType == "add") {
+  //       dispatch({
+  //         type: SET_SLIPPAGE_ADD_LIQUIDITY,
+  //         payload: slippageVal,
+  //       });
+  //     } else if (slippageType == "remove") {
+  //       dispatch({
+  //         type: SET_SLIPPAGE_REMOVE_LIQUIDITY,
+  //         payload: slippageVal,
+  //       });
+  //     }
+  //   }
+  // }, [slippageVal]);
+
+  const handleOnPressSetSlippage = () => {
     if (Number(slippageVal) <= 0 || Number(slippageVal) > 1) {
       return;
     } else {
@@ -53,9 +76,10 @@ const SlippingTolerance = ({
         });
       }
     }
-  }, [slippageVal]);
+    handlePressClose();
+  };
 
-  const handleOnChangeSlippageValue = (val) => {
+  const handleSetSlippageValue = (val) => {
     // console.log("handleOnChangeSlippageValue ", val);
     if (val < 0 || val > 1) {
       return;
@@ -65,20 +89,33 @@ const SlippingTolerance = ({
       } else {
         setWarningMsg(false);
       }
-      setSlippageVal(val);
+      setSlippageVal(
+        val.toString().slice(val.toString().indexOf(".") + 1, -1).length < 15
+          ? val
+          : slippageVal
+      );
     }
   };
 
   const [open, setOpen] = useState(status);
   const handleOpen = () => setOpen(true);
 
+  const handlePressClose = () => {
+    if (slippageType == "add") {
+      setSlippageVal(slippageAddLiquidity);
+    } else if (slippageType == "remove") {
+      setSlippageVal(slippageRemoveLiquidity);
+    }
+    handleClose(false);
+  };
+
   const handlePercentageInput = (e) => {
-    if (e.target.value === "" || isNaN(e.target.value)) {
-      handleOnChangeSlippageValue("");
+    if (e.target.value == "" || isNaN(e.target.value)) {
+      handleSetSlippageValue("");
     } else if (e.target.value > 0.5) {
-      handleOnChangeSlippageValue(e.target.value);
+      handleSetSlippageValue(e.target.value);
     } else {
-      handleOnChangeSlippageValue(e.target.value);
+      handleSetSlippageValue(e.target.value);
     }
   };
 
@@ -86,7 +123,7 @@ const SlippingTolerance = ({
     <div>
       <Modal
         open={status}
-        onClose={() => handleClose(false)}
+        onClose={handlePressClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -96,7 +133,7 @@ const SlippingTolerance = ({
               <span className="cursorPointer">
                 <CloseIcon
                   sx={{ transform: "scale(1.2)" }}
-                  onClick={() => handleClose(false)}
+                  onClick={handlePressClose}
                 />
               </span>
             </div>
@@ -112,12 +149,12 @@ const SlippingTolerance = ({
             <div
               className="slippingLiq-ps"
               style={{
-                backgroundColor: slippageValue === 0.1 ? "#413AE2" : "#eee",
-                color: slippageValue === 0.1 ? "#fff" : "#000",
+                backgroundColor: slippageVal == 0.1 ? "#413AE2" : "#eee",
+                color: slippageVal == 0.1 ? "#fff" : "#000",
                 marginRight: "15px",
               }}
               onClick={() => {
-                handleOnChangeSlippageValue(0.1);
+                handleSetSlippageValue(0.1);
               }}
             >
               0.1%
@@ -125,12 +162,12 @@ const SlippingTolerance = ({
             <div
               className="slippingLiq-ps"
               style={{
-                backgroundColor: slippageValue === 0.5 ? "#413AE2" : "#eee",
-                color: slippageValue === 0.5 ? "#fff" : "#000",
+                backgroundColor: slippageVal == 0.5 ? "#413AE2" : "#eee",
+                color: slippageVal == 0.5 ? "#fff" : "#000",
                 marginRight: "15px",
               }}
               onClick={() => {
-                handleOnChangeSlippageValue(0.5);
+                handleSetSlippageValue(0.5);
               }}
             >
               0.5%
@@ -138,12 +175,12 @@ const SlippingTolerance = ({
             <div
               className="slippingLiq-ps"
               style={{
-                backgroundColor: slippageValue === 1 ? "#413AE2" : "#eee",
-                color: slippageValue === 1 ? "#fff" : "#000",
+                backgroundColor: slippageVal == 1 ? "#413AE2" : "#eee",
+                color: slippageVal == 1 ? "#fff" : "#000",
                 marginRight: "15px",
               }}
               onClick={() => {
-                handleOnChangeSlippageValue(1);
+                handleSetSlippageValue(1);
               }}
             >
               1.0%
@@ -152,25 +189,16 @@ const SlippingTolerance = ({
               className="slippingLiq-ps"
               style={{
                 backgroundColor:
-                  slippageValue != 0.1 &&
-                  slippageValue != 0.5 &&
-                  slippageValue != 1
+                  slippageVal != 0.1 && slippageVal != 0.5 && slippageVal != 1
                     ? "#413AE2"
                     : "#eee",
                 color:
-                  slippageValue != 0.1 &&
-                  slippageValue != 0.5 &&
-                  slippageValue != 1
+                  slippageVal != 0.1 && slippageVal != 0.5 && slippageVal != 1
                     ? "#fff"
                     : "#000",
               }}
               onClick={() => {
-                // setSelectedPercentage(100);
-                // dispatch({
-                //   type: SET_SLIPPAGE_VALUE,
-                //   payload: "50",
-                // });
-                // handleSlippageValue(5)
+                return;
               }}
             >
               Auto
@@ -181,6 +209,10 @@ const SlippingTolerance = ({
           <TextField
             sx={{
               borderRadius: "6px",
+              "& .MuiOutlinedInput-input": {
+                fontSize: "20px",
+                fontWeight: "500",
+              },
             }}
             InputProps={{
               endAdornment: (
@@ -192,7 +224,7 @@ const SlippingTolerance = ({
               ),
             }}
             className="slippingLiq-ps-input"
-            placeholder="Enter a value, default value is 1"
+            placeholder="Enter a value, 0.1 is default value"
             value={slippageVal}
             onChange={(e) => {
               handlePercentageInput(e);
@@ -211,12 +243,15 @@ const SlippingTolerance = ({
             disabled={
               Number(slippageVal) <= 0 || Number(slippageVal) > 1 ? true : false
             }
-            onClick={() => handleClose(false)}
+            onClick={handleOnPressSetSlippage}
             style={{
               backgroundColor:
                 Number(slippageVal) <= 0 || Number(slippageVal) > 1
                   ? "#afafaf"
                   : "#413ae2",
+              fontSize: "16px",
+              height: "50px",
+              fontWeight: "700",
               cursor:
                 Number(slippageVal) <= 0 || Number(slippageVal) > 1
                   ? "inherit !important"

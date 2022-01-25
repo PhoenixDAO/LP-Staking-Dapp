@@ -222,6 +222,7 @@ text-align:center;
 .phnxDeposite{
   font-size: 14px;
   display: flex;
+  font-weight: 500;
   width: 50%;;
   color:#4E4E55;
   text-transform: uppercase;
@@ -235,6 +236,7 @@ text-align:center;
 @media (max-width:400px){
   .phnxDeposite{
     font-size: 12px;
+    font-weight: 500;
     display: flex;
     width: 50%;;
     color:#4E4E55;

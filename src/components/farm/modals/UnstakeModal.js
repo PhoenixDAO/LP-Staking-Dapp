@@ -23,7 +23,6 @@ import { CircularProgress } from "@mui/material";
 import { fixedWithoutRounding } from "../../../utils/formatters";
 
 function UnStakeModal({ Close, userInfo }) {
-
   const [lpValue, setlpValue] = useState();
   const [lpValueAct, setlpValueAct] = useState(0);
   const [maxlpValue, setmaxlpValue] = useState(0.0);
@@ -43,26 +42,32 @@ function UnStakeModal({ Close, userInfo }) {
   const contractUniswapPair = useSelector(
     (state) => state.contractReducer.contractUniswapPair
   );
-const maxBigValue = new BigNumber(maxlpValue);
-  const LpChange = (e,f) => {
-    console.log('aaa',e)
+  const maxBigValue = new BigNumber(maxlpValue);
+  const LpChange = (e, f) => {
+    // console.log('aaa',e)
     const inputBigValue = new BigNumber(e.target.value);
-    if(inputBigValue.lt(0)){
+    if (inputBigValue.lt(0)) {
+      return;
+    }
+    if (
+      e.target.value.toString().includes(".") &&
+      !/^[0-9]*[.,]?[0-9]{0,10}$/.test(e.target.value)
+    ) {
       return;
     }
     const bigValue = new BigNumber(maxlpValue);
-    if(f===true){
-      setlpValue(fixedWithoutRounding(maxlpValue,6));
+    if (f === true) {
+      setlpValue(fixedWithoutRounding(maxlpValue, 6));
       setlpValueAct(maxlpValue);
-    }else{
+    } else {
       setlpValue(e.target.value);
       setlpValueAct(e.target.value);
     }
-    console.log("target value: ", e.target.value);    
-    console.log("lpvalue value: ", lpValue);
-    console.log("Max value: ", maxlpValue);
-    console.log("Max parsed value: ", bigValue.lt(lpValue) );
-    console.log("condition value: ", (lpValue> maxlpValue) );    
+    // console.log("target value: ", e.target.value);
+    // console.log("lpvalue value: ", lpValue);
+    // console.log("Max value: ", maxlpValue);
+    // console.log("Max parsed value: ", bigValue.lt(lpValue) );
+    // console.log("condition value: ", (lpValue> maxlpValue) );
   };
 
   useEffect(() => {
@@ -76,7 +81,7 @@ const maxBigValue = new BigNumber(maxlpValue);
     if (web3context.active && web3context.account && poolPosition) {
       // setmaxlpValue(poolPosition.lp);
       setmaxlpValue(Web3.utils.fromWei(userInfo.amount));
-      console.log("poolPosition.lp", poolPosition.lp);
+      // console.log("poolPosition.lp", poolPosition.lp);
     }
   }, [web3context.account, poolPosition]);
 
@@ -114,28 +119,46 @@ const maxBigValue = new BigNumber(maxlpValue);
 
   return (
     <div className="stakingModal">
-        <div className="displayFlex">
-              <div className="confirmPhnxDepositeLogo">
-                <img style={{height:"32px", visibility:"hidden"}} src={Logo}></img>
-              </div>
-              <div className="closeModalIcon">
-                <span className="cursorPointer">
-                  <CloseIcon onClick={() => Close()} />
-                </span>
-              </div>
-              {/* <CloseIcon className="icon-btn" onClick={()=>Close()} sx={{transform:"scale(1.2)", marginRight:"10px",cursor:"pointer"}} /> */}
-            </div>
+      <div className="displayFlex">
+        <div className="confirmPhnxDepositeLogo">
+          <img
+            style={{ height: "32px", visibility: "hidden" }}
+            src={Logo}
+          ></img>
+        </div>
+        <div className="closeModalIcon">
+          <span className="cursorPointer">
+            <CloseIcon onClick={() => Close()} />
+          </span>
+        </div>
+        {/* <CloseIcon className="icon-btn" onClick={()=>Close()} sx={{transform:"scale(1.2)", marginRight:"10px",cursor:"pointer"}} /> */}
+      </div>
 
       <div className="stakingModalHeading">Unstake LP Tokens</div>
 
       <div style={{ display: "flex", alignItem: "center" }}>
         <div className="stakingModal-details">STAKE</div>
         <div style={{ marginLeft: "auto" }} className="stakingModal-details">
-         <span> Bal: {" "}<span style={{ color: "#000", fontWeight:"600" }}>{maxlpValue.toString().substring(0,7)} PHNX-ETH LP</span></span>
+          <span>
+            {" "}
+            Bal:{" "}
+            <span style={{ color: "#000", fontWeight: "600" }}>
+              {maxlpValue.toString().substring(0, 7)} PHNX-ETH LP
+            </span>
+          </span>
         </div>
       </div>
 
-      <div style={{ display: "flex", marginTop: "10px", alignItems: "center" , border:'solid 1px #E4E4E7' ,borderRadius:'5px',paddingRight:'5px'}}>
+      <div
+        style={{
+          display: "flex",
+          marginTop: "10px",
+          alignItems: "center",
+          border: "solid 1px #E4E4E7",
+          borderRadius: "5px",
+          paddingRight: "5px",
+        }}
+      >
         <input
           type="number"
           placeholder="0.0"
@@ -147,27 +170,29 @@ const maxBigValue = new BigNumber(maxlpValue);
         <button
           className="stakingModalInputBtn"
           onClick={() => {
-            LpChange({
-              target : {
-                value: maxlpValue && fixedWithoutRounding(maxlpValue,6).toString()
-              }
-            },true)
-
+            LpChange(
+              {
+                target: {
+                  value:
+                    maxlpValue &&
+                    fixedWithoutRounding(maxlpValue, 6).toString(),
+                },
+              },
+              true
+            );
           }}
         >
           MAX
         </button>
       </div>
 
-
       <>
-      {
-        lpValue>0 && lpValue <= 0.00000000000000001 ? 
-        <div style={{color:'red',paddingTop:'5px'}}>The entered value is too low.</div> : null
-      }
+        {lpValue > 0 && lpValue <= 0.00000000000000001 ? (
+          <div style={{ color: "red", paddingTop: "5px" }}>
+            The entered value is too low.
+          </div>
+        ) : null}
       </>
-
-
 
       {/* <div style={{ display: "flex", alignItems: "center", marginTop: "13px" }}>
         <div className="stakingModal-details" style={{ marginTop: "0px" }}>
@@ -181,11 +206,15 @@ const maxBigValue = new BigNumber(maxlpValue);
         </div>
       </div> */}
 
-      <div style={{ display: "flex", alignItems: "center" ,marginTop:"20px"}}>
+      <div style={{ display: "flex", alignItems: "center", marginTop: "20px" }}>
         <button
           className="farm-btn-stake-outline"
-          style={{ marginTop: "25px",
-        fontSize:"16px" }}
+          style={{
+            marginTop: "25px",
+            fontSize: "18px",
+            height: "50px",
+            fontWeight: "700",
+          }}
           onClick={() => Close()}
         >
           Close
@@ -195,21 +224,37 @@ const maxBigValue = new BigNumber(maxlpValue);
           style={{
             marginLeft: "auto",
             marginTop: "25px",
-            fontSize:"16px",
+            fontSize: "18px",
+            height: "50px",
+            fontWeight: "700",
             background:
-            loading ||((maxBigValue.lt(lpValue)))|| (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)
+              loading ||
+              maxBigValue.lt(lpValue) ||
+              lpValue <= 0 ||
+              lpValue <= 0.00000000000000001 ||
+              isNaN(lpValue)
                 ? "#ACACAC"
                 : "#413AE2",
             color: "#fff",
             borderColor:
-            loading ||(maxBigValue.lt(lpValue))|| (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)
+              loading ||
+              maxBigValue.lt(lpValue) ||
+              lpValue <= 0 ||
+              lpValue <= 0.00000000000000001 ||
+              isNaN(lpValue)
                 ? "#ACACAC"
                 : "#413AE2",
           }}
           onClick={() => {
             _handleUnstakeLp();
           }}
-          disabled={loading || (maxBigValue.lt(lpValue)) || (lpValue <= 0) || (lpValue <= 0.00000000000000001) || isNaN(lpValue)}
+          disabled={
+            loading ||
+            maxBigValue.lt(lpValue) ||
+            lpValue <= 0 ||
+            lpValue <= 0.00000000000000001 ||
+            isNaN(lpValue)
+          }
         >
           {loading && "Confirming..."}
           {!loading && "Confirm"}
@@ -220,9 +265,12 @@ const maxBigValue = new BigNumber(maxlpValue);
         className="get-phnx-eth-lp"
         style={{ marginTop: "25px", fontWeight: "bold", fontSize: "14px" }}
       >
-        <Link to="/v2/liquidity" style={{textDecoration:'none',color:'#413ae2'}}>
-          Get PHNX-ETH LP{" "} &nbsp;
-          <img src={ShareLogo}  style={{height:"12px"}}></img>
+        <Link
+          to="/v2/liquidity"
+          style={{ textDecoration: "none", color: "#413ae2" }}
+        >
+          Get PHNX-ETH LP &nbsp;
+          <img src={ShareLogo} style={{ height: "12px" }}></img>
         </Link>
       </div>
     </div>
