@@ -184,7 +184,7 @@ const VersionModal = ({ status, setStatus }) => {
         <div className="version-phnx-eth-con">1 ETH = 0.3456665 PHNX</div>
       </div> */}
             <a
-              href="https://staking.phoenixdao.io/v1"
+              href="https://stakingv1.phoenixdao.io"
               style={{ textDecoration: "none" }}
             >
               <Button
